@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "dgSpecHash": "EsEVK2dIZAAQFl6xbEp/1iOlKiln9D/aEPrgI5VFLhAmrNyaqdgf9/Zgqhn5MNo7nO9X7MSYsxCEg/45zEQZnw==",
+  "success": true,
+  "projectFilePath": "Y:\\BTS\\Bug.API\\Bug.API.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\tienf\\.nuget\\packages\\microsoft.extensions.apidescription.server\\3.0.0\\microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
+    "C:\\Users\\tienf\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
+    "C:\\Users\\tienf\\.nuget\\packages\\swashbuckle.aspnetcore\\6.2.2\\swashbuckle.aspnetcore.6.2.2.nupkg.sha512",
+    "C:\\Users\\tienf\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.2.2\\swashbuckle.aspnetcore.swagger.6.2.2.nupkg.sha512",
+    "C:\\Users\\tienf\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.2.2\\swashbuckle.aspnetcore.swaggergen.6.2.2.nupkg.sha512",
+    "C:\\Users\\tienf\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\6.2.2\\swashbuckle.aspnetcore.swaggerui.6.2.2.nupkg.sha512"
+  ],
+  "logs": []
+}
