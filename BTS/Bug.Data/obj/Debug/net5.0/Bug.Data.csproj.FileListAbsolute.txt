@@ -1,0 +1,12 @@
+Y:\swp-back-end\BTS\Bug.Data\bin\Debug\net5.0\Bug.Data.deps.json
+Y:\swp-back-end\BTS\Bug.Data\bin\Debug\net5.0\Bug.Data.dll
+Y:\swp-back-end\BTS\Bug.Data\bin\Debug\net5.0\ref\Bug.Data.dll
+Y:\swp-back-end\BTS\Bug.Data\bin\Debug\net5.0\Bug.Data.pdb
+Y:\swp-back-end\BTS\Bug.Data\obj\Debug\net5.0\Bug.Data.csproj.AssemblyReference.cache
+Y:\swp-back-end\BTS\Bug.Data\obj\Debug\net5.0\Bug.Data.GeneratedMSBuildEditorConfig.editorconfig
+Y:\swp-back-end\BTS\Bug.Data\obj\Debug\net5.0\Bug.Data.AssemblyInfoInputs.cache
+Y:\swp-back-end\BTS\Bug.Data\obj\Debug\net5.0\Bug.Data.AssemblyInfo.cs
+Y:\swp-back-end\BTS\Bug.Data\obj\Debug\net5.0\Bug.Data.csproj.CoreCompileInputs.cache
+Y:\swp-back-end\BTS\Bug.Data\obj\Debug\net5.0\Bug.Data.dll
+Y:\swp-back-end\BTS\Bug.Data\obj\Debug\net5.0\ref\Bug.Data.dll
+Y:\swp-back-end\BTS\Bug.Data\obj\Debug\net5.0\Bug.Data.pdb

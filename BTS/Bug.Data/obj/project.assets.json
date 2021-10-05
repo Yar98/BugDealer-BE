@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "Y:\\BTS\\Bug.Data\\Bug.Data.csproj",
+      "projectUniqueName": "Y:\\swp-back-end\\BTS\\Bug.Data\\Bug.Data.csproj",
       "projectName": "Bug.Data",
-      "projectPath": "Y:\\BTS\\Bug.Data\\Bug.Data.csproj",
+      "projectPath": "Y:\\swp-back-end\\BTS\\Bug.Data\\Bug.Data.csproj",
       "packagesPath": "C:\\Users\\tienf\\.nuget\\packages\\",
-      "outputPath": "Y:\\BTS\\Bug.Data\\obj\\",
+      "outputPath": "Y:\\swp-back-end\\BTS\\Bug.Data\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\tienf\\AppData\\Roaming\\NuGet\\NuGet.Config",

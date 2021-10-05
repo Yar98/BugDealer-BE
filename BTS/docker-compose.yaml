@@ -1,0 +1,26 @@
+version: '3.4'    
+services:
+      bug.api:
+        container_name: api
+        build:
+          context: ./
+          dockerfile: ./Bug.API/Dockerfile
+        ports: 
+          - "4444:80"
+      bug.ui:
+        container_name: ui
+        build:
+          context: ./Bug.UI
+          dockerfile: ./Dockerfile
+        ports:
+          - "5555:80"
+      sqldata:
+        container_name: sql
+        image: mcr.microsoft.com/mssql/server:2019-latest
+        environment:
+          ACCEPT_EULA: "Y"
+          SA_PASSWORD: "Pass@word"
+          MSSQL_PID: Developer
+        ports:
+          - "6666:80"
+          

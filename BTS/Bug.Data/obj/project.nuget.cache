@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "PJcNU7UFvYs6pD4jug56awDbUWAkH4EQf0rOK5nA2XuQCdwgCFo83WgqzvwCcj/XLk2RNpTk7Qr1S9UFFDN0jQ==",
+  "dgSpecHash": "D43vcY9ma5/gr3AOyA4FOZLDiwNfF3E9nprxm3MKkjZx2ZaB2XFsul5ZVk21acfURUXykPFwUZdmS3CbTa1XCw==",
   "success": true,
-  "projectFilePath": "Y:\\BTS\\Bug.Data\\Bug.Data.csproj",
+  "projectFilePath": "Y:\\swp-back-end\\BTS\\Bug.Data\\Bug.Data.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

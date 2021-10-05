@@ -4,12 +4,24 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 16.0.31624.102
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bug.API", "Bug.API.csproj", "{EB2DAD8E-A5B4-4D4F-AA8E-7BDC2D1E7832}"
+	ProjectSection(ProjectDependencies) = postProject
+		{193FA61A-957A-41D5-AC5E-49332EBF6734} = {193FA61A-957A-41D5-AC5E-49332EBF6734}
+		{571AB63B-2645-4B94-91A7-01C05B8D6023} = {571AB63B-2645-4B94-91A7-01C05B8D6023}
+		{2A24CF8E-FE09-4F12-924F-DF90EF27AB7F} = {2A24CF8E-FE09-4F12-924F-DF90EF27AB7F}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bug.Infrastructure", "..\Bug.Infrastructure\Bug.Infrastructure.csproj", "{2A24CF8E-FE09-4F12-924F-DF90EF27AB7F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bug.Infrastructure", "..\Bug.Infrastructure\Bug.Infrastructure.csproj", "{2A24CF8E-FE09-4F12-924F-DF90EF27AB7F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bug.Enitites", "..\Bug.Enitites\Bug.Enitites.csproj", "{571AB63B-2645-4B94-91A7-01C05B8D6023}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bug.Enitites", "..\Bug.Enitites\Bug.Enitites.csproj", "{571AB63B-2645-4B94-91A7-01C05B8D6023}"
+	ProjectSection(ProjectDependencies) = postProject
+		{2A24CF8E-FE09-4F12-924F-DF90EF27AB7F} = {2A24CF8E-FE09-4F12-924F-DF90EF27AB7F}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bug.Data", "..\Bug.Data\Bug.Data.csproj", "{193FA61A-957A-41D5-AC5E-49332EBF6734}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bug.Data", "..\Bug.Data\Bug.Data.csproj", "{193FA61A-957A-41D5-AC5E-49332EBF6734}"
+	ProjectSection(ProjectDependencies) = postProject
+		{571AB63B-2645-4B94-91A7-01C05B8D6023} = {571AB63B-2645-4B94-91A7-01C05B8D6023}
+		{2A24CF8E-FE09-4F12-924F-DF90EF27AB7F} = {2A24CF8E-FE09-4F12-924F-DF90EF27AB7F}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

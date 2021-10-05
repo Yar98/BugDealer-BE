@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "Y:\\BTS\\Bug.API\\Bug.API.csproj": {}
+    "Y:\\swp-back-end\\BTS\\Bug.API\\Bug.API.csproj": {}
   },
   "projects": {
-    "Y:\\BTS\\Bug.API\\Bug.API.csproj": {
+    "Y:\\swp-back-end\\BTS\\Bug.API\\Bug.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "Y:\\BTS\\Bug.API\\Bug.API.csproj",
+        "projectUniqueName": "Y:\\swp-back-end\\BTS\\Bug.API\\Bug.API.csproj",
         "projectName": "Bug.API",
-        "projectPath": "Y:\\BTS\\Bug.API\\Bug.API.csproj",
+        "projectPath": "Y:\\swp-back-end\\BTS\\Bug.API\\Bug.API.csproj",
         "packagesPath": "C:\\Users\\tienf\\.nuget\\packages\\",
-        "outputPath": "Y:\\BTS\\Bug.API\\obj\\",
+        "outputPath": "Y:\\swp-back-end\\BTS\\Bug.API\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\tienf\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -27,7 +27,11 @@
         "frameworks": {
           "net5.0": {
             "targetAlias": "net5.0",
-            "projectReferences": {}
+            "projectReferences": {
+              "Y:\\swp-back-end\\BTS\\Bug.Data\\Bug.Data.csproj": {
+                "projectPath": "Y:\\swp-back-end\\BTS\\Bug.Data\\Bug.Data.csproj"
+              }
+            }
           }
         },
         "warningProperties": {
@@ -59,6 +63,60 @@
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
             },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.400\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "Y:\\swp-back-end\\BTS\\Bug.Data\\Bug.Data.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "Y:\\swp-back-end\\BTS\\Bug.Data\\Bug.Data.csproj",
+        "projectName": "Bug.Data",
+        "projectPath": "Y:\\swp-back-end\\BTS\\Bug.Data\\Bug.Data.csproj",
+        "packagesPath": "C:\\Users\\tienf\\.nuget\\packages\\",
+        "outputPath": "Y:\\swp-back-end\\BTS\\Bug.Data\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\tienf\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net5.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net5.0": {
+            "targetAlias": "net5.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net5.0": {
+          "targetAlias": "net5.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }

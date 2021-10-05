@@ -72,6 +72,16 @@
         "frameworkReferences": [
           "Microsoft.AspNetCore.App"
         ]
+      },
+      "Bug.Data/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v5.0",
+        "compile": {
+          "bin/placeholder/Bug.Data.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Bug.Data.dll": {}
+        }
       }
     }
   },
@@ -191,10 +201,16 @@
         "swashbuckle.aspnetcore.swaggerui.6.2.2.nupkg.sha512",
         "swashbuckle.aspnetcore.swaggerui.nuspec"
       ]
+    },
+    "Bug.Data/1.0.0": {
+      "type": "project",
+      "path": "../Bug.Data/Bug.Data.csproj",
+      "msbuildProject": "../Bug.Data/Bug.Data.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net5.0": [
+      "Bug.Data >= 1.0.0",
       "Swashbuckle.AspNetCore >= 6.2.2"
     ]
   },
@@ -204,11 +220,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "Y:\\BTS\\Bug.API\\Bug.API.csproj",
+      "projectUniqueName": "Y:\\swp-back-end\\BTS\\Bug.API\\Bug.API.csproj",
       "projectName": "Bug.API",
-      "projectPath": "Y:\\BTS\\Bug.API\\Bug.API.csproj",
+      "projectPath": "Y:\\swp-back-end\\BTS\\Bug.API\\Bug.API.csproj",
       "packagesPath": "C:\\Users\\tienf\\.nuget\\packages\\",
-      "outputPath": "Y:\\BTS\\Bug.API\\obj\\",
+      "outputPath": "Y:\\swp-back-end\\BTS\\Bug.API\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\tienf\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -224,7 +240,11 @@
       "frameworks": {
         "net5.0": {
           "targetAlias": "net5.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "Y:\\swp-back-end\\BTS\\Bug.Data\\Bug.Data.csproj": {
+              "projectPath": "Y:\\swp-back-end\\BTS\\Bug.Data\\Bug.Data.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

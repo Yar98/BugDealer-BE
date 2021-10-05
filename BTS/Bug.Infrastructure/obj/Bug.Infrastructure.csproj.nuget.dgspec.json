@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "Y:\\BTS\\Bug.Infrastructure\\Bug.Infrastructure.csproj": {}
+    "Y:\\swp-back-end\\BTS\\Bug.Infrastructure\\Bug.Infrastructure.csproj": {}
   },
   "projects": {
-    "Y:\\BTS\\Bug.Infrastructure\\Bug.Infrastructure.csproj": {
+    "Y:\\swp-back-end\\BTS\\Bug.Infrastructure\\Bug.Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "Y:\\BTS\\Bug.Infrastructure\\Bug.Infrastructure.csproj",
+        "projectUniqueName": "Y:\\swp-back-end\\BTS\\Bug.Infrastructure\\Bug.Infrastructure.csproj",
         "projectName": "Bug.Infrastructure",
-        "projectPath": "Y:\\BTS\\Bug.Infrastructure\\Bug.Infrastructure.csproj",
+        "projectPath": "Y:\\swp-back-end\\BTS\\Bug.Infrastructure\\Bug.Infrastructure.csproj",
         "packagesPath": "C:\\Users\\tienf\\.nuget\\packages\\",
-        "outputPath": "Y:\\BTS\\Bug.Infrastructure\\obj\\",
+        "outputPath": "Y:\\swp-back-end\\BTS\\Bug.Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\tienf\\AppData\\Roaming\\NuGet\\NuGet.Config",
