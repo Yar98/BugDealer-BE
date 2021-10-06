@@ -1,5 +1,4 @@
 using System;
-using Bug.Data;
 
 namespace Bug
 {

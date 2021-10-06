@@ -58,3 +58,7 @@ Y:\swp-back-end\BTS\Bug.API\obj\Debug\net5.0\Bug.API.dll
 Y:\swp-back-end\BTS\Bug.API\obj\Debug\net5.0\ref\Bug.API.dll
 Y:\swp-back-end\BTS\Bug.API\obj\Debug\net5.0\Bug.API.pdb
 Y:\swp-back-end\BTS\Bug.API\obj\Debug\net5.0\Bug.API.genruntimeconfig.cache
+Y:\swp-back-end\BTS\Bug.API\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.dll
+Y:\swp-back-end\BTS\Bug.API\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.Abstractions.dll
+Y:\swp-back-end\BTS\Bug.API\bin\Debug\net5.0\Microsoft.Extensions.DependencyInjection.dll
+Y:\swp-back-end\BTS\Bug.API\bin\Debug\net5.0\System.Diagnostics.DiagnosticSource.dll

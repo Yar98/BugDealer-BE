@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "Y:\\swp-back-end\\BTS\\Bug.Enitites\\Bug.Enitites.csproj",
-      "projectName": "Bug.Enitites",
-      "projectPath": "Y:\\swp-back-end\\BTS\\Bug.Enitites\\Bug.Enitites.csproj",
+      "projectUniqueName": "Y:\\swp-back-end\\BTS\\Bug.Entities\\Bug.Entities.csproj",
+      "projectName": "Bug.Entities",
+      "projectPath": "Y:\\swp-back-end\\BTS\\Bug.Entities\\Bug.Entities.csproj",
       "packagesPath": "C:\\Users\\tienf\\.nuget\\packages\\",
-      "outputPath": "Y:\\swp-back-end\\BTS\\Bug.Enitites\\obj\\",
+      "outputPath": "Y:\\swp-back-end\\BTS\\Bug.Entities\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\tienf\\AppData\\Roaming\\NuGet\\NuGet.Config",

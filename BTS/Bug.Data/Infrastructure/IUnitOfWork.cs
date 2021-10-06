@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Bug.Data.Infrastructure
 {
-    interface IUnitOfWork
+    public interface IUnitOfWork
     {
+        
     }
 }
