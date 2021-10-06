@@ -12,4 +12,9 @@
     <ProjectReference Include="..\Bug.Data\Bug.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ActionFilter\" />
+    <Folder Include="Configuration\" />
+  </ItemGroup>
+
 </Project>

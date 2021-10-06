@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Bug.Data.Repositories
 {
-    interface IEntityBaseRepo
+    interface IEntityRepoBase<T>
     {
+        IQueryable<T> FindAll();
     }
 }
