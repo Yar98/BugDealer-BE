@@ -8,7 +8,7 @@ namespace Bug.Data.Repositories
 {
     public class AccountRepo : EntityRepoBase<Class1>, IAccountRepo
     {
-        public AccountRepo(RepoContext repositoryContext)
+        public AccountRepo(BugContext repositoryContext)
             : base(repositoryContext)
         {
 

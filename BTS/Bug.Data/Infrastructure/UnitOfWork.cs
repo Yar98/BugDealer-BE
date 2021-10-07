@@ -6,8 +6,18 @@ using System.Threading.Tasks;
 
 namespace Bug.Data.Infrastructure
 {
-    class UnitOfWork : IUnitOfWork
+    public class UnitOfWork : IUnitOfWork
     {
-        private RepoContext _repoContext;
+        private readonly BugContext _bugContext;
+        
+        public UnitOfWork(BugContext bugContext)
+        {
+            _bugContext = bugContext;
+        }
+
+        public void Save()
+        {
+            
+        }
     }
 }

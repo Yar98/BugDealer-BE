@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Bug.Data
 {
-    public class RepoContext : DbContext
+    public class BugContext : DbContext
     {
-        public RepoContext(DbContextOptions options)
+        public BugContext(DbContextOptions options)
             : base(options)
         {
 

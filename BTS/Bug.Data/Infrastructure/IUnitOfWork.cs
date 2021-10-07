@@ -8,6 +8,6 @@ namespace Bug.Data.Infrastructure
 {
     public interface IUnitOfWork
     {
-        
+        public void Save();
     }
 }

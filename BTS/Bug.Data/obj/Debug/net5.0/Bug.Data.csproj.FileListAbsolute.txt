@@ -10,3 +10,6 @@ Y:\swp-back-end\BTS\Bug.Data\obj\Debug\net5.0\Bug.Data.csproj.CoreCompileInputs.
 Y:\swp-back-end\BTS\Bug.Data\obj\Debug\net5.0\Bug.Data.dll
 Y:\swp-back-end\BTS\Bug.Data\obj\Debug\net5.0\ref\Bug.Data.dll
 Y:\swp-back-end\BTS\Bug.Data\obj\Debug\net5.0\Bug.Data.pdb
+Y:\swp-back-end\BTS\Bug.Data\bin\Debug\net5.0\Bug.Entities.dll
+Y:\swp-back-end\BTS\Bug.Data\bin\Debug\net5.0\Bug.Entities.pdb
+Y:\swp-back-end\BTS\Bug.Data\obj\Debug\net5.0\Bug.Data.csproj.CopyComplete

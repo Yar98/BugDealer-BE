@@ -5,11 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Configuration\" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.10" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.10" />
+    <ProjectReference Include="..\Bug.Entities\Bug.Entities.csproj" />
   </ItemGroup>
 
 </Project>

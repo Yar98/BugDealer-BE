@@ -22,8 +22,6 @@ namespace Bug
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                });
-        
-        
+                });        
     }
 }
