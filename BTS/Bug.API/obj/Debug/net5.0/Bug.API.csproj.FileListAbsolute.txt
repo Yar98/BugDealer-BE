@@ -92,3 +92,5 @@ Y:\swp-back-end\BTS\Bug.API\bin\Debug\net5.0\Bug.Entities.dll
 Y:\swp-back-end\BTS\Bug.API\bin\Debug\net5.0\Bug.Infrastructure.dll
 Y:\swp-back-end\BTS\Bug.API\bin\Debug\net5.0\Bug.Entities.pdb
 Y:\swp-back-end\BTS\Bug.API\bin\Debug\net5.0\Bug.Infrastructure.pdb
+Y:\swp-back-end\BTS\Bug.API\bin\Debug\net5.0\Humanizer.dll
+Y:\swp-back-end\BTS\Bug.API\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.Design.dll

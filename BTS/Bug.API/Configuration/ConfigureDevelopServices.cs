@@ -6,6 +6,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Bug.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Hosting;
 
 namespace Bug.API.Configuration
 {
@@ -16,5 +18,6 @@ namespace Bug.API.Configuration
             services.AddDbContext<BugContext>(c =>
                 c.UseSqlServer(configuration.GetConnectionString("BugConnection")));
         }
+        
     }
 }

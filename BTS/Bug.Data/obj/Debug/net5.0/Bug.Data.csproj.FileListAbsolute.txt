@@ -13,3 +13,6 @@ Y:\swp-back-end\BTS\Bug.Data\obj\Debug\net5.0\Bug.Data.pdb
 Y:\swp-back-end\BTS\Bug.Data\bin\Debug\net5.0\Bug.Entities.dll
 Y:\swp-back-end\BTS\Bug.Data\bin\Debug\net5.0\Bug.Entities.pdb
 Y:\swp-back-end\BTS\Bug.Data\obj\Debug\net5.0\Bug.Data.csproj.CopyComplete
+Y:\swp-back-end\BTS\Bug.Data\bin\Debug\net5.0\Bug.Data.runtimeconfig.json
+Y:\swp-back-end\BTS\Bug.Data\bin\Debug\net5.0\Bug.Data.runtimeconfig.dev.json
+Y:\swp-back-end\BTS\Bug.Data\obj\Debug\net5.0\Bug.Data.genruntimeconfig.cache

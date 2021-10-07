@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Bug.Enitites.Interface
+namespace Bug.Entities.Model
 {
-    interface IEntityBase
+    public abstract class IEntityBase
     {
+        public virtual string Id { get; protected set; }
     }
 }
