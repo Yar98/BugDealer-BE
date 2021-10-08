@@ -20,16 +20,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'swp-front-end'`, () => {
+  it(`should have as title 'bug-dealer'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('swp-front-end');
+    expect(app.title).toEqual('bug-dealer');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain('swp-front-end app is running!');
+    expect(compiled.querySelector('.content span')?.textContent).toContain('bug-dealer app is running!');
   });
 });
