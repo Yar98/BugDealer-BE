@@ -1,16 +1,16 @@
 version: '3.4'    
 services:
-      bug.api:
+      api:
         container_name: api
         build:
           context: ./
           dockerfile: ./Bug.API/Dockerfile
         ports: 
           - "4444:80"
-      bug.ui:
-        container_name: ui
+      client:
+        container_name: client
         build:
-          context: ./Bug.UI
+          context: ./Bug.Client
           dockerfile: ./Dockerfile
         ports:
           - "5555:80"
@@ -22,5 +22,12 @@ services:
           SA_PASSWORD: "Pass@word"
           MSSQL_PID: Developer
         ports:
-          - "6666:80"
+          - "3333:80"
+      nginx:
+        build: 
+            context: ./Nginx
+            dockerfile: Dockerfile
+        ports: 
+            - 80:80
+        restart: always
           
