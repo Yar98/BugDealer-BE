@@ -10,3 +10,15 @@ Y:\swp-back-end\BTS\Bug.Entities\obj\Debug\net5.0\Bug.Entities.csproj.CoreCompil
 Y:\swp-back-end\BTS\Bug.Entities\obj\Debug\net5.0\Bug.Entities.dll
 Y:\swp-back-end\BTS\Bug.Entities\obj\Debug\net5.0\ref\Bug.Entities.dll
 Y:\swp-back-end\BTS\Bug.Entities\obj\Debug\net5.0\Bug.Entities.pdb
+Y:\BugDealer-BE\Bug.Entities\bin\Debug\net5.0\Bug.Entities.deps.json
+Y:\BugDealer-BE\Bug.Entities\bin\Debug\net5.0\Bug.Entities.dll
+Y:\BugDealer-BE\Bug.Entities\bin\Debug\net5.0\ref\Bug.Entities.dll
+Y:\BugDealer-BE\Bug.Entities\bin\Debug\net5.0\Bug.Entities.pdb
+Y:\BugDealer-BE\Bug.Entities\obj\Debug\net5.0\Bug.Entities.csproj.AssemblyReference.cache
+Y:\BugDealer-BE\Bug.Entities\obj\Debug\net5.0\Bug.Entities.GeneratedMSBuildEditorConfig.editorconfig
+Y:\BugDealer-BE\Bug.Entities\obj\Debug\net5.0\Bug.Entities.AssemblyInfoInputs.cache
+Y:\BugDealer-BE\Bug.Entities\obj\Debug\net5.0\Bug.Entities.AssemblyInfo.cs
+Y:\BugDealer-BE\Bug.Entities\obj\Debug\net5.0\Bug.Entities.csproj.CoreCompileInputs.cache
+Y:\BugDealer-BE\Bug.Entities\obj\Debug\net5.0\Bug.Entities.dll
+Y:\BugDealer-BE\Bug.Entities\obj\Debug\net5.0\ref\Bug.Entities.dll
+Y:\BugDealer-BE\Bug.Entities\obj\Debug\net5.0\Bug.Entities.pdb

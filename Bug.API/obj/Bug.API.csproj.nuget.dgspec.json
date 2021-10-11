@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "Y:\\swp-back-end\\BTS\\Bug.API\\Bug.API.csproj": {}
+    "Y:\\BugDealer-BE\\Bug.API\\Bug.API.csproj": {}
   },
   "projects": {
-    "Y:\\swp-back-end\\BTS\\Bug.API\\Bug.API.csproj": {
+    "Y:\\BugDealer-BE\\Bug.API\\Bug.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "Y:\\swp-back-end\\BTS\\Bug.API\\Bug.API.csproj",
+        "projectUniqueName": "Y:\\BugDealer-BE\\Bug.API\\Bug.API.csproj",
         "projectName": "Bug.API",
-        "projectPath": "Y:\\swp-back-end\\BTS\\Bug.API\\Bug.API.csproj",
+        "projectPath": "Y:\\BugDealer-BE\\Bug.API\\Bug.API.csproj",
         "packagesPath": "C:\\Users\\tienf\\.nuget\\packages\\",
-        "outputPath": "Y:\\swp-back-end\\BTS\\Bug.API\\obj\\",
+        "outputPath": "Y:\\BugDealer-BE\\Bug.API\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\tienf\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -28,14 +28,14 @@
           "net5.0": {
             "targetAlias": "net5.0",
             "projectReferences": {
-              "Y:\\swp-back-end\\BTS\\Bug.Data\\Bug.Data.csproj": {
-                "projectPath": "Y:\\swp-back-end\\BTS\\Bug.Data\\Bug.Data.csproj"
+              "Y:\\BugDealer-BE\\Bug.Data\\Bug.Data.csproj": {
+                "projectPath": "Y:\\BugDealer-BE\\Bug.Data\\Bug.Data.csproj"
               },
-              "Y:\\swp-back-end\\BTS\\Bug.Entities\\Bug.Entities.csproj": {
-                "projectPath": "Y:\\swp-back-end\\BTS\\Bug.Entities\\Bug.Entities.csproj"
+              "Y:\\BugDealer-BE\\Bug.Entities\\Bug.Entities.csproj": {
+                "projectPath": "Y:\\BugDealer-BE\\Bug.Entities\\Bug.Entities.csproj"
               },
-              "Y:\\swp-back-end\\BTS\\Bug.Infrastructure\\Bug.Infrastructure.csproj": {
-                "projectPath": "Y:\\swp-back-end\\BTS\\Bug.Infrastructure\\Bug.Infrastructure.csproj"
+              "Y:\\BugDealer-BE\\Bug.Infrastructure\\Bug.Infrastructure.csproj": {
+                "projectPath": "Y:\\BugDealer-BE\\Bug.Infrastructure\\Bug.Infrastructure.csproj"
               }
             }
           }
@@ -91,14 +91,14 @@
         }
       }
     },
-    "Y:\\swp-back-end\\BTS\\Bug.Data\\Bug.Data.csproj": {
+    "Y:\\BugDealer-BE\\Bug.Data\\Bug.Data.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "Y:\\swp-back-end\\BTS\\Bug.Data\\Bug.Data.csproj",
+        "projectUniqueName": "Y:\\BugDealer-BE\\Bug.Data\\Bug.Data.csproj",
         "projectName": "Bug.Data",
-        "projectPath": "Y:\\swp-back-end\\BTS\\Bug.Data\\Bug.Data.csproj",
+        "projectPath": "Y:\\BugDealer-BE\\Bug.Data\\Bug.Data.csproj",
         "packagesPath": "C:\\Users\\tienf\\.nuget\\packages\\",
-        "outputPath": "Y:\\swp-back-end\\BTS\\Bug.Data\\obj\\",
+        "outputPath": "Y:\\BugDealer-BE\\Bug.Data\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\tienf\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -115,8 +115,8 @@
           "net5.0": {
             "targetAlias": "net5.0",
             "projectReferences": {
-              "Y:\\swp-back-end\\BTS\\Bug.Entities\\Bug.Entities.csproj": {
-                "projectPath": "Y:\\swp-back-end\\BTS\\Bug.Entities\\Bug.Entities.csproj"
+              "Y:\\BugDealer-BE\\Bug.Entities\\Bug.Entities.csproj": {
+                "projectPath": "Y:\\BugDealer-BE\\Bug.Entities\\Bug.Entities.csproj"
               }
             }
           }
@@ -165,14 +165,14 @@
         }
       }
     },
-    "Y:\\swp-back-end\\BTS\\Bug.Entities\\Bug.Entities.csproj": {
+    "Y:\\BugDealer-BE\\Bug.Entities\\Bug.Entities.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "Y:\\swp-back-end\\BTS\\Bug.Entities\\Bug.Entities.csproj",
+        "projectUniqueName": "Y:\\BugDealer-BE\\Bug.Entities\\Bug.Entities.csproj",
         "projectName": "Bug.Entities",
-        "projectPath": "Y:\\swp-back-end\\BTS\\Bug.Entities\\Bug.Entities.csproj",
+        "projectPath": "Y:\\BugDealer-BE\\Bug.Entities\\Bug.Entities.csproj",
         "packagesPath": "C:\\Users\\tienf\\.nuget\\packages\\",
-        "outputPath": "Y:\\swp-back-end\\BTS\\Bug.Entities\\obj\\",
+        "outputPath": "Y:\\BugDealer-BE\\Bug.Entities\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\tienf\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -225,14 +225,14 @@
         }
       }
     },
-    "Y:\\swp-back-end\\BTS\\Bug.Infrastructure\\Bug.Infrastructure.csproj": {
+    "Y:\\BugDealer-BE\\Bug.Infrastructure\\Bug.Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "Y:\\swp-back-end\\BTS\\Bug.Infrastructure\\Bug.Infrastructure.csproj",
+        "projectUniqueName": "Y:\\BugDealer-BE\\Bug.Infrastructure\\Bug.Infrastructure.csproj",
         "projectName": "Bug.Infrastructure",
-        "projectPath": "Y:\\swp-back-end\\BTS\\Bug.Infrastructure\\Bug.Infrastructure.csproj",
+        "projectPath": "Y:\\BugDealer-BE\\Bug.Infrastructure\\Bug.Infrastructure.csproj",
         "packagesPath": "C:\\Users\\tienf\\.nuget\\packages\\",
-        "outputPath": "Y:\\swp-back-end\\BTS\\Bug.Infrastructure\\obj\\",
+        "outputPath": "Y:\\BugDealer-BE\\Bug.Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\tienf\\AppData\\Roaming\\NuGet\\NuGet.Config",

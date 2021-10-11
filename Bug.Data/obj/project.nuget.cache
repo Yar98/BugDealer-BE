@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "mmb1ES0lBxQN6ymCYQqN/Bk2oJ9dFy7FvvDFIkK3zJrxdTDRb42qpCp9t3T7+cbt+RvQ31MrgqVIXXYy0ZAohw==",
+  "dgSpecHash": "MFDrmdRIhc9n3hd7JLoD4U+0BocoDTHRkvjG9fgOkrlYKq4pgQt9xImvjXgihP3w4G/4ppf13osxkuw2K1NU7w==",
   "success": true,
-  "projectFilePath": "Y:\\swp-back-end\\BTS\\Bug.Data\\Bug.Data.csproj",
+  "projectFilePath": "Y:\\BugDealer-BE\\Bug.Data\\Bug.Data.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\tienf\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\tienf\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",

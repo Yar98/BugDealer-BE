@@ -18,6 +18,7 @@ namespace Bug.Entities.Model
         public string ImageUri { get; private set; }
         public int ProviderId { get; private set; }
         public Provider Provider { get; private set; }
+        public ICollection<Role> Roles { get; private set; }
         private Account() { }
         public Account(string id,
             string username,
@@ -58,6 +59,13 @@ namespace Bug.Entities.Model
         public void UpdateImageUri(string imageuri)
         {
             ImageUri = imageuri;
+        }
+        public void AddRole(string roleId, string name, string memberId, string description ="")
+        {
+            if (!Roles.Any(i => i.Id.Equals(roleId)))
+            {
+                Roles.Add(new Role(roleId, name, description, memberId));
+            }
         }
     }
 }

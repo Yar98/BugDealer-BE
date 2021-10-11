@@ -18,6 +18,21 @@ namespace Bug.Data.Migrations
                 .HasAnnotation("ProductVersion", "5.0.10")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("AccountRole", b =>
+                {
+                    b.Property<string>("AccountsId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("RolesId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("AccountsId", "RolesId");
+
+                    b.HasIndex("RolesId");
+
+                    b.ToTable("AccountRole");
+                });
+
             modelBuilder.Entity("Bug.Entities.Model.Account", b =>
                 {
                     b.Property<string>("Id")
@@ -69,6 +84,40 @@ namespace Bug.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Provider");
+                });
+
+            modelBuilder.Entity("Bug.Entities.Model.Role", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MemberId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Role");
+                });
+
+            modelBuilder.Entity("AccountRole", b =>
+                {
+                    b.HasOne("Bug.Entities.Model.Account", null)
+                        .WithMany()
+                        .HasForeignKey("AccountsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Bug.Entities.Model.Role", null)
+                        .WithMany()
+                        .HasForeignKey("RolesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Bug.Entities.Model.Account", b =>

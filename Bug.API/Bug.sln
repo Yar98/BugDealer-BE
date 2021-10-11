@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bug.Data", "..\Bug.Data\Bug
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bug.Entities", "..\Bug.Entities\Bug.Entities.csproj", "{39F8B3B5-498C-4A81-B6FC-EE2769746F31}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DumbTest", "..\DumbTest\DumbTest.csproj", "{C15B05D5-1F30-44D9-BAF3-9D697D78E7EB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{39F8B3B5-498C-4A81-B6FC-EE2769746F31}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{39F8B3B5-498C-4A81-B6FC-EE2769746F31}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{39F8B3B5-498C-4A81-B6FC-EE2769746F31}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C15B05D5-1F30-44D9-BAF3-9D697D78E7EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C15B05D5-1F30-44D9-BAF3-9D697D78E7EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C15B05D5-1F30-44D9-BAF3-9D697D78E7EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C15B05D5-1F30-44D9-BAF3-9D697D78E7EB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

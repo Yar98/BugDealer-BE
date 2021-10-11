@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "Y:\\swp-back-end\\BTS\\Bug.Entities\\Bug.Entities.csproj": {}
+    "Y:\\BugDealer-BE\\Bug.Entities\\Bug.Entities.csproj": {}
   },
   "projects": {
-    "Y:\\swp-back-end\\BTS\\Bug.Entities\\Bug.Entities.csproj": {
+    "Y:\\BugDealer-BE\\Bug.Entities\\Bug.Entities.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "Y:\\swp-back-end\\BTS\\Bug.Entities\\Bug.Entities.csproj",
+        "projectUniqueName": "Y:\\BugDealer-BE\\Bug.Entities\\Bug.Entities.csproj",
         "projectName": "Bug.Entities",
-        "projectPath": "Y:\\swp-back-end\\BTS\\Bug.Entities\\Bug.Entities.csproj",
+        "projectPath": "Y:\\BugDealer-BE\\Bug.Entities\\Bug.Entities.csproj",
         "packagesPath": "C:\\Users\\tienf\\.nuget\\packages\\",
-        "outputPath": "Y:\\swp-back-end\\BTS\\Bug.Entities\\obj\\",
+        "outputPath": "Y:\\BugDealer-BE\\Bug.Entities\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\tienf\\AppData\\Roaming\\NuGet\\NuGet.Config",
