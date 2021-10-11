@@ -8,5 +8,7 @@ namespace DumbTest.Model
 {
     public class Course
     {
+        public int Id { get; private set; }
+        private Course() { }
     }
 }

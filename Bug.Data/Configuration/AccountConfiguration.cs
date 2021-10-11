@@ -17,7 +17,6 @@ namespace Bug.Data.Configuration
                 .ToTable("Account")
                 .Property(b => b.UserName)
                 .IsRequired();
-            
         }
     }
 }
