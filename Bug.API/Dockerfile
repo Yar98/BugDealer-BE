@@ -12,6 +12,7 @@ COPY Bug.API ./Bug.API/
 COPY Bug.Data ./Bug.Data/
 COPY Bug.Entities ./Bug.Entities/
 COPY Bug.Infrastructure ./Bug.Infrastructure/
+COPY DumbTest ./DumbTest/
 RUN dotnet restore Bug.API/Bug.sln
 WORKDIR "/src/Bug.API"
 RUN dotnet build "Bug.sln" -c Release -o /app/build
