@@ -5,20 +5,23 @@ services:
         build:
           context: ./
           dockerfile: ./Bug.API/Dockerfile
-        ports: 
-          - "4444:80"
+        ports:
+          - "44:4444"
         depends_on:
           - "nginx"
           - "sqldata"
+        restart: always
       client:
         container_name: client
         build:
           context: ./Bug.Client
           dockerfile: ./Dockerfile
         ports:
-          - "5555:80"
+          - "55:5555"
+          
         depends_on:
           - "nginx"
+        restart: always
       sqldata:
         container_name: sql
         image: mcr.microsoft.com/mssql/server:2019-latest
@@ -27,7 +30,7 @@ services:
           SA_PASSWORD: "Pass@word"
           MSSQL_PID: Developer
         ports:
-          - "3333:80"
+          - "33:3333"
       nginx:
         container_name: nginx
         build: 
@@ -35,5 +38,6 @@ services:
             dockerfile: Dockerfile
         ports: 
             - 80:80
+            - 443:443
         restart: always
           

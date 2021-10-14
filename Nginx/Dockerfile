@@ -1,2 +1,5 @@
 FROM nginx
-COPY ./default.conf /etc/nginx/conf.d/default.conf
+#RUN apt-get install libssl-dev
+COPY ./nginx.conf /etc/nginx/nginx.conf
+COPY ./ssl /etc/ssl
+

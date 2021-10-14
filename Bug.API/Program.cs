@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Cors;
 using Bug.API.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Bug.Data;
+using System.IO;
 
 namespace Bug
 {
@@ -18,7 +19,7 @@ namespace Bug
         public static void Main(string[] args)
         {
             var host = CreateHostBuilder(args).Build();
-            CreateDbIfNotExists(host);
+            //CreateDbIfNotExists(host);
             host.Run();
         }
 
@@ -45,7 +46,12 @@ namespace Bug
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
+                    webBuilder
+                    .UseKestrel()
+                    .UseContentRoot(Directory.GetCurrentDirectory())
+                    .UseUrls("http://*:4444")
+                    .UseIISIntegration()
+                    .UseStartup<Startup>();
                 });        
     }
 }
