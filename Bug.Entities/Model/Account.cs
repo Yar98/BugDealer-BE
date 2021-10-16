@@ -16,8 +16,7 @@ namespace Bug.Entities.Model
         public string Email { get; private set; }
         public string CreatedDate { get; private set; }
         public string ImageUri { get; private set; }
-        public int? ProviderId { get; private set; }
-        public Provider Provider { get; private set; }
+        public string Provider { get; private set; }
         public Project CreatedProject { get; private set; }
         public ICollection<Role> Roles { get; private set; }
         public ICollection<Project> Projects { get; private set; }
@@ -30,7 +29,7 @@ namespace Bug.Entities.Model
             string email,
             string createddate,
             string imageuri,
-            int providerid)
+            string provider)
         {
             Id = id;
             UserName = username;
@@ -40,7 +39,7 @@ namespace Bug.Entities.Model
             Email = email;
             CreatedDate = createddate;
             ImageUri = imageuri;
-            ProviderId = providerid;
+            Provider = provider;
         }
         public void UpdateUserName(string username)
         {
