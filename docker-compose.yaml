@@ -9,7 +9,7 @@ services:
           - "44:4444"
         depends_on:
           - "nginx"
-          - "sqldata"
+          - "sql"
         restart: always
       client:
         container_name: client
@@ -22,15 +22,16 @@ services:
         depends_on:
           - "nginx"
         restart: always
-      sqldata:
+      sql:
         container_name: sql
-        image: mcr.microsoft.com/mssql/server:2019-latest
+        image: mcr.microsoft.com/mssql/server:2017-latest
         environment:
           ACCEPT_EULA: "Y"
           SA_PASSWORD: "Pass@word"
-          MSSQL_PID: Developer
+          MSSQL_PID: Express
         ports:
-          - "33:3333"
+          - "1434:1434/udp"
+          - "1433:1433/tcp"
       nginx:
         container_name: nginx
         build: 

@@ -19,7 +19,7 @@ namespace Bug
         public static void Main(string[] args)
         {
             var host = CreateHostBuilder(args).Build();
-            //CreateDbIfNotExists(host);
+            CreateDbIfNotExists(host);
             host.Run();
         }
 
@@ -47,7 +47,7 @@ namespace Bug
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder
-                    .UseKestrel()
+                    //.UseKestrel()
                     .UseContentRoot(Directory.GetCurrentDirectory())
                     .UseUrls("http://*:4444")
                     .UseIISIntegration()
