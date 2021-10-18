@@ -25,7 +25,7 @@ namespace Bug.API.Controllers
 
         [HttpGet("signinexternalcallback")]
         public async Task<IActionResult> SigninExternalCallback(
-            string returnUrl = null, 
+            string returnUrl = null,
             string remoteNull = null)
         {
             var result = await HttpContext.AuthenticateAsync(
