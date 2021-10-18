@@ -18,6 +18,7 @@ namespace Bug.API.Configuration
         {
             services.AddDbContext<BugContext>(c =>
                 c.UseSqlServer(configuration.GetConnectionString("BugConnection")));
+                //c.UseSqlServer(configuration.GetConnectionString("DockerConnection")));
         }
         public static void ConfigureGoogleServices(this IServiceCollection services, IConfiguration configuration)
         {
@@ -37,8 +38,7 @@ namespace Bug.API.Configuration
                     //options.CallbackPath = "/api/external/signinexternal";
                     options.ClientId = googleAuthNSection["ClientId"];
                     options.ClientSecret = googleAuthNSection["ClientSecret"];
-                });
-            
+                });            
         }
     }
 }

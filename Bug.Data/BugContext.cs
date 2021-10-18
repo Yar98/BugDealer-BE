@@ -12,9 +12,21 @@ namespace Bug.Data
     public class BugContext : DbContext
     {
         public DbSet<Account> Accounts { get; set; }
-        public DbSet<Provider> Providers { get; set; }
-        public DbSet<Vote> Votes { get; set; }
+        public DbSet<Permission> Permissions { get; set; }
+        public DbSet<Role> Roles { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Tag> Tags { get; set; }
+        public DbSet<Workflow> Workflows { get; set; }
         public DbSet<Project> Projects { get; set; }
+        public DbSet<Issue> Issues { get; set; }
+        public DbSet<Priority> Priorities { get; set; }
+        public DbSet<Comment> Comments { get; set; }
+        public DbSet<IssueLog> IssueLogs { get; set; }
+        public DbSet<Label> Labels { get; set; }
+        public DbSet<Watcher> Watchers { get; set; }
+        public DbSet<Vote> Votes { get; set; }
+        public DbSet<Worklog> Worklogs { get; set; }
+        public DbSet<Transition> Transitions { get; set; }
         public BugContext(DbContextOptions options)
             : base(options)
         {
@@ -29,7 +41,6 @@ namespace Bug.Data
                 .UsingEntity(a => a.ToTable("AccountProject"));
             builder
                 .ApplyConfigurationsFromAssembly(typeof(AccountConfiguration).Assembly)
-                .ApplyConfigurationsFromAssembly(typeof(ProviderConfiguration).Assembly)
                 .ApplyConfigurationsFromAssembly(typeof(PermissionConfiguration).Assembly)
                 .ApplyConfigurationsFromAssembly(typeof(RoleConfiguration).Assembly)
                 .ApplyConfigurationsFromAssembly(typeof(CategoryConfiguration).Assembly)

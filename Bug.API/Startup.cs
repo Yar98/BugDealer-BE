@@ -31,15 +31,15 @@ namespace Bug
         {
             services.ConfigureSqlServices(Configuration);
             services.ConfigureGoogleServices(Configuration);
+            services.AddCoreServices(Configuration);
 
             services.AddControllers();
+
             services.Configure<ForwardedHeadersOptions>(options =>
             {
                 options.ForwardedHeaders =
                     ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto | ForwardedHeaders.XForwardedHost;
-            });
-            
-            services.AddCoreServices(Configuration);
+            });            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
