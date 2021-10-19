@@ -72,9 +72,6 @@ namespace Bug.Data.Migrations
                     b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Provider")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("UserName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -201,7 +198,7 @@ namespace Bug.Data.Migrations
                     b.ToTable("Issue");
                 });
 
-            modelBuilder.Entity("Bug.Entities.Model.IssueLog", b =>
+            modelBuilder.Entity("Bug.Entities.Model.Issuelog", b =>
                 {
                     b.Property<string>("IssueId")
                         .HasColumnType("nvarchar(450)");
@@ -226,7 +223,7 @@ namespace Bug.Data.Migrations
 
                     b.HasIndex("PreStatusId");
 
-                    b.ToTable("IssueLog");
+                    b.ToTable("Issuelog");
                 });
 
             modelBuilder.Entity("Bug.Entities.Model.Label", b =>
@@ -316,22 +313,6 @@ namespace Bug.Data.Migrations
                     b.HasIndex("WorkflowId");
 
                     b.ToTable("Project");
-                });
-
-            modelBuilder.Entity("Bug.Entities.Model.Provider", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Provider");
                 });
 
             modelBuilder.Entity("Bug.Entities.Model.Relation", b =>
@@ -708,7 +689,7 @@ namespace Bug.Data.Migrations
                     b.Navigation("Reporter");
                 });
 
-            modelBuilder.Entity("Bug.Entities.Model.IssueLog", b =>
+            modelBuilder.Entity("Bug.Entities.Model.Issuelog", b =>
                 {
                     b.HasOne("Bug.Entities.Model.Issue", "Issue")
                         .WithMany()

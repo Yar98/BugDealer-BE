@@ -9,12 +9,12 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Bug.Data.Configuration
 {
-    class IssueLogConfiguration : IEntityTypeConfiguration<IssueLog>
+    class IssuelogConfiguration : IEntityTypeConfiguration<Issuelog>
     {
-        public void Configure(EntityTypeBuilder<IssueLog> builder)
+        public void Configure(EntityTypeBuilder<Issuelog> builder)
         {
             builder
-                .ToTable("IssueLog")
+                .ToTable("Issuelog")
                 .HasNoKey();
         }
     }

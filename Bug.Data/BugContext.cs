@@ -21,7 +21,7 @@ namespace Bug.Data
         public DbSet<Issue> Issues { get; set; }
         public DbSet<Priority> Priorities { get; set; }
         public DbSet<Comment> Comments { get; set; }
-        public DbSet<IssueLog> IssueLogs { get; set; }
+        public DbSet<Issuelog> Issuelogs { get; set; }
         public DbSet<Label> Labels { get; set; }
         public DbSet<Watcher> Watchers { get; set; }
         public DbSet<Vote> Votes { get; set; }
@@ -50,7 +50,7 @@ namespace Bug.Data
                 .ApplyConfigurationsFromAssembly(typeof(IssueConfiguration).Assembly)
                 .ApplyConfigurationsFromAssembly(typeof(PriorityConfiguration).Assembly)
                 .ApplyConfigurationsFromAssembly(typeof(CommentConfiguration).Assembly)
-                .ApplyConfigurationsFromAssembly(typeof(IssueLogConfiguration).Assembly)
+                .ApplyConfigurationsFromAssembly(typeof(IssuelogConfiguration).Assembly)
                 .ApplyConfigurationsFromAssembly(typeof(LabelConfiguration).Assembly)
                 .ApplyConfigurationsFromAssembly(typeof(WatcherConfiguration).Assembly)
                 .ApplyConfigurationsFromAssembly(typeof(VoteConfiguration).Assembly)

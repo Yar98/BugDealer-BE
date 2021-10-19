@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bug.Data.Migrations
 {
     [DbContext(typeof(BugContext))]
-    [Migration("20211011142609_create-db")]
+    [Migration("20211018165116_create-db")]
     partial class createdb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -74,16 +74,11 @@ namespace Bug.Data.Migrations
                     b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ProviderId")
-                        .HasColumnType("int");
-
                     b.Property<string>("UserName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ProviderId");
 
                     b.ToTable("Account");
                 });
@@ -205,7 +200,7 @@ namespace Bug.Data.Migrations
                     b.ToTable("Issue");
                 });
 
-            modelBuilder.Entity("Bug.Entities.Model.IssueLog", b =>
+            modelBuilder.Entity("Bug.Entities.Model.Issuelog", b =>
                 {
                     b.Property<string>("IssueId")
                         .HasColumnType("nvarchar(450)");
@@ -230,7 +225,7 @@ namespace Bug.Data.Migrations
 
                     b.HasIndex("PreStatusId");
 
-                    b.ToTable("IssueLog");
+                    b.ToTable("Issuelog");
                 });
 
             modelBuilder.Entity("Bug.Entities.Model.Label", b =>
@@ -320,22 +315,6 @@ namespace Bug.Data.Migrations
                     b.HasIndex("WorkflowId");
 
                     b.ToTable("Project");
-                });
-
-            modelBuilder.Entity("Bug.Entities.Model.Provider", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Provider");
                 });
 
             modelBuilder.Entity("Bug.Entities.Model.Relation", b =>
@@ -654,15 +633,6 @@ namespace Bug.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Bug.Entities.Model.Account", b =>
-                {
-                    b.HasOne("Bug.Entities.Model.Provider", "Provider")
-                        .WithMany()
-                        .HasForeignKey("ProviderId");
-
-                    b.Navigation("Provider");
-                });
-
             modelBuilder.Entity("Bug.Entities.Model.Comment", b =>
                 {
                     b.HasOne("Bug.Entities.Model.Account", "Account")
@@ -721,7 +691,7 @@ namespace Bug.Data.Migrations
                     b.Navigation("Reporter");
                 });
 
-            modelBuilder.Entity("Bug.Entities.Model.IssueLog", b =>
+            modelBuilder.Entity("Bug.Entities.Model.Issuelog", b =>
                 {
                     b.HasOne("Bug.Entities.Model.Issue", "Issue")
                         .WithMany()

@@ -7,7 +7,7 @@ using Bug.Entities.Model;
 
 namespace Bug.Data.Repositories
 {
-    public interface IIssueLogRepo : IEntityRepoBase<IssueLog>
+    public interface IIssuelogRepo : IEntityRepoBase<Issuelog>
     {
     }
 }
