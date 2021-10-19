@@ -18,7 +18,7 @@ namespace Bug.API.Configuration
             services.AddScoped<ICategoryRepo, CategoryRepo>();
             services.AddScoped<ICommentRepo, CommentRepo>();
             services.AddScoped<IIssueRepo, IssueRepo>();
-            services.AddScoped<IIssueLogRepo, IssueLogRepo>();
+            services.AddScoped<IIssuelogRepo, IssuelogRepo>();
             services.AddScoped<ILabelRepo, LabelRepo>();
             services.AddScoped<IPermissionRepo, PermissionRepo>();
             services.AddScoped<IPriorityRepo, PriorityRepo>();

@@ -7,9 +7,9 @@ using Bug.Entities.Model;
 
 namespace Bug.Data.Repositories
 {
-    public class IssueLogRepo : EntityRepoBase<IssueLog>, IIssueLogRepo
+    public class IssuelogRepo : EntityRepoBase<Issuelog>, IIssuelogRepo
     {
-        public IssueLogRepo(BugContext repositoryContext)
+        public IssuelogRepo(BugContext repositoryContext)
             : base(repositoryContext)
         {
 

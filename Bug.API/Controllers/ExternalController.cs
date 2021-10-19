@@ -40,6 +40,7 @@ namespace Bug.API.Controllers
                     claim.Value
                 });
             return Json(claims);
+            //return StatusCode(200, Json(claims));
         }
     }
 }
