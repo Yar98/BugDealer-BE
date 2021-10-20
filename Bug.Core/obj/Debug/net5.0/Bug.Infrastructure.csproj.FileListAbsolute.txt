@@ -10,3 +10,15 @@ Y:\swp-back-end\BTS\Bug.Infrastructure\obj\Debug\net5.0\Bug.Infrastructure.cspro
 Y:\swp-back-end\BTS\Bug.Infrastructure\obj\Debug\net5.0\Bug.Infrastructure.dll
 Y:\swp-back-end\BTS\Bug.Infrastructure\obj\Debug\net5.0\ref\Bug.Infrastructure.dll
 Y:\swp-back-end\BTS\Bug.Infrastructure\obj\Debug\net5.0\Bug.Infrastructure.pdb
+Y:\BugDealer-BE\Bug.Infrastructure\bin\Debug\net5.0\Bug.Infrastructure.deps.json
+Y:\BugDealer-BE\Bug.Infrastructure\bin\Debug\net5.0\Bug.Infrastructure.dll
+Y:\BugDealer-BE\Bug.Infrastructure\bin\Debug\net5.0\ref\Bug.Infrastructure.dll
+Y:\BugDealer-BE\Bug.Infrastructure\bin\Debug\net5.0\Bug.Infrastructure.pdb
+Y:\BugDealer-BE\Bug.Infrastructure\obj\Debug\net5.0\Bug.Infrastructure.csproj.AssemblyReference.cache
+Y:\BugDealer-BE\Bug.Infrastructure\obj\Debug\net5.0\Bug.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+Y:\BugDealer-BE\Bug.Infrastructure\obj\Debug\net5.0\Bug.Infrastructure.AssemblyInfoInputs.cache
+Y:\BugDealer-BE\Bug.Infrastructure\obj\Debug\net5.0\Bug.Infrastructure.AssemblyInfo.cs
+Y:\BugDealer-BE\Bug.Infrastructure\obj\Debug\net5.0\Bug.Infrastructure.csproj.CoreCompileInputs.cache
+Y:\BugDealer-BE\Bug.Infrastructure\obj\Debug\net5.0\Bug.Infrastructure.dll
+Y:\BugDealer-BE\Bug.Infrastructure\obj\Debug\net5.0\ref\Bug.Infrastructure.dll
+Y:\BugDealer-BE\Bug.Infrastructure\obj\Debug\net5.0\Bug.Infrastructure.pdb

@@ -13,9 +13,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "Y:\\BugDealer-BE\\Bug.Infrastructure\\Bug.Infrastructure.csproj",
-      "projectName": "Bug.Infrastructure",
-      "projectPath": "Y:\\BugDealer-BE\\Bug.Infrastructure\\Bug.Infrastructure.csproj",
+      "projectUniqueName": "Y:\\BugDealer-BE\\Bug.Infrastructure\\Bug.Core.csproj",
+      "projectName": "Bug.Core",
+      "projectPath": "Y:\\BugDealer-BE\\Bug.Infrastructure\\Bug.Core.csproj",
       "packagesPath": "C:\\Users\\tienf\\.nuget\\packages\\",
       "outputPath": "Y:\\BugDealer-BE\\Bug.Infrastructure\\obj\\",
       "projectStyle": "PackageReference",

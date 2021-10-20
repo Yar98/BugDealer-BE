@@ -15,7 +15,7 @@ WORKDIR /src
 COPY Bug.API ./Bug.API/
 COPY Bug.Data ./Bug.Data/
 COPY Bug.Entities ./Bug.Entities/
-COPY Bug.Infrastructure ./Bug.Infrastructure/
+COPY Bug.Core ./Bug.Core/
 COPY DumbTest ./DumbTest/
 RUN dotnet restore Bug.API/Bug.sln
 WORKDIR "/src/Bug.API"

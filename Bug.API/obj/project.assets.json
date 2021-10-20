@@ -1591,10 +1591,24 @@
           "lib/netstandard1.3/System.Xml.XmlSerializer.dll": {}
         }
       },
+      "Bug.Core/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v5.0",
+        "dependencies": {
+          "Bug.Entities": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/Bug.Core.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Bug.Core.dll": {}
+        }
+      },
       "Bug.Data/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v5.0",
         "dependencies": {
+          "Bug.Core": "1.0.0",
           "Bug.Entities": "1.0.0",
           "Microsoft.EntityFrameworkCore": "5.0.10",
           "Microsoft.EntityFrameworkCore.SqlServer": "5.0.10"
@@ -1617,16 +1631,6 @@
         },
         "runtime": {
           "bin/placeholder/Bug.Entities.dll": {}
-        }
-      },
-      "Bug.Infrastructure/1.0.0": {
-        "type": "project",
-        "framework": ".NETCoreApp,Version=v5.0",
-        "compile": {
-          "bin/placeholder/Bug.Infrastructure.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/Bug.Infrastructure.dll": {}
         }
       }
     }
@@ -6004,6 +6008,11 @@
         "system.xml.xmlserializer.nuspec"
       ]
     },
+    "Bug.Core/1.0.0": {
+      "type": "project",
+      "path": "../Bug.Core/Bug.Core.csproj",
+      "msbuildProject": "../Bug.Core/Bug.Core.csproj"
+    },
     "Bug.Data/1.0.0": {
       "type": "project",
       "path": "../Bug.Data/Bug.Data.csproj",
@@ -6013,18 +6022,12 @@
       "type": "project",
       "path": "../Bug.Entities/Bug.Entities.csproj",
       "msbuildProject": "../Bug.Entities/Bug.Entities.csproj"
-    },
-    "Bug.Infrastructure/1.0.0": {
-      "type": "project",
-      "path": "../Bug.Infrastructure/Bug.Infrastructure.csproj",
-      "msbuildProject": "../Bug.Infrastructure/Bug.Infrastructure.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net5.0": [
       "Bug.Data >= 1.0.0",
       "Bug.Entities >= 1.0.0",
-      "Bug.Infrastructure >= 1.0.0",
       "Microsoft.AspNetCore.Authentication.Google >= 5.0.11",
       "Microsoft.EntityFrameworkCore >= 5.0.10",
       "Microsoft.EntityFrameworkCore.Design >= 5.0.10",
@@ -6064,9 +6067,6 @@
             },
             "Y:\\BugDealer-BE\\Bug.Entities\\Bug.Entities.csproj": {
               "projectPath": "Y:\\BugDealer-BE\\Bug.Entities\\Bug.Entities.csproj"
-            },
-            "Y:\\BugDealer-BE\\Bug.Infrastructure\\Bug.Infrastructure.csproj": {
-              "projectPath": "Y:\\BugDealer-BE\\Bug.Infrastructure\\Bug.Infrastructure.csproj"
             }
           }
         }
