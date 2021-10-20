@@ -30,12 +30,16 @@ namespace Bug.Data
                 throw;
             }
         }
+        // mỗi hàm này là 1 table 
         static IEnumerable<Project> GetPreconfiguredProjects()
         {
             return new List<Project>()
-        {
-            
-        };
+            {
+                //fill data trong đây 
+                //chú ý datetime 
+                //new Project(,,,,),
+                //new Project(,,,,)
+            };
         }
     }
     
