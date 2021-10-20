@@ -35,7 +35,6 @@
         "dependencies": {
           "Bug.Data": "1.0.0",
           "Bug.Entities": "1.0.0",
-          "Bug.Infrastructure": "1.0.0",
           "Microsoft.AspNetCore.Authentication.Google": "5.0.11",
           "Microsoft.EntityFrameworkCore": "5.0.10",
           "Microsoft.EntityFrameworkCore.Design": "5.0.10",
@@ -1383,8 +1382,20 @@
           "System.Xml.XmlDocument": "4.3.0"
         }
       },
+      "Bug.Core/1.0.0": {
+        "dependencies": {
+          "Bug.Entities": "1.0.0"
+        },
+        "runtime": {
+          "Bug.Core.dll": {}
+        },
+        "compile": {
+          "Bug.Core.dll": {}
+        }
+      },
       "Bug.Data/1.0.0": {
         "dependencies": {
+          "Bug.Core": "1.0.0",
           "Bug.Entities": "1.0.0",
           "Microsoft.EntityFrameworkCore": "5.0.10",
           "Microsoft.EntityFrameworkCore.SqlServer": "5.0.10"
@@ -1405,14 +1416,6 @@
         },
         "compile": {
           "Bug.Entities.dll": {}
-        }
-      },
-      "Bug.Infrastructure/1.0.0": {
-        "runtime": {
-          "Bug.Infrastructure.dll": {}
-        },
-        "compile": {
-          "Bug.Infrastructure.dll": {}
         }
       },
       "Microsoft.AspNetCore.Antiforgery/5.0.0.0": {
@@ -3830,17 +3833,17 @@
       "path": "system.xml.xmlserializer/4.3.0",
       "hashPath": "system.xml.xmlserializer.4.3.0.nupkg.sha512"
     },
+    "Bug.Core/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
     "Bug.Data/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
     },
     "Bug.Entities/1.0.0": {
-      "type": "project",
-      "serviceable": false,
-      "sha512": ""
-    },
-    "Bug.Infrastructure/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

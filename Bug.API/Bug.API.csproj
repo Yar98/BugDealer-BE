@@ -23,7 +23,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Bug.Data\Bug.Data.csproj" />
     <ProjectReference Include="..\Bug.Entities\Bug.Entities.csproj" />
-    <ProjectReference Include="..\Bug.Infrastructure\Bug.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

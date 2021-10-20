@@ -1520,6 +1520,19 @@
           "lib/netstandard1.3/System.Xml.XmlSerializer.dll": {}
         }
       },
+      "Bug.Core/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v5.0",
+        "dependencies": {
+          "Bug.Entities": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/Bug.Core.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Bug.Core.dll": {}
+        }
+      },
       "Bug.Entities/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v5.0",
@@ -5801,6 +5814,11 @@
         "system.xml.xmlserializer.nuspec"
       ]
     },
+    "Bug.Core/1.0.0": {
+      "type": "project",
+      "path": "../Bug.Core/Bug.Core.csproj",
+      "msbuildProject": "../Bug.Core/Bug.Core.csproj"
+    },
     "Bug.Entities/1.0.0": {
       "type": "project",
       "path": "../Bug.Entities/Bug.Entities.csproj",
@@ -5809,6 +5827,7 @@
   },
   "projectFileDependencyGroups": {
     "net5.0": [
+      "Bug.Core >= 1.0.0",
       "Bug.Entities >= 1.0.0",
       "Microsoft.EntityFrameworkCore >= 5.0.10",
       "Microsoft.EntityFrameworkCore.SqlServer >= 5.0.10",
@@ -5842,6 +5861,9 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "projectReferences": {
+            "Y:\\BugDealer-BE\\Bug.Core\\Bug.Core.csproj": {
+              "projectPath": "Y:\\BugDealer-BE\\Bug.Core\\Bug.Core.csproj"
+            },
             "Y:\\BugDealer-BE\\Bug.Entities\\Bug.Entities.csproj": {
               "projectPath": "Y:\\BugDealer-BE\\Bug.Entities\\Bug.Entities.csproj"
             }

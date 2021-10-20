@@ -1,42 +1,67 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using Bug.Core.Specifications;
 
 namespace Bug.Data.Repositories
 {
     public abstract class EntityRepoBase<T> : IEntityRepoBase<T> where T : class
     {
-        protected BugContext BugContext { get; set; }
+        protected readonly BugContext _bugContext;
         public EntityRepoBase(BugContext repoContext)
         {
-            this.BugContext = repoContext;
+            _bugContext = repoContext;
         }
-        public void Create(T entity)
+        public async Task<T> AddAsync(T entity, CancellationToken cancelltionToken = default)
         {
-            this.BugContext.Set<T>().Add(entity);
+            await _bugContext.Set<T>().AddAsync(entity);
+            await _bugContext.SaveChangesAsync(cancelltionToken);
+            return entity;
         }
 
-        public void Delete(T entity)
+        public async Task DeleteAsync(T entity, CancellationToken cancelltionToken = default)
         {
-            this.BugContext.Set<T>().Remove(entity);
+            _bugContext.Set<T>().Remove(entity);
+            await _bugContext.SaveChangesAsync(cancelltionToken);
         }
 
-        public IQueryable<T> FindAll()
+        public async Task<IReadOnlyList<T>> FindAll(CancellationToken cancelltionToken = default)
         {
-            return this.BugContext.Set<T>();
+            return await _bugContext.Set<T>().ToListAsync(cancelltionToken);
         }
 
-        public IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression)
+        public async Task<IReadOnlyList<T>> ListAsync(ISpecification<T> spec, CancellationToken cancellationToken = default)
         {
-            return this.BugContext.Set<T>().Where(expression);
+            var specificationResult = ApplySpecification(spec);
+            return await specificationResult.ToListAsync(cancellationToken);
         }
 
-        public void Update(T entity)
+        public async Task UpdateAsync(T entity, CancellationToken cancelltionToken = default)
         {
-            this.BugContext.Set<T>().Update(entity);
+            _bugContext.Entry(entity).State = EntityState.Modified;
+            await _bugContext.SaveChangesAsync(cancelltionToken);
         }
+
+        public IQueryable<T> ApplySpecification(ISpecification<T> spec)
+        {
+            // fetch a Queryable that includes all expression-based includes
+            var queryableResultWithIncludes = spec.Includes
+                .Aggregate(_bugContext.Set<T>().AsQueryable(),
+                    (current, include) => current.Include(include));
+
+            // modify the IQueryable to include any string-based include statements
+            var secondaryResult = spec.IncludeStrings
+                .Aggregate(queryableResultWithIncludes,
+                    (current, include) => current.Include(include));
+
+            // return the result of the query using the specification's criteria expression
+            return secondaryResult
+                            .Where(spec.Criteria);
+        }       
     }
 }

@@ -34,3 +34,5 @@ Y:\BugDealer-BE\Bug.Data\obj\Debug\net5.0\Bug.Data.dll
 Y:\BugDealer-BE\Bug.Data\obj\Debug\net5.0\ref\Bug.Data.dll
 Y:\BugDealer-BE\Bug.Data\obj\Debug\net5.0\Bug.Data.pdb
 Y:\BugDealer-BE\Bug.Data\obj\Debug\net5.0\Bug.Data.genruntimeconfig.cache
+Y:\BugDealer-BE\Bug.Data\bin\Debug\net5.0\Bug.Core.dll
+Y:\BugDealer-BE\Bug.Data\bin\Debug\net5.0\Bug.Core.pdb

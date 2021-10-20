@@ -16,11 +16,26 @@ namespace Bug
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var host = CreateHostBuilder(args).Build();
             CreateDbIfNotExists(host);
-            host.Run();
+            using (var scope = host.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                var loggerFactory = services.GetRequiredService<ILoggerFactory>();
+                try
+                {
+                    var bugContext = services.GetRequiredService<BugContext>();
+                    await BugContextSeed.SeedAsync(bugContext, loggerFactory);
+                }
+                catch(Exception ex)
+                {
+                    var logger = loggerFactory.CreateLogger<Program>();
+                    logger.LogError(ex, "An error occurred seeding the DB");
+                }
+            }
+                host.Run();
         }
 
         private static void CreateDbIfNotExists(IHost host)
