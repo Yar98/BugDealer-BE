@@ -10,11 +10,11 @@ namespace Bug.Data.Extensions
 {
     public static class QuerySpecificationExtensions
     {
-        public static IQueryable<T> Specify<T>(this DbContext query, ISpecification<T> spec) where T : class
+        public static IQueryable<T> Specify<T>(this IQueryable<T> query, ISpecification<T> spec) where T : class
         {
             // fetch a Queryable that includes all expression-based includes
             var queryableResultWithIncludes = spec.Includes
-                .Aggregate(query.Set<T>().AsQueryable(),
+                .Aggregate(query,
                     (current, include) => current.Include(include));
 
             // modify the IQueryable to include any string-based include statements

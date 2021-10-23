@@ -7,5 +7,8 @@ namespace Bug.API.Services.DTO
     {
         public string Id { get; set; }
         public string Name { get; set; }
+        public int TotalIssues { get; set; }
+        public int NumberDoneIssues { get; set; }
+        public int NumberOpenIssues { get; set; }
     }
 }

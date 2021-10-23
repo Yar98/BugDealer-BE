@@ -24,9 +24,10 @@ namespace Bug.Data.Repositories
             int count)
         {
             var specificationResult = 
-                new ProjectWithTagsSpecification(accountId, categoryId, tagName);
+                new ProjectRecentSpecification(accountId, categoryId, tagName);
             return _bugContext
-                .Specify(specificationResult)              
+                .Projects
+                .Specify(specificationResult)
                 .OrderBy(p => p.EndDate)
                 .Take(count);
         }

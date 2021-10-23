@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Bug.Data.Infrastructure;
 using Bug.API.Services;
+using Bug.Core.Common;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -24,7 +25,8 @@ namespace Bug.API.Controllers
         public async Task<IActionResult> Get()
         {
             ProjectService projectService = new ProjectService(_unitOfWork);
-            var result = await projectService.GetRecentProjects("account1",1,"alive",3);
+            var result = await projectService
+                .GetRecentProjects("account1",Bts.ProjectCategory,"Open",3);
             return StatusCode(200, result);
         }
 

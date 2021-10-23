@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bug.Data.Migrations
 {
     [DbContext(typeof(BugContext))]
-    [Migration("20211023021844_created-db")]
+    [Migration("20211023120324_created-db")]
     partial class createddb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -74,11 +74,16 @@ namespace Bug.Data.Migrations
                     b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("TimezoneId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("UserName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("TimezoneId");
 
                     b.ToTable("Account");
                 });
@@ -399,6 +404,28 @@ namespace Bug.Data.Migrations
                     b.ToTable("Tag");
                 });
 
+            modelBuilder.Entity("Bug.Entities.Model.Timezone", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("CountryCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CountryName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("GmtOffset")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Timezone");
+                });
+
             modelBuilder.Entity("Bug.Entities.Model.Transition", b =>
                 {
                     b.Property<string>("Id")
@@ -634,6 +661,15 @@ namespace Bug.Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Bug.Entities.Model.Account", b =>
+                {
+                    b.HasOne("Bug.Entities.Model.Timezone", "Timezone")
+                        .WithMany()
+                        .HasForeignKey("TimezoneId");
+
+                    b.Navigation("Timezone");
+                });
+
             modelBuilder.Entity("Bug.Entities.Model.Comment", b =>
                 {
                     b.HasOne("Bug.Entities.Model.Account", "Account")
@@ -662,7 +698,7 @@ namespace Bug.Data.Migrations
                         .IsRequired();
 
                     b.HasOne("Bug.Entities.Model.Project", "Project")
-                        .WithMany()
+                        .WithMany("Issues")
                         .HasForeignKey("ProjectId");
 
                     b.HasOne("Bug.Entities.Model.Account", "Reporter")
@@ -946,6 +982,11 @@ namespace Bug.Data.Migrations
             modelBuilder.Entity("Bug.Entities.Model.Account", b =>
                 {
                     b.Navigation("CreatedProjects");
+                });
+
+            modelBuilder.Entity("Bug.Entities.Model.Project", b =>
+                {
+                    b.Navigation("Issues");
                 });
 #pragma warning restore 612, 618
         }
