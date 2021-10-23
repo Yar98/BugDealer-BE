@@ -12,11 +12,10 @@ namespace Bug.Entities.Model
         public string Name { get; private set; }
         public string Description { get; private set; }
         private Category() { }
-        public Category(int id,
-            string name,
+        public Category(string name,
             string description)
         {
-            Id = id;
+            //Id = id;
             Name = name;
             Description = description;
         }

@@ -14,29 +14,31 @@ namespace Bug.Entities.Model
         public string FirstName { get; private set; }
         public string LastName { get; private set; }
         public string Email { get; private set; }
-        public string CreatedDate { get; private set; }
+        public DateTime CreatedDate { get; private set; }
         public string ImageUri { get; private set; }
-        public Project CreatedProject { get; private set; }
         public ICollection<Role> Roles { get; private set; }
-        public ICollection<Project> Projects { get; private set; }
+        public ICollection<Project> CreatedProjects { get; private set; }
+
+        private readonly List<Project> _projects = new List<Project>();
+        public ICollection<Project> Projects => _projects.AsReadOnly();
         private Account() { }
         public Account(string id,
-            string username,
+            string userName,
             string password,
-            string firstname,
-            string lastname,
+            string firstName,
+            string lastName,
             string email,
-            string createddate,
-            string imageuri)
+            DateTime createdDate,
+            string imageUri)
         {
             Id = id;
-            UserName = username;
+            UserName = userName;
             Password = password;
-            FirstName = firstname;
-            LastName = lastname;
+            FirstName = firstName;
+            LastName = lastName;
             Email = email;
-            CreatedDate = createddate;
-            ImageUri = imageuri;
+            CreatedDate = createdDate;
+            ImageUri = imageUri;
         }
         public void UpdateUserName(string username)
         {
@@ -58,11 +60,29 @@ namespace Bug.Entities.Model
         {
             ImageUri = imageuri;
         }
-        public void AddRole(string roleId, string name, string memberId, string description ="")
+        public void AddRole(string roleId, 
+            string name, 
+            string memberId, 
+            string description ="")
         {
             if (!Roles.Any(i => i.Id.Equals(roleId)))
             {
                 Roles.Add(new Role(roleId, name, description, memberId));
+            }
+        }
+        public void AddProject(string id,
+            string name,
+            DateTime startDate,
+            DateTime endDate,
+            string description,
+            string creatorId,
+            string workflowId)
+        {
+            if (!Projects.Any(i => i.Id.Equals(id)))
+            {
+                _projects.Add(new Project(id, name, startDate, endDate,description,creatorId,workflowId));
+                //_projects.Add(p);
+                return;
             }
         }
     }

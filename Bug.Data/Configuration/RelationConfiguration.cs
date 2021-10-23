@@ -15,8 +15,7 @@ namespace Bug.Data.Configuration
         {
             builder
                 .ToTable("Relation")
-                .Property(b => b.Name)
-                .IsRequired();
+                .HasNoKey();
         }
     }
 }

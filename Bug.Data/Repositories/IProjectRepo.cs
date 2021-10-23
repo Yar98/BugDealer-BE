@@ -9,5 +9,8 @@ namespace Bug.Data.Repositories
 {
     public interface IProjectRepo : IEntityRepoBase<Project>
     {
+        IQueryable<Project> GetRecentProject(
+            string accountId, int categoryId, string tagName, int count);
+        Task Test();
     }
 }

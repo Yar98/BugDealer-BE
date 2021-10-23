@@ -18,7 +18,9 @@ namespace Bug.Entities.Model
         public string WorkflowId { get; private set; }
         public Workflow Workflow { get; private set; }
         public ICollection<Tag> Tags { get; private set; }
-        public ICollection<Account> Accounts { get; private set; }
+
+        private readonly List<Account> _accounts = new List<Account>();
+        public ICollection<Account> Accounts => _accounts.AsReadOnly();
         public ICollection<Role> Roles { get; private set; }
         private Project() { }
         public Project(string id,
@@ -36,6 +38,23 @@ namespace Bug.Entities.Model
             Description = description;
             CreatorId = creatorId;
             WorkflowId = workflowId;
+        }
+
+        public void AddAccount(Account a,string id,
+            string userName,
+            string password,
+            string firstName,
+            string lastName,
+            string email,
+            DateTime createdDate,
+            string imageUri)
+        {
+            if (!Accounts.Any(i => i.Id.Equals(id)))
+            {
+                _accounts.Add(new Account(id, userName, password, firstName, lastName, email, createdDate, imageUri));
+                //_accounts.Add(a);
+                return;
+            }
         }
     }
 }

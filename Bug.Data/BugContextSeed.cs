@@ -19,9 +19,34 @@ namespace Bug.Data
                 if(!await bugContext.Projects.AnyAsync())
                 {
                     await bugContext.Projects.AddRangeAsync(
-                        GetPreconfiguredProjects());
-                    await bugContext.SaveChangesAsync();
+                        GetPreconfiguredProjects());                   
                 }
+                if(!await bugContext.Accounts.AnyAsync())
+                {
+                    await bugContext.Accounts.AddRangeAsync(
+                        GetPreconfiguredAccount());
+                }
+                if(!await bugContext.Workflows.AnyAsync())
+                {
+                    await bugContext.Workflows.AddRangeAsync(
+                    GetPreconfiguredWorkflow());
+                }
+                if(!await bugContext.Tags.AnyAsync())
+                {
+                    await bugContext.Tags.AddRangeAsync(
+                    GetPreconfiguredTag());
+                }
+                if(!await bugContext.Categories.AnyAsync())
+                {
+                    await bugContext.Categories.AddRangeAsync(
+                    GetPreconfiguredCategory());
+                }
+
+                var a = new Account("account4", "nameuuu", "pass3", "first3", "last3", "email3", DateTime.Now, "uri1");
+                a.AddProject("project4", "name4", DateTime.Now, DateTime.Now, "des4", "account3", "workflow1");
+                bugContext.Add(a);
+
+                await bugContext.SaveChangesAsync();
             }
             catch(Exception ex)
             {
@@ -30,17 +55,45 @@ namespace Bug.Data
                 throw;
             }
         }
-        // mỗi hàm này là 1 table 
         static IEnumerable<Project> GetPreconfiguredProjects()
-        {
+        {           
             return new List<Project>()
             {
-                //fill data trong đây 
-                //chú ý datetime 
-                //new Project(,,,,),
-                //new Project(,,,,)
+                new Project("project1","name1",DateTime.Now,DateTime.Now,"des1","account1","workflow1"),
+                new Project("project2","name2",DateTime.Now,DateTime.Now,"des2","account2","workflow1"),
+                new Project("project3","name3",DateTime.Now,DateTime.Now,"des3","account3","workflow1"),
+            };
+        }
+        static IEnumerable<Account> GetPreconfiguredAccount()
+        {
+            return new List<Account>()
+            {
+                new Account("account1","name1","pass1","first1","last1","email1",DateTime.Now,"uri1"),
+                new Account("account2","name2","pass2","first2","last2","email2",DateTime.Now,"uri2"),
+                new Account("account3","name3","pass3","first3","last3","email3",DateTime.Now,"uri3")
+            };
+        }
+        static IEnumerable<Workflow> GetPreconfiguredWorkflow()
+        {
+            return new List<Workflow>()
+            {
+                new Workflow("workflow1","name1","account1"),
+                new Workflow("workflow2","name2","account2")
+            };
+        }
+        static IEnumerable<Tag> GetPreconfiguredTag()
+        {
+            return new List<Tag>()
+            {
+                new Tag("done",null,1)
+            };
+        }
+        static IEnumerable<Category> GetPreconfiguredCategory()
+        {
+            return new List<Category>()
+            {
+                new Category("project",null)
             };
         }
     }
-    
 }
