@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Bug.Core.Specifications;
+using Bug.Data.Specifications;
 
 namespace Bug.Data.Repositories
 {
@@ -35,18 +35,12 @@ namespace Bug.Data.Repositories
             return await _bugContext.Set<T>().ToListAsync(cancelltionToken);
         }
 
-        public async Task<IReadOnlyList<T>> ListAsync(ISpecification<T> spec, CancellationToken cancellationToken = default)
-        {
-            var specificationResult = ApplySpecification(spec);
-            return await specificationResult.ToListAsync(cancellationToken);
-        }
-
         public async Task UpdateAsync(T entity, CancellationToken cancelltionToken = default)
         {
             _bugContext.Entry(entity).State = EntityState.Modified;
             await _bugContext.SaveChangesAsync(cancelltionToken);
         }
-
+        /*
         public IQueryable<T> ApplySpecification(ISpecification<T> spec)
         {
             // fetch a Queryable that includes all expression-based includes
@@ -60,8 +54,8 @@ namespace Bug.Data.Repositories
                     (current, include) => current.Include(include));
 
             // return the result of the query using the specification's criteria expression
-            return secondaryResult
-                            .Where(spec.Criteria);
-        }       
+            return secondaryResult.Where(spec.Criteria);
+        }   
+        */
     }
 }

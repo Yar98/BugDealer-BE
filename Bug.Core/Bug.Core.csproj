@@ -5,11 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Extensions\" />
+    <ProjectReference Include="..\Bug.Entities\Bug.Entities.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Bug.Entities\Bug.Entities.csproj" />
+    <Folder Include="Extensions\" />
   </ItemGroup>
 
 </Project>

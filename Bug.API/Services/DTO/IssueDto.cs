@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Bug.Entities.Dtos
+namespace Bug.API.Services.DTO
 {
     public class IssueDto
     {

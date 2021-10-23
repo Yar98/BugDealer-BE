@@ -16,13 +16,9 @@ namespace Bug.Entities.Model
         public DateTime DueDate { get; private set; }
         public string OriginEstimateTime { get; private set; }
         public string RemainEstimateTime { get; private set; }
-        public string UriAttachment { get; private set; }
         public string Environment { get; private set; }
-        public string LinkedIssueId { get; private set; }
-        public int RelationId { get; private set; }
-        public Relation Relation { get; private set; }
-        public string LinkedStatusId { get; private set; }
-        public Status LinkedStatus { get; private set; }
+        public string StatusId { get; private set; }
+        public Status Status { get; private set; }
         public int PriorityId { get; private set; }
         public Priority Priority { get; private set; }
         public string ProjectId { get; private set; }
@@ -41,15 +37,12 @@ namespace Bug.Entities.Model
             DateTime dueDate,
             string originEstimateTime,
             string remainEstimateTime,
-            string uriAttachment,
             string environment,
-            string linkedStatusId,
+            string statusId,
             int priorityId,
             string projectId,
             string reporterId,
-            string asigneeId,
-            string linkedIssueId,
-            int relationId)
+            string asigneeId)
         {
             Id = id;
             Title = title;
@@ -59,15 +52,12 @@ namespace Bug.Entities.Model
             DueDate = dueDate;
             OriginEstimateTime = originEstimateTime;
             RemainEstimateTime = remainEstimateTime;
-            UriAttachment = uriAttachment;
             Environment = environment;
-            LinkedStatusId = linkedStatusId;
+            StatusId = statusId;
             PriorityId = priorityId;
             ProjectId = projectId;
             ReporterId = reporterId;
             AsigneeId = asigneeId;
-            LinkedIssueId = linkedIssueId;
-            RelationId = relationId;
         }
     }
 }

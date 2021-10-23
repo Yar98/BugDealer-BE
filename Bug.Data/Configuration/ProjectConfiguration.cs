@@ -19,8 +19,7 @@ namespace Bug.Data.Configuration
                 .IsRequired();
             builder
                 .HasOne(p => p.Creator)
-                .WithOne(a => a.CreatedProject)
-                .HasForeignKey<Project>(b => b.CreatorId);
+                .WithMany(a => a.CreatedProjects);
         }
     }
 }

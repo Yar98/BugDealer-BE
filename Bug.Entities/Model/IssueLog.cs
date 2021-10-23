@@ -13,9 +13,9 @@ namespace Bug.Entities.Model
         public Issue Issue { get; private set; }
         public string ModifierId { get; private set; }
         public Account Modifier { get; private set; }
-        public string PreStatusId { get; private set; }
+        public string? PreStatusId { get; private set; }
         public Status PreStatus { get; private set; }
-        public string ModStatusId { get; private set; }
+        public string? ModStatusId { get; private set; }
         public Status ModStatus { get; private set; }
         private Issuelog() { }
         public Issuelog(DateTime timeLog,

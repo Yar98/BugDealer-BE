@@ -1,4 +1,4 @@
-namespace Bug.Entities.Dtos
+namespace Bug.API.Services.DTO
 {
     public class WatcherDto
     {

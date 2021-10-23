@@ -39,8 +39,8 @@ namespace Bug.API.Controllers
                     claim.Type,
                     claim.Value
                 });
-            return Json(claims);
-            //return StatusCode(200, Json(claims));
+            //return Json(claims);
+            return StatusCode(200, Json(claims));
         }
     }
 }

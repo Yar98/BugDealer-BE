@@ -6,19 +6,25 @@ using System.Threading.Tasks;
 
 namespace Bug.Entities.Model
 {
-    public class Relation: IEntityBase
+    public class Relation
     {
-        public int Id { get; private set; }
-        public string Name { get; private set; }
         public string Description { get; private set; }
+        public int TagId { get; private set; }
+        public Tag Tag { get; private set; }
+        public string FromIssueId { get; private set; }
+        public Issue FromIssue { get; private set; }
+        public string ToIssueId { get; private set; }
+        public Issue ToIssue { get; private set; }
         private Relation() { }
-        public Relation(int id,
-            string name,
-            string description)
+        public Relation(string description,
+            int tagId,
+            string fromIssueId,
+            string toIssueId)
         {
-            Id = id;
-            Name = name;
             Description = description;
+            TagId = tagId;
+            FromIssueId = fromIssueId;
+            ToIssueId = toIssueId;
         }
     }
 }

@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Bug.Core.Specifications
+namespace Bug.Data.Specifications
 {
     public interface ISpecification<T>
     {
