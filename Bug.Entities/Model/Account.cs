@@ -16,6 +16,8 @@ namespace Bug.Entities.Model
         public string Email { get; private set; }
         public DateTime CreatedDate { get; private set; }
         public string ImageUri { get; private set; }
+        public string? TimezoneId { get; private set; }
+        public Timezone Timezone { get; private set; }
         public ICollection<Role> Roles { get; private set; }
         public ICollection<Project> CreatedProjects { get; private set; }
 
@@ -29,7 +31,8 @@ namespace Bug.Entities.Model
             string lastName,
             string email,
             DateTime createdDate,
-            string imageUri)
+            string imageUri,
+            string timeZone)
         {
             Id = id;
             UserName = userName;
@@ -39,6 +42,7 @@ namespace Bug.Entities.Model
             Email = email;
             CreatedDate = createdDate;
             ImageUri = imageUri;
+            TimezoneId = timeZone;
         }
         public void UpdateUserName(string username)
         {
@@ -81,7 +85,6 @@ namespace Bug.Entities.Model
             if (!Projects.Any(i => i.Id.Equals(id)))
             {
                 _projects.Add(new Project(id, name, startDate, endDate,description,creatorId,workflowId));
-                //_projects.Add(p);
                 return;
             }
         }

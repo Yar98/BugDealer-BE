@@ -18,6 +18,7 @@ namespace Bug.Entities.Model
         public string WorkflowId { get; private set; }
         public Workflow Workflow { get; private set; }
         public ICollection<Tag> Tags { get; private set; }
+        public ICollection<Issue> Issues { get; private set; }
 
         private readonly List<Account> _accounts = new List<Account>();
         public ICollection<Account> Accounts => _accounts.AsReadOnly();
@@ -47,11 +48,12 @@ namespace Bug.Entities.Model
             string lastName,
             string email,
             DateTime createdDate,
-            string imageUri)
+            string imageUri,
+            string timezoneId)
         {
             if (!Accounts.Any(i => i.Id.Equals(id)))
             {
-                _accounts.Add(new Account(id, userName, password, firstName, lastName, email, createdDate, imageUri));
+                _accounts.Add(new Account(id, userName, password, firstName, lastName, email, createdDate, imageUri,timezoneId));
                 //_accounts.Add(a);
                 return;
             }

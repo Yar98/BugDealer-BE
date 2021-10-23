@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Bug.Entities.Model;
+using Bug.Core.Common;
 
 namespace Bug.Data
 {
@@ -42,9 +43,9 @@ namespace Bug.Data
                     GetPreconfiguredCategory());
                 }
 
-                var a = new Account("account4", "nameuuu", "pass3", "first3", "last3", "email3", DateTime.Now, "uri1");
-                a.AddProject("project4", "name4", DateTime.Now, DateTime.Now, "des4", "account3", "workflow1");
-                bugContext.Add(a);
+                //var a = new Account("account4", "nameuuu", "pass3", "first3", "last3", "email3", DateTime.Now, "uri1",null);
+                //a.AddProject("project4", "name4", DateTime.Now, DateTime.Now, "des4", "account3", "workflow1");
+                //bugContext.Add(a);
 
                 await bugContext.SaveChangesAsync();
             }
@@ -68,9 +69,9 @@ namespace Bug.Data
         {
             return new List<Account>()
             {
-                new Account("account1","name1","pass1","first1","last1","email1",DateTime.Now,"uri1"),
-                new Account("account2","name2","pass2","first2","last2","email2",DateTime.Now,"uri2"),
-                new Account("account3","name3","pass3","first3","last3","email3",DateTime.Now,"uri3")
+                new Account("account1","name1","pass1","first1","last1","email1",DateTime.Now,"uri1",null),
+                new Account("account2","name2","pass2","first2","last2","email2",DateTime.Now,"uri2",null),
+                new Account("account3","name3","pass3","first3","last3","email3",DateTime.Now,"uri3",null)
             };
         }
         static IEnumerable<Workflow> GetPreconfiguredWorkflow()
@@ -85,14 +86,18 @@ namespace Bug.Data
         {
             return new List<Tag>()
             {
-                new Tag("done",null,1)
+                new Tag("Done",null,Bts.IssueCategory),
+                new Tag("Open",null,Bts.IssueCategory)
             };
         }
         static IEnumerable<Category> GetPreconfiguredCategory()
         {
             return new List<Category>()
             {
-                new Category("project",null)
+                new Category("Account",null),
+                new Category("Project",null),
+                new Category("Issue",null),
+                new Category("Workflow",null)
             };
         }
     }

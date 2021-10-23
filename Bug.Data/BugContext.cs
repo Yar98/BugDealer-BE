@@ -27,6 +27,7 @@ namespace Bug.Data
         public DbSet<Vote> Votes { get; set; }
         public DbSet<Worklog> Worklogs { get; set; }
         public DbSet<Transition> Transitions { get; set; }
+        public DbSet<Timezone> Timezones { get; set; }
         public BugContext(DbContextOptions options)
             : base(options)
         {
@@ -55,7 +56,8 @@ namespace Bug.Data
                 .ApplyConfigurationsFromAssembly(typeof(WatcherConfiguration).Assembly)
                 .ApplyConfigurationsFromAssembly(typeof(VoteConfiguration).Assembly)
                 .ApplyConfigurationsFromAssembly(typeof(WorklogConfiguration).Assembly)
-                .ApplyConfigurationsFromAssembly(typeof(TransitionConfiguration).Assembly);
+                .ApplyConfigurationsFromAssembly(typeof(TransitionConfiguration).Assembly)
+                .ApplyConfigurationsFromAssembly(typeof(TimezoneConfiguration).Assembly);
         }
     }
 }
