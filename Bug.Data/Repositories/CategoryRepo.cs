@@ -7,7 +7,7 @@ using Bug.Entities.Model;
 
 namespace Bug.Data.Repositories
 {
-    public class CategoryRepo : EntityRepoBase<Category>, ICategoryRepo
+    public class CategoryRepo : EntityRepoBase<Entities.Model.Category>, ICategoryRepo
     {
         public CategoryRepo(BugContext repositoryContext)
             : base(repositoryContext)

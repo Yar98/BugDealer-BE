@@ -18,8 +18,9 @@ namespace Bug.Entities.Model
         public string ImageUri { get; private set; }
         public string? TimezoneId { get; private set; }
         public Timezone Timezone { get; private set; }
-        public ICollection<Role> Roles { get; private set; }
         public ICollection<Project> CreatedProjects { get; private set; }
+        public ICollection<Project> DefaultAssigneeProjects { get; private set; }
+        public ICollection<Role> Roles { get; private set; }
 
         private readonly List<Project> _projects = new List<Project>();
         public ICollection<Project> Projects => _projects.AsReadOnly();
@@ -76,15 +77,18 @@ namespace Bug.Entities.Model
         }
         public void AddProject(string id,
             string name,
+            string code,
+            string projectType,
             DateTime startDate,
             DateTime endDate,
             string description,
+            string defaultAssigneeId,
             string creatorId,
             string workflowId)
         {
             if (!Projects.Any(i => i.Id.Equals(id)))
             {
-                _projects.Add(new Project(id, name, startDate, endDate,description,creatorId,workflowId));
+                _projects.Add(new Project(id, name, code, projectType, startDate, endDate,description, defaultAssigneeId, creatorId,workflowId));
                 return;
             }
         }

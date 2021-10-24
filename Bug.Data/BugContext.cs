@@ -14,7 +14,7 @@ namespace Bug.Data
         public DbSet<Account> Accounts { get; set; }
         public DbSet<Permission> Permissions { get; set; }
         public DbSet<Role> Roles { get; set; }
-        public DbSet<Category> Categories { get; set; }
+        public DbSet<Entities.Model.Category> Categories { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<Workflow> Workflows { get; set; }
         public DbSet<Project> Projects { get; set; }

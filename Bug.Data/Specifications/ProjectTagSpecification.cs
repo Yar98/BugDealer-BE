@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Bug.Entities.Model;
 
-namespace Bug.Enitites.Builder
+namespace Bug.Data.Specifications
 {
-    class vv
+    class ProjectTagSpecification //: BaseSpecification<Project>
     {
+        
     }
 }

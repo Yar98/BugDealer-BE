@@ -9,9 +9,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Bug.Data.Configuration
 {
-    class CategoryConfiguration : IEntityTypeConfiguration<Category>
+    class CategoryConfiguration : IEntityTypeConfiguration<Entities.Model.Category>
     {
-        public void Configure(EntityTypeBuilder<Category> builder)
+        public void Configure(EntityTypeBuilder<Entities.Model.Category> builder)
         {
             builder
                 .ToTable("Category")

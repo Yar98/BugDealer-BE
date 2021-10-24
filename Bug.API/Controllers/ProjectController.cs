@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Bug.Data.Infrastructure;
 using Bug.API.Services;
 using Bug.Core.Common;
+using Bug.API.Services.DTO;
+using Bug.Entities.Model;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -15,32 +17,45 @@ namespace Bug.API.Controllers
     [ApiController]
     public class ProjectController : ControllerBase
     {
-        private readonly IUnitOfWork _unitOfWork;
-        public ProjectController(IUnitOfWork uow)
+        private readonly IProjectService _projectService;
+        public ProjectController(IProjectService projectService)
         {
-            _unitOfWork = uow;
+            _projectService = projectService;
         }
-        // GET: api/<ProjectController>
-        [HttpGet]
-        public async Task<IActionResult> Get()
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetSingleProject(string accountId)
         {
-            ProjectService projectService = new ProjectService(_unitOfWork);
-            var result = await projectService
-                .GetRecentProjects("account1",Bts.ProjectCategory,"Open",3);
+            
+            return Ok();
+        }
+
+        // GET: api/<ProjectController>/recent?accountId&count&tagType&nameTag
+        [HttpGet("recent")]
+        public async Task<IActionResult> GetRecentProjects(string accountId,
+            string nameTag,
+            int count)
+        {
+            var result = await _projectService
+                .GetRecentProjects(accountId, Bts.ProjectTag, nameTag, count);
             return StatusCode(200, result);
         }
 
-        // GET api/<ProjectController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        // GET api/<ProjectController>/detail/5
+        [HttpGet("detail/{id}")]
+        public async Task<IActionResult> GetDetailProject(string id)
         {
-            return "value";
+            var result = await _projectService
+                .GetDetailProject(id);
+            return Ok(result);
         }
 
         // POST api/<ProjectController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<IActionResult> Post([FromBody] ProjectNewDto pro)
         {
+            var result = await _projectService.CreateProject(pro);
+            return CreatedAtAction(nameof(GetSingleProject), pro);
         }
 
         // PUT api/<ProjectController>/5
@@ -54,5 +69,7 @@ namespace Bug.API.Controllers
         public void Delete(int id)
         {
         }
+
+
     }
 }

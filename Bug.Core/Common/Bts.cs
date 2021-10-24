@@ -8,9 +8,9 @@ namespace Bug.Core.Common
 {
     public static class Bts
     {
-        public static readonly int AccountCategory = 1;
-        public static readonly int ProjectCategory = 2;
-        public static readonly int IssueCategory = 3;
-        public static readonly int WorkflowCategory = 4;
+        public static readonly int AccountTag = 1;
+        public static readonly int ProjectTag = 2;
+        public static readonly int IssueTag = 3;
+        public static readonly int WorkflowTag = 4;
     }
 }

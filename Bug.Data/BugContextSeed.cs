@@ -41,11 +41,17 @@ namespace Bug.Data
                 {
                     await bugContext.Categories.AddRangeAsync(
                     GetPreconfiguredCategory());
-                }
-
-                //var a = new Account("account4", "nameuuu", "pass3", "first3", "last3", "email3", DateTime.Now, "uri1",null);
-                //a.AddProject("project4", "name4", DateTime.Now, DateTime.Now, "des4", "account3", "workflow1");
-                //bugContext.Add(a);
+                }                
+                
+                var ps = bugContext
+                    .Projects.Include(p => p.Tags)
+                    .Where(p => p.Tags.Count == 0)
+                    .ToList();
+                ps.ForEach(p => 
+                {
+                    var te = bugContext.Tags.First();
+                    p.AddTag(te);
+                });
 
                 await bugContext.SaveChangesAsync();
             }
@@ -57,12 +63,12 @@ namespace Bug.Data
             }
         }
         static IEnumerable<Project> GetPreconfiguredProjects()
-        {           
+        {
             return new List<Project>()
             {
-                new Project("project1","name1",DateTime.Now,DateTime.Now,"des1","account1","workflow1"),
-                new Project("project2","name2",DateTime.Now,DateTime.Now,"des2","account2","workflow1"),
-                new Project("project3","name3",DateTime.Now,DateTime.Now,"des3","account3","workflow1"),
+                new Project("project1","name1","code1","type1",DateTime.Now,DateTime.Now,"des1",null,"account1","workflow1"),
+                new Project("project2","name2","code2","type2",DateTime.Now,DateTime.Now,"des2",null,"account2","workflow1"),
+                new Project("project3","name3","code3","type3",DateTime.Now,DateTime.Now,"des3",null,"account3","workflow1")
             };
         }
         static IEnumerable<Account> GetPreconfiguredAccount()
@@ -78,26 +84,27 @@ namespace Bug.Data
         {
             return new List<Workflow>()
             {
-                new Workflow("workflow1","name1","account1"),
-                new Workflow("workflow2","name2","account2")
+                new Workflow("workflow1","name1","account1")
             };
         }
         static IEnumerable<Tag> GetPreconfiguredTag()
         {
             return new List<Tag>()
             {
-                new Tag("Done",null,Bts.IssueCategory),
-                new Tag("Open",null,Bts.IssueCategory)
+                new Tag(1,"Done",null,Bts.IssueTag),
+                new Tag(2,"Open",null,Bts.IssueTag),
+                new Tag(3,"Close",null,Bts.IssueTag),
+                new Tag(4,"Open",null,Bts.ProjectTag)
             };
         }
         static IEnumerable<Category> GetPreconfiguredCategory()
         {
             return new List<Category>()
             {
-                new Category("Account",null),
-                new Category("Project",null),
-                new Category("Issue",null),
-                new Category("Workflow",null)
+                new Category(1,"Account",null),
+                new Category(2,"Project",null),
+                new Category(3,"Issue",null),
+                new Category(4,"Workflow",null)
             };
         }
     }
