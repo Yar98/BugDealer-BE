@@ -8,6 +8,13 @@ namespace DumbTest
     {
         static void Main(string[] args)
         {
+            /*
+            Func<ICollection<Project>, int, string, int> dumbTest =
+                (p, m, n) => p.Select(
+                    i => i.Tags.Where(
+                        t => t.CategoryId == m && t.Name == n))
+                .Count();
+            */
             //Course course = new Course();
             Console.WriteLine("Hello World!");
             var names = new[] { "nick0", "mike1", "john2", "david3", "damina4", "haha5", "hehe6" };

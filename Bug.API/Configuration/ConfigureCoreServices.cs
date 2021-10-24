@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Bug.Data.Infrastructure;
-using Bug.Data.Repositories;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Bug.Data.Infrastructure;
+using Bug.Data.Repositories;
+using Bug.API.Services;
+using Bug.Entities.Builder;
 
 namespace Bug.API.Configuration
 {
@@ -33,6 +35,10 @@ namespace Bug.API.Configuration
             services.AddScoped<IWorkflowRepo, WorkflowRepo>();
             services.AddScoped<IWorklogRepo, WorklogRepo>();
 
+            services.AddScoped<IProjectService, ProjectService>();
+            //services.AddScoped<IIssueService, IssueService>();
+
+            services.AddScoped<IProjectBuilder, ProjectBuilder>();
             return services;
         }
     }

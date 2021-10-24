@@ -19,7 +19,7 @@ namespace Bug.Data.Repositories
         }
         public async Task<T> AddAsync(T entity, CancellationToken cancelltionToken = default)
         {
-            await _bugContext.Set<T>().AddAsync(entity);
+            await _bugContext.Set<T>().AddAsync(entity, cancelltionToken);
             await _bugContext.SaveChangesAsync(cancelltionToken);
             return entity;
         }
@@ -57,5 +57,9 @@ namespace Bug.Data.Repositories
             return secondaryResult.Where(spec.Criteria);
         }   
         */
+
+
     }
+
+
 }

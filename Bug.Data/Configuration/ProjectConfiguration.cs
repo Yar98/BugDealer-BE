@@ -20,6 +20,9 @@ namespace Bug.Data.Configuration
             builder
                 .HasOne(p => p.Creator)
                 .WithMany(a => a.CreatedProjects);
+            builder
+                .HasOne(p => p.DefaultAssignee)
+                .WithMany(a => a.DefaultAssigneeProjects);
         }
     }
 }

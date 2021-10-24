@@ -18,19 +18,33 @@ namespace Bug.Data.Repositories
         {
             
         }
-        public IQueryable<Project> GetRecentProject(string accountId,
-            int categoryId,
-            string tagName,
-            int count)
+
+        public async Task<Project> GetDetailProject(string projectId)
         {
-            var specificationResult = 
-                new ProjectRecentSpecification(accountId, categoryId, tagName);
-            return _bugContext
+            return await _bugContext
+                .Projects
+                .SingleOrDefaultAsync(p => p.Id == projectId);
+        }
+        public async Task<IReadOnlyList<Project>> GetRecentProjects(string accountId,
+            int categoryId, 
+            string tagName, 
+            int count,
+            CancellationToken cancelltionToken = default)
+        {
+            var specificationResult =
+                new ProjectWithTagsSpecification(accountId,categoryId,tagName);
+            return await _bugContext
                 .Projects
                 .Specify(specificationResult)
                 .OrderBy(p => p.EndDate)
-                .Take(count);
+                .Take(count)
+                .ToListAsync(cancelltionToken);
         }
+
+
+
+
+
         public async Task Test()
         {
             var query = from project in _bugContext.Set<Project>()
@@ -39,5 +53,7 @@ namespace Bug.Data.Repositories
                         select new { project };
             var s = await query.ToListAsync();
         }
+
+
     }
 }

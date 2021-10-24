@@ -11,8 +11,7 @@ namespace Bug.Data.Migrations
                 name: "Category",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
@@ -94,8 +93,7 @@ namespace Bug.Data.Migrations
                 name: "Tag",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CategoryId = table.Column<int>(type: "int", nullable: false)
@@ -277,9 +275,12 @@ namespace Bug.Data.Migrations
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ProjectType = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DefaultAssigneeId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     CreatorId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     WorkflowId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
@@ -289,6 +290,12 @@ namespace Bug.Data.Migrations
                     table.ForeignKey(
                         name: "FK_Project_Account_CreatorId",
                         column: x => x.CreatorId,
+                        principalTable: "Account",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Project_Account_DefaultAssigneeId",
+                        column: x => x.DefaultAssigneeId,
                         principalTable: "Account",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -756,6 +763,11 @@ namespace Bug.Data.Migrations
                 name: "IX_Project_CreatorId",
                 table: "Project",
                 column: "CreatorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Project_DefaultAssigneeId",
+                table: "Project",
+                column: "DefaultAssigneeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Project_WorkflowId",

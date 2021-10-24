@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,6 +9,7 @@ namespace Bug.Entities.Model
 {
     public class Tag : IEntityBase
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id { get; private set; }
         public string Name { get; private set; }
         public string Description { get; private set; }
@@ -17,11 +19,13 @@ namespace Bug.Entities.Model
         public ICollection<Issue> Issues { get; private set; }
         public ICollection<Project> Projects { get; private set; }
         private Tag() { }
-        public Tag(string name,
+
+        public Tag(int id,
+            string name,
             string description,
             int categoryId)
         {
-            //Id = id;
+            Id = id;
             Name = name;
             Description = description;
             CategoryId = categoryId;

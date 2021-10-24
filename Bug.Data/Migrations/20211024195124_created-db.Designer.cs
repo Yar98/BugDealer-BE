@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bug.Data.Migrations
 {
     [DbContext(typeof(BugContext))]
-    [Migration("20211023120324_created-db")]
+    [Migration("20211024195124_created-db")]
     partial class createddb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -91,9 +91,7 @@ namespace Bug.Data.Migrations
             modelBuilder.Entity("Bug.Entities.Model.Category", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -281,7 +279,13 @@ namespace Bug.Data.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("Code")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("CreatorId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("DefaultAssigneeId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Description")
@@ -294,6 +298,9 @@ namespace Bug.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ProjectType")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
@@ -303,6 +310,8 @@ namespace Bug.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CreatorId");
+
+                    b.HasIndex("DefaultAssigneeId");
 
                     b.HasIndex("WorkflowId");
 
@@ -383,9 +392,7 @@ namespace Bug.Data.Migrations
             modelBuilder.Entity("Bug.Entities.Model.Tag", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
@@ -753,11 +760,17 @@ namespace Bug.Data.Migrations
                         .WithMany("CreatedProjects")
                         .HasForeignKey("CreatorId");
 
+                    b.HasOne("Bug.Entities.Model.Account", "DefaultAssignee")
+                        .WithMany("DefaultAssigneeProjects")
+                        .HasForeignKey("DefaultAssigneeId");
+
                     b.HasOne("Bug.Entities.Model.Workflow", "Workflow")
                         .WithMany()
                         .HasForeignKey("WorkflowId");
 
                     b.Navigation("Creator");
+
+                    b.Navigation("DefaultAssignee");
 
                     b.Navigation("Workflow");
                 });
@@ -982,6 +995,8 @@ namespace Bug.Data.Migrations
             modelBuilder.Entity("Bug.Entities.Model.Account", b =>
                 {
                     b.Navigation("CreatedProjects");
+
+                    b.Navigation("DefaultAssigneeProjects");
                 });
 
             modelBuilder.Entity("Bug.Entities.Model.Project", b =>

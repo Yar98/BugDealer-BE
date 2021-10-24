@@ -11,7 +11,7 @@ namespace Bug.Entities.Model
         public string Id { get; private set; }
         public string Title { get; private set; }
         public string Description { get; private set; }
-        public DateTime TimeLog { get; private set; }
+        public DateTime Timelog { get; private set; }
         public DateTime CreatedDate { get; private set; }
         public DateTime DueDate { get; private set; }
         public string OriginEstimateTime { get; private set; }
@@ -25,7 +25,7 @@ namespace Bug.Entities.Model
         public Project Project { get; private set; }
         public string ReporterId { get; private set; }
         public Account Reporter { get; private set; }
-        public string AsigneeId { get; private set; }
+        public string AssigneeId { get; private set; }
         public Account Asignee { get; private set; }
         public ICollection<Tag> Tags { get; private set; }
         private Issue() { }
@@ -42,12 +42,12 @@ namespace Bug.Entities.Model
             int priorityId,
             string projectId,
             string reporterId,
-            string asigneeId)
+            string assigneeId)
         {
             Id = id;
             Title = title;
             Description = description;
-            TimeLog = timeLog;
+            Timelog = timeLog;
             CreatedDate = createdDate;
             DueDate = dueDate;
             OriginEstimateTime = originEstimateTime;
@@ -57,7 +57,7 @@ namespace Bug.Entities.Model
             PriorityId = priorityId;
             ProjectId = projectId;
             ReporterId = reporterId;
-            AsigneeId = asigneeId;
+            AssigneeId = assigneeId;
         }
     }
 }
