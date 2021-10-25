@@ -14,7 +14,9 @@ namespace Bug.Entities.Builder
         IProjectBuilder AddCode(string code);
         IProjectBuilder AddStartDate(DateTime date);
         IProjectBuilder AddEndDate(DateTime date);
+        IProjectBuilder AddRecentDate(DateTime date);
         IProjectBuilder AddDescription(string des);
+        IProjectBuilder AddAvatarUri(string url);
         IProjectBuilder AddProjectType(string t);
         IProjectBuilder AddDefaultAssigneeId(string id);
         IProjectBuilder AddCreatorId(string id);

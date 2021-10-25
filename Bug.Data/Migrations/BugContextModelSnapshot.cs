@@ -138,6 +138,9 @@ namespace Bug.Data.Migrations
                     b.Property<string>("AsigneeId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("AssigneeId")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
@@ -168,7 +171,7 @@ namespace Bug.Data.Migrations
                     b.Property<string>("StatusId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<DateTime>("TimeLog")
+                    b.Property<DateTime>("Timelog")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Title")
@@ -277,6 +280,9 @@ namespace Bug.Data.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("AvatarUri")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Code")
                         .HasColumnType("nvarchar(max)");
 
@@ -298,6 +304,9 @@ namespace Bug.Data.Migrations
 
                     b.Property<string>("ProjectType")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("RecentDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");

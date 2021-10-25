@@ -21,3 +21,4 @@ Y:\BugDealer-BE\Bug.Entities\obj\Debug\net5.0\Bug.Entities.csproj.CoreCompileInp
 Y:\BugDealer-BE\Bug.Entities\obj\Debug\net5.0\Bug.Entities.dll
 Y:\BugDealer-BE\Bug.Entities\obj\Debug\net5.0\ref\Bug.Entities.dll
 Y:\BugDealer-BE\Bug.Entities\obj\Debug\net5.0\Bug.Entities.pdb
+Y:\BugDealer-BE\Bug.Entities\obj\Debug\net5.0\Bug.Entities.csproj.AssemblyReference.cache

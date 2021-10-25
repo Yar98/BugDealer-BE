@@ -14,7 +14,9 @@ namespace Bug.Entities.Model
         public string ProjectType { get; private set; }
         public DateTime StartDate { get; private set; }
         public DateTime EndDate { get; private set; }
+        public DateTime RecentDate { get; private set; }
         public string Description { get; private set; }
+        public string AvatarUri { get; private set; }
         public string DefaultAssigneeId { get; private set; }
         public Account DefaultAssignee { get; private set; }
         public string CreatorId { get; private set; }
@@ -39,7 +41,9 @@ namespace Bug.Entities.Model
             string projectType,
             DateTime startDate,
             DateTime endDate,
+            DateTime recentDate,
             string description,
+            string uri,
             string defaultAssigneeId,
             string creatorId,
             string workflowId)
@@ -50,7 +54,9 @@ namespace Bug.Entities.Model
             ProjectType = projectType;
             StartDate = startDate;
             EndDate = endDate;
+            RecentDate = recentDate;
             Description = description;
+            AvatarUri = uri;
             DefaultAssigneeId = defaultAssigneeId;
             CreatorId = creatorId;
             WorkflowId = workflowId;

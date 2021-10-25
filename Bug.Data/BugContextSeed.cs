@@ -49,7 +49,7 @@ namespace Bug.Data
                     .ToList();
                 ps.ForEach(p => 
                 {
-                    var te = bugContext.Tags.First();
+                    var te = bugContext.Tags.SingleOrDefault(t=>t.Id==4);
                     p.AddTag(te);
                 });
 
@@ -66,9 +66,9 @@ namespace Bug.Data
         {
             return new List<Project>()
             {
-                new Project("project1","name1","code1","type1",DateTime.Now,DateTime.Now,"des1",null,"account1","workflow1"),
-                new Project("project2","name2","code2","type2",DateTime.Now,DateTime.Now,"des2",null,"account2","workflow1"),
-                new Project("project3","name3","code3","type3",DateTime.Now,DateTime.Now,"des3",null,"account3","workflow1")
+                new Project("project1","name1","code1","type1",DateTime.Now,DateTime.Now,DateTime.Now,"des1",null,null,"account1","workflow1"),
+                new Project("project2","name2","code2","type2",DateTime.Now,DateTime.Now,DateTime.Now,"des2",null,null,"account2","workflow1"),
+                new Project("project3","name3","code3","type3",DateTime.Now,DateTime.Now,DateTime.Now,"des3",null,null,"account3","workflow1")
             };
         }
         static IEnumerable<Account> GetPreconfiguredAccount()
