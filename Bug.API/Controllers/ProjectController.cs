@@ -51,15 +51,30 @@ namespace Bug.API.Controllers
             return StatusCode(200, result);
         }
 
-        // GET: api/Project/account1/Open/1/3/id
-        [HttpGet("{creatorId}/{tagName}/{pageIndex:int}/{pageSize:int}/{sortOrder}")]
+        // GET: api/Project/paging/account1/Open/1/3/id
+        [HttpGet("paging/{creatorId}/{tagName}/{pageIndex:int}/{pageSize:int}/{sortOrder}")]
         public async Task<IActionResult> GetPaginatedProjects(string creatorId,
             int pageIndex, int pageSize,
             string tagName,
             string sortOrder)
         {
-            var result = await _projectService.GetPaginatedProjects(creatorId, pageIndex, pageSize, Bts.ProjectTag, tagName, sortOrder);
+            var result = 
+                await _projectService.GetPaginatedProjects(
+                    creatorId, pageIndex, pageSize, Bts.ProjectTag, tagName, sortOrder);
 
+            return Ok(result);
+        }
+
+        [HttpGet("offset/{creatorId}/{tagName}/{offset:int}/{next:int}/{sortOrder}")]
+        public async Task<IActionResult> GetNextProjectsByOffset(
+            string creatorId,
+            int offset, int next,
+            string tagName,
+            string sortOrder)
+        {
+            var result =
+                await _projectService.GetNextProjectsById(
+                    creatorId, offset, next, Bts.ProjectTag, tagName, sortOrder);
             return Ok(result);
         }
 

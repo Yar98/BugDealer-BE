@@ -15,8 +15,14 @@ namespace Bug.API.Services
         Task<ProjectNormalDto> CreateProject(ProjectNormalDto pro);
         Task<ProjectDetailDto> GetDetailProject(string id);
         Task<ProjectNormalDto> GetNormalProject(string projectId);
-        Task<ProjectsPaginatedListDto<ProjectNormalDto>> GetPaginatedProjects(string creatorId,
+        Task<ProjectsPaginatedListDto<ProjectNormalDto>> GetPaginatedProjects(
+            string creatorId,
             int pageIndex, int pageSize,
+            int categoryId, string tagName,
+            string sortOrder);
+        Task<IReadOnlyList<ProjectNormalDto>> GetNextProjectsById(
+            string creatorId,
+            int offset, int next,
             int categoryId, string tagName,
             string sortOrder);
         Task UpdateDetailProject(ProjectDetailDto pro);
