@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Bug.Core.Utility;
 using Bug.Entities.Model;
 
 namespace Bug.Data.Repositories
@@ -12,8 +13,11 @@ namespace Bug.Data.Repositories
     {
         Task<IReadOnlyList<Project>> GetRecentProjects(
             string accountId, int categoryId, string tagName, int count, CancellationToken cancelltionToken = default);
-        Task<Project> GetDetailProject(string projectId);
-
+        Task<PaginatedList<Project>> GetPaginatedProjects(string creatorId,
+            int pageIndex, int pageSize,
+            int categoryId, string tagName,
+            string sortOrder,
+            CancellationToken cancelltionToken = default);
 
 
         Task Test();

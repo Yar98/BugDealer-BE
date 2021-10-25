@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using Bug.Core.Common;
 using Bug.Entities.Builder;
+using Bug.Core.Utility;
 
 namespace Bug.API.Services
 {
@@ -21,31 +22,106 @@ namespace Bug.API.Services
             _projectBuilder = pd;
         }
 
-        public async Task<IReadOnlyList<ProjectRecentDto>> GetRecentProjects(
-            string accountId, int categoryId, string tagName, int count)
-        {            
-            count = count == 0 ? 4 : count;
+        public async Task<ProjectNormalDto> GetNormalProject(string projectId)
+        {
             var result = await _unitOfWork
                 .Project
-                .GetRecentProjects(accountId, categoryId, tagName, count);
+                .GetByIdAsync(projectId);
+            return new ProjectNormalDto
+            {
+                Id = result.Id,
+                Name = result.Name,
+                Code = result.Code,
+                StartDate = result.StartDate,
+                EndDate = result.EndDate,
+                RecentDate = result.RecentDate,
+                AvatarUri = result.AvatarUri,
+                CreatorId = result.CreatorId,
+                WorkflowId = result.WorkflowId
+            };
+        }
+        public async Task<ProjectDetailDto> GetDetailProject(string projectId)
+        {
+            var result = await _unitOfWork
+                .Project
+                .GetByIdAsync(projectId);
+            return new ProjectDetailDto
+            {
+                Id = result.Id,
+                Name = result.Name,
+                Code = result.Code,
+                StartDate = result.StartDate,
+                EndDate = result.EndDate,
+                RecentDate = result.RecentDate,
+                ProjectType = result.ProjectType,
+                Description = result.Description,
+                AvatarUri = result.AvatarUri,
+                CreatorId = result.CreatorId,
+                DefaultAssigneeId = result.DefaultAssigneeId,
+                WorkflowId = result.WorkflowId
+            };
+        }
+        public async Task<IReadOnlyList<ProjectLowDto>> GetRecentProjects(
+            string creatorId,
+            int categoryId, string tagName,
+            int count)
+        {
+            var result = await _unitOfWork
+                .Project
+                .GetRecentProjects(creatorId, categoryId, tagName, count);
             return result
                 .Where(p=>p.Tags.Count > 0)
-                .Select(p => new ProjectRecentDto
+                .Select(p => new ProjectLowDto
                 {
                     Id = p.Id,
                     Name = p.Name 
                 })
                 .ToList();
         }
-        public async Task<ProjectNewDto> CreateProject(ProjectNewDto pro)
+        public async Task<ProjectsPaginatedListDto<ProjectNormalDto>> GetPaginatedProjects(
+            string creatorId,
+            int pageIndex, int pageSize,
+            int categoryId, string tagName,
+            string sortOrder)
+        {
+            var result = await _unitOfWork
+                .Project
+                .GetPaginatedProjects(creatorId, pageIndex, pageSize, categoryId, tagName, sortOrder);
+
+            return new ProjectsPaginatedListDto<ProjectNormalDto>
+            {
+                HasNextPage = result.HasNextPage,
+                HasPreviousPage = result.HasPreviousPage,
+                items = new PaginatedList<ProjectNormalDto>(
+                    result.Where(p => p.Tags.Count > 0)
+                    .Select(p => new ProjectNormalDto
+                    {
+                        Id = p.Id,
+                        AvatarUri = p.AvatarUri,
+                        Code = p.Code,
+                        CreatorId = p.CreatorId,
+                        EndDate = p.EndDate,
+                        Name = p.Name,
+                        RecentDate = p.RecentDate,
+                        StartDate = p.StartDate,
+                        WorkflowId = p.WorkflowId
+                    }).ToList(),
+                    result.TotalPages,pageIndex,pageSize),
+                PageIndex = result.PageIndex,
+                TotalPages = result.TotalPages
+            };
+        }
+        public async Task<ProjectNormalDto> CreateProject(ProjectNormalDto pro)
         {
             pro.Id = Guid.NewGuid().ToString();
             var result = _projectBuilder
                 .AddId(pro.Id)
                 .AddName(pro.Name)
                 .AddCode(pro.Code)
+                .AddAvatarUri(pro.AvatarUri)
                 .AddStartDate(pro.StartDate)
                 .AddEndDate(pro.EndDate)
+                .AddRecentDate(pro.RecentDate)
                 .AddCreatorId(pro.CreatorId)
                 .AddWorkflowId(pro.WorkflowId)
                 .Build();
@@ -54,24 +130,28 @@ namespace Bug.API.Services
                 .AddAsync(result);
             return pro;
         }
-        public async Task<ProjectDetailDto> GetDetailProject(string id)
+        public async Task UpdateDetailProject(ProjectDetailDto pro)
         {
-            var result = await _unitOfWork
-                .Project
-                .GetDetailProject(id);
-            return new ProjectDetailDto
-            {
-                Id = result.Id,
-                Name = result.Name,
-                Code = result.Code,
-                StartDate = result.StartDate,
-                EndDate = result.EndDate,
-                ProjectType = result.ProjectType,
-                Description = result.Description,
-                CreatorId = result.CreatorId,
-                DefaultAssigneeId = result.DefaultAssigneeId,
-                WorkflowId = result.WorkflowId
-            };
+            var result = new ProjectBuilder()
+                .AddId(pro.Id)
+                .AddName(pro.Name)
+                .AddCode(pro.Code)
+                .AddStartDate(pro.StartDate)
+                .AddEndDate(pro.EndDate)
+                .AddRecentDate(pro.RecentDate)
+                .AddDescription(pro.Description)
+                .AddProjectType(pro.ProjectType)
+                .AddAvatarUri(pro.AvatarUri)
+                .AddWorkflowId(pro.WorkflowId)
+                .AddCreatorId(pro.CreatorId)
+                .AddDefaultAssigneeId(pro.DefaultAssigneeId)
+                .Build();
+            await _unitOfWork.Project.UpdateAsync(result);
+        }
+        public async Task DeleteProject(string projectId)
+        {
+            var result = await _unitOfWork.Project.GetByIdAsync(projectId);
+            await _unitOfWork.Project.DeleteAsync(result);
         }
 
     }

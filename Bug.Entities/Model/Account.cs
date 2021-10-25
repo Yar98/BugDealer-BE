@@ -81,14 +81,16 @@ namespace Bug.Entities.Model
             string projectType,
             DateTime startDate,
             DateTime endDate,
+            DateTime recentDate,
             string description,
+            string uri,
             string defaultAssigneeId,
             string creatorId,
             string workflowId)
         {
             if (!Projects.Any(i => i.Id.Equals(id)))
             {
-                _projects.Add(new Project(id, name, code, projectType, startDate, endDate,description, defaultAssigneeId, creatorId,workflowId));
+                _projects.Add(new Project(id, name, code, projectType, startDate, endDate, recentDate, description, uri, defaultAssigneeId, creatorId,workflowId));
                 return;
             }
         }

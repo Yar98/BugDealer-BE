@@ -14,8 +14,10 @@ namespace Bug.Entities.Builder
         public string Code { get; private set; }
         public DateTime StartDate { get; private set; }
         public DateTime EndDate { get; private set; }
+        public DateTime RecentDate { get; private set; }
         public string Description { get; private set; }
         public string ProjectType { get; private set; }
+        public string AvatarUri { get; private set; }
         public string DefaultAssigneeId { get; private set; }
         public string CreatorId { get; private set; }
         public string WorkflowId { get; private set; }
@@ -61,6 +63,12 @@ namespace Bug.Entities.Builder
             StartDate = date;
             return this;
         }
+        
+        public IProjectBuilder AddRecentDate(DateTime date)
+        {
+            RecentDate = date;
+            return this;
+        }
 
         public IProjectBuilder AddProjectType(string t)
         {
@@ -80,9 +88,15 @@ namespace Bug.Entities.Builder
             return this;
         }
 
+        public IProjectBuilder AddAvatarUri(string uri)
+        {
+            AvatarUri = uri;
+            return this;
+        }
+
         public Project Build()
         {
-            return new Project(Id, Name, Code, ProjectType, StartDate, EndDate, Description, DefaultAssigneeId, CreatorId, WorkflowId);
+            return new Project(Id, Name, Code, ProjectType, StartDate, EndDate, RecentDate, Description, AvatarUri, DefaultAssigneeId, CreatorId, WorkflowId);
         }
     }
 }

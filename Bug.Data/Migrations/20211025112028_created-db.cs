@@ -279,7 +279,9 @@ namespace Bug.Data.Migrations
                     ProjectType = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    RecentDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AvatarUri = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DefaultAssigneeId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     CreatorId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     WorkflowId = table.Column<string>(type: "nvarchar(450)", nullable: true)
@@ -394,7 +396,7 @@ namespace Bug.Data.Migrations
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    TimeLog = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Timelog = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DueDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     OriginEstimateTime = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -404,6 +406,7 @@ namespace Bug.Data.Migrations
                     PriorityId = table.Column<int>(type: "int", nullable: false),
                     ProjectId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     ReporterId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    AssigneeId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     AsigneeId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>

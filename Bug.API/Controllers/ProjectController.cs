@@ -23,22 +23,12 @@ namespace Bug.API.Controllers
             _projectService = projectService;
         }
 
+        // GET: api/<ProjectController>/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetSingleProject(string accountId)
+        public async Task<IActionResult> GetProject(string projectId)
         {
-            
-            return Ok();
-        }
-
-        // GET: api/<ProjectController>/recent?accountId&count&tagType&nameTag
-        [HttpGet("recent")]
-        public async Task<IActionResult> GetRecentProjects(string accountId,
-            string nameTag,
-            int count)
-        {
-            var result = await _projectService
-                .GetRecentProjects(accountId, Bts.ProjectTag, nameTag, count);
-            return StatusCode(200, result);
+            var result = await _projectService.GetNormalProject(projectId);
+            return Ok(result);
         }
 
         // GET api/<ProjectController>/detail/5
@@ -50,24 +40,55 @@ namespace Bug.API.Controllers
             return Ok(result);
         }
 
-        // POST api/<ProjectController>
-        [HttpPost]
-        public async Task<IActionResult> Post([FromBody] ProjectNewDto pro)
+        // GET: api/<ProjectController>/recent/creatorId/nameTag/count
+        [HttpGet("recent/{creatorId}/{nameTag}/{count:int}")]
+        public async Task<IActionResult> GetRecentProjects(string creatorId,
+            string nameTag,
+            int count)
         {
-            var result = await _projectService.CreateProject(pro);
-            return CreatedAtAction(nameof(GetSingleProject), pro);
+            var result = await _projectService
+                .GetRecentProjects(creatorId, Bts.ProjectTag, nameTag, count);
+            return StatusCode(200, result);
         }
 
-        // PUT api/<ProjectController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        // GET: api/Project/account1/Open/1/3/id
+        [HttpGet("{creatorId}/{tagName}/{pageIndex:int}/{pageSize:int}/{sortOrder}")]
+        public async Task<IActionResult> GetPaginatedProjects(string creatorId,
+            int pageIndex, int pageSize,
+            string tagName,
+            string sortOrder)
         {
+            var result = await _projectService.GetPaginatedProjects(creatorId, pageIndex, pageSize, Bts.ProjectTag, tagName, sortOrder);
+
+            return Ok(result);
+        }
+
+        // POST api/<ProjectController>
+        [HttpPost]
+        public async Task<IActionResult> PostCreateProject([FromBody] ProjectNormalDto pro)
+        {
+            var result = await _projectService.CreateProject(pro);
+            return CreatedAtAction(
+                nameof(GetProject), new { id = result.Id }, pro);
+        }
+
+        // PUT api/<ProjectController>/detail/5
+        [HttpPut("detail/{id}")]
+        public async Task<IActionResult> PutEditDetailProject(
+            string id, [FromBody] ProjectDetailDto pro)
+        {
+            if (id != pro.Id)
+                return BadRequest();
+            await _projectService.UpdateDetailProject(pro);
+            return NoContent();
         }
 
         // DELETE api/<ProjectController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<IActionResult> DeleteProject(string id)
         {
+            await _projectService.DeleteProject(id);
+            return NoContent();
         }
 
 

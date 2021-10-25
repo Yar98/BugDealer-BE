@@ -11,11 +11,14 @@ namespace Bug.Data.Repositories
 {
     public interface IEntityRepoBase<T>
     {
-        Task<IReadOnlyList<T>> FindAll(CancellationToken cancelltionToken = default);
-        //Task<IReadOnlyList<T>> ListAsync(ISpecification<T> spec, CancellationToken cancellationToken = default);
+        Task<T> GetByIdAsync(string id, CancellationToken cancelltionToken = default);
+        Task<T> GetByIdAsync(int id, CancellationToken cancelltionToken = default);
         Task<T> AddAsync(T entity, CancellationToken cancelltionToken = default);
         Task UpdateAsync(T entity, CancellationToken cancelltionToken = default);
         Task DeleteAsync(T entity, CancellationToken cancelltionToken = default);
+        Task<IReadOnlyList<T>> FindAll(CancellationToken cancelltionToken = default);
+
+        //Task<IReadOnlyList<T>> ListAsync(ISpecification<T> spec, CancellationToken cancellationToken = default);
         //IQueryable<T> ApplySpecification(ISpecification<T> spec);
     }
 }

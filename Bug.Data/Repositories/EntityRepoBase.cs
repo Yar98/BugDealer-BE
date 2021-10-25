@@ -17,6 +17,19 @@ namespace Bug.Data.Repositories
         {
             _bugContext = repoContext;
         }
+
+        public async Task<T> GetByIdAsync(int id, CancellationToken cancelltionToken = default)
+        {
+            var keyValues = new object[] { id };
+            return await _bugContext.Set<T>().FindAsync(keyValues, cancelltionToken);
+        }
+
+        public async Task<T> GetByIdAsync(string id, CancellationToken cancelltionToken = default)
+        {
+            var keyValues = new object[] { id };
+            return await _bugContext.Set<T>().FindAsync(keyValues, cancelltionToken);
+        }
+
         public async Task<T> AddAsync(T entity, CancellationToken cancelltionToken = default)
         {
             await _bugContext.Set<T>().AddAsync(entity, cancelltionToken);

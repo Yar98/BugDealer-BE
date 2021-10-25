@@ -8,6 +8,7 @@ using System.Threading;
 using Microsoft.EntityFrameworkCore;
 using Bug.Data.Extensions;
 using Bug.Data.Specifications;
+using Bug.Core.Utility;
 
 namespace Bug.Data.Repositories
 {
@@ -19,11 +20,46 @@ namespace Bug.Data.Repositories
             
         }
 
-        public async Task<Project> GetDetailProject(string projectId)
+        public async Task<PaginatedList<Project>> GetPaginatedProjects(string creatorId,
+            int pageIndex, int pageSize,
+            int categoryId, string tagName,
+            string sortOrder,
+            CancellationToken cancelltionToken = default)
         {
-            return await _bugContext
+            var specificationResult =
+                new ProjectWithTagsSpecification(creatorId, categoryId, tagName); 
+            var result = _bugContext
                 .Projects
-                .SingleOrDefaultAsync(p => p.Id == projectId);
+                .Specify(specificationResult);
+            switch (sortOrder)
+            {
+                case "name":
+                    result = result.OrderBy(p => p.Name);
+                    break;
+                case "startdate":
+                    result = result.OrderBy(p => p.StartDate);
+                    break;
+                case "startdate_desc":
+                    result = result.OrderByDescending(p => p.StartDate);
+                    break;
+                case "enddate":
+                    result = result.OrderBy(p => p.EndDate);
+                    break;
+                case "enddate_desc":
+                    result = result.OrderByDescending(p => p.EndDate);
+                    break;
+                case "recentdate":
+                    result = result.OrderBy(p => p.RecentDate);
+                    break;
+                case "recentdate_desc":
+                    result = result.OrderByDescending(p => p.RecentDate);
+                    break;
+                default:
+                    result = result.OrderBy(p => p.Id);
+                    break;
+            }
+            return await PaginatedList<Project>
+                .CreateListAsync(result.AsNoTracking(),pageIndex,pageSize,cancelltionToken);
         }
         public async Task<IReadOnlyList<Project>> GetRecentProjects(string accountId,
             int categoryId, 
