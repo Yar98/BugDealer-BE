@@ -7,14 +7,14 @@ using Bug.Entities.Model;
 
 namespace Bug.Data.Specifications
 {
-    public class ProjectWithTagsSpecification : BaseSpecification<Project>
+    public class ProjectWithCreatorTagsSpecification : BaseSpecification<Project>
     {
-        public ProjectWithTagsSpecification(string accountId)
-            : base(p => p.CreatorId == accountId)
+        public ProjectWithCreatorTagsSpecification(string creatorId)
+            : base(p => p.CreatorId == creatorId)
         {
             AddInclude(p => p.Tags);
         }
-        public ProjectWithTagsSpecification(string accountId, 
+        public ProjectWithCreatorTagsSpecification(string accountId, 
             int categoryId,
             string tagName)
             : base(p => p.CreatorId == accountId)
