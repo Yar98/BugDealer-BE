@@ -64,11 +64,12 @@ namespace Bug.API.Services
         }
         public async Task<IReadOnlyList<ProjectLowDto>> GetRecentProjects(
             string creatorId,
-            int categoryId, string tagName,
+            int categoryId, 
+            string tagName,
             int count)
         {
             var specificationResult =
-                new ProjectWithTagsSpecification(creatorId, categoryId, tagName);
+                new ProjectWithCreatorTagsSpecification(creatorId, categoryId, tagName);
             var result = await _unitOfWork
                 .Project
                 .GetRecentProjects(creatorId, categoryId, tagName, count, specificationResult);
@@ -82,23 +83,31 @@ namespace Bug.API.Services
                 .ToList();
         }
         public async Task<ProjectsPaginatedListDto<ProjectNormalDto>> GetPaginatedProjects(
-            string creatorId,
-            int pageIndex, int pageSize,
-            int categoryId, string tagName,
-            string sortOrder)
+            string accountId,
+            int pageIndex, 
+            int pageSize,
+            int categoryId, 
+            string tagName,
+            string sortOrder,
+            int accountType)
         {
             var specificationResult =
-                new ProjectWithTagsSpecification(creatorId, categoryId, tagName);
+                new ProjectWithCreatorTagsSpecification(accountId, categoryId, tagName);
+            var specificationResult1 =
+                new ProjectsWithMemberSpecification(accountId, categoryId, tagName);
             var result = await _unitOfWork
                 .Project
-                .GetPaginatedProjects(creatorId, pageIndex, pageSize, categoryId, tagName, sortOrder, specificationResult);
-
+                .GetPaginatedProjects(
+                accountId, pageIndex, pageSize,
+                categoryId, tagName, sortOrder,
+                accountType==Bts.Creator?specificationResult:specificationResult1);
             return new ProjectsPaginatedListDto<ProjectNormalDto>
             {
                 HasNextPage = result.HasNextPage,
                 HasPreviousPage = result.HasPreviousPage,
                 items = new PaginatedList<ProjectNormalDto>(
-                    result.Where(p => p.Tags.Count > 0)
+                    result
+                    .Where(p => p.Tags.Count > 0)
                     .Select(p => new ProjectNormalDto
                     {
                         Id = p.Id,
@@ -116,17 +125,27 @@ namespace Bug.API.Services
                 TotalPages = result.TotalPages
             };
         }
-        public async Task<IReadOnlyList<ProjectNormalDto>> GetNextProjectsById(
-            string creatorId,
-            int offset, int next,
-            int categoryId, string tagName,
-            string sortOrder)
+        public async Task<IReadOnlyList<ProjectNormalDto>> GetNextProjectsByOffset(
+            string accountId,
+            int offset, 
+            int next,
+            int categoryId, 
+            string tagName,
+            string sortOrder,
+            int accountType)
         {
             var specificationResult =
-                new ProjectWithTagsSpecification(creatorId, categoryId, tagName);
+                new ProjectWithCreatorTagsSpecification(accountId, categoryId, tagName);
+            var specificationResult1 =
+                new ProjectsWithMemberSpecification(accountId, categoryId, tagName);
             var result = await _unitOfWork
                 .Project
-                .GetNextProjectsByOffset(creatorId,offset,next,sortOrder,specificationResult);
+                .GetNextProjectsByOffset(
+                accountId, 
+                offset,
+                next,
+                sortOrder, 
+                accountType == Bts.Creator ? specificationResult : specificationResult1);
             return result
                 .Where(p => p.Tags.Count > 0)
                 .Select(p => new ProjectNormalDto

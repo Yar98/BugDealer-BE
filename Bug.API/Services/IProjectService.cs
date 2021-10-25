@@ -19,12 +19,14 @@ namespace Bug.API.Services
             string creatorId,
             int pageIndex, int pageSize,
             int categoryId, string tagName,
-            string sortOrder);
-        Task<IReadOnlyList<ProjectNormalDto>> GetNextProjectsById(
+            string sortOrder,
+            int accountType);
+        Task<IReadOnlyList<ProjectNormalDto>> GetNextProjectsByOffset(
             string creatorId,
             int offset, int next,
             int categoryId, string tagName,
-            string sortOrder);
+            string sortOrder,
+            int accountType);
         Task UpdateDetailProject(ProjectDetailDto pro);
         Task DeleteProject(string projectId);
     }

@@ -29,7 +29,6 @@ namespace Bug.Data.Repositories
             string sortOrder,
             ISpecification<Project> specificationResult,
             CancellationToken cancelltionToken = default);
-
         Task Test();
     }
 }

@@ -42,7 +42,8 @@ namespace Bug.API.Controllers
 
         // GET: api/<ProjectController>/recent/creatorId/nameTag/count
         [HttpGet("recent/{creatorId}/{nameTag}/{count:int}")]
-        public async Task<IActionResult> GetRecentProjects(string creatorId,
+        public async Task<IActionResult> GetRecentProjects(
+            string creatorId,
             string nameTag,
             int count)
         {
@@ -51,30 +52,34 @@ namespace Bug.API.Controllers
             return StatusCode(200, result);
         }
 
-        // GET: api/Project/paging/account1/Open/1/3/id
-        [HttpGet("paging/{creatorId}/{tagName}/{pageIndex:int}/{pageSize:int}/{sortOrder}")]
-        public async Task<IActionResult> GetPaginatedProjects(string creatorId,
-            int pageIndex, int pageSize,
+        // GET: api/Project/paging/1/account1/Open/1/3/id
+        [HttpGet("paging/{accountType:int}/{accountId}/{tagName}/{pageIndex:int}/{pageSize:int}/{sortOrder}")]
+        public async Task<IActionResult> GetPaginatedProjects(
+            string accountId,
+            int pageIndex, 
+            int pageSize,
             string tagName,
-            string sortOrder)
+            string sortOrder,
+            int accountType)
         {
             var result = 
                 await _projectService.GetPaginatedProjects(
-                    creatorId, pageIndex, pageSize, Bts.ProjectTag, tagName, sortOrder);
-
+                    accountId, pageIndex, pageSize, Bts.ProjectTag, tagName, sortOrder, accountType);
             return Ok(result);
         }
 
-        [HttpGet("offset/{creatorId}/{tagName}/{offset:int}/{next:int}/{sortOrder}")]
+        [HttpGet("offset/{accountType:int}/{creatorId}/{tagName}/{offset:int}/{next:int}/{sortOrder}")]
         public async Task<IActionResult> GetNextProjectsByOffset(
             string creatorId,
-            int offset, int next,
+            int offset, 
+            int next,
             string tagName,
-            string sortOrder)
+            string sortOrder,
+            int accountType)
         {
             var result =
-                await _projectService.GetNextProjectsById(
-                    creatorId, offset, next, Bts.ProjectTag, tagName, sortOrder);
+                await _projectService.GetNextProjectsByOffset(
+                    creatorId, offset, next, Bts.ProjectTag, tagName, sortOrder, accountType);
             return Ok(result);
         }
 
@@ -90,7 +95,8 @@ namespace Bug.API.Controllers
         // PUT api/<ProjectController>/detail/5
         [HttpPut("detail/{id}")]
         public async Task<IActionResult> PutEditDetailProject(
-            string id, [FromBody] ProjectDetailDto pro)
+            string id, 
+            [FromBody] ProjectDetailDto pro)
         {
             if (id != pro.Id)
                 return BadRequest();
