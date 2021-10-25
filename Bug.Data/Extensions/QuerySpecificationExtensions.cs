@@ -25,5 +25,7 @@ namespace Bug.Data.Extensions
             // return the result of the query using the specification's criteria expression
             return secondaryResult.Where(spec.Criteria);
         }
+
+
     }
 }

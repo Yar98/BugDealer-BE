@@ -53,6 +53,11 @@ namespace Bug.Data.Repositories
             _bugContext.Entry(entity).State = EntityState.Modified;
             await _bugContext.SaveChangesAsync(cancelltionToken);
         }
+
+        public IQueryable<T> AddNextByOffset(IQueryable<T> source, int next, int offset)
+        {
+            return source.Skip(offset).Take(next);
+        }
         /*
         public IQueryable<T> ApplySpecification(ISpecification<T> spec)
         {

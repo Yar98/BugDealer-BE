@@ -9,6 +9,7 @@ using System;
 using Bug.Core.Common;
 using Bug.Entities.Builder;
 using Bug.Core.Utility;
+using Bug.Data.Specifications;
 
 namespace Bug.API.Services
 {
@@ -66,9 +67,11 @@ namespace Bug.API.Services
             int categoryId, string tagName,
             int count)
         {
+            var specificationResult =
+                new ProjectWithTagsSpecification(creatorId, categoryId, tagName);
             var result = await _unitOfWork
                 .Project
-                .GetRecentProjects(creatorId, categoryId, tagName, count);
+                .GetRecentProjects(creatorId, categoryId, tagName, count, specificationResult);
             return result
                 .Where(p=>p.Tags.Count > 0)
                 .Select(p => new ProjectLowDto
@@ -84,9 +87,11 @@ namespace Bug.API.Services
             int categoryId, string tagName,
             string sortOrder)
         {
+            var specificationResult =
+                new ProjectWithTagsSpecification(creatorId, categoryId, tagName);
             var result = await _unitOfWork
                 .Project
-                .GetPaginatedProjects(creatorId, pageIndex, pageSize, categoryId, tagName, sortOrder);
+                .GetPaginatedProjects(creatorId, pageIndex, pageSize, categoryId, tagName, sortOrder, specificationResult);
 
             return new ProjectsPaginatedListDto<ProjectNormalDto>
             {
@@ -110,6 +115,33 @@ namespace Bug.API.Services
                 PageIndex = result.PageIndex,
                 TotalPages = result.TotalPages
             };
+        }
+        public async Task<IReadOnlyList<ProjectNormalDto>> GetNextProjectsById(
+            string creatorId,
+            int offset, int next,
+            int categoryId, string tagName,
+            string sortOrder)
+        {
+            var specificationResult =
+                new ProjectWithTagsSpecification(creatorId, categoryId, tagName);
+            var result = await _unitOfWork
+                .Project
+                .GetNextProjectsByOffset(creatorId,offset,next,sortOrder,specificationResult);
+            return result
+                .Where(p => p.Tags.Count > 0)
+                .Select(p => new ProjectNormalDto
+                {
+                    Id = p.Id,
+                    AvatarUri = p.AvatarUri,
+                    Code = p.Code,
+                    CreatorId = p.CreatorId,
+                    EndDate = p.EndDate,
+                    Name = p.Name,
+                    RecentDate = p.RecentDate,
+                    StartDate = p.StartDate,
+                    WorkflowId = p.WorkflowId
+                })
+                .ToList();
         }
         public async Task<ProjectNormalDto> CreateProject(ProjectNormalDto pro)
         {
