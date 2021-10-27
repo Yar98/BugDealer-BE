@@ -7,7 +7,10 @@ namespace Bug.API.Services.DTO
 {
     public class AccountGoogleDto
     {
-        public string Id { get; private set; }
-        public string Provider { get; private set; }
+        public string GoogleId { get; set; }
+        public string UserName { get; set; }
+        public string GivenName { get; set; }
+        public string SurName { get; set; }
+        public string Email { get; set; }
     }
 }

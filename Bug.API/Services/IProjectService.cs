@@ -12,7 +12,7 @@ namespace Bug.API.Services
     {
         Task<IReadOnlyList<ProjectLowDto>> GetRecentProjects(
             string accountId, int categoryId, string tagName, int count);
-        Task<ProjectNormalDto> CreateProject(ProjectNormalDto pro);
+        Task<ProjectNormalDto> AddProject(ProjectNormalDto pro);
         Task<ProjectDetailDto> GetDetailProject(string id);
         Task<ProjectNormalDto> GetNormalProject(string projectId);
         Task<ProjectsPaginatedListDto<ProjectNormalDto>> GetPaginatedProjects(

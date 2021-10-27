@@ -9,6 +9,6 @@ namespace Bug.Data.Repositories
 {
     public interface IAccountRepo : IEntityRepoBase<Account>
     {
-
+        Task<Account> GetAccountByEmail(string email);
     }
 }

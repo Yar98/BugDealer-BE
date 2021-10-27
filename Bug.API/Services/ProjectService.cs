@@ -11,16 +11,15 @@ using Bug.Entities.Builder;
 using Bug.Core.Utility;
 using Bug.Data.Specifications;
 
+
 namespace Bug.API.Services
 {
     public class ProjectService : IProjectService
     {
         private readonly IUnitOfWork _unitOfWork;
-        private IProjectBuilder _projectBuilder;
-        public ProjectService(IUnitOfWork uow, IProjectBuilder pd)
+        public ProjectService(IUnitOfWork uow)
         {
             _unitOfWork = uow;
-            _projectBuilder = pd;
         }
 
         public async Task<ProjectNormalDto> GetNormalProject(string projectId)
@@ -162,10 +161,10 @@ namespace Bug.API.Services
                 })
                 .ToList();
         }
-        public async Task<ProjectNormalDto> CreateProject(ProjectNormalDto pro)
+        public async Task<ProjectNormalDto> AddProject(ProjectNormalDto pro)
         {
             pro.Id = Guid.NewGuid().ToString();
-            var result = _projectBuilder
+            var result = new ProjectBuilder()
                 .AddId(pro.Id)
                 .AddName(pro.Name)
                 .AddCode(pro.Code)

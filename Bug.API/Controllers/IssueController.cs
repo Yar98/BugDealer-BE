@@ -12,36 +12,31 @@ namespace Bug.API.Controllers
     [ApiController]
     public class IssueController : ControllerBase
     {
-        // GET: api/<IssueController>
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
 
-        // GET api/<IssueController>/5
+        // GET api/Issue/5
         [HttpGet("{id}")]
         public string Get(int id)
         {
             return "value";
         }
 
-        // POST api/<IssueController>
+        // POST api/Issue
         [HttpPost]
         public void Post([FromBody] string value)
         {
         }
 
-        // PUT api/<IssueController>/5
+        // PUT api/Issue/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
         }
 
-        // DELETE api/<IssueController>/5
+        // DELETE api/Issue/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+
         }
     }
 }

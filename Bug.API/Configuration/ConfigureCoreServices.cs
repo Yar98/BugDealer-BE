@@ -8,6 +8,7 @@ using Bug.Data.Infrastructure;
 using Bug.Data.Repositories;
 using Bug.API.Services;
 using Bug.Entities.Builder;
+using Bug.API.Utils;
 
 namespace Bug.API.Configuration
 {
@@ -36,9 +37,14 @@ namespace Bug.API.Configuration
             services.AddScoped<IWorklogRepo, WorklogRepo>();
 
             services.AddScoped<IProjectService, ProjectService>();
-            //services.AddScoped<IIssueService, IssueService>();
+            services.AddScoped<IIssueService, IssueService>();
+            services.AddScoped<IAccountService, AccountService>();
 
             services.AddScoped<IProjectBuilder, ProjectBuilder>();
+            services.AddScoped<IIssueBuilder, IssueBuilder>();
+            services.AddScoped<IAccountBuilder, AccountBuilder>();
+
+            services.AddScoped<IJwtUtils, JwtUtils>();
             return services;
         }
     }
