@@ -8,6 +8,7 @@ using Bug.API.Services;
 using Bug.Core.Common;
 using Bug.API.Services.DTO;
 using Bug.Entities.Model;
+using Bug.API.ActionFilter;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -23,7 +24,15 @@ namespace Bug.API.Controllers
             _projectService = projectService;
         }
 
-        // GET: api/<ProjectController>/5
+        [HttpGet]
+        [JwtFilter]
+        public string Get()
+        {
+            Response.Headers.Add("yarito", "gaming");
+            return "Ok";
+        }
+
+        // GET: api/Project/5
         [HttpGet("{id}")]
         public async Task<IActionResult> GetProject(string projectId)
         {
@@ -31,7 +40,7 @@ namespace Bug.API.Controllers
             return Ok(result);
         }
 
-        // GET api/<ProjectController>/detail/5
+        // GET api/Project/detail/5
         [HttpGet("detail/{id}")]
         public async Task<IActionResult> GetDetailProject(string id)
         {
@@ -40,7 +49,7 @@ namespace Bug.API.Controllers
             return Ok(result);
         }
 
-        // GET: api/<ProjectController>/recent/creatorId/nameTag/count
+        // GET: api/Project/recent/creatorId/nameTag/count
         [HttpGet("recent/{creatorId}/{nameTag}/{count:int}")]
         public async Task<IActionResult> GetRecentProjects(
             string creatorId,
@@ -68,6 +77,7 @@ namespace Bug.API.Controllers
             return Ok(result);
         }
 
+        // GET: api/Project/offset/1/account1/Open/1/3/id
         [HttpGet("offset/{accountType:int}/{creatorId}/{tagName}/{offset:int}/{next:int}/{sortOrder}")]
         public async Task<IActionResult> GetNextProjectsByOffset(
             string creatorId,
@@ -83,16 +93,16 @@ namespace Bug.API.Controllers
             return Ok(result);
         }
 
-        // POST api/<ProjectController>
+        // POST api/Project
         [HttpPost]
         public async Task<IActionResult> PostCreateProject([FromBody] ProjectNormalDto pro)
         {
-            var result = await _projectService.CreateProject(pro);
+            var result = await _projectService.AddProject(pro);
             return CreatedAtAction(
                 nameof(GetProject), new { id = result.Id }, pro);
         }
 
-        // PUT api/<ProjectController>/detail/5
+        // PUT api/Project/detail/5
         [HttpPut("detail/{id}")]
         public async Task<IActionResult> PutEditDetailProject(
             string id, 
@@ -104,7 +114,7 @@ namespace Bug.API.Controllers
             return NoContent();
         }
 
-        // DELETE api/<ProjectController>/5
+        // DELETE api/Project/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProject(string id)
         {

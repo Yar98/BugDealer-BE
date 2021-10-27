@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace Bug.API.Services.DTO
 {
-    public class AccountDto
+    public class AccountDetailDto
     {
         public string Id { get; set; }
         public string UserName { get; set; }

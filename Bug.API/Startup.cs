@@ -6,7 +6,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +13,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Bug.API.Configuration;
 using Microsoft.AspNetCore.HttpOverrides;
+using Bug.API.ActionFilter;
 
 namespace Bug
 {
@@ -30,8 +30,10 @@ namespace Bug
         public void ConfigureServices(IServiceCollection services)
         {
             services.ConfigureSqlServices(Configuration);
+            services.ConfigureJwtServices(Configuration);
             services.ConfigureGoogleServices(Configuration);
             services.AddCoreServices(Configuration);
+            services.AddScoped<JwtFilter>();
 
             services.AddControllers();
 
@@ -53,7 +55,7 @@ namespace Bug
             }
             app.UseForwardedHeaders();
             app.UseHttpsRedirection();
-
+            
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();

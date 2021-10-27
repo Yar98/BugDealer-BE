@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Bug.Entities.Model;
+using Microsoft.EntityFrameworkCore;
 
 namespace Bug.Data.Repositories
 {
@@ -13,6 +14,13 @@ namespace Bug.Data.Repositories
             : base(repositoryContext)
         {
 
+        }
+
+        public async Task<Account> GetAccountByEmail(string email)
+        {
+            return await _bugContext
+                .Accounts
+                .FirstOrDefaultAsync(a=>a.Email.Equals(email));
         }
     }
 }

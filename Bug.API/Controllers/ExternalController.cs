@@ -7,6 +7,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Bug.API.Utils;
+using Bug.API.Services.DTO;
+using Bug.API.Services;
 
 namespace Bug.API.Controllers
 {
@@ -14,11 +17,17 @@ namespace Bug.API.Controllers
     [AllowAnonymous,Route("api/[controller]")]
     public class ExternalController : Controller
     {
+        private readonly IAccountService _accountService;
+        public ExternalController(IAccountService accountService)
+        {
+            _accountService = accountService;
+        }
+
         [HttpGet("signinexternal")]
         public IActionResult SigninExternal(string provide, string returnUrl)
         {
             var properties = new AuthenticationProperties { 
-                RedirectUri = Url.Action("SigninExternalCallback") };
+                RedirectUri = Url.Action("SigninExternalCallback",new { returnUrl }) };
 
             return Challenge(properties, GoogleDefaults.AuthenticationScheme);
         }
@@ -30,8 +39,10 @@ namespace Bug.API.Controllers
         {
             var result = await HttpContext.AuthenticateAsync(
                 CookieAuthenticationDefaults.AuthenticationScheme);
-
-            var claims = result.Principal.Identities.FirstOrDefault()
+            
+            if (result.Succeeded)
+            {
+                var claims = result.Principal.Identities.FirstOrDefault()
                 .Claims.Select(claim => new
                 {
                     claim.Issuer,
@@ -39,8 +50,27 @@ namespace Bug.API.Controllers
                     claim.Type,
                     claim.Value
                 });
+                var user = new AccountGoogleDto
+                {
+                    GoogleId = claims.FirstOrDefault(c => c.Type.Contains("/nameidentifier")).Value,
+                    Email = claims.FirstOrDefault(c => c.Type.Contains("/emailaddress")).Value,
+                    GivenName = claims.FirstOrDefault(c => c.Type.Contains("/givenname"))?.Value,
+                    SurName = claims.FirstOrDefault(c => c.Type.Contains("/surname"))?.Value
+                };
+                var token = await _accountService.GenerateTokenAccountGoogle(user);
+                Response.Headers.Add("token", token);
+                //return StatusCode(200, Json(claims));
+                return string.IsNullOrEmpty(token)?
+                    BadRequest("Error in creating token for google account") :
+                    StatusCode(200, user);
+            }
+            else
+            {
+                return BadRequest(result.Failure);
+            }
+
             //return Json(claims);
-            return StatusCode(200, Json(claims));
+            //return StatusCode(200);
         }
     }
 }

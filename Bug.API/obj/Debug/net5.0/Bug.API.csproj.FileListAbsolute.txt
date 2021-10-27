@@ -105,6 +105,7 @@ Y:\BugDealer-BE\Bug.API\bin\Debug\net5.0\ref\Bug.API.dll
 Y:\BugDealer-BE\Bug.API\bin\Debug\net5.0\Bug.API.pdb
 Y:\BugDealer-BE\Bug.API\bin\Debug\net5.0\Humanizer.dll
 Y:\BugDealer-BE\Bug.API\bin\Debug\net5.0\Microsoft.AspNetCore.Authentication.Google.dll
+Y:\BugDealer-BE\Bug.API\bin\Debug\net5.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 Y:\BugDealer-BE\Bug.API\bin\Debug\net5.0\Microsoft.Data.SqlClient.dll
 Y:\BugDealer-BE\Bug.API\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.dll
 Y:\BugDealer-BE\Bug.API\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.Abstractions.dll
@@ -118,11 +119,6 @@ Y:\BugDealer-BE\Bug.API\bin\Debug\net5.0\Microsoft.IdentityModel.Logging.dll
 Y:\BugDealer-BE\Bug.API\bin\Debug\net5.0\Microsoft.IdentityModel.Protocols.dll
 Y:\BugDealer-BE\Bug.API\bin\Debug\net5.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 Y:\BugDealer-BE\Bug.API\bin\Debug\net5.0\Microsoft.IdentityModel.Tokens.dll
-Y:\BugDealer-BE\Bug.API\bin\Debug\net5.0\Microsoft.OpenApi.dll
-Y:\BugDealer-BE\Bug.API\bin\Debug\net5.0\Newtonsoft.Json.dll
-Y:\BugDealer-BE\Bug.API\bin\Debug\net5.0\Swashbuckle.AspNetCore.Swagger.dll
-Y:\BugDealer-BE\Bug.API\bin\Debug\net5.0\Swashbuckle.AspNetCore.SwaggerGen.dll
-Y:\BugDealer-BE\Bug.API\bin\Debug\net5.0\Swashbuckle.AspNetCore.SwaggerUI.dll
 Y:\BugDealer-BE\Bug.API\bin\Debug\net5.0\System.Configuration.ConfigurationManager.dll
 Y:\BugDealer-BE\Bug.API\bin\Debug\net5.0\System.Diagnostics.DiagnosticSource.dll
 Y:\BugDealer-BE\Bug.API\bin\Debug\net5.0\System.IdentityModel.Tokens.Jwt.dll
@@ -151,7 +147,6 @@ Y:\BugDealer-BE\Bug.API\obj\Debug\net5.0\Bug.API.GeneratedMSBuildEditorConfig.ed
 Y:\BugDealer-BE\Bug.API\obj\Debug\net5.0\Bug.API.AssemblyInfoInputs.cache
 Y:\BugDealer-BE\Bug.API\obj\Debug\net5.0\Bug.API.AssemblyInfo.cs
 Y:\BugDealer-BE\Bug.API\obj\Debug\net5.0\Bug.API.csproj.CoreCompileInputs.cache
-Y:\BugDealer-BE\Bug.API\obj\Debug\net5.0\Bug.API.MvcApplicationPartsAssemblyInfo.cs
 Y:\BugDealer-BE\Bug.API\obj\Debug\net5.0\Bug.API.MvcApplicationPartsAssemblyInfo.cache
 Y:\BugDealer-BE\Bug.API\obj\Debug\net5.0\staticwebassets\Bug.API.StaticWebAssets.Manifest.cache
 Y:\BugDealer-BE\Bug.API\obj\Debug\net5.0\staticwebassets\Bug.API.StaticWebAssets.xml

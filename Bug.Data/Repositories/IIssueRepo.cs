@@ -9,5 +9,6 @@ namespace Bug.Data.Repositories
 {
     public interface IIssueRepo : IEntityRepoBase<Issue>
     {
+
     }
 }

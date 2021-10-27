@@ -14,5 +14,7 @@ namespace Bug.Data.Repositories
         {
 
         }
+
+
     }
 }
