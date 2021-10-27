@@ -14,6 +14,7 @@ namespace Bug.Entities.Model
         public string FirstName { get; private set; }
         public string LastName { get; private set; }
         public string Email { get; private set; }
+        public string Language { get; private set; }
         public DateTime CreatedDate { get; private set; }
         public string ImageUri { get; private set; }
         public string? TimezoneId { get; private set; }
@@ -32,6 +33,7 @@ namespace Bug.Entities.Model
             string lastName,
             string email,
             DateTime createdDate,
+            string language,
             string imageUri,
             string timeZone)
         {
@@ -44,6 +46,7 @@ namespace Bug.Entities.Model
             CreatedDate = createdDate;
             ImageUri = imageUri;
             TimezoneId = timeZone;
+            Language = language;
         }
         public void UpdateUserName(string username)
         {

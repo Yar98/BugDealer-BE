@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Bug.API.Services.DTO
 {
-    public class AccountGoogleDto
+    public class AccountGoogleLoginDto
     {
         public string GoogleId { get; set; }
         public string UserName { get; set; }

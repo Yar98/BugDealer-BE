@@ -23,7 +23,7 @@ namespace Bug.API.ActionFilter
             var jwtUtils = sv.GetService<IJwtUtils>();
             if (string.IsNullOrEmpty(param))
             {
-                context.Result = new BadRequestObjectResult("Not found token");
+                context.Result = new BadRequestObjectResult("Token not found");
                 return;
             }
             else
@@ -31,7 +31,7 @@ namespace Bug.API.ActionFilter
                 var result = jwtUtils.ValidateToken(param);
                 if (result == null)
                 {
-                    context.Result = new BadRequestObjectResult("Invalid token");
+                    context.Result = new UnauthorizedObjectResult("Invalid token");
                     return;
                 }                
             }

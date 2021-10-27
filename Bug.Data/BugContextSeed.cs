@@ -75,9 +75,9 @@ namespace Bug.Data
         {
             return new List<Account>()
             {
-                new Account("account1","name1","pass1","first1","last1","email1",DateTime.Now,"uri1",null),
-                new Account("account2","name2","pass2","first2","last2","email2",DateTime.Now,"uri2",null),
-                new Account("account3","name3","pass3","first3","last3","email3",DateTime.Now,"uri3",null)
+                new Account("account1","name1","pass1","first1","last1","email1",DateTime.Now,null,"uri1",null),
+                new Account("account2","name2","pass2","first2","last2","email2",DateTime.Now,null,"uri2",null),
+                new Account("account3","name3","pass3","first3","last3","email3",DateTime.Now,null,"uri3",null)
             };
         }
         static IEnumerable<Workflow> GetPreconfiguredWorkflow()
