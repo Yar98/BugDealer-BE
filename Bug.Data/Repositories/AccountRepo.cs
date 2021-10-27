@@ -22,5 +22,13 @@ namespace Bug.Data.Repositories
                 .Accounts
                 .FirstOrDefaultAsync(a=>a.Email.Equals(email));
         }
+        public async Task<Account> GetAccountByUserName(string userName, string password)
+        {
+            return await _bugContext
+                .Accounts
+                .FirstOrDefaultAsync(
+                a => a.UserName == userName && 
+                a.Password == password);
+        }
     }
 }

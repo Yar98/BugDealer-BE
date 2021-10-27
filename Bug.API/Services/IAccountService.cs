@@ -8,6 +8,11 @@ namespace Bug.API.Services
 {
     public interface IAccountService
     {
-        Task<string> GenerateTokenAccountGoogle(AccountGoogleDto acc);
+        Task<string> GenerateTokenAccountGoogle(AccountGoogleLoginDto acc);
+        Task<AccountDetailDto> GetAccountByUserName(string name, string password);
+        Task<AccountDetailDto> GetAccountById(string id);
+        Task<AccountDetailDto> AddRegistedAccount(AccountBtsRegister user);
+        Task UpdateAccount(AccountDetailDto user);
+        Task DeleteAccount(string id);
     }
 }

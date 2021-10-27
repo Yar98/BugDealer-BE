@@ -50,7 +50,7 @@ namespace Bug.API.Controllers
                     claim.Type,
                     claim.Value
                 });
-                var user = new AccountGoogleDto
+                var user = new AccountGoogleLoginDto
                 {
                     GoogleId = claims.FirstOrDefault(c => c.Type.Contains("/nameidentifier")).Value,
                     Email = claims.FirstOrDefault(c => c.Type.Contains("/emailaddress")).Value,

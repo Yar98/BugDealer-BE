@@ -17,6 +17,7 @@ namespace Bug.Entities.Builder
         IAccountBuilder AddEmail(string email);
         IAccountBuilder AddCreatedDate(DateTime date);
         IAccountBuilder AddImageUri(string uri);
+        IAccountBuilder AddLanguage(string lan);
         IAccountBuilder AddTimezoneId(string id);
         Account Build();
     }

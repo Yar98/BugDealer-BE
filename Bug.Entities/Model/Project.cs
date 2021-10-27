@@ -69,12 +69,13 @@ namespace Bug.Entities.Model
             string lastName,
             string email,
             DateTime createdDate,
+            string language,
             string imageUri,
             string timezoneId)
         {
             if (!Accounts.Any(i => i.Id.Equals(id)))
             {
-                _accounts.Add(new Account(id, userName, password, firstName, lastName, email, createdDate, imageUri,timezoneId));
+                _accounts.Add(new Account(id, userName, password, firstName, lastName, email, createdDate, language, imageUri,timezoneId));
                 //_accounts.Add(a);
                 return;
             }

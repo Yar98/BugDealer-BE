@@ -16,8 +16,14 @@ namespace Bug.Entities.Builder
         public string LastName { get; private set; }
         public string Email { get; private set; }
         public DateTime CreatedDate { get; private set; }
+        public string Language { get; private set; }
         public string ImageUri { get; private set; }
         public string TimezoneId { get; private set; }
+        public IAccountBuilder AddLanguage(string lan)
+        {
+            Language = lan;
+            return this;
+        }
         public IAccountBuilder AddCreatedDate(DateTime date)
         {
             CreatedDate = date;
@@ -74,7 +80,7 @@ namespace Bug.Entities.Builder
 
         public Account Build()
         {
-            return new Account(Id, UserName, Password, FirstName, LastName, Email, CreatedDate, ImageUri, TimezoneId);
+            return new Account(Id, UserName, Password, FirstName, LastName, Email, CreatedDate, Language, ImageUri, TimezoneId);
         }
     }
 }
