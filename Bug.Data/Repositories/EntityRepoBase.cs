@@ -7,10 +7,11 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Bug.Data.Specifications;
+using Bug.Entities.Model;
 
 namespace Bug.Data.Repositories
 {
-    public abstract class EntityRepoBase<T> : IEntityRepoBase<T> where T : class
+    public abstract class EntityRepoBase<T> : IEntityRepoBase<T> where T : IEntityBase
     {
         protected readonly BugContext _bugContext;
         public EntityRepoBase(BugContext repoContext)

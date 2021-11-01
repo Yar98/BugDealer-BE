@@ -76,6 +76,7 @@ namespace Bug.Entities.Model
             if (!Roles.Any(i => i.Id.Equals(roleId)))
             {
                 Roles.Add(new Role(roleId, name, description, memberId));
+                return;
             }
         }
         public void AddProject(string id,

@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Bug.Entities.Model;
 using Bug.Data.Infrastructure;
-using Bug.API.Services.DTO;
-using Microsoft.EntityFrameworkCore;
-using System;
+using Bug.API.Dto;
+using Bug.API.Dto.Integration;
 using Bug.Core.Common;
 using Bug.Entities.Builder;
 using Bug.Core.Utility;
@@ -14,7 +15,7 @@ using Bug.Data.Specifications;
 
 namespace Bug.API.Services
 {
-    public class ProjectService : IProjectService
+    public class ProjectService : IProjectService, IProjectIntegrationService
     {
         private readonly IUnitOfWork _unitOfWork;
         public ProjectService(IUnitOfWork uow)
@@ -35,11 +36,10 @@ namespace Bug.API.Services
                 StartDate = result.StartDate,
                 EndDate = result.EndDate,
                 RecentDate = result.RecentDate,
-                AvatarUri = result.AvatarUri,
-                CreatorId = result.CreatorId,
-                WorkflowId = result.WorkflowId
+                AvatarUri = result.AvatarUri
             };
         }
+        //check lai
         public async Task<ProjectDetailDto> GetDetailProject(string projectId)
         {
             var result = await _unitOfWork
@@ -61,6 +61,7 @@ namespace Bug.API.Services
                 WorkflowId = result.WorkflowId
             };
         }
+        /*
         public async Task<IReadOnlyList<ProjectLowDto>> GetRecentProjects(
             string creatorId,
             int categoryId, 
@@ -81,69 +82,80 @@ namespace Bug.API.Services
                 })
                 .ToList();
         }
-        public async Task<ProjectsPaginatedListDto<ProjectNormalDto>> GetPaginatedProjects(
-            string accountId,
-            int pageIndex, 
+        */
+
+        // filter by tags, return not contain tags
+        public async Task<ProjectsPaginatedListDto<ProjectNormalDto>> GetPaginated
+            (string accountId,
+            int pageIndex,
             int pageSize,
-            int categoryId, 
+            int categoryId,
             string tagName,
             string sortOrder,
             int accountType)
         {
+            // filter project by creator
             var specificationResult =
-                new ProjectWithCreatorTagsSpecification(accountId, categoryId, tagName);
+                new ProjectByCreatorWithTagsSpecification(accountId, categoryId, tagName);
+            // filter project which member working on
             var specificationResult1 =
-                new ProjectsWithMemberSpecification(accountId, categoryId, tagName);
+                new ProjectsWithMemberTagsSpecification(accountId, categoryId, tagName);
             var result = await _unitOfWork
                 .Project
                 .GetPaginatedProjects(
-                accountId, pageIndex, pageSize,
+                pageIndex, pageSize,
                 categoryId, tagName, sortOrder,
-                accountType==Bts.Creator?specificationResult:specificationResult1);
+                accountType == Bts.Creator ? specificationResult : specificationResult1);
             return new ProjectsPaginatedListDto<ProjectNormalDto>
             {
-                HasNextPage = result.HasNextPage,
-                HasPreviousPage = result.HasPreviousPage,
-                items = new PaginatedList<ProjectNormalDto>(
-                    result
-                    .Where(p => p.Tags.Count > 0)
-                    .Select(p => new ProjectNormalDto
-                    {
-                        Id = p.Id,
-                        AvatarUri = p.AvatarUri,
-                        Code = p.Code,
-                        CreatorId = p.CreatorId,
-                        EndDate = p.EndDate,
-                        Name = p.Name,
-                        RecentDate = p.RecentDate,
-                        StartDate = p.StartDate,
-                        WorkflowId = p.WorkflowId
-                    }).ToList(),
-                    result.TotalPages,pageIndex,pageSize),
-                PageIndex = result.PageIndex,
-                TotalPages = result.TotalPages
+                Items = result
+                .Where(p => p.Tags.Count > 0)
+                .Select(p => new ProjectNormalDto
+                {
+                    Id = p.Id,
+                    AvatarUri = p.AvatarUri,
+                    Code = p.Code,
+                    Name = p.Name,
+                    EndDate = p.EndDate,
+                    StartDate = p.StartDate,
+                    RecentDate = p.RecentDate,
+                    TotalCloseIssues = p.Issues
+                    .Where(i => i.Tags.Where(
+                        t => t.Name == "Close" &&
+                        t.CategoryId == Bts.IssueTag).Any())
+                    .Count(),
+                    TotalIssues = p.Issues.Count,
+                    TotalOpenIssues = p.Issues
+                    .Where(i => i.Tags.Where(
+                        t => t.Name == "Open" &&
+                        t.CategoryId == Bts.IssueTag).Any())
+                    .Count()
+                }).ToList(),
+                Length = result.Length
             };
         }
-        public async Task<IReadOnlyList<ProjectNormalDto>> GetNextProjectsByOffset(
-            string accountId,
-            int offset, 
+        // filter by tags, return not contain tags
+        public async Task<IReadOnlyList<ProjectNormalDto>> GetNextByOffset
+            (string accountId,
+            int offset,
             int next,
-            int categoryId, 
+            int categoryId,
             string tagName,
             string sortOrder,
             int accountType)
         {
+            // filter projects by creator
             var specificationResult =
-                new ProjectWithCreatorTagsSpecification(accountId, categoryId, tagName);
+                new ProjectByCreatorWithTagsSpecification(accountId, categoryId, tagName);
+            // filter projects which member working on
             var specificationResult1 =
-                new ProjectsWithMemberSpecification(accountId, categoryId, tagName);
+                new ProjectsWithMemberTagsSpecification(accountId, categoryId, tagName);
             var result = await _unitOfWork
                 .Project
                 .GetNextProjectsByOffset(
-                accountId, 
                 offset,
                 next,
-                sortOrder, 
+                sortOrder,
                 accountType == Bts.Creator ? specificationResult : specificationResult1);
             return result
                 .Where(p => p.Tags.Count > 0)
@@ -152,15 +164,25 @@ namespace Bug.API.Services
                     Id = p.Id,
                     AvatarUri = p.AvatarUri,
                     Code = p.Code,
-                    CreatorId = p.CreatorId,
                     EndDate = p.EndDate,
                     Name = p.Name,
                     RecentDate = p.RecentDate,
                     StartDate = p.StartDate,
-                    WorkflowId = p.WorkflowId
+                    TotalCloseIssues = p.Issues
+                    .Where(i=>i.Tags.Where(
+                        t=>t.Name=="Close"&&
+                        t.CategoryId==Bts.IssueTag).Any())
+                    .Count(),
+                    TotalIssues = p.Issues.Count,
+                    TotalOpenIssues = p.Issues
+                    .Where(i => i.Tags.Where(
+                        t => t.Name == "Open" &&
+                        t.CategoryId == Bts.IssueTag).Any())
+                    .Count()
                 })
                 .ToList();
         }
+        
         public async Task<ProjectNormalDto> AddProject(ProjectNormalDto pro)
         {
             pro.Id = Guid.NewGuid().ToString();
@@ -172,8 +194,6 @@ namespace Bug.API.Services
                 .AddStartDate(pro.StartDate)
                 .AddEndDate(pro.EndDate)
                 .AddRecentDate(pro.RecentDate)
-                .AddCreatorId(pro.CreatorId)
-                .AddWorkflowId(pro.WorkflowId)
                 .Build();
             await _unitOfWork
                 .Project

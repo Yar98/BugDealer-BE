@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 using Bug.Data.Infrastructure;
 using Bug.API.Services;
 using Bug.Core.Common;
-using Bug.API.Services.DTO;
+using Bug.API.Dto;
+using Bug.API.Dto.Integration;
 using Bug.Entities.Model;
 using Bug.API.ActionFilter;
 
@@ -49,6 +50,7 @@ namespace Bug.API.Controllers
             return Ok(result);
         }
 
+        /*
         // GET: api/Project/recent/creatorId/nameTag/count
         [HttpGet("recent/{creatorId}/{nameTag}/{count:int}")]
         public async Task<IActionResult> GetRecentProjects(
@@ -60,9 +62,10 @@ namespace Bug.API.Controllers
                 .GetRecentProjects(creatorId, Bts.ProjectTag, nameTag, count);
             return StatusCode(200, result);
         }
+        */
 
         // GET: api/Project/paging/1/account1/Open/1/3/id
-        [HttpGet("paging/{accountType:int}/{accountId}/{tagName}/{pageIndex:int}/{pageSize:int}/{sortOrder}")]
+        [HttpGet("pagging/{accountType:int}/{accountId}/{tagName}/{pageIndex:int}/{pageSize:int}/{sortOrder}")]
         public async Task<IActionResult> GetPaginatedProjects(
             string accountId,
             int pageIndex, 
@@ -72,7 +75,7 @@ namespace Bug.API.Controllers
             int accountType)
         {
             var result = 
-                await _projectService.GetPaginatedProjects(
+                await _projectService.GetPaginated(
                     accountId, pageIndex, pageSize, Bts.ProjectTag, tagName, sortOrder, accountType);
             return Ok(result);
         }
@@ -88,7 +91,7 @@ namespace Bug.API.Controllers
             int accountType)
         {
             var result =
-                await _projectService.GetNextProjectsByOffset(
+                await _projectService.GetNextByOffset(
                     creatorId, offset, next, Bts.ProjectTag, tagName, sortOrder, accountType);
             return Ok(result);
         }

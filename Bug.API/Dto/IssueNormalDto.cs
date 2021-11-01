@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 
-namespace Bug.API.Services.DTO
+namespace Bug.API.Dto
 {
-    public class IssueDto
+    public class IssueNormalDto
     {
         public string Id { get; set; }
         public string Title { get; set; }

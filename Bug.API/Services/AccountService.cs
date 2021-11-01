@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Bug.API.Services.DTO;
+using Bug.API.Dto;
 using Bug.Data.Infrastructure;
 using Bug.API.Utils;
 using Bug.Entities.Builder;

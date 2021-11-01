@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Bug.API.Utils;
-using Bug.API.Services.DTO;
+using Bug.API.Dto;
 using Bug.API.Services;
 
 namespace Bug.API.Controllers
@@ -62,7 +62,7 @@ namespace Bug.API.Controllers
                 //return StatusCode(200, Json(claims));
                 return string.IsNullOrEmpty(token)?
                     BadRequest("Error in creating token for google account") :
-                    StatusCode(200, user);
+                    StatusCode(200, token);
             }
             else
             {

@@ -8,7 +8,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Bug.API.Services.DTO;
+using Bug.API.Dto;
 
 namespace Bug.API.Utils
 {

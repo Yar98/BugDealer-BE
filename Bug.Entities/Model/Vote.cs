@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Bug.Entities.Model
 {
-    public class Vote
+    public class Vote : IEntityBase
     {
         public string AccountId { get; private set; }
         public Account Account { get; private set; }

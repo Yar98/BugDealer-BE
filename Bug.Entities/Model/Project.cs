@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Bug.Entities.Model
 {
-    public class Project : IEntityBase
+    public class Project : IEntityBase, IIntegrationBase
     {
         public string Id { get; private set; }
         public string Name { get; private set; }

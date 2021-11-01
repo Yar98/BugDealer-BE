@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Bug.API.Services.DTO
+namespace Bug.API.Dto
 {
     public class AccountDetailDto
     {
