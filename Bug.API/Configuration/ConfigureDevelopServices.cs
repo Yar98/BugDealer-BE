@@ -41,7 +41,7 @@ namespace Bug.API.Configuration
                     //options.CallbackPath = "/api/external/signinexternal";
                     options.ClientId = googleAuthNSection["ClientId"];
                     options.ClientSecret = googleAuthNSection["ClientSecret"];
-                });            
+                });
         }
         public static void ConfigureJwtServices(this IServiceCollection services, IConfiguration configuration)
         {
@@ -55,7 +55,7 @@ namespace Bug.API.Configuration
                 {
                     x.TokenValidationParameters = new TokenValidationParameters();
                 });
-            
+
         }
     }
 }
