@@ -65,7 +65,7 @@ namespace Bug.API.Controllers
         */
 
         // GET: api/Project/paging/1/account1/Open/1/3/id
-        [HttpGet("pagging/{accountType:int}/{accountId}/{tagName}/{pageIndex:int}/{pageSize:int}/{sortOrder}")]
+        [HttpGet("paging/{accountType:int}/{accountId}/{tagName}/{pageIndex:int}/{pageSize:int}/{sortOrder}")]
         public async Task<IActionResult> GetPaginatedProjects(
             string accountId,
             int pageIndex, 
@@ -81,10 +81,10 @@ namespace Bug.API.Controllers
         }
 
         // GET: api/Project/offset/1/account1/Open/1/3/id
-        [HttpGet("offset/{accountType:int}/{creatorId}/{tagName}/{offset:int}/{next:int}/{sortOrder}")]
+        [HttpGet("offset/{accountType:int}/{accountId}/{tagName}/{offset:int}/{next:int}/{sortOrder}")]
         public async Task<IActionResult> GetNextProjectsByOffset(
-            string creatorId,
-            int offset, 
+            string accountId,
+            int offset,
             int next,
             string tagName,
             string sortOrder,
@@ -92,7 +92,7 @@ namespace Bug.API.Controllers
         {
             var result =
                 await _projectService.GetNextByOffset(
-                    creatorId, offset, next, Bts.ProjectTag, tagName, sortOrder, accountType);
+                    accountId, offset, next, Bts.ProjectTag, tagName, sortOrder, accountType);
             return Ok(result);
         }
 

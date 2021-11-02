@@ -20,6 +20,16 @@ namespace Bug.Data.Repositories
             
         }
 
+        public async Task<Project> GetProject
+            (ISpecification<Project> specificationResult,
+            CancellationToken cancelltionToken = default)
+        {
+            return await _bugContext
+                .Projects
+                .Specify(specificationResult)
+                .FirstOrDefaultAsync(cancelltionToken);
+                
+        }
         public async Task<PaginatedList<Project>> GetPaginatedProjects(
             int pageIndex, int pageSize,
             int categoryId, string tagName,

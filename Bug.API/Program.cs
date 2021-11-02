@@ -66,6 +66,6 @@ namespace Bug
                     .UseUrls("http://*:4444")
                     .UseIISIntegration()
                     .UseStartup<Startup>();
-                });        
+                });
     }
 }

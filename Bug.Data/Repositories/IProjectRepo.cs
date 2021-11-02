@@ -20,6 +20,9 @@ namespace Bug.Data.Repositories
             ISpecification<Project> specificationResult, 
             CancellationToken cancelltionToken = default);
         */
+        Task<Project> GetProject
+            (ISpecification<Project> specificationResult,
+            CancellationToken cancelltionToken = default);
         Task<PaginatedList<Project>> GetPaginatedProjects
             (int pageIndex, int pageSize,
             int categoryId, string tagName,

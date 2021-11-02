@@ -26,6 +26,8 @@ namespace Bug
 
         public IConfiguration Configuration { get; }
 
+        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -34,6 +36,16 @@ namespace Bug
             services.ConfigureGoogleServices(Configuration);
             services.AddCoreServices(Configuration);
             services.AddScoped<JwtFilter>();
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: MyAllowSpecificOrigins,
+                                  builder =>
+                                  {
+                                      builder.WithOrigins("http://localhost:4200/",
+                                                          "http://www.contoso.com");
+                                  });
+            });
 
             services.AddControllers();
 
@@ -57,6 +69,9 @@ namespace Bug
             app.UseHttpsRedirection();
             
             app.UseRouting();
+
+            app.UseCors(MyAllowSpecificOrigins);
+
             app.UseAuthentication();
             app.UseAuthorization();
 

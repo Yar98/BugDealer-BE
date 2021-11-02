@@ -93,8 +93,6 @@ namespace Bug.Entities.Model
             }                      
         }
 
-
-
         public void AddTag(Tag t)
         {
             if (!Tags.Any(i => i.Id.Equals(t.Id)))
@@ -103,5 +101,7 @@ namespace Bug.Entities.Model
                 return;
             }
         }
+
+
     }
 }

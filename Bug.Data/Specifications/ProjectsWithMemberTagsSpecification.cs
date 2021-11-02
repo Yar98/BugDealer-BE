@@ -9,7 +9,9 @@ namespace Bug.Data.Specifications
 {
     public class ProjectsWithMemberTagsSpecification : BaseSpecification<Project>
     {
-        public ProjectsWithMemberTagsSpecification(string memberId, int categoryId,
+        public ProjectsWithMemberTagsSpecification
+            (string memberId, 
+            int categoryId,
             string tagName)
             : base(p=>p.Id != null)
         {

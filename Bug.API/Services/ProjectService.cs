@@ -25,9 +25,11 @@ namespace Bug.API.Services
 
         public async Task<ProjectNormalDto> GetNormalProject(string projectId)
         {
+            ProjectNormalSpecification specificationResult =
+                new ProjectNormalSpecification(projectId);
             var result = await _unitOfWork
                 .Project
-                .GetByIdAsync(projectId);
+                .GetProject(specificationResult);
             return new ProjectNormalDto
             {
                 Id = result.Id,
@@ -36,15 +38,25 @@ namespace Bug.API.Services
                 StartDate = result.StartDate,
                 EndDate = result.EndDate,
                 RecentDate = result.RecentDate,
-                AvatarUri = result.AvatarUri
+                ProjectType = result.ProjectType,
+                Description = result.Description,
+                AvatarUri = result.AvatarUri,
+                CreatorId = result.CreatorId,
+                CreatorName = result.Creator?.FullName,
+                DefaultAssigneeId = result.DefaultAssigneeId,
+                DefaultAssigneeName = result.DefaultAssignee?.FullName,
+                WorkflowId = result.WorkflowId,
+                WorkflowName = result.Workflow?.Name
             };
         }
-        //check lai
+        
         public async Task<ProjectDetailDto> GetDetailProject(string projectId)
         {
+            ProjectDetailSpecification specificationResult =
+                new ProjectDetailSpecification(projectId);
             var result = await _unitOfWork
                 .Project
-                .GetByIdAsync(projectId);
+                .GetProject(specificationResult);
             return new ProjectDetailDto
             {
                 Id = result.Id,
@@ -57,8 +69,11 @@ namespace Bug.API.Services
                 Description = result.Description,
                 AvatarUri = result.AvatarUri,
                 CreatorId = result.CreatorId,
+                CreatorName = result.Creator.FullName,
                 DefaultAssigneeId = result.DefaultAssigneeId,
-                WorkflowId = result.WorkflowId
+                DefaultAssigneeName = result.DefaultAssignee?.FullName,
+                WorkflowId = result.WorkflowId,
+                WorkflowName = result.Workflow?.Name
             };
         }
         /*
@@ -96,10 +111,10 @@ namespace Bug.API.Services
         {
             // filter project by creator
             var specificationResult =
-                new ProjectByCreatorWithTagsSpecification(accountId, categoryId, tagName);
+                new ProjectByCreatorWithTagsIssuesSpecification(accountId, categoryId, tagName);
             // filter project which member working on
             var specificationResult1 =
-                new ProjectsWithMemberTagsSpecification(accountId, categoryId, tagName);
+                new ProjectsWithMemberIssuesTagsSpecification(accountId, categoryId, tagName);
             var result = await _unitOfWork
                 .Project
                 .GetPaginatedProjects(
@@ -119,13 +134,16 @@ namespace Bug.API.Services
                     EndDate = p.EndDate,
                     StartDate = p.StartDate,
                     RecentDate = p.RecentDate,
-                    TotalCloseIssues = p.Issues
+                    TotalCloseIssues = p.Issues == null ? 0 : 
+                    p.Issues
                     .Where(i => i.Tags.Where(
                         t => t.Name == "Close" &&
                         t.CategoryId == Bts.IssueTag).Any())
                     .Count(),
-                    TotalIssues = p.Issues.Count,
-                    TotalOpenIssues = p.Issues
+                    TotalIssues = p.Issues == null ? 0 : 
+                    p.Issues.Count,
+                    TotalOpenIssues = p.Issues == null ? 0 : 
+                    p.Issues
                     .Where(i => i.Tags.Where(
                         t => t.Name == "Open" &&
                         t.CategoryId == Bts.IssueTag).Any())

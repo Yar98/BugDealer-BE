@@ -22,6 +22,7 @@ namespace Bug.Data.Specifications
             AddInclude(p => p.Tags.Where(
                     t => t.Name == tagName &&
                     t.CategoryId == categoryId));
+            
         }
     }
 }
