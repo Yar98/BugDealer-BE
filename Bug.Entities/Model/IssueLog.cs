@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Bug.Entities.Model
 {
-    public class Issuelog
+    public class Issuelog : IEntityBase
     {
         public DateTime TimeLog { get; private set; }
         public string IssueId { get; private set; }

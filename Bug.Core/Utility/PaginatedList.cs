@@ -12,9 +12,11 @@ namespace Bug.Core.Utility
     {
         public int PageIndex { get; private set; }
         public int TotalPages { get; private set; }
+        public int Length { get; private set; }
 
         public PaginatedList(List<T> items, int count, int pageIndex, int pageSize)
         {
+            Length = count;
             PageIndex = pageIndex;
             TotalPages = (int)Math.Ceiling(count / (double)pageSize);
             this.AddRange(items);

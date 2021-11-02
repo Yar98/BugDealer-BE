@@ -43,15 +43,6 @@ namespace Bug.Data
                     GetPreconfiguredCategory());
                 }                
                 
-                var ps = bugContext
-                    .Projects.Include(p => p.Tags)
-                    .Where(p => p.Tags.Count == 0)
-                    .ToList();
-                ps.ForEach(p => 
-                {
-                    var te = bugContext.Tags.SingleOrDefault(t=>t.Id==4);
-                    p.AddTag(te);
-                });
 
                 await bugContext.SaveChangesAsync();
             }

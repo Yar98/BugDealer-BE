@@ -16,7 +16,7 @@ namespace Bug.Data.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.10")
+                .HasAnnotation("ProductVersion", "5.0.11")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("AccountProject", b =>
@@ -64,6 +64,9 @@ namespace Bug.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ImageUri")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Language")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
@@ -195,6 +198,9 @@ namespace Bug.Data.Migrations
 
             modelBuilder.Entity("Bug.Entities.Model.Issuelog", b =>
                 {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("IssueId")
                         .HasColumnType("nvarchar(450)");
 
@@ -333,6 +339,9 @@ namespace Bug.Data.Migrations
                     b.Property<string>("FromIssueId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("TagId")
                         .HasColumnType("int");
 
@@ -470,6 +479,9 @@ namespace Bug.Data.Migrations
                     b.Property<string>("AccountId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("IssueId")
                         .HasColumnType("nvarchar(450)");
 
@@ -484,6 +496,9 @@ namespace Bug.Data.Migrations
                 {
                     b.Property<string>("AccountId")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("IssueId")
                         .HasColumnType("nvarchar(450)");

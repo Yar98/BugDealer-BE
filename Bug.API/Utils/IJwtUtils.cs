@@ -1,4 +1,4 @@
-﻿using Bug.API.Services.DTO;
+﻿using Bug.API.Dto;
 using Bug.Entities.Model;
 using System;
 using System.Collections.Generic;

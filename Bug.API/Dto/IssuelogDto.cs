@@ -1,6 +1,6 @@
 using System;
 
-namespace Bug.API.Services.DTO
+namespace Bug.API.Dto
 {
     public class IssuelogDto
     {

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Bug.Entities.Model
 {
-    public class Relation
+    public class Relation : IEntityBase
     {
         public string Description { get; private set; }
         public int TagId { get; private set; }

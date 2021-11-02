@@ -20,8 +20,8 @@ namespace Bug.API.Configuration
         public static void ConfigureSqlServices(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<BugContext>(c =>
-                c.UseSqlServer(configuration.GetConnectionString("BugConnection")));
-                //c.UseSqlServer(configuration.GetConnectionString("DockerConnection")));
+                //c.UseSqlServer(configuration.GetConnectionString("BugConnection")));
+                c.UseSqlServer(configuration.GetConnectionString("DockerConnection")));
         }
         public static void ConfigureGoogleServices(this IServiceCollection services, IConfiguration configuration)
         {
@@ -41,7 +41,7 @@ namespace Bug.API.Configuration
                     //options.CallbackPath = "/api/external/signinexternal";
                     options.ClientId = googleAuthNSection["ClientId"];
                     options.ClientSecret = googleAuthNSection["ClientSecret"];
-                });            
+                });
         }
         public static void ConfigureJwtServices(this IServiceCollection services, IConfiguration configuration)
         {
@@ -55,7 +55,7 @@ namespace Bug.API.Configuration
                 {
                     x.TokenValidationParameters = new TokenValidationParameters();
                 });
-            
+
         }
     }
 }

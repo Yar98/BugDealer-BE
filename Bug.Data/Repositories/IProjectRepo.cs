@@ -12,20 +12,25 @@ namespace Bug.Data.Repositories
 {
     public interface IProjectRepo : IEntityRepoBase<Project>
     {
+        /*
         Task<IReadOnlyList<Project>> GetRecentProjects(
             string accountId,
             int categoryId, string tagName,
             int count, 
             ISpecification<Project> specificationResult, 
             CancellationToken cancelltionToken = default);
-        Task<PaginatedList<Project>> GetPaginatedProjects(string creatorId,
-            int pageIndex, int pageSize,
+        */
+        Task<Project> GetProject
+            (ISpecification<Project> specificationResult,
+            CancellationToken cancelltionToken = default);
+        Task<PaginatedList<Project>> GetPaginatedProjects
+            (int pageIndex, int pageSize,
             int categoryId, string tagName,
             string sortOrder,
             ISpecification<Project> specificationResult,
             CancellationToken cancelltionToken = default);
-        Task<IReadOnlyList<Project>> GetNextProjectsByOffset(string creatorId,
-            int offset, int next,
+        Task<IReadOnlyList<Project>> GetNextProjectsByOffset
+            (int offset, int next,
             string sortOrder,
             ISpecification<Project> specificationResult,
             CancellationToken cancelltionToken = default);

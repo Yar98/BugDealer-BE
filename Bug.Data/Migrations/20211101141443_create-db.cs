@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Bug.Data.Migrations
 {
-    public partial class createddb : Migration
+    public partial class createdb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -143,6 +143,7 @@ namespace Bug.Data.Migrations
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Language = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ImageUri = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     TimezoneId = table.Column<string>(type: "nvarchar(450)", nullable: true)
@@ -551,7 +552,8 @@ namespace Bug.Data.Migrations
                     IssueId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     ModifierId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     PreStatusId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    ModStatusId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    ModStatusId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    Id = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -612,7 +614,8 @@ namespace Bug.Data.Migrations
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     TagId = table.Column<int>(type: "int", nullable: false),
                     FromIssueId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    ToIssueId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    ToIssueId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    Id = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -641,7 +644,8 @@ namespace Bug.Data.Migrations
                 columns: table => new
                 {
                     AccountId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    IssueId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    IssueId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    Id = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -664,7 +668,8 @@ namespace Bug.Data.Migrations
                 columns: table => new
                 {
                     AccountId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    IssueId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    IssueId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    Id = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Bug.Entities.Model
 {
-    public class Project : IEntityBase
+    public class Project : IEntityBase, IIntegrationBase
     {
         public string Id { get; private set; }
         public string Name { get; private set; }
@@ -93,8 +93,6 @@ namespace Bug.Entities.Model
             }                      
         }
 
-
-
         public void AddTag(Tag t)
         {
             if (!Tags.Any(i => i.Id.Equals(t.Id)))
@@ -103,5 +101,7 @@ namespace Bug.Entities.Model
                 return;
             }
         }
+
+
     }
 }

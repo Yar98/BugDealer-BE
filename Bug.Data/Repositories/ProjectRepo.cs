@@ -12,7 +12,7 @@ using Bug.Core.Utility;
 
 namespace Bug.Data.Repositories
 {
-    public class ProjectRepo : EntityRepoBase<Project>, IProjectRepo
+    public class ProjectRepo : EntityRepoBase<Project>, IProjectRepo, IProjectIntegrationRepo<Project>
     {
         public ProjectRepo(BugContext repositoryContext)
             : base(repositoryContext)
@@ -20,8 +20,17 @@ namespace Bug.Data.Repositories
             
         }
 
+        public async Task<Project> GetProject
+            (ISpecification<Project> specificationResult,
+            CancellationToken cancelltionToken = default)
+        {
+            return await _bugContext
+                .Projects
+                .Specify(specificationResult)
+                .FirstOrDefaultAsync(cancelltionToken);
+                
+        }
         public async Task<PaginatedList<Project>> GetPaginatedProjects(
-            string creatorId,
             int pageIndex, int pageSize,
             int categoryId, string tagName,
             string sortOrder,
@@ -36,7 +45,6 @@ namespace Bug.Data.Repositories
                 .CreateListAsync(result.AsNoTracking(),pageIndex,pageSize,cancelltionToken);
         }
         public async Task<IReadOnlyList<Project>> GetNextProjectsByOffset(
-            string creatorId,
             int offset, int next,
             string sortOrder,
             ISpecification<Project> specificationResult,
@@ -52,6 +60,7 @@ namespace Bug.Data.Repositories
                 .AsNoTracking()
                 .ToListAsync(cancelltionToken);
         }
+        /*
         public async Task<IReadOnlyList<Project>> GetRecentProjects(
             string accountId,
             int categoryId, 
@@ -67,7 +76,7 @@ namespace Bug.Data.Repositories
                 .Take(count)
                 .ToListAsync(cancelltionToken);
         }
-        
+        */
 
         private IQueryable<Project> SortOrder(
             IQueryable<Project> result, 
