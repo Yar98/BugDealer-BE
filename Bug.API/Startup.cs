@@ -42,8 +42,8 @@ namespace Bug
                 options.AddPolicy(name: MyAllowSpecificOrigins,
                                   builder =>
                                   {
-                                      builder.WithOrigins("http://localhost:4200/",
-                                                          "http://www.contoso.com");
+                                      builder.WithOrigins("http://localhost:4200",
+                                                          "http://localhost");
                                   });
             });
 
