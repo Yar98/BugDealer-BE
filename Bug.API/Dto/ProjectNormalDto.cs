@@ -20,8 +20,8 @@ namespace Bug.API.Dto
         public string DefaultAssigneeName { get; set; }
         public string CreatorId { get; set; }
         public string CreatorName { get; set; }
-        public string WorkflowId { get; set; }
-        public string WorkflowName { get; set; }
+        //public string WorkflowId { get; set; }
+        //public string WorkflowName { get; set; }
         public int TotalIssues { get; set; }
         public int TotalOpenIssues { get; set; }
         public int TotalCloseIssues { get; set; }

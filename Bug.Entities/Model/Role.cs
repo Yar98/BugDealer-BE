@@ -15,7 +15,7 @@ namespace Bug.Entities.Model
         public ICollection<Account> Accounts { get; private set; }
         public ICollection<Permission> Permissions { get; private set; }
         public ICollection<Project> Projects { get; private set; }
-        public ICollection<Transition> Transitions { get; private set; }
+        //public ICollection<Transition> Transitions { get; private set; }
         private Role() { }
         public Role(string id,
             string name,

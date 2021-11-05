@@ -15,7 +15,6 @@ namespace Bug.Data.Infrastructure
         private ICommentRepo _comment;
         private IIssueRepo _issue;
         private IIssuelogRepo _issuelog;
-        private ILabelRepo _label;
         private IPermissionRepo _permission;
         private IPriorityRepo _priority;
         private IProjectRepo _project;
@@ -86,17 +85,6 @@ namespace Bug.Data.Infrastructure
                     _issuelog = new IssuelogRepo(_bugContext);
                 }
                 return _issuelog;
-            }
-        }
-        public ILabelRepo Label
-        {
-            get
-            {
-                if(_label == null)
-                {
-                    _label = new LabelRepo(_bugContext);
-                }
-                return _label;
             }
         }
         public IPermissionRepo Permission

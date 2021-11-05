@@ -14,7 +14,6 @@ namespace Bug.Data.Infrastructure
         ICommentRepo Comment { get; }
         IIssueRepo Issue { get; }
         IIssuelogRepo Issuelog { get; }
-        ILabelRepo Label { get; }
         IPermissionRepo Permission { get; }
         IPriorityRepo Priority { get; }
         IProjectRepo Project { get; }

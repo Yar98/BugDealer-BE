@@ -2,16 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Bug.Entities.Model
 {
-    public class Issue : IEntityBase
+    public class Issue : IEntityBase, IIntegrationBase
     {
         public string Id { get; private set; }
         public string Title { get; private set; }
         public string Description { get; private set; }
-        public DateTime Timelog { get; private set; }
+        public DateTime LogDate { get; private set; }
         public DateTime CreatedDate { get; private set; }
         public DateTime DueDate { get; private set; }
         public string OriginEstimateTime { get; private set; }
@@ -26,9 +27,16 @@ namespace Bug.Entities.Model
         public string ReporterId { get; private set; }
         public Account Reporter { get; private set; }
         public string AssigneeId { get; private set; }
-        public Account Asignee { get; private set; }
-        public ICollection<Tag> Tags { get; private set; }
+        public Account Assignee { get; private set; }
+
+        private readonly List<Tag> _tags = new List<Tag>();
+        public ICollection<Tag> Tags => _tags.AsReadOnly();
+
+        private readonly List<Attachment> _attachments = new List<Attachment>();
+        public ICollection<Attachment> Attachments => _attachments.AsReadOnly();
+
         private Issue() { }
+        //[JsonConstructor]
         public Issue(string id,
             string title,
             string description,
@@ -47,7 +55,7 @@ namespace Bug.Entities.Model
             Id = id;
             Title = title;
             Description = description;
-            Timelog = timeLog;
+            LogDate = timeLog;
             CreatedDate = createdDate;
             DueDate = dueDate;
             OriginEstimateTime = originEstimateTime;
@@ -58,6 +66,53 @@ namespace Bug.Entities.Model
             ProjectId = projectId;
             ReporterId = reporterId;
             AssigneeId = assigneeId;
+        }
+
+        public void UpdateProjectId(string id)
+        {
+            ProjectId = id;
+        }
+        public void UpdateTitle(string title)
+        {
+            Title = title;
+        }
+        public void UpdateDescription(string des)
+        {
+            Description = des;
+        }
+        public void UpdateReporterId(string id)
+        {
+            ReporterId = id;
+        }
+        public void UpdatePriorityId(int i)
+        {
+            PriorityId = i;
+        }
+        public void UpdateOriginalEstimateTime(string s)
+        {
+            OriginEstimateTime = s;
+        }
+        public void UpdateRemainEstimateTime(string s)
+        {
+            RemainEstimateTime = s;
+        }
+        public void UpdateDueDate(DateTime dt)
+        {
+            DueDate = dt;
+        }
+        public void UpdateAssigneeId(string id)
+        {
+            AssigneeId = id;
+        }
+
+        public void UpdateAttachments(IEnumerable<Attachment> result)
+        {
+
+        }
+        public void UpdateTags(IEnumerable<Tag> result)
+        {
+            _tags.Clear();
+            _tags.AddRange(result);
         }
     }
 }

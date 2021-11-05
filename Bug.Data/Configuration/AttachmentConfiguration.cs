@@ -9,14 +9,15 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Bug.Data.Configuration
 {
-    class LabelConfiguration : IEntityTypeConfiguration<Label>
+    public class AttachmentConfiguration : IEntityTypeConfiguration<Attachment>
     {
-        public void Configure(EntityTypeBuilder<Label> builder)
+        public void Configure(EntityTypeBuilder<Attachment> builder)
         {
             builder
-                .ToTable("Label")
-                .Property(b => b.Name)
+                .ToTable("Attachment")
+                .Property(a => a.Uri)
                 .IsRequired();
+            
         }
     }
 }

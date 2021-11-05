@@ -20,7 +20,7 @@ namespace Bug.Entities.Builder
         public string AvatarUri { get; private set; }
         public string DefaultAssigneeId { get; private set; }
         public string CreatorId { get; private set; }
-        public string WorkflowId { get; private set; }
+        //public string WorkflowId { get; private set; }
 
         public IProjectBuilder AddCreatorId(string id)
         {
@@ -76,11 +76,13 @@ namespace Bug.Entities.Builder
             return this;
         }
 
+        /*
         public IProjectBuilder AddWorkflowId(string id)
         {
             WorkflowId = id;
             return this;
         }
+        */
 
         public IProjectBuilder AddDefaultAssigneeId(string id)
         {
@@ -96,7 +98,7 @@ namespace Bug.Entities.Builder
 
         public Project Build()
         {
-            return new Project(Id, Name, Code, ProjectType, StartDate, EndDate, RecentDate, Description, AvatarUri, DefaultAssigneeId, CreatorId, WorkflowId);
+            return new Project(Id, Name, Code, ProjectType, StartDate, EndDate, RecentDate, Description, AvatarUri, DefaultAssigneeId, CreatorId);
         }
     }
 }

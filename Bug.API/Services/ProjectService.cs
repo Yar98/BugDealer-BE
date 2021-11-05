@@ -6,12 +6,11 @@ using Microsoft.EntityFrameworkCore;
 using Bug.Entities.Model;
 using Bug.Data.Infrastructure;
 using Bug.API.Dto;
-using Bug.API.Dto.Integration;
 using Bug.Core.Common;
 using Bug.Entities.Builder;
 using Bug.Core.Utility;
 using Bug.Data.Specifications;
-
+using System.Threading;
 
 namespace Bug.API.Services
 {
@@ -23,13 +22,15 @@ namespace Bug.API.Services
             _unitOfWork = uow;
         }
 
-        public async Task<ProjectNormalDto> GetNormalProject(string projectId)
+        public async Task<ProjectNormalDto> GetNormalProject
+            (string projectId,
+            CancellationToken cancellationToken = default)
         {
-            ProjectNormalSpecification specificationResult =
-                new ProjectNormalSpecification(projectId);
+            ProjectDetailLv1Specification specificationResult =
+                new ProjectDetailLv1Specification(projectId);
             var result = await _unitOfWork
                 .Project
-                .GetProject(specificationResult);
+                .GetProjectAsync(specificationResult, cancellationToken);
             return new ProjectNormalDto
             {
                 Id = result.Id,
@@ -45,83 +46,44 @@ namespace Bug.API.Services
                 CreatorName = result.Creator?.FullName,
                 DefaultAssigneeId = result.DefaultAssigneeId,
                 DefaultAssigneeName = result.DefaultAssignee?.FullName,
-                WorkflowId = result.WorkflowId,
-                WorkflowName = result.Workflow?.Name
+                //WorkflowId = result.WorkflowId,
+                //WorkflowName = result.Workflow?.Name
             };
         }
         
-        public async Task<ProjectDetailDto> GetDetailProject(string projectId)
+        public async Task<Project> GetDetailProject
+            (string projectId,
+            CancellationToken cancellationToken = default)
         {
-            ProjectDetailSpecification specificationResult =
-                new ProjectDetailSpecification(projectId);
+            ProjectDetailLv1Specification specificationResult =
+                new ProjectDetailLv1Specification(projectId);
             var result = await _unitOfWork
                 .Project
-                .GetProject(specificationResult);
-            return new ProjectDetailDto
-            {
-                Id = result.Id,
-                Name = result.Name,
-                Code = result.Code,
-                StartDate = result.StartDate,
-                EndDate = result.EndDate,
-                RecentDate = result.RecentDate,
-                ProjectType = result.ProjectType,
-                Description = result.Description,
-                AvatarUri = result.AvatarUri,
-                CreatorId = result.CreatorId,
-                CreatorName = result.Creator.FullName,
-                DefaultAssigneeId = result.DefaultAssigneeId,
-                DefaultAssigneeName = result.DefaultAssignee?.FullName,
-                WorkflowId = result.WorkflowId,
-                WorkflowName = result.Workflow?.Name
-            };
+                .GetProjectAsync(specificationResult,cancellationToken);
+            return result;
         }
-        /*
-        public async Task<IReadOnlyList<ProjectLowDto>> GetRecentProjects(
-            string creatorId,
-            int categoryId, 
-            string tagName,
-            int count)
-        {
-            var specificationResult =
-                new ProjectWithCreatorTagsSpecification(creatorId, categoryId, tagName);
-            var result = await _unitOfWork
-                .Project
-                .GetRecentProjects(creatorId, categoryId, tagName, count, specificationResult);
-            return result
-                .Where(p=>p.Tags.Count > 0)
-                .Select(p => new ProjectLowDto
-                {
-                    Id = p.Id,
-                    Name = p.Name 
-                })
-                .ToList();
-        }
-        */
 
         // filter by tags, return not contain tags
-        public async Task<ProjectsPaginatedListDto<ProjectNormalDto>> GetPaginated
+        public async Task<PaginatedListDto<ProjectNormalDto>> GetPaginatedByCreator
             (string accountId,
             int pageIndex,
             int pageSize,
             int categoryId,
             string tagName,
             string sortOrder,
-            int accountType)
+            CancellationToken cancellationToken = default)
         {
             // filter project by creator
             var specificationResult =
-                new ProjectByCreatorWithTagsIssuesSpecification(accountId, categoryId, tagName);
-            // filter project which member working on
-            var specificationResult1 =
-                new ProjectsWithMemberIssuesTagsSpecification(accountId, categoryId, tagName);
+                new ProjectsByCreatorWithITSpecification(accountId, categoryId, tagName);
             var result = await _unitOfWork
                 .Project
-                .GetPaginatedProjects(
+                .GetPaginatedProjectsAsync(
                 pageIndex, pageSize,
-                categoryId, tagName, sortOrder,
-                accountType == Bts.Creator ? specificationResult : specificationResult1);
-            return new ProjectsPaginatedListDto<ProjectNormalDto>
+                sortOrder,
+                specificationResult,
+                cancellationToken);
+            return new PaginatedListDto<ProjectNormalDto>
             {
                 Items = result
                 .Where(p => p.Tags.Count > 0)
@@ -134,14 +96,13 @@ namespace Bug.API.Services
                     EndDate = p.EndDate,
                     StartDate = p.StartDate,
                     RecentDate = p.RecentDate,
+                    TotalIssues = p.Issues == null ? 0 : p.Issues.Count,
                     TotalCloseIssues = p.Issues == null ? 0 : 
                     p.Issues
                     .Where(i => i.Tags.Where(
                         t => t.Name == "Close" &&
                         t.CategoryId == Bts.IssueTag).Any())
                     .Count(),
-                    TotalIssues = p.Issues == null ? 0 : 
-                    p.Issues.Count,
                     TotalOpenIssues = p.Issues == null ? 0 : 
                     p.Issues
                     .Where(i => i.Tags.Where(
@@ -153,28 +114,76 @@ namespace Bug.API.Services
             };
         }
         // filter by tags, return not contain tags
-        public async Task<IReadOnlyList<ProjectNormalDto>> GetNextByOffset
+        public async Task<PaginatedListDto<ProjectNormalDto>> GetPaginatedByMember
+            (string accountId,
+            int pageIndex,
+            int pageSize,
+            int categoryId,
+            string tagName,
+            string sortOrder,
+            CancellationToken cancellationToken = default)
+        {
+            // filter project which member working on
+            var specificationResult =
+                new ProjectsWhichMemberJoinSpecification(accountId, categoryId, tagName);
+            var result = await _unitOfWork
+                .Project
+                .GetPaginatedProjectsAsync(
+                pageIndex, pageSize,
+                sortOrder,
+                specificationResult,
+                cancellationToken);
+            return new PaginatedListDto<ProjectNormalDto>
+            {
+                Items = result
+                .Where(p => p.Tags.Count > 0)
+                .Select(p => new ProjectNormalDto
+                {
+                    Id = p.Id,
+                    AvatarUri = p.AvatarUri,
+                    Code = p.Code,
+                    Name = p.Name,
+                    EndDate = p.EndDate,
+                    StartDate = p.StartDate,
+                    RecentDate = p.RecentDate,
+                    TotalIssues = p.Issues == null ? 0 : p.Issues.Count,
+                    TotalCloseIssues = p.Issues == null ? 0 :
+                    p.Issues
+                    .Where(i => i.Tags.Where(
+                        t => t.Name == "Close" &&
+                        t.CategoryId == Bts.IssueTag).Any())
+                    .Count(),
+                    TotalOpenIssues = p.Issues == null ? 0 :
+                    p.Issues
+                    .Where(i => i.Tags.Where(
+                        t => t.Name == "Open" &&
+                        t.CategoryId == Bts.IssueTag).Any())
+                    .Count()
+                }).ToList(),
+                Length = result.Length
+            };
+        }
+        // filter by tags, return not contain tags
+        public async Task<IReadOnlyList<ProjectNormalDto>> GetNextByOffsetByCreator
             (string accountId,
             int offset,
             int next,
             int categoryId,
             string tagName,
             string sortOrder,
-            int accountType)
+            CancellationToken cancellationToken = default)
         {
             // filter projects by creator
             var specificationResult =
-                new ProjectByCreatorWithTagsSpecification(accountId, categoryId, tagName);
-            // filter projects which member working on
-            var specificationResult1 =
-                new ProjectsWithMemberTagsSpecification(accountId, categoryId, tagName);
+                new ProjectsByCreatorWithITSpecification(accountId, categoryId, tagName);
             var result = await _unitOfWork
                 .Project
-                .GetNextProjectsByOffset(
+                .GetNextProjectsByOffsetAsync(
                 offset,
                 next,
                 sortOrder,
-                accountType == Bts.Creator ? specificationResult : specificationResult1);
+                specificationResult,
+                cancellationToken);
             return result
                 .Where(p => p.Tags.Count > 0)
                 .Select(p => new ProjectNormalDto
@@ -186,13 +195,15 @@ namespace Bug.API.Services
                     Name = p.Name,
                     RecentDate = p.RecentDate,
                     StartDate = p.StartDate,
-                    TotalCloseIssues = p.Issues
+                    TotalIssues = p.Issues == null ? 0 : p.Issues.Count,
+                    TotalCloseIssues = p.Issues == null ? 0 : 
+                    p.Issues
                     .Where(i=>i.Tags.Where(
                         t=>t.Name=="Close"&&
                         t.CategoryId==Bts.IssueTag).Any())
                     .Count(),
-                    TotalIssues = p.Issues.Count,
-                    TotalOpenIssues = p.Issues
+                    TotalOpenIssues = p.Issues == null ? 0 : 
+                    p.Issues
                     .Where(i => i.Tags.Where(
                         t => t.Name == "Open" &&
                         t.CategoryId == Bts.IssueTag).Any())
@@ -200,8 +211,59 @@ namespace Bug.API.Services
                 })
                 .ToList();
         }
-        
-        public async Task<ProjectNormalDto> AddProject(ProjectNormalDto pro)
+
+        // filter by tags, return not contain tags
+        public async Task<IReadOnlyList<ProjectNormalDto>> GetNextByOffsetByMember
+            (string accountId,
+            int offset,
+            int next,
+            int categoryId,
+            string tagName,
+            string sortOrder,
+            CancellationToken cancellationToken = default)
+        {
+            // filter projects which member working on
+            var specificationResult =
+                new ProjectsWhichMemberJoinSpecification(accountId, categoryId, tagName);
+            var result = await _unitOfWork
+                .Project
+                .GetNextProjectsByOffsetAsync(
+                offset,
+                next,
+                sortOrder,
+                specificationResult,
+                cancellationToken);
+            return result
+                .Where(p => p.Tags.Count > 0)
+                .Select(p => new ProjectNormalDto
+                {
+                    Id = p.Id,
+                    AvatarUri = p.AvatarUri,
+                    Code = p.Code,
+                    EndDate = p.EndDate,
+                    Name = p.Name,
+                    RecentDate = p.RecentDate,
+                    StartDate = p.StartDate,
+                    TotalIssues = p.Issues == null ? 0 : p.Issues.Count,
+                    TotalCloseIssues = p.Issues == null ? 0 :
+                    p.Issues
+                    .Where(i => i.Tags.Where(
+                        t => t.Name == "Close" &&
+                        t.CategoryId == Bts.IssueTag).Any())
+                    .Count(),
+                    TotalOpenIssues = p.Issues == null ? 0 :
+                    p.Issues
+                    .Where(i => i.Tags.Where(
+                        t => t.Name == "Open" &&
+                        t.CategoryId == Bts.IssueTag).Any())
+                    .Count()
+                })
+                .ToList();
+        }
+
+        public async Task<ProjectNormalDto> AddProject
+            (ProjectNormalDto pro,
+            CancellationToken cancellationToken = default)
         {
             pro.Id = Guid.NewGuid().ToString();
             var result = new ProjectBuilder()
@@ -215,31 +277,31 @@ namespace Bug.API.Services
                 .Build();
             await _unitOfWork
                 .Project
-                .AddAsync(result);
+                .AddAsync(result, cancellationToken);
             return pro;
         }
-        public async Task UpdateDetailProject(ProjectDetailDto pro)
+        public async Task UpdateProject
+            (ProjectNormalDto pro,
+            CancellationToken cancellationToken = default)
         {
-            var result = new ProjectBuilder()
-                .AddId(pro.Id)
-                .AddName(pro.Name)
-                .AddCode(pro.Code)
-                .AddStartDate(pro.StartDate)
-                .AddEndDate(pro.EndDate)
-                .AddRecentDate(pro.RecentDate)
-                .AddDescription(pro.Description)
-                .AddProjectType(pro.ProjectType)
-                .AddAvatarUri(pro.AvatarUri)
-                .AddWorkflowId(pro.WorkflowId)
-                .AddCreatorId(pro.CreatorId)
-                .AddDefaultAssigneeId(pro.DefaultAssigneeId)
-                .Build();
-            await _unitOfWork.Project.UpdateAsync(result);
+            var result = await _unitOfWork.Project.GetByIdAsync(pro.Id,cancellationToken);
+            result.UpdateName(pro.Name);
+            result.UpdateAvatarUri(pro.AvatarUri);
+            result.UpdateCode(pro.Code);
+            result.UpdateCreatorId(pro.CreatorId);
+            result.UpdateDefaultAssigneeId(pro.DefaultAssigneeId);
+            result.UpdateDescription(pro.Description);
+            result.UpdateEndDate(pro.EndDate);
+            result.UpdateProjectType(pro.ProjectType);
+            result.UpdateStartDate(pro.StartDate);
+            await _unitOfWork.Project.UpdateAsync(result, cancellationToken);
         }
-        public async Task DeleteProject(string projectId)
+        public async Task DeleteProject
+            (string projectId,
+            CancellationToken cancellationToken = default)
         {
-            var result = await _unitOfWork.Project.GetByIdAsync(projectId);
-            await _unitOfWork.Project.DeleteAsync(result);
+            var result = await _unitOfWork.Project.GetByIdAsync(projectId,cancellationToken);
+            await _unitOfWork.Project.DeleteAsync(result,cancellationToken);
         }
 
     }

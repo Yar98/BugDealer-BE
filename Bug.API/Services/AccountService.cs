@@ -6,6 +6,7 @@ using Bug.API.Dto;
 using Bug.Data.Infrastructure;
 using Bug.API.Utils;
 using Bug.Entities.Builder;
+using System.Threading;
 
 namespace Bug.API.Services
 {
@@ -19,7 +20,9 @@ namespace Bug.API.Services
             _jwtUtils = jwtUtils;
         }
 
-        public async Task<string> GenerateTokenAccountGoogle(AccountGoogleLoginDto acc)
+        public async Task<string> GenerateTokenAccountGoogle
+            (AccountGoogleLoginDto acc,
+            CancellationToken cancellationToken = default)
         {
             var result = await _unitOfWork.Account.GetAccountByEmail(acc.Email);
             if (result != null) // exist account
@@ -35,13 +38,14 @@ namespace Bug.API.Services
                     .AddFirstName(acc.GivenName)
                     .AddLastName(acc.SurName)
                     .Build();
-                await _unitOfWork.Account.AddAsync(newAccount);
+                await _unitOfWork.Account.AddAsync(newAccount, cancellationToken);
                 return _jwtUtils.GenerateToken(newAccount.Id, newAccount.UserName, newAccount.Email);
             }
         }
         public async Task<AccountDetailDto> GetAccountByUserName(
             string name, 
-            string password)
+            string password,
+            CancellationToken cancellationToken = default)
         {
             var result = await _unitOfWork.Account.GetAccountByUserName(name, password);
             return new AccountDetailDto
@@ -57,9 +61,11 @@ namespace Bug.API.Services
                 TimezoneId = result.TimezoneId
             };
         }
-        public async Task<AccountDetailDto> GetAccountById(string id)
+        public async Task<AccountDetailDto> GetAccountById
+            (string id,
+            CancellationToken cancellationToken = default)
         {
-            var result =  await _unitOfWork.Account.GetByIdAsync(id);
+            var result =  await _unitOfWork.Account.GetByIdAsync(id, cancellationToken);
             return new AccountDetailDto
             {
                 Id = result.Id,
@@ -73,7 +79,9 @@ namespace Bug.API.Services
                 TimezoneId = result.TimezoneId
             };
         }
-        public async Task<AccountDetailDto> AddRegistedAccount(AccountBtsRegister user)
+        public async Task<AccountDetailDto> AddRegistedAccount
+            (AccountBtsRegister user,
+            CancellationToken cancellationToken = default)
         {
             var result = new AccountBuilder()
                 .AddId(Guid.NewGuid().ToString())
@@ -83,7 +91,7 @@ namespace Bug.API.Services
                 .AddLastName(user.LastName)
                 .AddEmail(user.Email)
                 .Build();
-            await _unitOfWork.Account.AddAsync(result);
+            await _unitOfWork.Account.AddAsync(result, cancellationToken);
             return new AccountDetailDto
             {
                 Id = result.Id,
@@ -93,23 +101,25 @@ namespace Bug.API.Services
                 Email = result.Email
             };
         }
-        public async Task UpdateAccount(AccountDetailDto user)
+        public async Task UpdateAccount
+            (AccountDetailDto user,
+            CancellationToken cancellationToken = default)
         {
-            var result = new AccountBuilder()
-                .AddId(user.Id)
-                .AddUserName(user.UserName)
-                .AddLastName(user.LastName)
-                .AddFirstName(user.FirstName)
-                .AddEmail(user.Email)
-                .AddLanguage(user.Language)
-                .AddImageUri(user.ImageUri)
-                .Build();
-            await _unitOfWork.Account.UpdateAsync(result);
+            var result = await _unitOfWork.Account.GetByIdAsync(user.Id, cancellationToken);
+            result.UpdateUserName(user.UserName);
+            result.UpdateLastName(user.LastName);
+            result.UpdateFirstName(user.FirstName);
+            result.UpdateEmail(user.Email);
+            result.UpdateLanguage(user.Language);
+            result.UpdateImageUri(user.ImageUri);
+            await _unitOfWork.Account.UpdateAsync(result,cancellationToken);
         }
-        public async Task DeleteAccount(string id)
+        public async Task DeleteAccount
+            (string id,
+            CancellationToken cancellationToken = default)
         {
-            var result = await _unitOfWork.Account.GetByIdAsync(id);
-            await _unitOfWork.Account.DeleteAsync(result);
+            var result = await _unitOfWork.Account.GetByIdAsync(id, cancellationToken);
+            await _unitOfWork.Account.DeleteAsync(result, cancellationToken);
         }
 
     }

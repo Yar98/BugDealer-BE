@@ -20,17 +20,18 @@ namespace Bug.Data.Repositories
             ISpecification<Project> specificationResult, 
             CancellationToken cancelltionToken = default);
         */
-        Task<Project> GetProject
+        Task<Project> GetProjectAsync
             (ISpecification<Project> specificationResult,
             CancellationToken cancelltionToken = default);
-        Task<PaginatedList<Project>> GetPaginatedProjects
-            (int pageIndex, int pageSize,
-            int categoryId, string tagName,
+        Task<PaginatedList<Project>> GetPaginatedProjectsAsync
+            (int pageIndex, 
+            int pageSize,
             string sortOrder,
             ISpecification<Project> specificationResult,
             CancellationToken cancelltionToken = default);
-        Task<IReadOnlyList<Project>> GetNextProjectsByOffset
-            (int offset, int next,
+        Task<IReadOnlyList<Project>> GetNextProjectsByOffsetAsync
+            (int offset, 
+            int next,
             string sortOrder,
             ISpecification<Project> specificationResult,
             CancellationToken cancelltionToken = default);

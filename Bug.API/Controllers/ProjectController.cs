@@ -7,9 +7,10 @@ using Bug.Data.Infrastructure;
 using Bug.API.Services;
 using Bug.Core.Common;
 using Bug.API.Dto;
-using Bug.API.Dto.Integration;
 using Bug.Entities.Model;
 using Bug.API.ActionFilter;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -38,7 +39,7 @@ namespace Bug.API.Controllers
         public async Task<IActionResult> GetProject(string projectId)
         {
             var result = await _projectService.GetNormalProject(projectId);
-            return Ok(result);
+            return Ok(Bts.ConvertJson(result));
         }
 
         // GET api/Project/detail/5
@@ -47,53 +48,66 @@ namespace Bug.API.Controllers
         {
             var result = await _projectService
                 .GetDetailProject(id);
-            return Ok(result);
+            return Ok(Bts.ConvertJson(result));
         }
-
-        /*
-        // GET: api/Project/recent/creatorId/nameTag/count
-        [HttpGet("recent/{creatorId}/{nameTag}/{count:int}")]
-        public async Task<IActionResult> GetRecentProjects(
-            string creatorId,
-            string nameTag,
-            int count)
-        {
-            var result = await _projectService
-                .GetRecentProjects(creatorId, Bts.ProjectTag, nameTag, count);
-            return StatusCode(200, result);
-        }
-        */
 
         // GET: api/Project/paging/1/account1/Open/1/3/id
-        [HttpGet("paging/{accountType:int}/{accountId}/{tagName}/{pageIndex:int}/{pageSize:int}/{sortOrder}")]
-        public async Task<IActionResult> GetPaginatedProjects(
+        [HttpGet("paging/creator/{accountId}/{tagName}/{pageIndex:int}/{pageSize:int}/{sortOrder}")]
+        public async Task<IActionResult> GetPaginatedProjectsByCreator(
             string accountId,
             int pageIndex, 
             int pageSize,
             string tagName,
-            string sortOrder,
-            int accountType)
+            string sortOrder)
         {
             var result = 
-                await _projectService.GetPaginated(
-                    accountId, pageIndex, pageSize, Bts.ProjectTag, tagName, sortOrder, accountType);
-            return Ok(result);
+                await _projectService.GetPaginatedByCreator(
+                    accountId, pageIndex, pageSize, Bts.ProjectTag, tagName, sortOrder);
+            return Ok(Bts.ConvertJson(result));
+        }
+
+        [HttpGet("paging/member/{accountId}/{tagName}/{pageIndex:int}/{pageSize:int}/{sortOrder}")]
+        public async Task<IActionResult> GetPaginatedProjectsByMember(
+            string accountId,
+            int pageIndex,
+            int pageSize,
+            string tagName,
+            string sortOrder)
+        {
+            var result =
+                await _projectService.GetPaginatedByMember(
+                    accountId, pageIndex, pageSize, Bts.ProjectTag, tagName, sortOrder);
+            return Ok(Bts.ConvertJson(result));
         }
 
         // GET: api/Project/offset/1/account1/Open/1/3/id
-        [HttpGet("offset/{accountType:int}/{accountId}/{tagName}/{offset:int}/{next:int}/{sortOrder}")]
-        public async Task<IActionResult> GetNextProjectsByOffset(
+        [HttpGet("offset/creator/{accountId}/{tagName}/{offset:int}/{next:int}/{sortOrder}")]
+        public async Task<IActionResult> GetNextProjectsByOffsetByCreator(
             string accountId,
             int offset,
             int next,
             string tagName,
-            string sortOrder,
-            int accountType)
+            string sortOrder)
         {
             var result =
-                await _projectService.GetNextByOffset(
-                    accountId, offset, next, Bts.ProjectTag, tagName, sortOrder, accountType);
-            return Ok(result);
+                await _projectService.GetNextByOffsetByCreator(
+                    accountId, offset, next, Bts.ProjectTag, tagName, sortOrder);
+            return Ok(Bts.ConvertJson(result));
+        }
+
+        // GET: api/Project/offset/1/account1/Open/1/3/id
+        [HttpGet("offset/member/{accountId}/{tagName}/{offset:int}/{next:int}/{sortOrder}")]
+        public async Task<IActionResult> GetNextProjectsByOffsetByMember(
+            string accountId,
+            int offset,
+            int next,
+            string tagName,
+            string sortOrder)
+        {
+            var result =
+                await _projectService.GetNextByOffsetByMember(
+                    accountId, offset, next, Bts.ProjectTag, tagName, sortOrder);
+            return Ok(Bts.ConvertJson(result));
         }
 
         // POST api/Project
@@ -109,11 +123,11 @@ namespace Bug.API.Controllers
         [HttpPut("detail/{id}")]
         public async Task<IActionResult> PutEditDetailProject(
             string id, 
-            [FromBody] ProjectDetailDto pro)
+            [FromBody] ProjectNormalDto pro)
         {
             if (id != pro.Id)
                 return BadRequest();
-            await _projectService.UpdateDetailProject(pro);
+            await _projectService.UpdateProject(pro);
             return NoContent();
         }
 

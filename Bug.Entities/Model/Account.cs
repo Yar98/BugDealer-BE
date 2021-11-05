@@ -28,7 +28,9 @@ namespace Bug.Entities.Model
         public Timezone Timezone { get; private set; }
         public ICollection<Project> CreatedProjects { get; private set; }
         public ICollection<Project> DefaultAssigneeProjects { get; private set; }
+
         public ICollection<Role> Roles { get; private set; }
+        public ICollection<Status> Statuses { get; private set; }
 
         private readonly List<Project> _projects = new List<Project>();
         public ICollection<Project> Projects => _projects.AsReadOnly();
@@ -75,6 +77,10 @@ namespace Bug.Entities.Model
         {
             ImageUri = imageuri;
         }
+        public void UpdateLanguage(string lan)
+        {
+            Language = lan;
+        }
         public void AddRole(string roleId, 
             string name, 
             string memberId, 
@@ -86,7 +92,8 @@ namespace Bug.Entities.Model
                 return;
             }
         }
-        public void AddProject(string id,
+        public void AddProject
+            (string id,
             string name,
             string code,
             string projectType,
@@ -96,12 +103,11 @@ namespace Bug.Entities.Model
             string description,
             string uri,
             string defaultAssigneeId,
-            string creatorId,
-            string workflowId)
+            string creatorId)
         {
             if (!Projects.Any(i => i.Id.Equals(id)))
             {
-                _projects.Add(new Project(id, name, code, projectType, startDate, endDate, recentDate, description, uri, defaultAssigneeId, creatorId,workflowId));
+                _projects.Add(new Project(id, name, code, projectType, startDate, endDate, recentDate, description, uri, defaultAssigneeId, creatorId));
                 return;
             }
         }

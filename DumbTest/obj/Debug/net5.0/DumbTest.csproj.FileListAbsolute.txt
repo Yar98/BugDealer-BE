@@ -1,3 +1,5 @@
+Y:\BugDealer-BE\DumbTest\bin\Debug\net5.0\Microsoft.IdentityModel.Tokens.dll
+Y:\BugDealer-BE\DumbTest\bin\Debug\net5.0\Newtonsoft.Json.dll
 Y:\BugDealer-BE\DumbTest\bin\Debug\net5.0\DumbTest.exe
 Y:\BugDealer-BE\DumbTest\bin\Debug\net5.0\DumbTest.deps.json
 Y:\BugDealer-BE\DumbTest\bin\Debug\net5.0\DumbTest.runtimeconfig.json
@@ -26,9 +28,7 @@ Y:\BugDealer-BE\DumbTest\bin\Debug\net5.0\Microsoft.IdentityModel.JsonWebTokens.
 Y:\BugDealer-BE\DumbTest\bin\Debug\net5.0\Microsoft.IdentityModel.Logging.dll
 Y:\BugDealer-BE\DumbTest\bin\Debug\net5.0\Microsoft.IdentityModel.Protocols.dll
 Y:\BugDealer-BE\DumbTest\bin\Debug\net5.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
-Y:\BugDealer-BE\DumbTest\bin\Debug\net5.0\Microsoft.IdentityModel.Tokens.dll
 Y:\BugDealer-BE\DumbTest\bin\Debug\net5.0\Microsoft.Win32.SystemEvents.dll
-Y:\BugDealer-BE\DumbTest\bin\Debug\net5.0\Newtonsoft.Json.dll
 Y:\BugDealer-BE\DumbTest\bin\Debug\net5.0\System.Configuration.ConfigurationManager.dll
 Y:\BugDealer-BE\DumbTest\bin\Debug\net5.0\System.Diagnostics.DiagnosticSource.dll
 Y:\BugDealer-BE\DumbTest\bin\Debug\net5.0\System.Drawing.Common.dll

@@ -7,13 +7,13 @@ using Bug.Entities.Model;
 
 namespace Bug.Data.Specifications
 {
-    public class ProjectDetailSpecification : BaseSpecification<Project>
+    public class ProjectDetailLv1Specification : BaseSpecification<Project>
     {
-        public ProjectDetailSpecification(string projectId)
+        public ProjectDetailLv1Specification(string projectId)
             : base(p=>p.Id == projectId)
         {
             AddInclude(p => p.Creator);
-            AddInclude(p => p.Workflow);
+            //AddInclude(p => p.Workflow);
             AddInclude(p => p.DefaultAssignee);
             AddInclude(p => p.Accounts);
             AddInclude(p => p.Roles);

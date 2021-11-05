@@ -10,7 +10,7 @@ namespace Bug.Entities.Model
     {
         public string Id { get; private set; }
         public string Content { get; private set; }
-        public DateTime TimeLog { get; private set; }
+        public string TimeLog { get; private set; }
         public string IssueId { get; private set; }
         public Issue Issue { get; private set; }
         public string AccountId { get; private set; }
@@ -18,7 +18,7 @@ namespace Bug.Entities.Model
         private Comment() { }
         public Comment(string id,
             string content,
-            DateTime time,
+            string time,
             string issueId,
             string accountId)
         {

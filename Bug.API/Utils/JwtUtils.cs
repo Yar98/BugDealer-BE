@@ -15,8 +15,8 @@ namespace Bug.API.Utils
     public class JwtUtils : IJwtUtils
     {
         private readonly string Secret = "e00e1ae681d9ad7984bd79009672c387178ac8420bcb3a9e769c01e3dce4a1b2";
-        private readonly string Issuer = "https://bts.com";
-        private readonly string Audience = "https://bts.com";
+        //private readonly string Issuer = "https://bts.com";
+        //private readonly string Audience = "https://bts.com";
 
         public string GenerateToken(string id, string name, string email)
         {
