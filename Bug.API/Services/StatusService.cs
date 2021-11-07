@@ -17,7 +17,7 @@ namespace Bug.API.Services
         {
             _unitOfWork = unitOfWork;
         }
-        public async Task<Status> GetStatusDetailByIdAsync
+        public async Task<Status> GetDetailStatusByIdAsync
             (string id,
             CancellationToken cancellationToken = default)
         {
@@ -70,9 +70,11 @@ namespace Bug.API.Services
                 status.Progress);
             result.UpdateAccounts(status.Accounts);
             result.UpdateTags(status.Tags);
-            return await _unitOfWork
+            await _unitOfWork
                 .Status
                 .AddAsync(result, cancellationToken);
+            await _unitOfWork.SaveAsync(cancellationToken);
+            return result;
         }
         public async Task UpdateStatusAsync
             (StatusNormalDto status,
@@ -84,14 +86,16 @@ namespace Bug.API.Services
             result.UpdateProgress(status.Progress);
             result.UpdateAccounts(status.Accounts);
             result.UpdateTags(status.Tags);
-            await _unitOfWork.Status.UpdateAsync(result, cancellationToken);
+            _unitOfWork.Status.Update(result);
+            await _unitOfWork.SaveAsync(cancellationToken);
         }
         public async Task DeleteStatusAsync
             (string statusId,
             CancellationToken cancellationToken = default)
         {
             var result = await _unitOfWork.Status.GetByIdAsync(statusId, cancellationToken);
-            await _unitOfWork.Status.DeleteAsync(result, cancellationToken);
+            _unitOfWork.Status.Delete(result);
+            await _unitOfWork.SaveAsync(cancellationToken);
         }
     }
 }

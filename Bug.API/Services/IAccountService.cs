@@ -9,11 +9,23 @@ namespace Bug.API.Services
 {
     public interface IAccountService
     {
-        Task<string> GenerateTokenAccountGoogle(AccountGoogleLoginDto acc, CancellationToken cancellationToken = default);
-        Task<AccountDetailDto> GetAccountByUserName(string name, string password, CancellationToken cancellationToken = default);
-        Task<AccountDetailDto> GetAccountById(string id, CancellationToken cancellationToken = default);
-        Task<AccountDetailDto> AddRegistedAccount(AccountBtsRegister user, CancellationToken cancellationToken = default);
-        Task UpdateAccount(AccountDetailDto user, CancellationToken cancellationToken = default);
-        Task DeleteAccount(string id, CancellationToken cancellationToken = default);
+        Task<string> GenerateTokenGoogleAccountAsync(AccountGoogleLoginDto acc, CancellationToken cancellationToken = default);
+        Task<AccountNormalDto> GetLoginLocalAsync(string name, string password, CancellationToken cancellationToken = default);
+        Task<AccountNormalDto> GetAccountByIdAsync(string id, CancellationToken cancellationToken = default);
+        Task<PaginatedListDto<AccountNormalDto>> GetPaginatedByProjectAsync
+            (string projectId,
+            int pageIndex,
+            int pageSize,
+            string sortOrder,
+            CancellationToken cancellationToken = default);
+        Task<IReadOnlyList<AccountNormalDto>> GetNextByOffsetByProjectAsync
+            (string projectId,
+            int offset,
+            int next,
+            string sortOrder,
+            CancellationToken cancellationToken = default);
+        Task<AccountNormalDto> AddRegistedAccountAsync(AccountBtsRegister user, CancellationToken cancellationToken = default);
+        Task UpdateAccountAsync(AccountNormalDto user, CancellationToken cancellationToken = default);
+        Task DeleteAccountAsync(string id, CancellationToken cancellationToken = default);
     }
 }

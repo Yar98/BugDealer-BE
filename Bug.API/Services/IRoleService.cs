@@ -8,30 +8,30 @@ using System.Threading.Tasks;
 
 namespace Bug.API.Services
 {
-    public interface IIssueService
+    public interface IRoleService
     {
-        Task<Issue> GetDetailIssueAsync
+        Task<Role> GetDetailRoleByIdAsync
             (string id,
-            CancellationToken cancelltionToken = default);
-        Task<PaginatedListDto<Issue>> GetPaginatedDetailByProjectAsync
+            CancellationToken cancellationToken = default);
+        Task<PaginatedListDto<Role>> GetPaginatedDetailByProjectAsync
             (string projectId,
             int pageIndex,
             int pageSize,
             string sortOrder,
             CancellationToken cancellationToken = default);
-        Task<IReadOnlyList<Issue>> GetNextDetailByOffsetByProjectAsync
+        Task<IReadOnlyList<Role>> GetNextDetailByOffsetByProjectAsync
             (string projectId,
             int offset,
             int next,
             string sortOrder,
-            CancellationToken cancellationToke = default);
-        Task<Issue> AddIssueAsync
-            (IssueNormalDto issue,
             CancellationToken cancellationToken = default);
-        Task UpdateIssueAsync
-            (IssueNormalDto issue,
+        Task<Role> AddRoleAsync
+            (RoleNormalDto role,
             CancellationToken cancellationToken = default);
-        Task DeleteIssueAsync
+        Task UpdateRoleAsync
+            (RoleNormalDto role,
+            CancellationToken cancellationToken = default);
+        Task DeleteRoleAsync
             (string id,
             CancellationToken cancellationToken = default);
     }

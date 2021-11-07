@@ -29,7 +29,7 @@ namespace Bug.API.Controllers
         [HttpGet("detail/{id}")]
         public async Task<IActionResult> GetDetailIssue(string id)
         {
-            var result = await _issueService.GetIssueDetailAsync(id);
+            var result = await _issueService.GetDetailIssueAsync(id);
             return Ok(Bts.ConvertJson(result));
         }
 
@@ -41,7 +41,7 @@ namespace Bug.API.Controllers
             string sortOrder)
         {
             var result = await _issueService
-                .GetPaginatedByProject(projectId, pageIndex, pageSize, sortOrder);
+                .GetPaginatedDetailByProjectAsync(projectId, pageIndex, pageSize, sortOrder);
             return Ok(Bts.ConvertJson(result));
         }
 
@@ -53,15 +53,15 @@ namespace Bug.API.Controllers
             string sortOrder)
         {
             var result = await _issueService
-                .GetByOffsetByProject(projectId, offset, next, sortOrder);
+                .GetNextDetailByOffsetByProjectAsync(projectId, offset, next, sortOrder);
             return Ok(Bts.ConvertJson(result));
         }
 
         // POST api/Issue
         [HttpPost]
-        public async Task<IActionResult> PostAddIssue([FromBody] IssueDto issue)
+        public async Task<IActionResult> PostAddIssue([FromBody] IssueNormalDto issue)
         {
-            var result = await _issueService.AddIssue(issue);
+            var result = await _issueService.AddIssueAsync(issue);
             return CreatedAtAction(
                 nameof(GetDetailIssue), new { id = result.Id }, issue);
         }
@@ -70,11 +70,11 @@ namespace Bug.API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutUpdateIssue
             (string id, 
-            [FromBody] IssueDto issue)
+            [FromBody] IssueNormalDto issue)
         {
             if (id != issue.Id)
                 return BadRequest();
-            await _issueService.UpdateIssue(issue);
+            await _issueService.UpdateIssueAsync(issue);
             return NoContent();
         }
 

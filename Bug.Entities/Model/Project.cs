@@ -98,21 +98,11 @@ namespace Bug.Entities.Model
             DefaultAssigneeId = id;
         }
 
-        public void AddAccount(string id,
-            string userName,
-            string password,
-            string firstName,
-            string lastName,
-            string email,
-            DateTime createdDate,
-            string language,
-            string imageUri,
-            string timezoneId)
+        public void AddAccount(Account a)
         {
-            if (!Accounts.Any(i => i.Id.Equals(id)))
+            if (!Accounts.Any(i => i.Id.Equals(a.Id)))
             {
-                _accounts.Add(new Account(id, userName, password, firstName, lastName, email, createdDate, language, imageUri,timezoneId));
-                //_accounts.Add(a);
+                _accounts.Add(a);
                 return;
             }
         }

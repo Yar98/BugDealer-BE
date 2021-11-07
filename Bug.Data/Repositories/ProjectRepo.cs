@@ -12,7 +12,7 @@ using Bug.Core.Utility;
 
 namespace Bug.Data.Repositories
 {
-    public class ProjectRepo : EntityRepoBase<Project>, IProjectRepo, IProjectIntegrationRepo<Project>
+    public class ProjectRepo : EntityRepoBase<Project>, IProjectRepo
     {
         public ProjectRepo(BugContext repositoryContext)
             : base(repositoryContext)
@@ -119,9 +119,10 @@ namespace Bug.Data.Repositories
         public async Task Test()
         {
             var query = from project in _bugContext.Set<Project>()
-                        join workflow in _bugContext.Set<Workflow>()
-                        on project.CreatorId equals workflow.Id
-                        select new { project };
+                        join role in _bugContext.Set<Role>()
+                        on project.CreatorId equals role.Id
+                        select new { project, role };
+            var result = query.ToQueryString();
             var s = await query.ToListAsync();
         }
 

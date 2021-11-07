@@ -29,6 +29,9 @@ namespace Bug.Entities.Model
         public string AssigneeId { get; private set; }
         public Account Assignee { get; private set; }
 
+        public ICollection<Account> Watcher { get; private set; }
+        public ICollection<Account> Voter { get; private set; }
+
         private readonly List<Tag> _tags = new List<Tag>();
         public ICollection<Tag> Tags => _tags.AsReadOnly();
 
@@ -37,7 +40,8 @@ namespace Bug.Entities.Model
 
         private Issue() { }
         //[JsonConstructor]
-        public Issue(string id,
+        public Issue
+            (string id,
             string title,
             string description,
             DateTime timeLog,
@@ -107,7 +111,7 @@ namespace Bug.Entities.Model
 
         public void UpdateAttachments(IEnumerable<Attachment> result)
         {
-
+            
         }
         public void UpdateTags(IEnumerable<Tag> result)
         {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Bug.Data.Repositories;
 
@@ -22,10 +23,6 @@ namespace Bug.Data.Infrastructure
         private IRoleRepo _role;
         private IStatusRepo _status;
         private ITagRepo _tag;
-        private ITransitionRepo _transition;
-        private IVoteRepo _vote;
-        private IWatcherRepo _watcher;
-        private IWorkflowRepo _workflow;
         private IWorklogRepo _worklog;
 
         public UnitOfWork(BugContext bugContext)
@@ -164,50 +161,7 @@ namespace Bug.Data.Infrastructure
                 return _tag;
             }
         }
-        public ITransitionRepo Transition
-        {
-            get
-            {
-                if (_transition == null)
-                {
-                    _transition = new TransitionRepo(_bugContext);
-                }
-                return _transition;
-            }
-        }
-        public IVoteRepo Vote
-        {
-            get
-            {
-                if (_vote == null)
-                {
-                    _vote = new VoteRepo(_bugContext);
-                }
-                return _vote;
-            }
-        }
-        public IWatcherRepo Watcher
-        {
-            get
-            {
-                if (_watcher == null)
-                {
-                    _watcher = new WatcherRepo(_bugContext);
-                }
-                return _watcher;
-            }
-        }
-        public IWorkflowRepo Workflow
-        {
-            get
-            {
-                if (_workflow == null)
-                {
-                    _workflow = new WorkflowRepo(_bugContext);
-                }
-                return _workflow;
-            }
-        }
+        
         public IWorklogRepo Worklog
         {
             get
@@ -219,9 +173,9 @@ namespace Bug.Data.Infrastructure
                 return _worklog;
             }
         }
-        public void Save()
+        public async Task SaveAsync(CancellationToken cancellationToken = default)
         {
-            _bugContext.SaveChanges();
+            await _bugContext.SaveChangesAsync(cancellationToken);
         }
     }
 }

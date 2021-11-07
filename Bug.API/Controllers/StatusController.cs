@@ -31,7 +31,7 @@ namespace Bug.API.Controllers
         [HttpGet("detail/{id}")]
         public async Task<IActionResult> GetDetailStatusById(string id)
         {
-            var result = await _statusService.GetStatusDetailByIdAsync(id);
+            var result = await _statusService.GetDetailStatusByIdAsync(id);
             return Ok(Bts.ConvertJson(result));
         }
 

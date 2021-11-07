@@ -37,16 +37,16 @@ namespace Bug
             services.ConfigureJwtServices(Configuration);
             services.ConfigureGoogleServices(Configuration);
             services.AddCoreServices(Configuration);
-            services.AddScoped<JwtFilter>();
 
             services.AddCors(options =>
             {
                 options.AddPolicy(name: MyAllowSpecificOrigins,
-                                  builder =>
-                                  {
-                                      builder.WithOrigins("http://localhost:4200",
-                                                          "http://localhost");
-                                  });
+                    builder =>
+                    {
+                        builder.WithOrigins(
+                            "http://localhost:4200",
+                            "http://localhost");
+                    });
             });
             /*
             services.AddControllers().AddJsonOptions(
@@ -64,7 +64,7 @@ namespace Bug
             {
                 options.ForwardedHeaders =
                     ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto | ForwardedHeaders.XForwardedHost;
-            });            
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

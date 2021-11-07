@@ -7,6 +7,8 @@ using Bug.Data.Infrastructure;
 using Bug.API.Utils;
 using Bug.Entities.Builder;
 using System.Threading;
+using Bug.Entities.Model;
+using Bug.Data.Specifications;
 
 namespace Bug.API.Services
 {
@@ -20,7 +22,7 @@ namespace Bug.API.Services
             _jwtUtils = jwtUtils;
         }
 
-        public async Task<string> GenerateTokenAccountGoogle
+        public async Task<string> GenerateTokenGoogleAccountAsync
             (AccountGoogleLoginDto acc,
             CancellationToken cancellationToken = default)
         {
@@ -39,34 +41,47 @@ namespace Bug.API.Services
                     .AddLastName(acc.SurName)
                     .Build();
                 await _unitOfWork.Account.AddAsync(newAccount, cancellationToken);
+                await _unitOfWork.SaveAsync(cancellationToken);
                 return _jwtUtils.GenerateToken(newAccount.Id, newAccount.UserName, newAccount.Email);
             }
         }
-        public async Task<AccountDetailDto> GetAccountByUserName(
+
+        public async Task<AccountNormalDto> GetLoginLocalAsync(
             string name, 
             string password,
             CancellationToken cancellationToken = default)
         {
             var result = await _unitOfWork.Account.GetAccountByUserName(name, password);
-            return new AccountDetailDto
-            {
-                Id = result.Id,
-                UserName = result.UserName,
-                CreatedDate = result.CreatedDate,
-                Email = result.Email,
-                FirstName = result.FirstName,
-                ImageUri = result.ImageUri,
-                Language = result.LastName,
-                LastName = result.LastName,
-                TimezoneId = result.TimezoneId
-            };
+            if (result != null)
+                return new AccountNormalDto
+                {
+                    Id = result.Id,
+                    UserName = result.UserName,
+                    CreatedDate = result.CreatedDate,
+                    Email = result.Email,
+                    FirstName = result.FirstName,
+                    ImageUri = result.ImageUri,
+                    Language = result.LastName,
+                    LastName = result.LastName,
+                    TimezoneId = result.TimezoneId
+                };
+            else
+                return null;
         }
-        public async Task<AccountDetailDto> GetAccountById
+
+        /*
+        public async Task<Account> GetDetailAccountByIdAsync(string id)
+        {
+
+        }
+        */
+
+        public async Task<AccountNormalDto> GetAccountByIdAsync
             (string id,
             CancellationToken cancellationToken = default)
         {
             var result =  await _unitOfWork.Account.GetByIdAsync(id, cancellationToken);
-            return new AccountDetailDto
+            return new AccountNormalDto
             {
                 Id = result.Id,
                 UserName = result.UserName,
@@ -79,7 +94,64 @@ namespace Bug.API.Services
                 TimezoneId = result.TimezoneId
             };
         }
-        public async Task<AccountDetailDto> AddRegistedAccount
+
+        public async Task<PaginatedListDto<AccountNormalDto>> GetPaginatedByProjectAsync
+            (string projectId,
+            int pageIndex,
+            int pageSize,
+            string sortOrder,
+            CancellationToken cancellationToken = default)
+        {
+            AccountsByProjectSpecification specificationResult =
+                new(projectId);
+            var result = await _unitOfWork.Account.GetPaginatedListAsync(pageIndex, pageSize, sortOrder, specificationResult, cancellationToken);
+            return new PaginatedListDto<AccountNormalDto>
+            {
+                Length = result.Length,
+                Items = result.Select(
+                    a => new AccountNormalDto
+                    {
+                        Id = a.Id,
+                        UserName = a.UserName,
+                        CreatedDate = a.CreatedDate,
+                        Email = a.Email,
+                        FirstName = a.FirstName,
+                        ImageUri = a.ImageUri,
+                        Language = a.LastName,
+                        LastName = a.LastName,
+                        TimezoneId = a.TimezoneId
+                    })
+                .ToList()
+            };
+        }
+
+        public async Task<IReadOnlyList<AccountNormalDto>> GetNextByOffsetByProjectAsync
+            (string projectId,
+            int offset,
+            int next,
+            string sortOrder,
+            CancellationToken cancellationToken = default)
+        {
+            AccountsByProjectSpecification specificationResult =
+                new(projectId);
+            var result = await _unitOfWork.Account.GetNextByOffsetAsync(offset, next, sortOrder, specificationResult, cancellationToken);
+            return result
+                .Select(a => new AccountNormalDto
+                {
+                    Id = a.Id,
+                    UserName = a.UserName,
+                    CreatedDate = a.CreatedDate,
+                    Email = a.Email,
+                    FirstName = a.FirstName,
+                    ImageUri = a.ImageUri,
+                    Language = a.LastName,
+                    LastName = a.LastName,
+                    TimezoneId = a.TimezoneId
+                })
+                .ToList();
+        }
+
+        public async Task<AccountNormalDto> AddRegistedAccountAsync
             (AccountBtsRegister user,
             CancellationToken cancellationToken = default)
         {
@@ -92,7 +164,8 @@ namespace Bug.API.Services
                 .AddEmail(user.Email)
                 .Build();
             await _unitOfWork.Account.AddAsync(result, cancellationToken);
-            return new AccountDetailDto
+            await _unitOfWork.SaveAsync(cancellationToken);
+            return new AccountNormalDto
             {
                 Id = result.Id,
                 UserName = result.UserName,
@@ -100,9 +173,10 @@ namespace Bug.API.Services
                 LastName = result.LastName,
                 Email = result.Email
             };
-        }
-        public async Task UpdateAccount
-            (AccountDetailDto user,
+        }        
+
+        public async Task UpdateAccountAsync
+            (AccountNormalDto user,
             CancellationToken cancellationToken = default)
         {
             var result = await _unitOfWork.Account.GetByIdAsync(user.Id, cancellationToken);
@@ -112,15 +186,20 @@ namespace Bug.API.Services
             result.UpdateEmail(user.Email);
             result.UpdateLanguage(user.Language);
             result.UpdateImageUri(user.ImageUri);
-            await _unitOfWork.Account.UpdateAsync(result,cancellationToken);
+            _unitOfWork.Account.Update(result);
+            await _unitOfWork.SaveAsync(cancellationToken);
         }
-        public async Task DeleteAccount
+
+        public async Task DeleteAccountAsync
             (string id,
             CancellationToken cancellationToken = default)
         {
             var result = await _unitOfWork.Account.GetByIdAsync(id, cancellationToken);
-            await _unitOfWork.Account.DeleteAsync(result, cancellationToken);
+            _unitOfWork.Account.Delete(result);
+            await _unitOfWork.SaveAsync(cancellationToken);
         }
+
+        
 
     }
 }

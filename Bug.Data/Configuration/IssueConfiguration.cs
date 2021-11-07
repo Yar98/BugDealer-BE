@@ -17,9 +17,10 @@ namespace Bug.Data.Configuration
                 .ToTable("Issue")
                 .Property(b => b.Title)
                 .IsRequired();
+            
             //builder
               //  .Property(b => b.PriorityId)
-                //.IsRequired();           
+                //.IsRequired();       
         }
     }
 }

@@ -10,7 +10,7 @@ namespace Bug.API.Services
 {
     public interface IStatusService
     {
-        Task<Status> GetStatusDetailByIdAsync
+        Task<Status> GetDetailStatusByIdAsync
             (string id,
             CancellationToken cancellationToken = default);
         Task<PaginatedListDto<Status>> GetPaginatedDetailByCreatorAsync

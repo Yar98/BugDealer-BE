@@ -28,8 +28,12 @@ namespace Bug.Entities.Model
         public Timezone Timezone { get; private set; }
         public ICollection<Project> CreatedProjects { get; private set; }
         public ICollection<Project> DefaultAssigneeProjects { get; private set; }
-
+        public ICollection<Issue> WatchIssues { get; private set; }
+        public ICollection<Issue> VoteIssues { get; private set; }
+        public ICollection<Issue> ReportIssues { get; private set; }
+        public ICollection<Issue> AssignIssues { get; private set; }
         public ICollection<Role> Roles { get; private set; }
+        public ICollection<Role> CreateRoles { get; private set; }
         public ICollection<Status> Statuses { get; private set; }
 
         private readonly List<Project> _projects = new List<Project>();

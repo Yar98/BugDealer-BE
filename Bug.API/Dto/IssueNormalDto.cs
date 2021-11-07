@@ -6,7 +6,7 @@ using Bug.Entities.Model;
 
 namespace Bug.API.Dto
 {
-    public class IssueDto
+    public class IssueNormalDto
     {
         public string Id { get; set; }
         public string Title { get; set; }

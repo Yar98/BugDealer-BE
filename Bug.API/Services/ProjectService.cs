@@ -22,12 +22,12 @@ namespace Bug.API.Services
             _unitOfWork = uow;
         }
 
-        public async Task<ProjectNormalDto> GetNormalProject
+        public async Task<ProjectNormalDto> GetNormalProjectAsync
             (string projectId,
             CancellationToken cancellationToken = default)
         {
             ProjectDetailLv1Specification specificationResult =
-                new ProjectDetailLv1Specification(projectId);
+                new(projectId);
             var result = await _unitOfWork
                 .Project
                 .GetProjectAsync(specificationResult, cancellationToken);
@@ -51,12 +51,12 @@ namespace Bug.API.Services
             };
         }
         
-        public async Task<Project> GetDetailProject
+        public async Task<Project> GetDetailProjectAsync
             (string projectId,
             CancellationToken cancellationToken = default)
         {
             ProjectDetailLv1Specification specificationResult =
-                new ProjectDetailLv1Specification(projectId);
+                new(projectId);
             var result = await _unitOfWork
                 .Project
                 .GetProjectAsync(specificationResult,cancellationToken);
@@ -64,7 +64,7 @@ namespace Bug.API.Services
         }
 
         // filter by tags, return not contain tags
-        public async Task<PaginatedListDto<ProjectNormalDto>> GetPaginatedByCreator
+        public async Task<PaginatedListDto<ProjectNormalDto>> GetPaginatedByCreatorAsync
             (string accountId,
             int pageIndex,
             int pageSize,
@@ -114,7 +114,7 @@ namespace Bug.API.Services
             };
         }
         // filter by tags, return not contain tags
-        public async Task<PaginatedListDto<ProjectNormalDto>> GetPaginatedByMember
+        public async Task<PaginatedListDto<ProjectNormalDto>> GetPaginatedByMemberAsync
             (string accountId,
             int pageIndex,
             int pageSize,
@@ -164,7 +164,7 @@ namespace Bug.API.Services
             };
         }
         // filter by tags, return not contain tags
-        public async Task<IReadOnlyList<ProjectNormalDto>> GetNextByOffsetByCreator
+        public async Task<IReadOnlyList<ProjectNormalDto>> GetNextByOffsetByCreatorAsync
             (string accountId,
             int offset,
             int next,
@@ -213,7 +213,7 @@ namespace Bug.API.Services
         }
 
         // filter by tags, return not contain tags
-        public async Task<IReadOnlyList<ProjectNormalDto>> GetNextByOffsetByMember
+        public async Task<IReadOnlyList<ProjectNormalDto>> GetNextByOffsetByMemberAsync
             (string accountId,
             int offset,
             int next,
@@ -261,7 +261,7 @@ namespace Bug.API.Services
                 .ToList();
         }
 
-        public async Task<ProjectNormalDto> AddProject
+        public async Task<Project> AddProjectAsync
             (ProjectNormalDto pro,
             CancellationToken cancellationToken = default)
         {
@@ -274,13 +274,17 @@ namespace Bug.API.Services
                 .AddStartDate(pro.StartDate)
                 .AddEndDate(pro.EndDate)
                 .AddRecentDate(pro.RecentDate)
+                .AddCreatorId(pro.CreatorId)
                 .Build();
+            var acc = await _unitOfWork.Account.GetByIdAsync(pro.CreatorId, cancellationToken);
+            result.AddAccount(acc);
             await _unitOfWork
                 .Project
                 .AddAsync(result, cancellationToken);
-            return pro;
+            await _unitOfWork.SaveAsync(cancellationToken);
+            return result;
         }
-        public async Task UpdateProject
+        public async Task UpdateProjectAsync
             (ProjectNormalDto pro,
             CancellationToken cancellationToken = default)
         {
@@ -294,14 +298,16 @@ namespace Bug.API.Services
             result.UpdateEndDate(pro.EndDate);
             result.UpdateProjectType(pro.ProjectType);
             result.UpdateStartDate(pro.StartDate);
-            await _unitOfWork.Project.UpdateAsync(result, cancellationToken);
+            _unitOfWork.Project.Update(result);
+            await _unitOfWork.SaveAsync(cancellationToken);
         }
-        public async Task DeleteProject
+        public async Task DeleteProjectAsync
             (string projectId,
             CancellationToken cancellationToken = default)
         {
             var result = await _unitOfWork.Project.GetByIdAsync(projectId,cancellationToken);
-            await _unitOfWork.Project.DeleteAsync(result,cancellationToken);
+            _unitOfWork.Project.Delete(result);
+            await _unitOfWork.SaveAsync(cancellationToken);
         }
 
     }

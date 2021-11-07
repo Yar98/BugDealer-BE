@@ -11,18 +11,13 @@ namespace Bug.API.Services
 {
     public interface IProjectService
     {
-        //Task<IReadOnlyList<ProjectLowDto>> GetRecentProjects(
-        //    string accountId, int categoryId, string tagName, int count);
-        Task<ProjectNormalDto> AddProject
-            (ProjectNormalDto pro,
-            CancellationToken cancellationToken = default);
-        Task<Project> GetDetailProject
+        Task<Project> GetDetailProjectAsync
             (string id,
             CancellationToken cancellationToken = default);
-        Task<ProjectNormalDto> GetNormalProject
+        Task<ProjectNormalDto> GetNormalProjectAsync
             (string projectId,
             CancellationToken cancellationToken = default);
-        Task<PaginatedListDto<ProjectNormalDto>> GetPaginatedByCreator
+        Task<PaginatedListDto<ProjectNormalDto>> GetPaginatedByCreatorAsync
             (string creatorId,
             int pageIndex, 
             int pageSize,
@@ -30,7 +25,7 @@ namespace Bug.API.Services
             string tagName,
             string sortOrder,
             CancellationToken cancellationToken = default);
-        Task<PaginatedListDto<ProjectNormalDto>> GetPaginatedByMember
+        Task<PaginatedListDto<ProjectNormalDto>> GetPaginatedByMemberAsync
             (string creatorId,
             int pageIndex, 
             int pageSize,
@@ -38,26 +33,29 @@ namespace Bug.API.Services
             string tagName,
             string sortOrder,
             CancellationToken cancellation = default);
-        Task<IReadOnlyList<ProjectNormalDto>> GetNextByOffsetByCreator(
-            string creatorId,
+        Task<IReadOnlyList<ProjectNormalDto>> GetNextByOffsetByCreatorAsync
+            (string creatorId,
             int offset, 
             int next,
             int categoryId, 
             string tagName,
             string sortOrder,
             CancellationToken cancellation = default);
-        Task<IReadOnlyList<ProjectNormalDto>> GetNextByOffsetByMember(
-            string creatorId,
+        Task<IReadOnlyList<ProjectNormalDto>> GetNextByOffsetByMemberAsync
+            (string creatorId,
             int offset, 
             int next,
             int categoryId, 
             string tagName,
             string sortOrder,
             CancellationToken cancellation = default);
-        Task UpdateProject
+        Task<Project> AddProjectAsync
+            (ProjectNormalDto pro,
+            CancellationToken cancellationToken = default);
+        Task UpdateProjectAsync
             (ProjectNormalDto pro,
             CancellationToken cancellation = default);
-        Task DeleteProject
+        Task DeleteProjectAsync
             (string projectId,
             CancellationToken cancellation = default);
     }

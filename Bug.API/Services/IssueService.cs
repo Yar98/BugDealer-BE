@@ -14,24 +14,22 @@ namespace Bug.API.Services
     public class IssueService : IIssueService
     {
         private readonly IUnitOfWork _unitOfWork;
-        private IIssueBuilder _issueBuilder;
-        public IssueService(IUnitOfWork uow, IIssueBuilder pd)
+        public IssueService(IUnitOfWork uow)
         {
             _unitOfWork = uow;
-            _issueBuilder = pd;
         }
 
-        public async Task<Issue> GetIssueDetailAsync
+        public async Task<Issue> GetDetailIssueAsync
             (string id,
             CancellationToken cancellationToken = default)
         {
             IssueDetailLv1Specification specificationResult =
-                new IssueDetailLv1Specification(id);
+                new(id);
             return await _unitOfWork
                 .Issue
                 .GetIssuelAsync(specificationResult, cancellationToken);
         }
-        public async Task<PaginatedListDto<Issue>> GetPaginatedByProject
+        public async Task<PaginatedListDto<Issue>> GetPaginatedDetailByProjectAsync
             (string projectId,
             int pageIndex,
             int pageSize,
@@ -39,7 +37,7 @@ namespace Bug.API.Services
             CancellationToken cancellationToken = default)
         {
             IssueDetailLv1ByProjectSpecification specificationResult =
-                new IssueDetailLv1ByProjectSpecification(projectId);
+                new(projectId);
             var result = await _unitOfWork
                 .Issue
                 .GetPaginatedIssuesAsync(pageIndex, pageSize, sortOrder, specificationResult, cancellationToken);
@@ -49,7 +47,7 @@ namespace Bug.API.Services
                 Items = result
             };
         }
-        public async Task<IReadOnlyList<Issue>> GetByOffsetByProject
+        public async Task<IReadOnlyList<Issue>> GetNextDetailByOffsetByProjectAsync
             (string projectId,
             int offset,
             int next,
@@ -63,8 +61,8 @@ namespace Bug.API.Services
                 .GetByOffsetIssuesAsync(offset, next, sortOrder, specificationResult, cancellationToke);
             return result;
         }
-        public async Task<Issue> AddIssue
-            (IssueDto issue,
+        public async Task<Issue> AddIssueAsync
+            (IssueNormalDto issue,
             CancellationToken cancellationToken = default)
         {
             var result = new IssueBuilder()
@@ -84,24 +82,28 @@ namespace Bug.API.Services
                 .AddTitle(issue.Title)
                 .Build();
             result.UpdateTags(issue.Tags);
-            return await _unitOfWork
+            await _unitOfWork
                 .Issue
                 .AddAsync(result, cancellationToken);
+            await _unitOfWork.SaveAsync(cancellationToken);
+            return result;
         }
-        public async Task UpdateIssue
-            (IssueDto issue,
+        public async Task UpdateIssueAsync
+            (IssueNormalDto issue,
             CancellationToken cancellationToken = default)
         {
             var result = await _unitOfWork.Issue.GetByIdAsync(issue.Id, cancellationToken);
             ////////////////??????????????
-            await _unitOfWork.Issue.UpdateAsync(result, cancellationToken);
+            _unitOfWork.Issue.Update(result);
+            await _unitOfWork.SaveAsync(cancellationToken);
         }
         public async Task DeleteIssueAsync
             (string id, 
             CancellationToken cancellationToken = default)
         {
             var result = await _unitOfWork.Issue.GetByIdAsync(id, cancellationToken);
-            await _unitOfWork.Issue.DeleteAsync(result, cancellationToken);
+            _unitOfWork.Issue.Delete(result);
+            await _unitOfWork.SaveAsync(cancellationToken);
         }
     }
 }

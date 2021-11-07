@@ -38,7 +38,7 @@ namespace Bug.API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetProject(string projectId)
         {
-            var result = await _projectService.GetNormalProject(projectId);
+            var result = await _projectService.GetNormalProjectAsync(projectId);
             return Ok(Bts.ConvertJson(result));
         }
 
@@ -47,87 +47,87 @@ namespace Bug.API.Controllers
         public async Task<IActionResult> GetDetailProject(string id)
         {
             var result = await _projectService
-                .GetDetailProject(id);
+                .GetDetailProjectAsync(id);
             return Ok(Bts.ConvertJson(result));
         }
 
         // GET: api/Project/paging/1/account1/Open/1/3/id
         [HttpGet("paging/creator/{accountId}/{tagName}/{pageIndex:int}/{pageSize:int}/{sortOrder}")]
-        public async Task<IActionResult> GetPaginatedProjectsByCreator(
-            string accountId,
+        public async Task<IActionResult> GetPaginatedProjectsByCreator
+            (string accountId,
             int pageIndex, 
             int pageSize,
             string tagName,
             string sortOrder)
         {
             var result = 
-                await _projectService.GetPaginatedByCreator(
+                await _projectService.GetPaginatedByCreatorAsync(
                     accountId, pageIndex, pageSize, Bts.ProjectTag, tagName, sortOrder);
             return Ok(Bts.ConvertJson(result));
         }
 
         [HttpGet("paging/member/{accountId}/{tagName}/{pageIndex:int}/{pageSize:int}/{sortOrder}")]
-        public async Task<IActionResult> GetPaginatedProjectsByMember(
-            string accountId,
+        public async Task<IActionResult> GetPaginatedProjectsByMember
+            (string accountId,
             int pageIndex,
             int pageSize,
             string tagName,
             string sortOrder)
         {
             var result =
-                await _projectService.GetPaginatedByMember(
+                await _projectService.GetPaginatedByMemberAsync(
                     accountId, pageIndex, pageSize, Bts.ProjectTag, tagName, sortOrder);
             return Ok(Bts.ConvertJson(result));
         }
 
         // GET: api/Project/offset/1/account1/Open/1/3/id
         [HttpGet("offset/creator/{accountId}/{tagName}/{offset:int}/{next:int}/{sortOrder}")]
-        public async Task<IActionResult> GetNextProjectsByOffsetByCreator(
-            string accountId,
+        public async Task<IActionResult> GetNextProjectsByOffsetByCreator
+            (string accountId,
             int offset,
             int next,
             string tagName,
             string sortOrder)
         {
             var result =
-                await _projectService.GetNextByOffsetByCreator(
+                await _projectService.GetNextByOffsetByCreatorAsync(
                     accountId, offset, next, Bts.ProjectTag, tagName, sortOrder);
             return Ok(Bts.ConvertJson(result));
         }
 
         // GET: api/Project/offset/1/account1/Open/1/3/id
         [HttpGet("offset/member/{accountId}/{tagName}/{offset:int}/{next:int}/{sortOrder}")]
-        public async Task<IActionResult> GetNextProjectsByOffsetByMember(
-            string accountId,
+        public async Task<IActionResult> GetNextProjectsByOffsetByMember
+            (string accountId,
             int offset,
             int next,
             string tagName,
             string sortOrder)
         {
             var result =
-                await _projectService.GetNextByOffsetByMember(
+                await _projectService.GetNextByOffsetByMemberAsync(
                     accountId, offset, next, Bts.ProjectTag, tagName, sortOrder);
             return Ok(Bts.ConvertJson(result));
         }
 
         // POST api/Project
         [HttpPost]
-        public async Task<IActionResult> PostCreateProject([FromBody] ProjectNormalDto pro)
+        public async Task<IActionResult> PostAddProject([FromBody] ProjectNormalDto pro)
         {
-            var result = await _projectService.AddProject(pro);
+            var result = await _projectService.AddProjectAsync(pro);
             return CreatedAtAction(
-                nameof(GetProject), new { id = result.Id }, pro);
+                nameof(GetDetailProject), new { id = result.Id }, pro);
         }
 
         // PUT api/Project/detail/5
         [HttpPut("detail/{id}")]
-        public async Task<IActionResult> PutEditDetailProject(
+        public async Task<IActionResult> PutUpdateDetailProject(
             string id, 
             [FromBody] ProjectNormalDto pro)
         {
             if (id != pro.Id)
                 return BadRequest();
-            await _projectService.UpdateProject(pro);
+            await _projectService.UpdateProjectAsync(pro);
             return NoContent();
         }
 
@@ -135,7 +135,7 @@ namespace Bug.API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProject(string id)
         {
-            await _projectService.DeleteProject(id);
+            await _projectService.DeleteProjectAsync(id);
             return NoContent();
         }
 
