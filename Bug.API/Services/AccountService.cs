@@ -36,7 +36,7 @@ namespace Bug.API.Services
                 var newAccount = new AccountBuilder()
                     .AddId(Guid.NewGuid().ToString())
                     .AddEmail(acc.Email)
-                    .AddUserName(acc.UserName)
+                    .AddUserName(acc.UserName??"")
                     .AddFirstName(acc.GivenName)
                     .AddLastName(acc.SurName)
                     .Build();
@@ -46,7 +46,7 @@ namespace Bug.API.Services
             }
         }
 
-        public async Task<AccountNormalDto> GetLoginLocalAsync(
+        public async Task<AccountNormalDto> LoginLocalAsync(
             string name, 
             string password,
             CancellationToken cancellationToken = default)
@@ -69,8 +69,9 @@ namespace Bug.API.Services
                 return null;
         }
 
-        /*
-        public async Task<Account> GetDetailAccountByIdAsync(string id)
+        public async Task<Account> GetAccountByIdWithRolesAsync
+            (string id,
+            CancellationToken cancellationToken = default)
         {
             var specificationResult =
                 new AccountCheckRoleByIdSpecification(id);
@@ -78,7 +79,6 @@ namespace Bug.API.Services
                 .Account
                 .GetAccountAsync(specificationResult, cancellationToken);
         }
-        */
 
         public async Task<AccountNormalDto> GetAccountByIdAsync
             (string id,

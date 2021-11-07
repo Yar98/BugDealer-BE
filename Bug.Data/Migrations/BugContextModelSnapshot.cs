@@ -84,12 +84,12 @@ namespace Bug.Data.Migrations
                     b.Property<string>("AccountsId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("StatusesId")
+                    b.Property<string>("CreatedStatusesId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("AccountsId", "StatusesId");
+                    b.HasKey("AccountsId", "CreatedStatusesId");
 
-                    b.HasIndex("StatusesId");
+                    b.HasIndex("CreatedStatusesId");
 
                     b.ToTable("AccountStatus");
                 });
@@ -423,6 +423,9 @@ namespace Bug.Data.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("CreatorId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
@@ -434,6 +437,8 @@ namespace Bug.Data.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CreatorId");
 
                     b.ToTable("Status");
                 });
@@ -684,7 +689,7 @@ namespace Bug.Data.Migrations
 
                     b.HasOne("Bug.Entities.Model.Status", null)
                         .WithMany()
-                        .HasForeignKey("StatusesId")
+                        .HasForeignKey("CreatedStatusesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -831,6 +836,15 @@ namespace Bug.Data.Migrations
                     b.Navigation("Creator");
                 });
 
+            modelBuilder.Entity("Bug.Entities.Model.Status", b =>
+                {
+                    b.HasOne("Bug.Entities.Model.Account", "Creator")
+                        .WithMany("Statuses")
+                        .HasForeignKey("CreatorId");
+
+                    b.Navigation("Creator");
+                });
+
             modelBuilder.Entity("Bug.Entities.Model.Tag", b =>
                 {
                     b.HasOne("Bug.Entities.Model.Category", "Category")
@@ -946,6 +960,8 @@ namespace Bug.Data.Migrations
                     b.Navigation("DefaultAssigneeProjects");
 
                     b.Navigation("ReportIssues");
+
+                    b.Navigation("Statuses");
                 });
 
             modelBuilder.Entity("Bug.Entities.Model.Issue", b =>

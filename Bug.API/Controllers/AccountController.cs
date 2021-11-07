@@ -69,7 +69,7 @@ namespace Bug.API.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> PostLoginBts([FromBody] AccountBtsLoginDto user)
         {
-            var result = await _accountService.GetLoginLocalAsync(user.UserName, user.Password);
+            var result = await _accountService.LoginLocalAsync(user.UserName, user.Password);
 
             if (result == null)
             {

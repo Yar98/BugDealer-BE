@@ -18,7 +18,9 @@ namespace Bug.Core.Common
 
         public static readonly int Creator = 1;
         public static readonly int Member = 2;
-        
+
+        public const int GetDetailProject = 1;
+
         public static string ConvertJson(Object result)
         {
             

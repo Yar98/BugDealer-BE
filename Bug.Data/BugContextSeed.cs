@@ -27,11 +27,6 @@ namespace Bug.Data
                     await bugContext.Accounts.AddRangeAsync(
                         GetPreconfiguredAccount());
                 }
-                if(!await bugContext.Workflows.AnyAsync())
-                {
-                    await bugContext.Workflows.AddRangeAsync(
-                    GetPreconfiguredWorkflow());
-                }
                 if(!await bugContext.Tags.AnyAsync())
                 {
                     await bugContext.Tags.AddRangeAsync(
@@ -71,13 +66,6 @@ namespace Bug.Data
                 new Account("account3","name3","pass3","first3","last3","email3",DateTime.Now,null,"uri3",null)
             };
         }
-        static IEnumerable<Workflow> GetPreconfiguredWorkflow()
-        {
-            return new List<Workflow>()
-            {
-                new Workflow("workflow1","name1","account1")
-            };
-        }
         static IEnumerable<Tag> GetPreconfiguredTag()
         {
             return new List<Tag>()
@@ -91,10 +79,9 @@ namespace Bug.Data
         {
             return new List<Category>()
             {
-                new Category(1,"Account",null),
-                new Category(2,"Project",null),
-                new Category(3,"Issue",null),
-                new Category(4,"Workflow",null)
+                new Category("Account",null),
+                new Category("Project",null),
+                new Category("Issue",null),
             };
         }
     }

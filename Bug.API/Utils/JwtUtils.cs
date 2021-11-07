@@ -63,7 +63,7 @@ namespace Bug.API.Utils
                 }, out SecurityToken validatedToken);
 
                 var jwtToken = (JwtSecurityToken)validatedToken;
-                var testId = int.Parse(jwtToken.Claims.First(x => x.Type == "id").Value);
+                //var testId = int.Parse(jwtToken.Claims.First(x => x.Type == "id").Value);
                 // return user id from JWT token if validation successful
                 return new AccountJwtDto
                 {
