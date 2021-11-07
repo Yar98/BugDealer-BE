@@ -27,17 +27,22 @@ namespace Bug.Entities.Model
         public string? TimezoneId { get; private set; }
         public Timezone Timezone { get; private set; }
         public ICollection<Project> CreatedProjects { get; private set; }
+        public ICollection<Role> CreatedRoles { get; private set; }
+        public ICollection<Status> CreatedStatuses { get; private set; }
         public ICollection<Project> DefaultAssigneeProjects { get; private set; }
         public ICollection<Issue> WatchIssues { get; private set; }
         public ICollection<Issue> VoteIssues { get; private set; }
         public ICollection<Issue> ReportIssues { get; private set; }
         public ICollection<Issue> AssignIssues { get; private set; }
         public ICollection<Role> Roles { get; private set; }
-        public ICollection<Role> CreatedRoles { get; private set; }
-        public ICollection<Status> Statuses { get; private set; }
+
+
+        private readonly List<Status> _statuses = new List<Status>();
+        public ICollection<Status> Statuses => _statuses.AsReadOnly();
 
         private readonly List<Project> _projects = new List<Project>();
         public ICollection<Project> Projects => _projects.AsReadOnly();
+
         private Account() { }
         public Account(string id,
             string userName,

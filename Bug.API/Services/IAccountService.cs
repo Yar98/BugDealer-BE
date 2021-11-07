@@ -1,4 +1,5 @@
 ﻿using Bug.API.Dto;
+using Bug.Entities.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,10 @@ namespace Bug.API.Services
     public interface IAccountService
     {
         Task<string> GenerateTokenGoogleAccountAsync(AccountGoogleLoginDto acc, CancellationToken cancellationToken = default);
-        Task<AccountNormalDto> GetLoginLocalAsync(string name, string password, CancellationToken cancellationToken = default);
+        Task<Account> GetAccountByIdWithRolesAsync
+            (string id,
+            CancellationToken cancellationToken = default);
+        Task<AccountNormalDto> LoginLocalAsync(string name, string password, CancellationToken cancellationToken = default);
         Task<AccountNormalDto> GetAccountByIdAsync(string id, CancellationToken cancellationToken = default);
         Task<PaginatedListDto<AccountNormalDto>> GetPaginatedByProjectAsync
             (string projectId,

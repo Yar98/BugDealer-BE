@@ -15,13 +15,12 @@ namespace Bug.Entities.Model
         public string LoggerId { get; private set; }
         public Account Logger { get; private set; }
         private Worklog() { }
-        public Worklog(int id,
-            int spentTime,
+        public Worklog
+            (int spentTime,
             int remainTime,
             DateTime logDate,
             string loggerId)
         {
-            Id = id;
             SpentTime = spentTime;
             RemainTime = remainTime;
             LogDate = logDate;
