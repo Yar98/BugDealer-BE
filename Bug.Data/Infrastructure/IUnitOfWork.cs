@@ -22,8 +22,6 @@ namespace Bug.Data.Infrastructure
         IRoleRepo Role { get; }
         IStatusRepo Status { get; }
         ITagRepo Tag { get; }
-        ITransitionRepo Transition { get; }
-        IWorkflowRepo Workflow { get; }
         IWorklogRepo Worklog { get; }
         public Task SaveAsync(CancellationToken cancellationToken = default);
     }
