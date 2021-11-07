@@ -74,6 +74,9 @@ namespace Bug.API.Services
         {
             var specificationResult =
                 new AccountCheckRoleByIdSpecification(id);
+            return await _unitOfWork
+                .Account
+                .GetAccountAsync(specificationResult, cancellationToken);
         }
         */
 
