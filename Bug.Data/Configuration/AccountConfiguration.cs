@@ -38,7 +38,7 @@ namespace Bug.Data.Configuration
                 .WithOne(i => i.Assignee)
                 .HasForeignKey(i => i.AssigneeId);
             builder
-                .HasMany(a => a.CreateRoles)
+                .HasMany(a => a.CreatedRoles)
                 .WithOne(r => r.Creator)
                 .HasForeignKey(r => r.CreatorId);
         }

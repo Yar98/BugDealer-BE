@@ -33,7 +33,7 @@ namespace Bug.Entities.Model
         public ICollection<Issue> ReportIssues { get; private set; }
         public ICollection<Issue> AssignIssues { get; private set; }
         public ICollection<Role> Roles { get; private set; }
-        public ICollection<Role> CreateRoles { get; private set; }
+        public ICollection<Role> CreatedRoles { get; private set; }
         public ICollection<Status> Statuses { get; private set; }
 
         private readonly List<Project> _projects = new List<Project>();

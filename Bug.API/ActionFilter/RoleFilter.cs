@@ -12,6 +12,7 @@ namespace Bug.API.ActionFilter
 {
     public class RoleFilter : ActionFilterAttribute
     {
+        public string Permission { get; set; }
         public override void OnActionExecuted(ActionExecutedContext context)
         {
             //throw new NotImplementedException();

@@ -72,7 +72,8 @@ namespace Bug.API.Services
         /*
         public async Task<Account> GetDetailAccountByIdAsync(string id)
         {
-
+            var specificationResult =
+                new AccountCheckRoleByIdSpecification(id);
         }
         */
 
