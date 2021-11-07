@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Bug.Core.Utility;
+using Bug.Core.Utils;
 using Bug.Data.Extensions;
 using Bug.Data.Specifications;
 using Bug.Entities.Model;
@@ -46,35 +46,7 @@ namespace Bug.Data.Repositories
                 a.Password == password);
         }
 
-        public async Task<PaginatedList<Account>> GetPaginatedListAsync
-            (int pageIndex,
-            int pageSize,
-            string sortOrder,
-            ISpecification<Account> specificationResult,
-            CancellationToken cancellationToken = default)
-        {
-            var result = _bugContext.Accounts.Specify(specificationResult);
-            SortOrder(result,sortOrder);
-            return await PaginatedList<Account>
-                .CreateListAsync(result, pageIndex, pageSize, cancellationToken);
-        }
-
-        public async Task<IReadOnlyList<Account>> GetNextByOffsetAsync
-            (int offset,
-            int next, 
-            string sortOrder,
-            ISpecification<Account> specificationResult,
-            CancellationToken cancellationToken = default)
-        {
-            var result = _bugContext.Accounts.Specify(specificationResult);
-            SortOrder(result, sortOrder);
-            return await result
-                .Skip(offset)
-                .Take(next)
-                .ToListAsync(cancellationToken);
-        }
-
-        private IQueryable<Account> SortOrder
+        public override IQueryable<Account> SortOrder
             (IQueryable<Account> result,
             string sortOrder)
         {

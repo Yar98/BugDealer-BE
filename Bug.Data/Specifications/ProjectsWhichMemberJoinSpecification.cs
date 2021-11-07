@@ -13,13 +13,12 @@ namespace Bug.Data.Specifications
             (string memberId,
             int categoryId,
             string tagName)
-            : base(p => p.Id != null)
+            : base(p => p.Id != null && 
+            p.Accounts.AsQueryable().Any(a=>a.Id == memberId) &&
+            p.Tags.AsQueryable().Any(t=>t.Name==tagName && t.CategoryId==categoryId))
         {
-            AddInclude(p => p.Accounts.Where(
-                a => a.Id == memberId));
-            AddInclude(p => p.Tags.Where(
-                t => t.Name == tagName &&
-                t.CategoryId == categoryId));
+            AddInclude(p => p.Accounts);
+            AddInclude(p => p.Tags);
             AddInclude(p => p.Issues);
             AddInclude("Issues.Tags");
         }

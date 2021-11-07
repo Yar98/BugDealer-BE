@@ -39,7 +39,7 @@ namespace Bug.API.Services
                 new(projectId);
             var result = await _unitOfWork
                 .Role
-                .GetPaginatedListAsync(pageIndex, pageSize, sortOrder, specificationResult, cancellationToken);
+                .GetPaginatedAsync(pageIndex, pageSize, sortOrder, specificationResult, cancellationToken);
             return new PaginatedListDto<Role>
             {
                 Length = result.Length,

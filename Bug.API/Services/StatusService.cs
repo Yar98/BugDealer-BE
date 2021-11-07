@@ -39,7 +39,7 @@ namespace Bug.API.Services
                 new(creatorId);
             var result = await _unitOfWork
                 .Status
-                .GetPaginatedIssuesAsync(pageIndex, pageSize, sortOrder, specificationResult,cancellationToken);
+                .GetPaginatedAsync(pageIndex, pageSize, sortOrder, specificationResult,cancellationToken);
             return new PaginatedListDto<Status>
             {
                 Length = result.Length,
@@ -57,7 +57,7 @@ namespace Bug.API.Services
                 new(creatorId);
             var result = await _unitOfWork
                 .Status
-                .GetNextIssuesByOffsetAsync(offset, next, sortOrder, specificationResult, cancellationToken);
+                .GetNextByOffsetAsync(offset, next, sortOrder, specificationResult, cancellationToken);
             return result;
         }
         public async Task<Status> AddStatusAsync

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Bug.Core.Utility;
+using Bug.Core.Utils;
 using Bug.Data.Extensions;
 using Bug.Data.Specifications;
 using Bug.Entities.Model;
@@ -30,39 +30,8 @@ namespace Bug.Data.Repositories
                 .FirstOrDefaultAsync(cancellationToken);
         }
         
-        public async Task<PaginatedList<Role>> GetPaginatedListAsync
-            (int pageIndex,
-            int pageSize,
-            string sortOrder,
-            ISpecification<Role> specificationResult,
-            CancellationToken cancellationToken = default)
-        {
-            var result = _bugContext
-                .Roles
-                .Specify(specificationResult);
-            SortOrder(result, sortOrder);
-            return await PaginatedList<Role>
-                .CreateListAsync(result, pageIndex, pageSize, cancellationToken);
-        }
-        
-        public async Task<IReadOnlyList<Role>> GetNextByOffsetAsync
-            (int offset,
-            int next,
-            string sortOrder,
-            ISpecification<Role> specificationResult,
-            CancellationToken cancellationToken = default)
-        {
-            var result = _bugContext
-                .Roles
-                .Specify(specificationResult);
-            SortOrder(result, sortOrder);
-            return await result
-                .Skip(offset)
-                .Take(next)
-                .ToListAsync(cancellationToken);
-        }
 
-        private IQueryable<Role> SortOrder
+        public override IQueryable<Role> SortOrder
             (IQueryable<Role> result,
             string sortOrder)
         {

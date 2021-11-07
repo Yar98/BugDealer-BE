@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Bug.Core.Utility
+namespace Bug.Core.Utils
 {
     public class PaginatedList<T> : List<T>
     {

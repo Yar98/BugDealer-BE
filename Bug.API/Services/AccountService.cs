@@ -108,7 +108,7 @@ namespace Bug.API.Services
         {
             AccountsByProjectSpecification specificationResult =
                 new(projectId);
-            var result = await _unitOfWork.Account.GetPaginatedListAsync(pageIndex, pageSize, sortOrder, specificationResult, cancellationToken);
+            var result = await _unitOfWork.Account.GetPaginatedAsync(pageIndex, pageSize, sortOrder, specificationResult, cancellationToken);
             return new PaginatedListDto<AccountNormalDto>
             {
                 Length = result.Length,
@@ -203,7 +203,6 @@ namespace Bug.API.Services
             await _unitOfWork.SaveAsync(cancellationToken);
         }
 
-        
 
     }
 }

@@ -8,7 +8,7 @@ using System.Threading;
 using Microsoft.EntityFrameworkCore;
 using Bug.Data.Extensions;
 using Bug.Data.Specifications;
-using Bug.Core.Utility;
+using Bug.Core.Utils;
 
 namespace Bug.Data.Repositories
 {
@@ -30,56 +30,8 @@ namespace Bug.Data.Repositories
                 .FirstOrDefaultAsync(cancelltionToken);
                 
         }
-        public async Task<PaginatedList<Project>> GetPaginatedProjectsAsync
-            (int pageIndex, 
-            int pageSize,
-            string sortOrder,
-            ISpecification<Project> specificationResult,
-            CancellationToken cancelltionToken = default)
-        {
-            var result = _bugContext
-                .Projects
-                .Specify(specificationResult);
-            result = SortOrder(result, sortOrder);
-            return await PaginatedList<Project>
-                .CreateListAsync(result.AsNoTracking(),pageIndex,pageSize,cancelltionToken);
-        }
-        public async Task<IReadOnlyList<Project>> GetNextProjectsByOffsetAsync
-            (int offset, 
-            int next,
-            string sortOrder,
-            ISpecification<Project> specificationResult,
-            CancellationToken cancelltionToken = default)
-        {
-            var result = _bugContext
-                .Projects
-                .Specify(specificationResult);
-            result = SortOrder(result, sortOrder);
-            return await result
-                .Skip(offset)
-                .Take(next)
-                .AsNoTracking()
-                .ToListAsync(cancelltionToken);
-        }
-        /*
-        public async Task<IReadOnlyList<Project>> GetRecentProjects(
-            string accountId,
-            int categoryId, 
-            string tagName, 
-            int count,
-            ISpecification<Project> specificationResult,
-            CancellationToken cancelltionToken = default)
-        {
-            return await _bugContext
-                .Projects
-                .Specify(specificationResult)
-                .OrderBy(p => p.EndDate)
-                .Take(count)
-                .ToListAsync(cancelltionToken);
-        }
-        */
 
-        private IQueryable<Project> SortOrder
+        public override IQueryable<Project> SortOrder
             (IQueryable<Project> result, 
             string sortOrder)
         {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Bug.API.Dto;
-using Bug.Core.Utility;
+using Bug.Core.Utils;
 using Bug.Entities.Model;
 
 namespace Bug.API.Services

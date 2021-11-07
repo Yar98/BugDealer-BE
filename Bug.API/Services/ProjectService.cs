@@ -8,7 +8,7 @@ using Bug.Data.Infrastructure;
 using Bug.API.Dto;
 using Bug.Core.Common;
 using Bug.Entities.Builder;
-using Bug.Core.Utility;
+using Bug.Core.Utils;
 using Bug.Data.Specifications;
 using System.Threading;
 
@@ -45,9 +45,7 @@ namespace Bug.API.Services
                 CreatorId = result.CreatorId,
                 CreatorName = result.Creator?.FullName,
                 DefaultAssigneeId = result.DefaultAssigneeId,
-                DefaultAssigneeName = result.DefaultAssignee?.FullName,
-                //WorkflowId = result.WorkflowId,
-                //WorkflowName = result.Workflow?.Name
+                DefaultAssigneeName = result.DefaultAssignee?.FullName
             };
         }
         
@@ -78,7 +76,7 @@ namespace Bug.API.Services
                 new ProjectsByCreatorWithITSpecification(accountId, categoryId, tagName);
             var result = await _unitOfWork
                 .Project
-                .GetPaginatedProjectsAsync(
+                .GetPaginatedAsync(
                 pageIndex, pageSize,
                 sortOrder,
                 specificationResult,
@@ -128,7 +126,7 @@ namespace Bug.API.Services
                 new ProjectsWhichMemberJoinSpecification(accountId, categoryId, tagName);
             var result = await _unitOfWork
                 .Project
-                .GetPaginatedProjectsAsync(
+                .GetPaginatedAsync(
                 pageIndex, pageSize,
                 sortOrder,
                 specificationResult,
@@ -178,7 +176,7 @@ namespace Bug.API.Services
                 new ProjectsByCreatorWithITSpecification(accountId, categoryId, tagName);
             var result = await _unitOfWork
                 .Project
-                .GetNextProjectsByOffsetAsync(
+                .GetNextByOffsetAsync(
                 offset,
                 next,
                 sortOrder,
@@ -227,7 +225,7 @@ namespace Bug.API.Services
                 new ProjectsWhichMemberJoinSpecification(accountId, categoryId, tagName);
             var result = await _unitOfWork
                 .Project
-                .GetNextProjectsByOffsetAsync(
+                .GetNextByOffsetAsync(
                 offset,
                 next,
                 sortOrder,

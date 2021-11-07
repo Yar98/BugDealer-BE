@@ -10,9 +10,10 @@ namespace Bug.Data.Specifications
     public class AccountsByProjectSpecification : BaseSpecification<Account>
     {
         public AccountsByProjectSpecification(string projectId)
-            : base(m=>m.Id != null)
+            : base(m=>m.Id != null && 
+            m.Projects.AsQueryable().Any(p=>p.Id==projectId))
         {
-            AddInclude(m => m.Projects.Where(p => p.Id == projectId));
+            AddInclude(m => m.Projects);
             
         }
     }
