@@ -825,7 +825,7 @@ namespace Bug.Data.Migrations
             modelBuilder.Entity("Bug.Entities.Model.Role", b =>
                 {
                     b.HasOne("Bug.Entities.Model.Account", "Creator")
-                        .WithMany("CreateRoles")
+                        .WithMany("CreatedRoles")
                         .HasForeignKey("CreatorId");
 
                     b.Navigation("Creator");
@@ -941,7 +941,7 @@ namespace Bug.Data.Migrations
 
                     b.Navigation("CreatedProjects");
 
-                    b.Navigation("CreateRoles");
+                    b.Navigation("CreatedRoles");
 
                     b.Navigation("DefaultAssigneeProjects");
 

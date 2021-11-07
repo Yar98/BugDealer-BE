@@ -27,7 +27,8 @@ namespace Bug.API.Controllers
         }
 
         [HttpGet]
-        [JwtFilter]
+        [JwtFilter(Order = 1)]
+        [RoleFilter(Order = 2, Permission = "test")]
         public string Get()
         {
             Response.Headers.Add("yarito", "gaming");
