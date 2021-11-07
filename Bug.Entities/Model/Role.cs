@@ -11,11 +11,12 @@ namespace Bug.Entities.Model
         public string Id { get; private set; }
         public string Name { get; private set; }
         public string Description { get; private set; }
-        public string MemberId { get; private set; }
+        public string CreatorId { get; private set; }
+        public Account Creator { get; private set; }
         public ICollection<Account> Accounts { get; private set; }
         public ICollection<Permission> Permissions { get; private set; }
         public ICollection<Project> Projects { get; private set; }
-        public ICollection<Transition> Transitions { get; private set; }
+        //public ICollection<Transition> Transitions { get; private set; }
         private Role() { }
         public Role(string id,
             string name,
@@ -25,7 +26,22 @@ namespace Bug.Entities.Model
             Id = id;
             Name = name;
             Description = description;
-            MemberId = memberId;
+            CreatorId = memberId;
+        }
+
+        public void UpdateName(string name)
+        {
+            Name = name;
+        }
+
+        public void UpdateDescription(string des)
+        {
+            Description = des;
+        }
+        
+        public void UpdateCreatorId(string id)
+        {
+            CreatorId = id;
         }
     }
 }

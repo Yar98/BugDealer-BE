@@ -8,6 +8,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Bug.Data.Specifications;
 using Bug.Entities.Model;
+using Bug.Core.Utility;
+using Bug.Data.Extensions;
 
 namespace Bug.Data.Repositories
 {
@@ -34,31 +36,28 @@ namespace Bug.Data.Repositories
         public async Task<T> AddAsync(T entity, CancellationToken cancelltionToken = default)
         {
             await _bugContext.Set<T>().AddAsync(entity, cancelltionToken);
-            await _bugContext.SaveChangesAsync(cancelltionToken);
+            //await _bugContext.SaveChangesAsync(cancelltionToken);
             return entity;
         }
 
-        public async Task DeleteAsync(T entity, CancellationToken cancelltionToken = default)
+        public void Delete(T entity)
         {
             _bugContext.Set<T>().Remove(entity);
-            await _bugContext.SaveChangesAsync(cancelltionToken);
+            //await _bugContext.SaveChangesAsync(cancelltionToken);
         }
 
-        public async Task<IReadOnlyList<T>> FindAll(CancellationToken cancelltionToken = default)
+        public async Task<IReadOnlyList<T>> FindAllAsync(CancellationToken cancelltionToken = default)
         {
             return await _bugContext.Set<T>().ToListAsync(cancelltionToken);
         }
 
-        public async Task UpdateAsync(T entity, CancellationToken cancelltionToken = default)
+        public void Update(T entity)
         {
             _bugContext.Entry(entity).State = EntityState.Modified;
-            await _bugContext.SaveChangesAsync(cancelltionToken);
+            //await _bugContext.SaveChangesAsync(cancelltionToken);
         }
 
-        public IQueryable<T> AddNextByOffset(IQueryable<T> source, int next, int offset)
-        {
-            return source.Skip(offset).Take(next);
-        }
+
         /*
         public IQueryable<T> ApplySpecification(ISpecification<T> spec)
         {
@@ -76,6 +75,7 @@ namespace Bug.Data.Repositories
             return secondaryResult.Where(spec.Criteria);
         }   
         */
+
 
 
     }

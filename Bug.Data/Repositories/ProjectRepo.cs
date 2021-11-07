@@ -12,7 +12,7 @@ using Bug.Core.Utility;
 
 namespace Bug.Data.Repositories
 {
-    public class ProjectRepo : EntityRepoBase<Project>, IProjectRepo, IProjectIntegrationRepo<Project>
+    public class ProjectRepo : EntityRepoBase<Project>, IProjectRepo
     {
         public ProjectRepo(BugContext repositoryContext)
             : base(repositoryContext)
@@ -20,7 +20,7 @@ namespace Bug.Data.Repositories
             
         }
 
-        public async Task<Project> GetProject
+        public async Task<Project> GetProjectAsync
             (ISpecification<Project> specificationResult,
             CancellationToken cancelltionToken = default)
         {
@@ -30,9 +30,9 @@ namespace Bug.Data.Repositories
                 .FirstOrDefaultAsync(cancelltionToken);
                 
         }
-        public async Task<PaginatedList<Project>> GetPaginatedProjects(
-            int pageIndex, int pageSize,
-            int categoryId, string tagName,
+        public async Task<PaginatedList<Project>> GetPaginatedProjectsAsync
+            (int pageIndex, 
+            int pageSize,
             string sortOrder,
             ISpecification<Project> specificationResult,
             CancellationToken cancelltionToken = default)
@@ -44,8 +44,9 @@ namespace Bug.Data.Repositories
             return await PaginatedList<Project>
                 .CreateListAsync(result.AsNoTracking(),pageIndex,pageSize,cancelltionToken);
         }
-        public async Task<IReadOnlyList<Project>> GetNextProjectsByOffset(
-            int offset, int next,
+        public async Task<IReadOnlyList<Project>> GetNextProjectsByOffsetAsync
+            (int offset, 
+            int next,
             string sortOrder,
             ISpecification<Project> specificationResult,
             CancellationToken cancelltionToken = default)
@@ -78,8 +79,8 @@ namespace Bug.Data.Repositories
         }
         */
 
-        private IQueryable<Project> SortOrder(
-            IQueryable<Project> result, 
+        private IQueryable<Project> SortOrder
+            (IQueryable<Project> result, 
             string sortOrder)
         {
             switch (sortOrder)
@@ -118,9 +119,10 @@ namespace Bug.Data.Repositories
         public async Task Test()
         {
             var query = from project in _bugContext.Set<Project>()
-                        join workflow in _bugContext.Set<Workflow>()
-                        on project.WorkflowId equals workflow.Id
-                        select new { project };
+                        join role in _bugContext.Set<Role>()
+                        on project.CreatorId equals role.Id
+                        select new { project, role };
+            var result = query.ToQueryString();
             var s = await query.ToListAsync();
         }
 

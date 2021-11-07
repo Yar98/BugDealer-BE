@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Bug.Data.Infrastructure
@@ -14,7 +15,6 @@ namespace Bug.Data.Infrastructure
         ICommentRepo Comment { get; }
         IIssueRepo Issue { get; }
         IIssuelogRepo Issuelog { get; }
-        ILabelRepo Label { get; }
         IPermissionRepo Permission { get; }
         IPriorityRepo Priority { get; }
         IProjectRepo Project { get; }
@@ -23,10 +23,8 @@ namespace Bug.Data.Infrastructure
         IStatusRepo Status { get; }
         ITagRepo Tag { get; }
         ITransitionRepo Transition { get; }
-        IVoteRepo Vote { get; }
-        IWatcherRepo Watcher { get; }
         IWorkflowRepo Workflow { get; }
         IWorklogRepo Worklog { get; }
-        public void Save();
+        public Task SaveAsync(CancellationToken cancellationToken = default);
     }
 }

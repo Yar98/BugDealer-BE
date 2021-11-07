@@ -57,9 +57,9 @@ namespace Bug.Data
         {
             return new List<Project>()
             {
-                new Project("project1","name1","code1","type1",DateTime.Now,DateTime.Now,DateTime.Now,"des1",null,null,"account1","workflow1"),
-                new Project("project2","name2","code2","type2",DateTime.Now,DateTime.Now,DateTime.Now,"des2",null,null,"account2","workflow1"),
-                new Project("project3","name3","code3","type3",DateTime.Now,DateTime.Now,DateTime.Now,"des3",null,null,"account3","workflow1")
+                new Project("project1","name1","code1","type1",DateTime.Now,DateTime.Now,DateTime.Now,"des1",null,null,"account1"),
+                new Project("project2","name2","code2","type2",DateTime.Now,DateTime.Now,DateTime.Now,"des2",null,null,"account2"),
+                new Project("project3","name3","code3","type3",DateTime.Now,DateTime.Now,DateTime.Now,"des3",null,null,"account3")
             };
         }
         static IEnumerable<Account> GetPreconfiguredAccount()
@@ -82,10 +82,9 @@ namespace Bug.Data
         {
             return new List<Tag>()
             {
-                new Tag(1,"Done",null,Bts.IssueTag),
-                new Tag(2,"Open",null,Bts.IssueTag),
-                new Tag(3,"Close",null,Bts.IssueTag),
-                new Tag(4,"Open",null,Bts.ProjectTag)
+                new Tag("Open",null,Bts.IssueTag),
+                new Tag("Close",null,Bts.IssueTag),
+                new Tag("Open",null,Bts.ProjectTag)
             };
         }
         static IEnumerable<Category> GetPreconfiguredCategory()

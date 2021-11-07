@@ -57,7 +57,7 @@ namespace Bug.API.Controllers
                     GivenName = claims.FirstOrDefault(c => c.Type.Contains("/givenname"))?.Value,
                     SurName = claims.FirstOrDefault(c => c.Type.Contains("/surname"))?.Value
                 };
-                var token = await _accountService.GenerateTokenAccountGoogle(user);
+                var token = await _accountService.GenerateTokenGoogleAccountAsync(user);
                 Response.Headers.Add("token", token);
                 //return StatusCode(200, Json(claims));
                 return string.IsNullOrEmpty(token)?

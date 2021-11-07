@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "HgfmVvVj4LEL/6p8Htk4Viz6f8rJjrVIRxGwxuXxR+/Md80DksjP4V6zuLjIcjJCCqWZ05LQlu0E90rd0iQZfg==",
+  "dgSpecHash": "7bwKbaM+KCSWcft8dNbm1PUPKsTsCB1e1H8ueBzWzRfjq/uaVVyBijyTrzV3IzgXVqc7cvJ67GKJtVHLACTMlA==",
   "success": true,
   "projectFilePath": "Y:\\BugDealer-BE\\Bug.Core\\Bug.Core.csproj",
   "expectedPackageFiles": [
@@ -15,6 +15,7 @@
     "C:\\Users\\tienf\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\5.0.0\\microsoft.extensions.logging.abstractions.5.0.0.nupkg.sha512",
     "C:\\Users\\tienf\\.nuget\\packages\\microsoft.extensions.options\\5.0.0\\microsoft.extensions.options.5.0.0.nupkg.sha512",
     "C:\\Users\\tienf\\.nuget\\packages\\microsoft.extensions.primitives\\5.0.0\\microsoft.extensions.primitives.5.0.0.nupkg.sha512",
+    "C:\\Users\\tienf\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512",
     "C:\\Users\\tienf\\.nuget\\packages\\system.collections.immutable\\5.0.0\\system.collections.immutable.5.0.0.nupkg.sha512",
     "C:\\Users\\tienf\\.nuget\\packages\\system.componentmodel.annotations\\5.0.0\\system.componentmodel.annotations.5.0.0.nupkg.sha512",
     "C:\\Users\\tienf\\.nuget\\packages\\system.diagnostics.diagnosticsource\\5.0.1\\system.diagnostics.diagnosticsource.5.0.1.nupkg.sha512"

@@ -9,13 +9,15 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Bug.Data.Configuration
 {
-    class WatcherConfiguration : IEntityTypeConfiguration<Watcher>
+    public class AttachmentConfiguration : IEntityTypeConfiguration<Attachment>
     {
-        public void Configure(EntityTypeBuilder<Watcher> builder)
+        public void Configure(EntityTypeBuilder<Attachment> builder)
         {
             builder
-                .ToTable("Watcher")
-                .HasNoKey();
+                .ToTable("Attachment")
+                .Property(a => a.Uri)
+                .IsRequired();
+            
         }
     }
 }

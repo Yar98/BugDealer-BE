@@ -20,8 +20,8 @@ namespace Bug.API.Configuration
         public static void ConfigureSqlServices(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<BugContext>(c =>
-                //c.UseSqlServer(configuration.GetConnectionString("BugConnection")));
-                c.UseSqlServer(configuration.GetConnectionString("DockerConnection")));
+                c.UseSqlServer(configuration.GetConnectionString("BugConnection")));
+                //c.UseSqlServer(configuration.GetConnectionString("DockerConnection")));
         }
         public static void ConfigureGoogleServices(this IServiceCollection services, IConfiguration configuration)
         {

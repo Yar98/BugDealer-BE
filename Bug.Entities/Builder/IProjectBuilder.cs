@@ -20,7 +20,7 @@ namespace Bug.Entities.Builder
         IProjectBuilder AddProjectType(string t);
         IProjectBuilder AddDefaultAssigneeId(string id);
         IProjectBuilder AddCreatorId(string id);
-        IProjectBuilder AddWorkflowId(string id);
+        //IProjectBuilder AddWorkflowId(string id);
         Project Build();
     }
 }

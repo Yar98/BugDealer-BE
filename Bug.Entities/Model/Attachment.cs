@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Bug.Entities.Model
 {
-    public class Watcher : IEntityBase
+    public class Attachment : IEntityBase
     {
-        public string AccountId { get; private set; }
-        public Account Account { get; private set; }
+        public int Id { get; private set; }
+        public string Uri { get; private set; }
         public string IssueId { get; private set; }
         public Issue Issue { get; private set; }
     }

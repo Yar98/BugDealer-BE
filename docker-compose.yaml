@@ -1,27 +1,5 @@
 version: '3.4'    
 services:
-      api:
-        container_name: api
-        build:
-          context: ./
-          dockerfile: ./Bug.API/Dockerfile
-        ports:
-          - "44:4444"
-        depends_on:
-          - "nginx"
-          - "sql"
-        restart: always
-      client:
-        container_name: client
-        build:
-          context: ./Bug.Client
-          dockerfile: ./Dockerfile
-        ports:
-          - "55:5555"
-          
-        depends_on:
-          - "nginx"
-        restart: always
       sql:
         container_name: sql
         image: mcr.microsoft.com/mssql/server:2017-latest
@@ -41,4 +19,24 @@ services:
             - 80:80
             - 443:443
         restart: always
-          
+      api:
+        container_name: api
+        build:
+          context: ./
+          dockerfile: ./Bug.API/Dockerfile
+        ports:
+          - "44:4444"
+        depends_on:
+          - "nginx"
+          - "sql"
+        restart: always
+      client:
+        container_name: client
+        build:
+          context: ./Bug.Client
+          dockerfile: ./Dockerfile
+        ports:
+          - "55:5555"
+        depends_on:
+          - "nginx"
+        restart: always

@@ -17,6 +17,30 @@ namespace Bug.Data.Configuration
                 .ToTable("Account")
                 .Property(b => b.UserName)
                 .IsRequired();
+            builder
+                .HasMany(a => a.WatchIssues)
+                .WithMany(i => i.Watcher)
+                .UsingEntity(w => w.ToTable("WatcherIssue"));
+            builder
+                .HasMany(a => a.VoteIssues)
+                .WithMany(i => i.Voter)
+                .UsingEntity(v => v.ToTable("VoterIssue"));
+            builder
+                .HasMany(a => a.Roles)
+                .WithMany(r => r.Accounts)
+                .UsingEntity(a => a.ToTable("AccountRole"));
+            builder
+                .HasMany(a => a.ReportIssues)
+                .WithOne(i => i.Reporter)
+                .HasForeignKey(i => i.ReporterId);
+            builder
+                .HasMany(a => a.AssignIssues)
+                .WithOne(i => i.Assignee)
+                .HasForeignKey(i => i.AssigneeId);
+            builder
+                .HasMany(a => a.CreateRoles)
+                .WithOne(r => r.Creator)
+                .HasForeignKey(r => r.CreatorId);
         }
     }
 }

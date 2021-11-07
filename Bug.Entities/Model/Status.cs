@@ -12,25 +12,60 @@ namespace Bug.Entities.Model
         public string Name { get; private set; }
         public string Description { get; private set; }
         public int Progress { get; private set; }
-        public int TagId { get; private set; }
-        public string AccountId { get; private set; }
-        public Account Account { get; private set; }
-        public ICollection<Tag> Tags { get; private set; }
-        public ICollection<Workflow> Workflows { get; private set; }
+
+        private readonly List<Tag> _tags = new List<Tag>();
+        public ICollection<Tag> Tags => _tags.AsReadOnly();
+
+        private readonly List<Account> _accounts = new List<Account>();
+        public ICollection<Account> Accounts => _accounts.AsReadOnly();
+
+        //public ICollection<Workflow> Workflows { get; private set; }
         private Status() { }
         public Status(string id,
             string name,
             string description,
-            int progress,
-            int categoryId,
-            string accountId)
+            int progress)
         {
             Id = id;
             Name = name;
             Description = description;
             Progress = progress;
-            TagId = categoryId;
-            AccountId = accountId;
+        }
+
+        public void UpdateId(string id)
+        {
+            Id = id;
+        }
+        public void UpdateName(string name)
+        {
+            Name = name;
+        }
+        public void UpdateDescription(string des)
+        {
+            Description = des;
+        }
+        public void UpdateProgress(int i)
+        {
+            Progress = i;
+        }
+
+        public void UpdateTags(IList<Tag> list)
+        {
+            _tags.Clear();
+            _tags.AddRange(list);
+        }
+        public void UpdateAccounts(IList<Account> list)
+        {
+            _accounts.Clear();
+            _accounts.AddRange(list);
+        }
+        public void AddAccount(Account acc)
+        {
+            if (!Accounts.Any(a => a.Id == acc.Id))
+            {
+                _accounts.Add(acc);
+                return;
+            }
         }
     }
 }

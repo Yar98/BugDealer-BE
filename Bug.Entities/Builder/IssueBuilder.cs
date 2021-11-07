@@ -96,7 +96,7 @@ namespace Bug.Entities.Builder
             return this;
         }
 
-        public IIssueBuilder AddTimelog(DateTime tl)
+        public IIssueBuilder AddLogDate(DateTime tl)
         {
             Timelog = tl;
             return this;
@@ -110,7 +110,8 @@ namespace Bug.Entities.Builder
 
         public Issue Build()
         {
-            return new Issue(Id,
+            return new Issue
+                (Id,
                 Title,
                 Description,
                 Timelog,

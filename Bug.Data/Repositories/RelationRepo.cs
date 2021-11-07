@@ -10,7 +10,7 @@ namespace Bug.Data.Repositories
     public class RelationRepo : EntityRepoBase<Relation>, IRelationRepo
     {
         public RelationRepo(BugContext repositoryContext)
-            : base(repositoryContext)
+             : base(repositoryContext)
         {
 
         }

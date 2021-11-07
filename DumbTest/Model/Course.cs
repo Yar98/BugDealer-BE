@@ -9,6 +9,7 @@ namespace DumbTest.Model
     public class Course
     {
         public int Id { get; private set; }
-        private Course() { }
+        public Course() { }
+        public List<string> myList { get; private set; }
     }
 }

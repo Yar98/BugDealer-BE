@@ -9,6 +9,7 @@ using Bug.Data.Repositories;
 using Bug.API.Services;
 using Bug.Entities.Builder;
 using Bug.API.Utils;
+using Bug.API.ActionFilter;
 
 namespace Bug.API.Configuration
 {
@@ -22,7 +23,6 @@ namespace Bug.API.Configuration
             services.AddScoped<ICommentRepo, CommentRepo>();
             services.AddScoped<IIssueRepo, IssueRepo>();
             services.AddScoped<IIssuelogRepo, IssuelogRepo>();
-            services.AddScoped<ILabelRepo, LabelRepo>();
             services.AddScoped<IPermissionRepo, PermissionRepo>();
             services.AddScoped<IPriorityRepo, PriorityRepo>();
             services.AddScoped<IProjectRepo, ProjectRepo>();
@@ -30,21 +30,22 @@ namespace Bug.API.Configuration
             services.AddScoped<IRoleRepo, RoleRepo>();
             services.AddScoped<IStatusRepo, StatusRepo>();
             services.AddScoped<ITagRepo, TagRepo>();
-            services.AddScoped<ITransitionRepo, TransitionRepo>();
-            services.AddScoped<IVoteRepo, VoteRepo>();
-            services.AddScoped<IWatcherRepo, WatcherRepo>();
-            services.AddScoped<IWorkflowRepo, WorkflowRepo>();
             services.AddScoped<IWorklogRepo, WorklogRepo>();
 
             services.AddScoped<IProjectService, ProjectService>();
             services.AddScoped<IIssueService, IssueService>();
             services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<IStatusService, StatusService>();
+            services.AddScoped<IRoleService, RoleService>();
 
             services.AddScoped<IProjectBuilder, ProjectBuilder>();
             services.AddScoped<IIssueBuilder, IssueBuilder>();
             services.AddScoped<IAccountBuilder, AccountBuilder>();
 
             services.AddScoped<IJwtUtils, JwtUtils>();
+
+            services.AddScoped<JwtFilter>();
+            services.AddScoped<RoleFilter>();
             return services;
         }
     }

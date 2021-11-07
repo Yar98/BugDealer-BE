@@ -15,7 +15,8 @@ namespace DumbTest
                         t => t.CategoryId == m && t.Name == n))
                 .Count();
             */
-            //Course course = new Course();
+            Course course = new();
+            course.myList.Add("ss");
             Console.WriteLine("Hello World!");
             var names = new[] { "nick0", "mike1", "john2", "david3", "damina4", "haha5", "hehe6" };
             var chunked = ChunkBy(names,3);

@@ -9,7 +9,7 @@ namespace Bug.Entities.Model
 {
     public class Tag : IEntityBase
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        //[DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id { get; private set; }
         public string Name { get; private set; }
         public string Description { get; private set; }
@@ -20,12 +20,11 @@ namespace Bug.Entities.Model
         public ICollection<Project> Projects { get; private set; }
         private Tag() { }
 
-        public Tag(int id,
-            string name,
+        public Tag
+            (string name,
             string description,
             int categoryId)
         {
-            Id = id;
             Name = name;
             Description = description;
             CategoryId = categoryId;

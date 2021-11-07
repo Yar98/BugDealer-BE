@@ -14,6 +14,8 @@ using Microsoft.EntityFrameworkCore;
 using Bug.API.Configuration;
 using Microsoft.AspNetCore.HttpOverrides;
 using Bug.API.ActionFilter;
+using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace Bug
 {
@@ -35,25 +37,34 @@ namespace Bug
             services.ConfigureJwtServices(Configuration);
             services.ConfigureGoogleServices(Configuration);
             services.AddCoreServices(Configuration);
-            services.AddScoped<JwtFilter>();
 
             services.AddCors(options =>
             {
                 options.AddPolicy(name: MyAllowSpecificOrigins,
-                                  builder =>
-                                  {
-                                      builder.WithOrigins("http://localhost:4200",
-                                                          "http://localhost");
-                                  });
+                    builder =>
+                    {
+                        builder.WithOrigins(
+                            "http://localhost:4200",
+                            "http://localhost");
+                    });
             });
-
-            services.AddControllers();
+            /*
+            services.AddControllers().AddJsonOptions(
+                option=> 
+                { 
+                    option.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+                    option.JsonSerializerOptions.WriteIndented = true;
+                });
+            */
+            services.AddControllers().AddNewtonsoftJson(
+                options =>
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
 
             services.Configure<ForwardedHeadersOptions>(options =>
             {
                 options.ForwardedHeaders =
                     ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto | ForwardedHeaders.XForwardedHost;
-            });            
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

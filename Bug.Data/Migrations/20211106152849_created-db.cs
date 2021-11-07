@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Bug.Data.Migrations
 {
-    public partial class createdb : Migration
+    public partial class createddb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -18,20 +18,6 @@ namespace Bug.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Category", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Label",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Label", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -62,17 +48,17 @@ namespace Bug.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Role",
+                name: "Status",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    MemberId = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Progress = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Role", x => x.Id);
+                    table.PrimaryKey("PK_Status", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -90,10 +76,23 @@ namespace Bug.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Workflow",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Workflow", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Tag",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CategoryId = table.Column<int>(type: "int", nullable: false)
@@ -105,30 +104,6 @@ namespace Bug.Data.Migrations
                         name: "FK_Tag_Category_CategoryId",
                         column: x => x.CategoryId,
                         principalTable: "Category",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "PermissionRole",
-                columns: table => new
-                {
-                    PermissionsId = table.Column<int>(type: "int", nullable: false),
-                    RolesId = table.Column<string>(type: "nvarchar(450)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PermissionRole", x => new { x.PermissionsId, x.RolesId });
-                    table.ForeignKey(
-                        name: "FK_PermissionRole_Permission_PermissionsId",
-                        column: x => x.PermissionsId,
-                        principalTable: "Permission",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_PermissionRole_Role_RolesId",
-                        column: x => x.RolesId,
-                        principalTable: "Role",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -160,88 +135,19 @@ namespace Bug.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AccountRole",
-                columns: table => new
-                {
-                    AccountsId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    RolesId = table.Column<string>(type: "nvarchar(450)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AccountRole", x => new { x.AccountsId, x.RolesId });
-                    table.ForeignKey(
-                        name: "FK_AccountRole_Account_AccountsId",
-                        column: x => x.AccountsId,
-                        principalTable: "Account",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_AccountRole_Role_RolesId",
-                        column: x => x.RolesId,
-                        principalTable: "Role",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Status",
+                name: "Transition",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Progress = table.Column<int>(type: "int", nullable: false),
-                    TagId = table.Column<int>(type: "int", nullable: false),
-                    AccountId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    WorkflowId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Status", x => x.Id);
+                    table.PrimaryKey("PK_Transition", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Status_Account_AccountId",
-                        column: x => x.AccountId,
-                        principalTable: "Account",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Workflow",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AccountId = table.Column<string>(type: "nvarchar(450)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Workflow", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Workflow_Account_AccountId",
-                        column: x => x.AccountId,
-                        principalTable: "Account",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Worklog",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    SpentTime = table.Column<int>(type: "int", nullable: false),
-                    RemainTime = table.Column<int>(type: "int", nullable: false),
-                    LogDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    LoggerId = table.Column<string>(type: "nvarchar(450)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Worklog", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Worklog_Account_LoggerId",
-                        column: x => x.LoggerId,
-                        principalTable: "Account",
+                        name: "FK_Transition_Workflow_WorkflowId",
+                        column: x => x.WorkflowId,
+                        principalTable: "Workflow",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -271,6 +177,30 @@ namespace Bug.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "AccountStatus",
+                columns: table => new
+                {
+                    AccountsId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    StatusesId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AccountStatus", x => new { x.AccountsId, x.StatusesId });
+                    table.ForeignKey(
+                        name: "FK_AccountStatus_Account_AccountsId",
+                        column: x => x.AccountsId,
+                        principalTable: "Account",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AccountStatus_Status_StatusesId",
+                        column: x => x.StatusesId,
+                        principalTable: "Status",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Project",
                 columns: table => new
                 {
@@ -284,8 +214,7 @@ namespace Bug.Data.Migrations
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     AvatarUri = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DefaultAssigneeId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    CreatorId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    WorkflowId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    CreatorId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -302,66 +231,46 @@ namespace Bug.Data.Migrations
                         principalTable: "Account",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Project_Workflow_WorkflowId",
-                        column: x => x.WorkflowId,
-                        principalTable: "Workflow",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "StatusWorkflow",
-                columns: table => new
-                {
-                    StatusesId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    WorkflowsId = table.Column<string>(type: "nvarchar(450)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_StatusWorkflow", x => new { x.StatusesId, x.WorkflowsId });
-                    table.ForeignKey(
-                        name: "FK_StatusWorkflow_Status_StatusesId",
-                        column: x => x.StatusesId,
-                        principalTable: "Status",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_StatusWorkflow_Workflow_WorkflowsId",
-                        column: x => x.WorkflowsId,
-                        principalTable: "Workflow",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Transition",
+                name: "Role",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    WorkflowId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    StartStatusId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    EndStatusId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatorId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Transition", x => x.Id);
+                    table.PrimaryKey("PK_Role", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Transition_Status_EndStatusId",
-                        column: x => x.EndStatusId,
-                        principalTable: "Status",
+                        name: "FK_Role_Account_CreatorId",
+                        column: x => x.CreatorId,
+                        principalTable: "Account",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Worklog",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SpentTime = table.Column<int>(type: "int", nullable: false),
+                    RemainTime = table.Column<int>(type: "int", nullable: false),
+                    LogDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LoggerId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Worklog", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Transition_Status_StartStatusId",
-                        column: x => x.StartStatusId,
-                        principalTable: "Status",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Transition_Workflow_WorkflowId",
-                        column: x => x.WorkflowId,
-                        principalTable: "Workflow",
+                        name: "FK_Worklog_Account_LoggerId",
+                        column: x => x.LoggerId,
+                        principalTable: "Account",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -397,7 +306,7 @@ namespace Bug.Data.Migrations
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Timelog = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LogDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DueDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     OriginEstimateTime = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -407,15 +316,14 @@ namespace Bug.Data.Migrations
                     PriorityId = table.Column<int>(type: "int", nullable: false),
                     ProjectId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     ReporterId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    AssigneeId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    AsigneeId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    AssigneeId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Issue", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Issue_Account_AsigneeId",
-                        column: x => x.AsigneeId,
+                        name: "FK_Issue_Account_AssigneeId",
+                        column: x => x.AssigneeId,
                         principalTable: "Account",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -446,30 +354,6 @@ namespace Bug.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProjectRole",
-                columns: table => new
-                {
-                    ProjectsId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    RolesId = table.Column<string>(type: "nvarchar(450)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ProjectRole", x => new { x.ProjectsId, x.RolesId });
-                    table.ForeignKey(
-                        name: "FK_ProjectRole_Project_ProjectsId",
-                        column: x => x.ProjectsId,
-                        principalTable: "Project",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ProjectRole_Role_RolesId",
-                        column: x => x.RolesId,
-                        principalTable: "Role",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "ProjectTag",
                 columns: table => new
                 {
@@ -494,27 +378,95 @@ namespace Bug.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "RoleTransition",
+                name: "AccountRole",
                 columns: table => new
                 {
-                    RolesId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    TransitionsId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    AccountsId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    RolesId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RoleTransition", x => new { x.RolesId, x.TransitionsId });
+                    table.PrimaryKey("PK_AccountRole", x => new { x.AccountsId, x.RolesId });
                     table.ForeignKey(
-                        name: "FK_RoleTransition_Role_RolesId",
+                        name: "FK_AccountRole_Account_AccountsId",
+                        column: x => x.AccountsId,
+                        principalTable: "Account",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AccountRole_Role_RolesId",
                         column: x => x.RolesId,
                         principalTable: "Role",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PermissionRole",
+                columns: table => new
+                {
+                    PermissionsId = table.Column<int>(type: "int", nullable: false),
+                    RolesId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PermissionRole", x => new { x.PermissionsId, x.RolesId });
                     table.ForeignKey(
-                        name: "FK_RoleTransition_Transition_TransitionsId",
-                        column: x => x.TransitionsId,
-                        principalTable: "Transition",
+                        name: "FK_PermissionRole_Permission_PermissionsId",
+                        column: x => x.PermissionsId,
+                        principalTable: "Permission",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_PermissionRole_Role_RolesId",
+                        column: x => x.RolesId,
+                        principalTable: "Role",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ProjectRole",
+                columns: table => new
+                {
+                    ProjectsId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    RolesId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProjectRole", x => new { x.ProjectsId, x.RolesId });
+                    table.ForeignKey(
+                        name: "FK_ProjectRole_Project_ProjectsId",
+                        column: x => x.ProjectsId,
+                        principalTable: "Project",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ProjectRole_Role_RolesId",
+                        column: x => x.RolesId,
+                        principalTable: "Role",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Attachment",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Uri = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IssueId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Attachment", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Attachment_Issue_IssueId",
+                        column: x => x.IssueId,
+                        principalTable: "Issue",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -523,7 +475,7 @@ namespace Bug.Data.Migrations
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TimeLog = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    TimeLog = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IssueId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     AccountId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
@@ -548,7 +500,7 @@ namespace Bug.Data.Migrations
                 name: "Issuelog",
                 columns: table => new
                 {
-                    TimeLog = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LogDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IssueId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     ModifierId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     PreStatusId = table.Column<string>(type: "nvarchar(450)", nullable: true),
@@ -611,11 +563,11 @@ namespace Bug.Data.Migrations
                 name: "Relation",
                 columns: table => new
                 {
+                    Id = table.Column<int>(type: "int", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     TagId = table.Column<int>(type: "int", nullable: false),
                     FromIssueId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    ToIssueId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    Id = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    ToIssueId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -640,51 +592,51 @@ namespace Bug.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Vote",
+                name: "VoterIssue",
                 columns: table => new
                 {
-                    AccountId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    IssueId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    Id = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    VoteIssuesId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    VoterId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
+                    table.PrimaryKey("PK_VoterIssue", x => new { x.VoteIssuesId, x.VoterId });
                     table.ForeignKey(
-                        name: "FK_Vote_Account_AccountId",
-                        column: x => x.AccountId,
+                        name: "FK_VoterIssue_Account_VoterId",
+                        column: x => x.VoterId,
                         principalTable: "Account",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Vote_Issue_IssueId",
-                        column: x => x.IssueId,
+                        name: "FK_VoterIssue_Issue_VoteIssuesId",
+                        column: x => x.VoteIssuesId,
                         principalTable: "Issue",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Watcher",
+                name: "WatcherIssue",
                 columns: table => new
                 {
-                    AccountId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    IssueId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    Id = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    WatchIssuesId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    WatcherId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
+                    table.PrimaryKey("PK_WatcherIssue", x => new { x.WatchIssuesId, x.WatcherId });
                     table.ForeignKey(
-                        name: "FK_Watcher_Account_AccountId",
-                        column: x => x.AccountId,
+                        name: "FK_WatcherIssue_Account_WatcherId",
+                        column: x => x.WatcherId,
                         principalTable: "Account",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Watcher_Issue_IssueId",
-                        column: x => x.IssueId,
+                        name: "FK_WatcherIssue_Issue_WatchIssuesId",
+                        column: x => x.WatchIssuesId,
                         principalTable: "Issue",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -703,6 +655,16 @@ namespace Bug.Data.Migrations
                 column: "RolesId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_AccountStatus_StatusesId",
+                table: "AccountStatus",
+                column: "StatusesId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Attachment_IssueId",
+                table: "Attachment",
+                column: "IssueId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Comment_AccountId",
                 table: "Comment",
                 column: "AccountId");
@@ -713,9 +675,9 @@ namespace Bug.Data.Migrations
                 column: "IssueId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Issue_AsigneeId",
+                name: "IX_Issue_AssigneeId",
                 table: "Issue",
-                column: "AsigneeId");
+                column: "AssigneeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Issue_PriorityId",
@@ -778,11 +740,6 @@ namespace Bug.Data.Migrations
                 column: "DefaultAssigneeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Project_WorkflowId",
-                table: "Project",
-                column: "WorkflowId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_ProjectRole_RolesId",
                 table: "ProjectRole",
                 column: "RolesId");
@@ -808,14 +765,9 @@ namespace Bug.Data.Migrations
                 column: "ToIssueId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RoleTransition_TransitionsId",
-                table: "RoleTransition",
-                column: "TransitionsId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Status_AccountId",
-                table: "Status",
-                column: "AccountId");
+                name: "IX_Role_CreatorId",
+                table: "Role",
+                column: "CreatorId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_StatusTag_TagsId",
@@ -823,24 +775,9 @@ namespace Bug.Data.Migrations
                 column: "TagsId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_StatusWorkflow_WorkflowsId",
-                table: "StatusWorkflow",
-                column: "WorkflowsId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Tag_CategoryId",
                 table: "Tag",
                 column: "CategoryId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Transition_EndStatusId",
-                table: "Transition",
-                column: "EndStatusId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Transition_StartStatusId",
-                table: "Transition",
-                column: "StartStatusId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Transition_WorkflowId",
@@ -848,29 +785,14 @@ namespace Bug.Data.Migrations
                 column: "WorkflowId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Vote_AccountId",
-                table: "Vote",
-                column: "AccountId");
+                name: "IX_VoterIssue_VoterId",
+                table: "VoterIssue",
+                column: "VoterId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Vote_IssueId",
-                table: "Vote",
-                column: "IssueId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Watcher_AccountId",
-                table: "Watcher",
-                column: "AccountId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Watcher_IssueId",
-                table: "Watcher",
-                column: "IssueId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Workflow_AccountId",
-                table: "Workflow",
-                column: "AccountId");
+                name: "IX_WatcherIssue_WatcherId",
+                table: "WatcherIssue",
+                column: "WatcherId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Worklog_LoggerId",
@@ -887,6 +809,12 @@ namespace Bug.Data.Migrations
                 name: "AccountRole");
 
             migrationBuilder.DropTable(
+                name: "AccountStatus");
+
+            migrationBuilder.DropTable(
+                name: "Attachment");
+
+            migrationBuilder.DropTable(
                 name: "Comment");
 
             migrationBuilder.DropTable(
@@ -894,9 +822,6 @@ namespace Bug.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "IssueTag");
-
-            migrationBuilder.DropTable(
-                name: "Label");
 
             migrationBuilder.DropTable(
                 name: "PermissionRole");
@@ -911,19 +836,16 @@ namespace Bug.Data.Migrations
                 name: "Relation");
 
             migrationBuilder.DropTable(
-                name: "RoleTransition");
-
-            migrationBuilder.DropTable(
                 name: "StatusTag");
 
             migrationBuilder.DropTable(
-                name: "StatusWorkflow");
+                name: "Transition");
 
             migrationBuilder.DropTable(
-                name: "Vote");
+                name: "VoterIssue");
 
             migrationBuilder.DropTable(
-                name: "Watcher");
+                name: "WatcherIssue");
 
             migrationBuilder.DropTable(
                 name: "Worklog");
@@ -935,10 +857,10 @@ namespace Bug.Data.Migrations
                 name: "Role");
 
             migrationBuilder.DropTable(
-                name: "Transition");
+                name: "Tag");
 
             migrationBuilder.DropTable(
-                name: "Tag");
+                name: "Workflow");
 
             migrationBuilder.DropTable(
                 name: "Issue");
@@ -954,9 +876,6 @@ namespace Bug.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Status");
-
-            migrationBuilder.DropTable(
-                name: "Workflow");
 
             migrationBuilder.DropTable(
                 name: "Account");

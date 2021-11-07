@@ -21,8 +21,8 @@ namespace Bug.Entities.Model
         public Account DefaultAssignee { get; private set; }
         public string CreatorId { get; private set; }
         public Account Creator { get; private set; }
-        public string WorkflowId { get; private set; }
-        public Workflow Workflow { get; private set; }
+        //public string WorkflowId { get; private set; }
+        //public Workflow Workflow { get; private set; }
 
         private readonly List<Tag> _tags = new List<Tag>();
         public ICollection<Tag> Tags => _tags.AsReadOnly();
@@ -45,8 +45,7 @@ namespace Bug.Entities.Model
             string description,
             string uri,
             string defaultAssigneeId,
-            string creatorId,
-            string workflowId)
+            string creatorId)
         {
             Id = id;
             Name = name;
@@ -59,24 +58,51 @@ namespace Bug.Entities.Model
             AvatarUri = uri;
             DefaultAssigneeId = defaultAssigneeId;
             CreatorId = creatorId;
-            WorkflowId = workflowId;
+            //WorkflowId = workflowId;
         }
 
-        public void AddAccount(string id,
-            string userName,
-            string password,
-            string firstName,
-            string lastName,
-            string email,
-            DateTime createdDate,
-            string language,
-            string imageUri,
-            string timezoneId)
+        public void UpdateName(string name)
         {
-            if (!Accounts.Any(i => i.Id.Equals(id)))
+            Name = name;
+        }
+        public void UpdateAvatarUri(string uri)
+        {
+            AvatarUri = uri;
+        }
+        public void UpdateCode(string code)
+        {
+            Code = code;
+        }
+        public void UpdateProjectType(string s)
+        {
+            ProjectType = s;
+        }
+        public void UpdateDescription(string des)
+        {
+            Description = des;
+        }
+        public void UpdateStartDate(DateTime d)
+        {
+            StartDate = d;
+        }
+        public void UpdateEndDate(DateTime d)
+        {
+            EndDate = d;
+        }
+        public void UpdateCreatorId(string id)
+        {
+            CreatorId = id;
+        }
+        public void UpdateDefaultAssigneeId(string id)
+        {
+            DefaultAssigneeId = id;
+        }
+
+        public void AddAccount(Account a)
+        {
+            if (!Accounts.Any(i => i.Id.Equals(a.Id)))
             {
-                _accounts.Add(new Account(id, userName, password, firstName, lastName, email, createdDate, language, imageUri,timezoneId));
-                //_accounts.Add(a);
+                _accounts.Add(a);
                 return;
             }
         }
@@ -88,7 +114,7 @@ namespace Bug.Entities.Model
         {
             if (!Tags.Any(i => i.Id.Equals(id)))
             {
-                _tags.Add(new Tag(id, name, description, categoryId));
+                _tags.Add(new Tag(name, description, categoryId));
                 return;
             }                      
         }
