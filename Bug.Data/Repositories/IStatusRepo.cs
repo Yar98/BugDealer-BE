@@ -12,8 +12,6 @@ namespace Bug.Data.Repositories
 {
     public interface IStatusRepo : IEntityRepoBase<Status>
     {
-        Task<Status> GetStatusAsync
-            (ISpecification<Status> specificationResult,
-            CancellationToken cancellationToken = default);
+
     }
 }

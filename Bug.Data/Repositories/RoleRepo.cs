@@ -20,17 +20,6 @@ namespace Bug.Data.Repositories
 
         }
 
-        public async Task<Role> GetRoleAsync
-            (ISpecification<Role> specificationResult,
-            CancellationToken cancellationToken = default)
-        {
-            return await _bugContext
-                .Roles
-                .Specify(specificationResult)
-                .FirstOrDefaultAsync(cancellationToken);
-        }
-        
-
         public override IQueryable<Role> SortOrder
             (IQueryable<Role> result,
             string sortOrder)
@@ -48,7 +37,7 @@ namespace Bug.Data.Repositories
                     break;
                 case "enddate":
                 //result = result.OrderBy(p => p.EndDate);
-                //break;
+                    break;
                 case "enddate_desc":
                     //result = result.OrderByDescending(p => p.EndDate);
                     break;

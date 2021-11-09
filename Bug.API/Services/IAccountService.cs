@@ -12,7 +12,9 @@ namespace Bug.API.Services
     {
         Task<string> GenerateTokenGoogleAccountAsync(AccountGoogleLoginDto acc, CancellationToken cancellationToken = default);
         Task<Account> GetAccountByIdWithRolesAsync
-            (string id,
+            (string accountId,
+            int permissionId,
+            string projectId,
             CancellationToken cancellationToken = default);
         Task<AccountNormalDto> LoginLocalAsync(string name, string password, CancellationToken cancellationToken = default);
         Task<AccountNormalDto> GetAccountByIdAsync(string id, CancellationToken cancellationToken = default);

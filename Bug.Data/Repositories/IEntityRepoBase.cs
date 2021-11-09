@@ -14,6 +14,12 @@ namespace Bug.Data.Repositories
     {
         Task<T> GetByIdAsync(string id, CancellationToken cancelltionToken = default);
         Task<T> GetByIdAsync(int id, CancellationToken cancelltionToken = default);
+        Task<T> GetEntityAsync
+            (ISpecification<T> specificationResult,
+            CancellationToken cancelltionToken = default);
+        Task<IReadOnlyList<T>> GetAllEntitiesAsync
+            (ISpecification<T> specificationResult,
+            CancellationToken cancellationToken = default);
         Task<PaginatedList<T>> GetPaginatedAsync
             (int pageIndex,
             int pageSize,

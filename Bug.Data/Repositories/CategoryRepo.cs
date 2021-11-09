@@ -32,8 +32,8 @@ namespace Bug.Data.Repositories
                     //result = result.OrderByDescending(p => p.StartDate);
                     break;
                 case "enddate":
-                //result = result.OrderBy(p => p.EndDate);
-                //break;
+                    //result = result.OrderBy(p => p.EndDate);
+                    break;
                 case "enddate_desc":
                     //result = result.OrderByDescending(p => p.EndDate);
                     break;

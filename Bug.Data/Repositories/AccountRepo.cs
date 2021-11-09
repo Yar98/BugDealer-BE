@@ -19,15 +19,6 @@ namespace Bug.Data.Repositories
         {
 
         }
-        public async Task<Account> GetAccountAsync
-            (ISpecification<Account> specificationResult,
-            CancellationToken cancellationToken = default)
-        {
-            return await _bugContext
-                .Accounts
-                .Specify(specificationResult)
-                .FirstOrDefaultAsync(cancellationToken);
-        }
 
         public async Task<Account> GetAccountByEmail(string email)
         {
@@ -62,8 +53,8 @@ namespace Bug.Data.Repositories
                     //result = result.OrderByDescending(p => p.StartDate);
                     break;
                 case "enddate":
-                //result = result.OrderBy(p => p.EndDate);
-                //break;
+                    //result = result.OrderBy(p => p.EndDate);
+                    break;
                 case "enddate_desc":
                     //result = result.OrderByDescending(p => p.EndDate);
                     break;

@@ -20,17 +20,6 @@ namespace Bug.Data.Repositories
             
         }
 
-        public async Task<Project> GetProjectAsync
-            (ISpecification<Project> specificationResult,
-            CancellationToken cancelltionToken = default)
-        {
-            return await _bugContext
-                .Projects
-                .Specify(specificationResult)
-                .FirstOrDefaultAsync(cancelltionToken);
-                
-        }
-
         public override IQueryable<Project> SortOrder
             (IQueryable<Project> result, 
             string sortOrder)

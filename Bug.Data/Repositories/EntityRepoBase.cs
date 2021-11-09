@@ -33,6 +33,26 @@ namespace Bug.Data.Repositories
             return await _bugContext.Set<T>().FindAsync(keyValues, cancelltionToken);
         }
 
+        public async Task<T> GetEntityAsync
+            (ISpecification<T> specificationResult,
+            CancellationToken cancelltionToken = default)
+        {
+            return await _bugContext
+                .Set<T>()
+                .Specify(specificationResult)
+                .FirstOrDefaultAsync(cancelltionToken);
+        }
+
+        public async Task<IReadOnlyList<T>> GetAllEntitiesAsync
+            (ISpecification<T> specificationResult,
+            CancellationToken cancellationToken = default)
+        {
+            return await _bugContext
+                .Set<T>()
+                .Specify(specificationResult)
+                .ToListAsync(cancellationToken);
+        }
+
         public async Task<PaginatedList<T>> GetPaginatedAsync
             (int pageIndex,
             int pageSize,
@@ -43,6 +63,7 @@ namespace Bug.Data.Repositories
             var result = _bugContext
                 .Set<T>()
                 .Specify(specificationResult);
+            var query = result.AsQueryable().ToQueryString().ToString();
             result = SortOrder(result, sortOrder);
             return await PaginatedList<T>
                 .CreateListAsync(result.AsNoTracking(), pageIndex, pageSize, cancelltionToken);

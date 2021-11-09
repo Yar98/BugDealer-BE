@@ -70,14 +70,16 @@ namespace Bug.API.Services
         }
 
         public async Task<Account> GetAccountByIdWithRolesAsync
-            (string id,
+            (string accountId,
+            int permissionId,
+            string projectId,
             CancellationToken cancellationToken = default)
         {
             var specificationResult =
-                new AccountCheckRoleByIdSpecification(id);
+                new AccountCheckRoleByIdSpecification(accountId, permissionId, projectId);
             return await _unitOfWork
                 .Account
-                .GetAccountAsync(specificationResult, cancellationToken);
+                .GetEntityAsync(specificationResult, cancellationToken);
         }
 
         public async Task<AccountNormalDto> GetAccountByIdAsync

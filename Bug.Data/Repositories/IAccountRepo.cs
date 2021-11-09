@@ -14,8 +14,5 @@ namespace Bug.Data.Repositories
     {
         Task<Account> GetAccountByEmail(string email);
         Task<Account> GetAccountByUserName(string userName, string password);
-        Task<Account> GetAccountAsync
-            (ISpecification<Account> specificationResult,
-            CancellationToken cancellationToken = default);
     }
 }

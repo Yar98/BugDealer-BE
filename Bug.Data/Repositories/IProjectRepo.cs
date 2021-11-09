@@ -12,10 +12,6 @@ namespace Bug.Data.Repositories
 {
     public interface IProjectRepo : IEntityRepoBase<Project>
     {
-        Task<Project> GetProjectAsync
-            (ISpecification<Project> specificationResult,
-            CancellationToken cancelltionToken = default);
-        
         Task Test();
     }
 }

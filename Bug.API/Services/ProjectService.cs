@@ -30,7 +30,7 @@ namespace Bug.API.Services
                 new(projectId);
             var result = await _unitOfWork
                 .Project
-                .GetProjectAsync(specificationResult, cancellationToken);
+                .GetEntityAsync(specificationResult, cancellationToken);
             return new ProjectNormalDto
             {
                 Id = result.Id,
@@ -57,7 +57,7 @@ namespace Bug.API.Services
                 new(projectId);
             var result = await _unitOfWork
                 .Project
-                .GetProjectAsync(specificationResult,cancellationToken);
+                .GetEntityAsync(specificationResult,cancellationToken);
             return result;
         }
 
@@ -73,7 +73,7 @@ namespace Bug.API.Services
         {
             // filter project by creator
             var specificationResult =
-                new ProjectsByCreatorWithITSpecification(accountId, categoryId, tagName);
+                new ProjectsByCreatorTagWithIssuesSpecification(accountId, categoryId, tagName);
             var result = await _unitOfWork
                 .Project
                 .GetPaginatedAsync(
@@ -81,6 +81,7 @@ namespace Bug.API.Services
                 sortOrder,
                 specificationResult,
                 cancellationToken);
+            
             return new PaginatedListDto<ProjectNormalDto>
             {
                 Items = result
@@ -173,7 +174,7 @@ namespace Bug.API.Services
         {
             // filter projects by creator
             var specificationResult =
-                new ProjectsByCreatorWithITSpecification(accountId, categoryId, tagName);
+                new ProjectsByCreatorTagWithIssuesSpecification(accountId, categoryId, tagName);
             var result = await _unitOfWork
                 .Project
                 .GetNextByOffsetAsync(

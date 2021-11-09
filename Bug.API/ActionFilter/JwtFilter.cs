@@ -42,14 +42,12 @@ namespace Bug.API.ActionFilter
                 }
                 else // success login
                 {
-                    var user = await accountService.GetAccountByIdWithRolesAsync(result.Id);
+                    var user = await accountService
+                        .GetAccountByIdWithRolesAsync(result.Id, Permission, ProjectId);
                     switch (Permission)
                     {
                         case Bts.GetDetailProject:
-                            if (!user.Roles.Any(
-                                r =>
-                                r.Permissions.Any(p => p.Id == Permission) && 
-                                r.Projects.Any(p=>p.Id==ProjectId)))
+                            if (user == null)
                             {
                                 context.Result = new BadRequestObjectResult("Permission not allow");
                                 return;

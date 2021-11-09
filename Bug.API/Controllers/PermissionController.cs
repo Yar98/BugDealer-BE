@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Bug.API.Services;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,36 +13,46 @@ namespace Bug.API.Controllers
     [ApiController]
     public class PermissionController : ControllerBase
     {
+        private readonly IPermissionService _permissionService;
+        public PermissionController(IPermissionService permissionService)
+        {
+            _permissionService = permissionService;
+        }
         // GET: api/<PermissionController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<IActionResult> Get()
         {
-            return new string[] { "value1", "value2" };
+            var result = await _permissionService.GetAllAsync();
+            return Ok(result);
         }
 
         // GET api/<PermissionController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<IActionResult> GetPermissionById(int id)
         {
-            return "value";
+            var result = await _permissionService.GetPermissionByIdAsync(id);
+            return Ok(result);
         }
 
-        // POST api/<PermissionController>
-        [HttpPost]
-        public void Post([FromBody] string value)
+        [HttpGet("project/{projectId}/account/{memberId}")]
+        public async Task<IActionResult> GetPermissionsByProjectAccount
+            (string projectId,
+            string memberId)
         {
+            var result = await _permissionService
+                .GetPermissionsByAccountProjectAsync(memberId, projectId);
+            return Ok(result);
         }
 
-        // PUT api/<PermissionController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpGet("project/{projectId}/role/{roleId}")]
+        public async Task<IActionResult> GetPermissionsByProjectRole
+            (string projectId,
+            string roleId)
         {
+            var result = await _permissionService
+                .GetPermissionsByRoleProjectAsync(roleId, projectId);
+            return Ok(result);
         }
 
-        // DELETE api/<PermissionController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
     }
 }

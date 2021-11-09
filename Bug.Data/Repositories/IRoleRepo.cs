@@ -12,8 +12,6 @@ namespace Bug.Data.Repositories
 {
     public interface IRoleRepo : IEntityRepoBase<Role>
     {
-        Task<Role> GetRoleAsync
-            (ISpecification<Role> specificationResult,
-            CancellationToken cancellationToken = default);
+        
     }
 }

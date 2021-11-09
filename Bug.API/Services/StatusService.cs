@@ -25,7 +25,7 @@ namespace Bug.API.Services
                 new(id);
             return await _unitOfWork
                 .Status
-                .GetStatusAsync(specificationResult, cancellationToken);
+                .GetEntityAsync(specificationResult, cancellationToken);
         }
 
         public async Task<PaginatedListDto<Status>> GetPaginatedDetailByCreatorAsync

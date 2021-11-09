@@ -25,7 +25,7 @@ namespace Bug.API.Services
             RoleDetailLv1Specification specification =
                 new(id);
             return await _unitOfWork.Role
-                .GetRoleAsync(specification, cancellationToken);
+                .GetEntityAsync(specification, cancellationToken);
         }
 
         public async Task<PaginatedListDto<Role>> GetPaginatedDetailByProjectAsync

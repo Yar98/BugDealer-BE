@@ -20,16 +20,6 @@ namespace Bug.Data.Repositories
 
         }
 
-        public async Task<Issue> GetIssuelAsync
-            (ISpecification<Issue> specificationResult,
-            CancellationToken cancelltionToken = default)
-        {
-            return await _bugContext
-                .Issues
-                .Specify(specificationResult)
-                .FirstOrDefaultAsync(cancelltionToken);
-        }
-
         public override IQueryable<Issue> SortOrder
             (IQueryable<Issue> result,
             string sortOrder)
@@ -47,7 +37,7 @@ namespace Bug.Data.Repositories
                     break;
                 case "enddate":
                     //result = result.OrderBy(p => p.EndDate);
-                    //break;
+                    break;
                 case "enddate_desc":
                     //result = result.OrderByDescending(p => p.EndDate);
                     break;

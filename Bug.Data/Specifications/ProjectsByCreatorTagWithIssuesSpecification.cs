@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace Bug.Data.Specifications
 {
-    public class ProjectsByCreatorWithITSpecification : BaseSpecification<Project>
+    public class ProjectsByCreatorTagWithIssuesSpecification : BaseSpecification<Project>
     {
-        public ProjectsByCreatorWithITSpecification(string accountId)
+        public ProjectsByCreatorTagWithIssuesSpecification(string accountId)
             : base(p=>p.CreatorId == accountId)
         {
             AddInclude(p => p.Issues.SelectMany(i => i.Tags));
         }
-        public ProjectsByCreatorWithITSpecification
+        public ProjectsByCreatorTagWithIssuesSpecification
             (string accountId,
             int categoryId,
             string tagName)

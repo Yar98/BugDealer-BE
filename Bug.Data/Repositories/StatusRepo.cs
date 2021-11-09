@@ -20,16 +20,6 @@ namespace Bug.Data.Repositories
 
         }
 
-        public async Task<Status> GetStatusAsync
-            (ISpecification<Status> specificationResult,
-            CancellationToken cancellationToken = default)
-        {
-            return await _bugContext
-                .Statuses
-                .Specify(specificationResult)
-                .FirstOrDefaultAsync(cancellationToken);
-        }
-
         public override IQueryable<Status> SortOrder
             (IQueryable<Status> result,
             string sortOrder)
