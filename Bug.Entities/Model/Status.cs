@@ -26,12 +26,14 @@ namespace Bug.Entities.Model
         public Status(string id,
             string name,
             string description,
-            int progress)
+            int progress,
+            string creatorId)
         {
             Id = id;
             Name = name;
             Description = description;
             Progress = progress;
+            CreatorId = creatorId;
         }
 
         public void UpdateId(string id)
