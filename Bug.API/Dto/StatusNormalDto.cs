@@ -12,6 +12,7 @@ namespace Bug.API.Dto
         public string Name { get; set; }
         public string Description { get; set; }
         public int Progress { get; set; }
+        public string CreatorId { get; set; }
 
         public List<Tag> Tags { get; set; }
         public List<Account> Accounts { get; set; }

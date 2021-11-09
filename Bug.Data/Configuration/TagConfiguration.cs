@@ -17,9 +17,7 @@ namespace Bug.Data.Configuration
                 .ToTable("Tag")
                 .Property(b => b.Name)
                 .IsRequired();
-            builder
-                .Property(t => t.CategoryId)
-                .IsRequired();
+            
         }
     }
 }

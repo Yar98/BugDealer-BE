@@ -27,16 +27,18 @@ namespace Bug.Data
                     await bugContext.Accounts.AddRangeAsync(
                         GetPreconfiguredAccount());
                 }
-                if(!await bugContext.Tags.AnyAsync())
-                {
-                    await bugContext.Tags.AddRangeAsync(
-                    GetPreconfiguredTag());
-                }
-                if(!await bugContext.Categories.AnyAsync())
+                
+                if (!await bugContext.Categories.AnyAsync())
                 {
                     await bugContext.Categories.AddRangeAsync(
                     GetPreconfiguredCategory());
                 }
+                if (!await bugContext.Tags.AnyAsync())
+                {
+                    await bugContext.Tags.AddRangeAsync(
+                    GetPreconfiguredTag());
+                }
+                
                 if (!await bugContext.Statuses.AnyAsync())
                 {
                     await bugContext.Statuses.AddRangeAsync(
@@ -47,7 +49,7 @@ namespace Bug.Data
                     await bugContext.Permissions.AddRangeAsync(
                     GetPreconfiguredPermission());
                 }
-
+                
                 await bugContext.SaveChangesAsync();
             }
             catch(Exception ex)
@@ -78,32 +80,36 @@ namespace Bug.Data
         static IEnumerable<Tag> GetPreconfiguredTag()
         {
             return new List<Tag>()
-            {
-                new Tag("Open",null,Bts.ProjectTag),
+            {               
                 new Tag("Open",null,Bts.IssueTag),
-                new Tag("Close",null,Bts.IssueTag)
+                new Tag("Close",null,Bts.IssueTag),
+                new Tag("Open",null,Bts.ProjectTag)
             };
         }
         static IEnumerable<Category> GetPreconfiguredCategory()
         {
             return new List<Category>()
             {
-                new Category("Project",null),
                 new Category("Issue",null),
+                new Category("Project",null)               
             };
         }
         static IEnumerable<Status> GetPreconfiguredStatus()
         {
             return new List<Status>()
             {
-                
+                new Status("status1","name1","des1",1,"account1"),
+                new Status("status2","name2","des2",13,"account2")
             };
         }
         static IEnumerable<Permission> GetPreconfiguredPermission()
         {
             return new List<Permission>()
             {
-                
+                new Permission("View Issue"),
+                new Permission("Create Issue"),
+                new Permission("Edit Issue"),
+                new Permission("Delete Issue")
             };
         }
 

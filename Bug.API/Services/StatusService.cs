@@ -67,7 +67,8 @@ namespace Bug.API.Services
             var result = new Status(Guid.NewGuid().ToString(),
                 status.Name,
                 status.Description,
-                status.Progress);
+                status.Progress,
+                status.CreatorId);
             result.UpdateAccounts(status.Accounts);
             result.UpdateTags(status.Tags);
             await _unitOfWork
