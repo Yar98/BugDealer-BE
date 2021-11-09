@@ -8,6 +8,7 @@ namespace Bug.Entities.Model
 {
     public class Issuelog : IEntityBase
     {
+        public int Id { get; private set; }
         public DateTime LogDate { get; private set; }
         public string IssueId { get; private set; }
         public Issue Issue { get; private set; }

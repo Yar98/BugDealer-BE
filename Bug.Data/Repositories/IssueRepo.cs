@@ -8,7 +8,7 @@ using Bug.Data.Specifications;
 using System.Threading;
 using Bug.Data.Extensions;
 using Microsoft.EntityFrameworkCore;
-using Bug.Core.Utility;
+using Bug.Core.Utils;
 
 namespace Bug.Data.Repositories
 {
@@ -20,47 +20,7 @@ namespace Bug.Data.Repositories
 
         }
 
-        public async Task<Issue> GetIssuelAsync
-            (ISpecification<Issue> specificationResult,
-            CancellationToken cancelltionToken = default)
-        {
-            return await _bugContext
-                .Issues
-                .Specify(specificationResult)
-                .FirstOrDefaultAsync(cancelltionToken);
-        }
-        public async Task<PaginatedList<Issue>> GetPaginatedIssuesAsync
-            (int pageIndex,
-            int pageSize,
-            string sortOrder,
-            ISpecification<Issue> specificationResult,
-            CancellationToken cancelltionToken = default)
-        {
-            var result = _bugContext
-                .Issues
-                .Specify(specificationResult);
-            result = SortOrder(result, sortOrder);
-            return await PaginatedList<Issue>
-                .CreateListAsync(result.AsNoTracking(), pageIndex, pageSize, cancelltionToken);
-        }
-        public async Task<IReadOnlyList<Issue>> GetByOffsetIssuesAsync
-            (int offset,
-            int next,
-            string sortOrder,
-            ISpecification<Issue> specificationResult,
-            CancellationToken cancellationToken = default)
-        {
-            var result = _bugContext
-                .Issues
-                .Specify(specificationResult);
-            result = SortOrder(result, sortOrder);
-            return await result
-                .Skip(offset)
-                .Take(next)
-                .ToListAsync(cancellationToken);
-        }
-
-        private IQueryable<Issue> SortOrder
+        public override IQueryable<Issue> SortOrder
             (IQueryable<Issue> result,
             string sortOrder)
         {
@@ -77,7 +37,7 @@ namespace Bug.Data.Repositories
                     break;
                 case "enddate":
                     //result = result.OrderBy(p => p.EndDate);
-                    //break;
+                    break;
                 case "enddate_desc":
                     //result = result.OrderByDescending(p => p.EndDate);
                     break;

@@ -13,7 +13,6 @@ namespace Bug.Data.Specifications
             : base(p=>p.Id == projectId)
         {
             AddInclude(p => p.Creator);
-            //AddInclude(p => p.Workflow);
             AddInclude(p => p.DefaultAssignee);
             AddInclude(p => p.Accounts);
             AddInclude(p => p.Roles);

@@ -8,7 +8,7 @@ using Bug.Data.Specifications;
 using System.Threading;
 using Bug.Data.Extensions;
 using Microsoft.EntityFrameworkCore;
-using Bug.Core.Utility;
+using Bug.Core.Utils;
 
 namespace Bug.Data.Repositories
 {
@@ -20,48 +20,7 @@ namespace Bug.Data.Repositories
 
         }
 
-        public async Task<Status> GetStatusAsync
-            (ISpecification<Status> specificationResult,
-            CancellationToken cancellationToken = default)
-        {
-            return await _bugContext
-                .Statuses
-                .Specify(specificationResult)
-                .FirstOrDefaultAsync(cancellationToken);
-        }
-        public async Task<PaginatedList<Status>> GetPaginatedIssuesAsync
-            (int pageIndex,
-            int pageSize,
-            string sortOrder,
-            ISpecification<Status> speicificationResult,
-            CancellationToken cancellationToken = default)
-        {
-            var result = _bugContext
-                .Statuses
-                .Specify(speicificationResult);
-            SortOrder(result, sortOrder);
-            return await PaginatedList<Status>
-                .CreateListAsync(result, pageIndex, pageSize, cancellationToken);
-        }
-        public async Task<IReadOnlyList<Status>> GetNextIssuesByOffsetAsync
-            (int offset,
-            int next,
-            string sortOrder,
-            ISpecification<Status> specificationResult,
-            CancellationToken cancellationToken = default)
-        {
-            var result = _bugContext
-                .Statuses
-                .Specify(specificationResult);
-            SortOrder(result, sortOrder);
-            return await result
-                .Skip(offset)
-                .Take(next)
-                .ToListAsync(cancellationToken);
-        }
-
-
-        private IQueryable<Status> SortOrder
+        public override IQueryable<Status> SortOrder
             (IQueryable<Status> result,
             string sortOrder)
         {

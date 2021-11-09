@@ -8,7 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Bug.Data.Specifications;
 using Bug.Entities.Model;
-using Bug.Core.Utility;
+using Bug.Core.Utils;
 using Bug.Data.Extensions;
 
 namespace Bug.Data.Repositories
@@ -31,6 +31,60 @@ namespace Bug.Data.Repositories
         {
             var keyValues = new object[] { id };
             return await _bugContext.Set<T>().FindAsync(keyValues, cancelltionToken);
+        }
+
+        public async Task<T> GetEntityAsync
+            (ISpecification<T> specificationResult,
+            CancellationToken cancelltionToken = default)
+        {
+            return await _bugContext
+                .Set<T>()
+                .Specify(specificationResult)
+                .FirstOrDefaultAsync(cancelltionToken);
+        }
+
+        public async Task<IReadOnlyList<T>> GetAllEntitiesAsync
+            (ISpecification<T> specificationResult,
+            CancellationToken cancellationToken = default)
+        {
+            return await _bugContext
+                .Set<T>()
+                .Specify(specificationResult)
+                .ToListAsync(cancellationToken);
+        }
+
+        public async Task<PaginatedList<T>> GetPaginatedAsync
+            (int pageIndex,
+            int pageSize,
+            string sortOrder,
+            ISpecification<T> specificationResult,
+            CancellationToken cancelltionToken = default)
+        {
+            var result = _bugContext
+                .Set<T>()
+                .Specify(specificationResult);
+            var query = result.AsQueryable().ToQueryString().ToString();
+            result = SortOrder(result, sortOrder);
+            return await PaginatedList<T>
+                .CreateListAsync(result.AsNoTracking(), pageIndex, pageSize, cancelltionToken);
+        }
+
+        public async Task<IReadOnlyList<T>> GetNextByOffsetAsync
+            (int offset,
+            int next,
+            string sortOrder,
+            ISpecification<T> specificationResult,
+            CancellationToken cancelltionToken = default)
+        {
+            var result = _bugContext
+                .Set<T>()
+                .Specify(specificationResult);
+            result = SortOrder(result, sortOrder);
+            return await result
+                .Skip(offset)
+                .Take(next)
+                .AsNoTracking()
+                .ToListAsync(cancelltionToken);
         }
 
         public async Task<T> AddAsync(T entity, CancellationToken cancelltionToken = default)
@@ -56,6 +110,11 @@ namespace Bug.Data.Repositories
             _bugContext.Entry(entity).State = EntityState.Modified;
             //await _bugContext.SaveChangesAsync(cancelltionToken);
         }
+
+
+        public abstract IQueryable<T> SortOrder
+            (IQueryable<T> result,
+            string sortOrder);
 
 
         /*

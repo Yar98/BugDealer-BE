@@ -19,6 +19,21 @@ namespace Bug.Data.Migrations
                 .HasAnnotation("ProductVersion", "5.0.11")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("AccountCustomtype", b =>
+                {
+                    b.Property<string>("AccountsId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("CustomtypeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("AccountsId", "CustomtypeId");
+
+                    b.HasIndex("CustomtypeId");
+
+                    b.ToTable("AccountCustomtype");
+                });
+
             modelBuilder.Entity("AccountIssue", b =>
                 {
                     b.Property<string>("WatchIssuesId")
@@ -121,7 +136,10 @@ namespace Bug.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TimezoneId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("TimezoneId1")
+                        .HasColumnType("int");
 
                     b.Property<string>("UserName")
                         .IsRequired()
@@ -129,7 +147,7 @@ namespace Bug.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TimezoneId");
+                    b.HasIndex("TimezoneId1");
 
                     b.ToTable("Account");
                 });
@@ -158,7 +176,9 @@ namespace Bug.Data.Migrations
             modelBuilder.Entity("Bug.Entities.Model.Category", b =>
                 {
                     b.Property<int>("Id")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -197,6 +217,24 @@ namespace Bug.Data.Migrations
                     b.HasIndex("IssueId");
 
                     b.ToTable("Comment");
+                });
+
+            modelBuilder.Entity("Bug.Entities.Model.Customtype", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Customtype");
                 });
 
             modelBuilder.Entity("Bug.Entities.Model.Issue", b =>
@@ -261,8 +299,8 @@ namespace Bug.Data.Migrations
 
             modelBuilder.Entity("Bug.Entities.Model.Issuelog", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
 
                     b.Property<string>("IssueId")
                         .HasColumnType("nvarchar(450)");
@@ -469,8 +507,10 @@ namespace Bug.Data.Migrations
 
             modelBuilder.Entity("Bug.Entities.Model.Timezone", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("CountryCode")
                         .IsRequired()
@@ -487,35 +527,6 @@ namespace Bug.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Timezone");
-                });
-
-            modelBuilder.Entity("Bug.Entities.Model.Transition", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("WorkflowId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("WorkflowId");
-
-                    b.ToTable("Transition");
-                });
-
-            modelBuilder.Entity("Bug.Entities.Model.Workflow", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Workflow");
                 });
 
             modelBuilder.Entity("Bug.Entities.Model.Worklog", b =>
@@ -619,6 +630,21 @@ namespace Bug.Data.Migrations
                     b.ToTable("StatusTag");
                 });
 
+            modelBuilder.Entity("AccountCustomtype", b =>
+                {
+                    b.HasOne("Bug.Entities.Model.Account", null)
+                        .WithMany()
+                        .HasForeignKey("AccountsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Bug.Entities.Model.Customtype", null)
+                        .WithMany()
+                        .HasForeignKey("CustomtypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("AccountIssue", b =>
                 {
                     b.HasOne("Bug.Entities.Model.Issue", null)
@@ -698,7 +724,7 @@ namespace Bug.Data.Migrations
                 {
                     b.HasOne("Bug.Entities.Model.Timezone", "Timezone")
                         .WithMany()
-                        .HasForeignKey("TimezoneId");
+                        .HasForeignKey("TimezoneId1");
 
                     b.Navigation("Timezone");
                 });
@@ -854,15 +880,6 @@ namespace Bug.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Category");
-                });
-
-            modelBuilder.Entity("Bug.Entities.Model.Transition", b =>
-                {
-                    b.HasOne("Bug.Entities.Model.Workflow", "Workflow")
-                        .WithMany()
-                        .HasForeignKey("WorkflowId");
-
-                    b.Navigation("Workflow");
                 });
 
             modelBuilder.Entity("Bug.Entities.Model.Worklog", b =>

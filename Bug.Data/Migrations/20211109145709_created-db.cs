@@ -11,13 +11,28 @@ namespace Bug.Data.Migrations
                 name: "Category",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Category", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Customtype",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Customtype", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -51,7 +66,8 @@ namespace Bug.Data.Migrations
                 name: "Timezone",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     GmtOffset = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CountryCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CountryName = table.Column<string>(type: "nvarchar(max)", nullable: false)
@@ -59,18 +75,6 @@ namespace Bug.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Timezone", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Workflow",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Workflow", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -107,35 +111,42 @@ namespace Bug.Data.Migrations
                     Language = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ImageUri = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    TimezoneId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    TimezoneId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TimezoneId1 = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Account", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Account_Timezone_TimezoneId",
-                        column: x => x.TimezoneId,
+                        name: "FK_Account_Timezone_TimezoneId1",
+                        column: x => x.TimezoneId1,
                         principalTable: "Timezone",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Transition",
+                name: "AccountCustomtype",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    WorkflowId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    AccountsId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    CustomtypeId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Transition", x => x.Id);
+                    table.PrimaryKey("PK_AccountCustomtype", x => new { x.AccountsId, x.CustomtypeId });
                     table.ForeignKey(
-                        name: "FK_Transition_Workflow_WorkflowId",
-                        column: x => x.WorkflowId,
-                        principalTable: "Workflow",
+                        name: "FK_AccountCustomtype_Account_AccountsId",
+                        column: x => x.AccountsId,
+                        principalTable: "Account",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AccountCustomtype_Customtype_CustomtypeId",
+                        column: x => x.CustomtypeId,
+                        principalTable: "Customtype",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -507,12 +518,12 @@ namespace Bug.Data.Migrations
                 name: "Issuelog",
                 columns: table => new
                 {
+                    Id = table.Column<int>(type: "int", nullable: false),
                     LogDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IssueId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     ModifierId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     PreStatusId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    ModStatusId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    Id = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    ModStatusId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -647,9 +658,14 @@ namespace Bug.Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Account_TimezoneId",
+                name: "IX_Account_TimezoneId1",
                 table: "Account",
-                column: "TimezoneId");
+                column: "TimezoneId1");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AccountCustomtype_CustomtypeId",
+                table: "AccountCustomtype",
+                column: "CustomtypeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AccountProject_ProjectsId",
@@ -792,11 +808,6 @@ namespace Bug.Data.Migrations
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Transition_WorkflowId",
-                table: "Transition",
-                column: "WorkflowId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_VoterIssue_VoterId",
                 table: "VoterIssue",
                 column: "VoterId");
@@ -814,6 +825,9 @@ namespace Bug.Data.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "AccountCustomtype");
+
             migrationBuilder.DropTable(
                 name: "AccountProject");
 
@@ -851,9 +865,6 @@ namespace Bug.Data.Migrations
                 name: "StatusTag");
 
             migrationBuilder.DropTable(
-                name: "Transition");
-
-            migrationBuilder.DropTable(
                 name: "VoterIssue");
 
             migrationBuilder.DropTable(
@@ -863,6 +874,9 @@ namespace Bug.Data.Migrations
                 name: "Worklog");
 
             migrationBuilder.DropTable(
+                name: "Customtype");
+
+            migrationBuilder.DropTable(
                 name: "Permission");
 
             migrationBuilder.DropTable(
@@ -870,9 +884,6 @@ namespace Bug.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Tag");
-
-            migrationBuilder.DropTable(
-                name: "Workflow");
 
             migrationBuilder.DropTable(
                 name: "Issue");

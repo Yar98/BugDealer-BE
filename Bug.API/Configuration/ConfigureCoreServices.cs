@@ -37,6 +37,7 @@ namespace Bug.API.Configuration
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IStatusService, StatusService>();
             services.AddScoped<IRoleService, RoleService>();
+            services.AddScoped<IPermissionService, PermissionService>();
 
             services.AddScoped<IProjectBuilder, ProjectBuilder>();
             services.AddScoped<IIssueBuilder, IssueBuilder>();
@@ -45,7 +46,6 @@ namespace Bug.API.Configuration
             services.AddScoped<IJwtUtils, JwtUtils>();
 
             services.AddScoped<JwtFilter>();
-            services.AddScoped<RoleFilter>();
             return services;
         }
     }

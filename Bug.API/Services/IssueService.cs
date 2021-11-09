@@ -27,7 +27,7 @@ namespace Bug.API.Services
                 new(id);
             return await _unitOfWork
                 .Issue
-                .GetIssuelAsync(specificationResult, cancellationToken);
+                .GetEntityAsync(specificationResult, cancellationToken);
         }
         public async Task<PaginatedListDto<Issue>> GetPaginatedDetailByProjectAsync
             (string projectId,
@@ -40,7 +40,7 @@ namespace Bug.API.Services
                 new(projectId);
             var result = await _unitOfWork
                 .Issue
-                .GetPaginatedIssuesAsync(pageIndex, pageSize, sortOrder, specificationResult, cancellationToken);
+                .GetPaginatedAsync(pageIndex, pageSize, sortOrder, specificationResult, cancellationToken);
             return new PaginatedListDto<Issue>
             {
                 Length = result.Length,
@@ -58,7 +58,7 @@ namespace Bug.API.Services
                 new IssueDetailLv1ByProjectSpecification(projectId);
             var result = await _unitOfWork
                 .Issue
-                .GetByOffsetIssuesAsync(offset, next, sortOrder, specificationResult, cancellationToke);
+                .GetNextByOffsetAsync(offset, next, sortOrder, specificationResult, cancellationToke);
             return result;
         }
         public async Task<Issue> AddIssueAsync

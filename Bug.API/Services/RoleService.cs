@@ -25,7 +25,7 @@ namespace Bug.API.Services
             RoleDetailLv1Specification specification =
                 new(id);
             return await _unitOfWork.Role
-                .GetRoleAsync(specification, cancellationToken);
+                .GetEntityAsync(specification, cancellationToken);
         }
 
         public async Task<PaginatedListDto<Role>> GetPaginatedDetailByProjectAsync
@@ -39,7 +39,7 @@ namespace Bug.API.Services
                 new(projectId);
             var result = await _unitOfWork
                 .Role
-                .GetPaginatedListAsync(pageIndex, pageSize, sortOrder, specificationResult, cancellationToken);
+                .GetPaginatedAsync(pageIndex, pageSize, sortOrder, specificationResult, cancellationToken);
             return new PaginatedListDto<Role>
             {
                 Length = result.Length,

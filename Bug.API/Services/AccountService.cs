@@ -70,14 +70,16 @@ namespace Bug.API.Services
         }
 
         public async Task<Account> GetAccountByIdWithRolesAsync
-            (string id,
+            (string accountId,
+            int permissionId,
+            string projectId,
             CancellationToken cancellationToken = default)
         {
             var specificationResult =
-                new AccountCheckRoleByIdSpecification(id);
+                new AccountCheckRoleByIdSpecification(accountId, permissionId, projectId);
             return await _unitOfWork
                 .Account
-                .GetAccountAsync(specificationResult, cancellationToken);
+                .GetEntityAsync(specificationResult, cancellationToken);
         }
 
         public async Task<AccountNormalDto> GetAccountByIdAsync
@@ -108,7 +110,7 @@ namespace Bug.API.Services
         {
             AccountsByProjectSpecification specificationResult =
                 new(projectId);
-            var result = await _unitOfWork.Account.GetPaginatedListAsync(pageIndex, pageSize, sortOrder, specificationResult, cancellationToken);
+            var result = await _unitOfWork.Account.GetPaginatedAsync(pageIndex, pageSize, sortOrder, specificationResult, cancellationToken);
             return new PaginatedListDto<AccountNormalDto>
             {
                 Length = result.Length,
@@ -203,7 +205,6 @@ namespace Bug.API.Services
             await _unitOfWork.SaveAsync(cancellationToken);
         }
 
-        
 
     }
 }

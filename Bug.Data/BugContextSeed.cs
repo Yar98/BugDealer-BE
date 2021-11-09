@@ -36,8 +36,17 @@ namespace Bug.Data
                 {
                     await bugContext.Categories.AddRangeAsync(
                     GetPreconfiguredCategory());
-                }                
-                
+                }
+                if (!await bugContext.Statuses.AnyAsync())
+                {
+                    await bugContext.Statuses.AddRangeAsync(
+                    GetPreconfiguredStatus());
+                }
+                if (!await bugContext.Permissions.AnyAsync())
+                {
+                    await bugContext.Permissions.AddRangeAsync(
+                    GetPreconfiguredPermission());
+                }
 
                 await bugContext.SaveChangesAsync();
             }
@@ -70,19 +79,33 @@ namespace Bug.Data
         {
             return new List<Tag>()
             {
+                new Tag("Open",null,Bts.ProjectTag),
                 new Tag("Open",null,Bts.IssueTag),
-                new Tag("Close",null,Bts.IssueTag),
-                new Tag("Open",null,Bts.ProjectTag)
+                new Tag("Close",null,Bts.IssueTag)
             };
         }
         static IEnumerable<Category> GetPreconfiguredCategory()
         {
             return new List<Category>()
             {
-                new Category("Account",null),
                 new Category("Project",null),
                 new Category("Issue",null),
             };
         }
+        static IEnumerable<Status> GetPreconfiguredStatus()
+        {
+            return new List<Status>()
+            {
+                
+            };
+        }
+        static IEnumerable<Permission> GetPreconfiguredPermission()
+        {
+            return new List<Permission>()
+            {
+                
+            };
+        }
+
     }
 }
