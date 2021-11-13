@@ -76,7 +76,7 @@ namespace Bug.API.Services
                 new ProjectsByCreatorTagWithIssuesSpecification(accountId, categoryId, tagName);
             var result = await _unitOfWork
                 .Project
-                .GetPaginatedAsync(
+                .GetPaginatedNoTrackAsync(
                 pageIndex, pageSize,
                 sortOrder,
                 specificationResult,
@@ -127,7 +127,7 @@ namespace Bug.API.Services
                 new ProjectsWhichMemberJoinSpecification(accountId, categoryId, tagName);
             var result = await _unitOfWork
                 .Project
-                .GetPaginatedAsync(
+                .GetPaginatedNoTrackAsync(
                 pageIndex, pageSize,
                 sortOrder,
                 specificationResult,
@@ -177,7 +177,7 @@ namespace Bug.API.Services
                 new ProjectsByCreatorTagWithIssuesSpecification(accountId, categoryId, tagName);
             var result = await _unitOfWork
                 .Project
-                .GetNextByOffsetAsync(
+                .GetNextByOffsetNoTrackAsync(
                 offset,
                 next,
                 sortOrder,
@@ -226,7 +226,7 @@ namespace Bug.API.Services
                 new ProjectsWhichMemberJoinSpecification(accountId, categoryId, tagName);
             var result = await _unitOfWork
                 .Project
-                .GetNextByOffsetAsync(
+                .GetNextByOffsetNoTrackAsync(
                 offset,
                 next,
                 sortOrder,

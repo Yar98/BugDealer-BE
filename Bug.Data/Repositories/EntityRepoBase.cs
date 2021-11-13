@@ -53,6 +53,21 @@ namespace Bug.Data.Repositories
                 .ToListAsync(cancellationToken);
         }
 
+        public async Task<PaginatedList<T>> GetPaginatedNoTrackAsync
+            (int pageIndex,
+            int pageSize,
+            string sortOrder,
+            ISpecification<T> specificationResult,
+            CancellationToken cancelltionToken = default)
+        {
+            var result = _bugContext
+                .Set<T>()
+                .Specify(specificationResult);
+            result = SortOrder(result, sortOrder);
+            return await PaginatedList<T>
+                .CreateListAsync(result.AsNoTracking(), pageIndex, pageSize, cancelltionToken);
+        }
+
         public async Task<PaginatedList<T>> GetPaginatedAsync
             (int pageIndex,
             int pageSize,
@@ -63,10 +78,27 @@ namespace Bug.Data.Repositories
             var result = _bugContext
                 .Set<T>()
                 .Specify(specificationResult);
-            var query = result.AsQueryable().ToQueryString().ToString();
             result = SortOrder(result, sortOrder);
             return await PaginatedList<T>
-                .CreateListAsync(result.AsNoTracking(), pageIndex, pageSize, cancelltionToken);
+                .CreateListAsync(result, pageIndex, pageSize, cancelltionToken);
+        }
+
+        public async Task<IReadOnlyList<T>> GetNextByOffsetNoTrackAsync
+            (int offset,
+            int next,
+            string sortOrder,
+            ISpecification<T> specificationResult,
+            CancellationToken cancelltionToken = default)
+        {
+            var result = _bugContext
+                .Set<T>()
+                .Specify(specificationResult);
+            result = SortOrder(result, sortOrder);
+            return await result
+                .Skip(offset)
+                .Take(next)
+                .AsNoTracking()
+                .ToListAsync(cancelltionToken);
         }
 
         public async Task<IReadOnlyList<T>> GetNextByOffsetAsync
@@ -83,7 +115,6 @@ namespace Bug.Data.Repositories
             return await result
                 .Skip(offset)
                 .Take(next)
-                .AsNoTracking()
                 .ToListAsync(cancelltionToken);
         }
 

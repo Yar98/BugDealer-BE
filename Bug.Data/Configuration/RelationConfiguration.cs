@@ -16,12 +16,12 @@ namespace Bug.Data.Configuration
             builder
                 .ToTable("Relation");
             builder
-                .HasOne(r => r.FromIssue)
-                .WithMany(i => i.FromRelations)
+                .HasOne(i => i.FromIssue)
+                .WithMany(r => r.FromRelations)
                 .HasForeignKey(r => r.FromIssueId);
             builder
-                .HasOne(r => r.ToIssue)
-                .WithMany(i => i.ToRelations)
+                .HasOne(i => i.ToIssue)
+                .WithMany(r => r.ToRelations)
                 .HasForeignKey(r => r.ToIssueId);
         }
     }

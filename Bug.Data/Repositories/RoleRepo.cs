@@ -26,7 +26,7 @@ namespace Bug.Data.Repositories
         {
             var specificationResult =
                 new RoleByCreatorSpecification(creatorId);
-            return await GetNextByOffsetAsync
+            return await GetNextByOffsetNoTrackAsync
                 (0, 10, null, specificationResult, cancellationToken);
 
         }

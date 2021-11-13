@@ -54,7 +54,7 @@ namespace Bug.API.Services
             string sortOrder,
             CancellationToken cancellationToke = default)
         {
-            IssueByProjectSpecification specificationResult =
+            var specificationResult =
                 new IssueByProjectSpecification(projectId);
             var result = await _unitOfWork
                 .Issue

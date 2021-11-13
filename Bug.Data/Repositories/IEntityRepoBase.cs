@@ -20,9 +20,21 @@ namespace Bug.Data.Repositories
         Task<IReadOnlyList<T>> GetAllEntitiesAsync
             (ISpecification<T> specificationResult,
             CancellationToken cancellationToken = default);
+        Task<PaginatedList<T>> GetPaginatedNoTrackAsync
+            (int pageIndex,
+            int pageSize,
+            string sortOrder,
+            ISpecification<T> specificationResult,
+            CancellationToken cancelltionToken = default);
         Task<PaginatedList<T>> GetPaginatedAsync
             (int pageIndex,
             int pageSize,
+            string sortOrder,
+            ISpecification<T> specificationResult,
+            CancellationToken cancelltionToken = default);
+        Task<IReadOnlyList<T>> GetNextByOffsetNoTrackAsync
+            (int offset,
+            int next,
             string sortOrder,
             ISpecification<T> specificationResult,
             CancellationToken cancelltionToken = default);
