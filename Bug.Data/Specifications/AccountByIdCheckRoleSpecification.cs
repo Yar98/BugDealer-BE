@@ -7,9 +7,9 @@ using Bug.Entities.Model;
 
 namespace Bug.Data.Specifications
 {
-    public class AccountCheckRoleByIdSpecification : BaseSpecification<Account>
+    public class AccountByIdCheckRoleSpecification : BaseSpecification<Account>
     {
-        public AccountCheckRoleByIdSpecification(string id, int permission, string projectId)
+        public AccountByIdCheckRoleSpecification(string id, int permission, string projectId)
             : base(a => a.Id == id &&
             a.Roles.AsQueryable().Any(r => r.Permissions.AsQueryable().Any(p => p.Id == permission)) &&
             a.Roles.AsQueryable().Any(r => r.Projects.AsQueryable().Any(p => p.Id == projectId)))

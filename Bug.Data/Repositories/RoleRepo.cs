@@ -20,6 +20,17 @@ namespace Bug.Data.Repositories
 
         }
 
+        public async Task<IReadOnlyList<Role>> GetDefaultRoles
+            (string creatorId = "bts",
+            CancellationToken cancellationToken = default)
+        {
+            var specificationResult =
+                new RoleByCreatorSpecification(creatorId);
+            return await GetNextByOffsetAsync
+                (0, 10, null, specificationResult, cancellationToken);
+
+        }
+
         public override IQueryable<Role> SortOrder
             (IQueryable<Role> result,
             string sortOrder)

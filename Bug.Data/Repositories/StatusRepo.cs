@@ -20,6 +20,16 @@ namespace Bug.Data.Repositories
 
         }
 
+        public async Task<IReadOnlyList<Status>> GetDefaultStatuses
+            (string creatorId = "bts",
+            CancellationToken cancellationToken = default)
+        {
+            var specificationResult =
+                new StatusByCreatorSpecification(creatorId);
+            return await GetNextByOffsetAsync
+                (0, 10, null, specificationResult, cancellationToken);
+        }
+
         public override IQueryable<Status> SortOrder
             (IQueryable<Status> result,
             string sortOrder)

@@ -19,60 +19,64 @@ namespace Bug.API.Services
         }
 
         public async Task<Role> GetDetailRoleByIdAsync
-            (string id,
+            (int id,
             CancellationToken cancellationToken = default)
         {
-            RoleDetailLv1Specification specification =
+            RoleSpecification specification =
                 new(id);
             return await _unitOfWork.Role
                 .GetEntityAsync(specification, cancellationToken);
         }
 
-        public async Task<PaginatedListDto<Role>> GetPaginatedDetailByProjectAsync
-            (string projectId,
-            int pageIndex,
-            int pageSize,
-            string sortOrder,
+        public async Task<IReadOnlyList<Role>> GetRolesByProjectAsync
+            (string projectId,            
             CancellationToken cancellationToken = default)
         {
-            RoleDetailLv1ByProjectSpecification specificationResult =
-                new(projectId);
-            var result = await _unitOfWork
+            var specificationResult =
+                new RoleByProjectSpecification(projectId);
+            return await _unitOfWork
                 .Role
-                .GetPaginatedAsync(pageIndex, pageSize, sortOrder, specificationResult, cancellationToken);
-            return new PaginatedListDto<Role>
-            {
-                Length = result.Length,
-                Items = result
-            };
+                .GetAllEntitiesAsync(specificationResult, cancellationToken);
         }
 
-        public async Task<IReadOnlyList<Role>> GetNextDetailByOffsetByProjectAsync
-            (string projectId,
-            int offset,
-            int next,
-            string sortOrder,
+        public async Task<IReadOnlyList<Role>> GetRolesByCreatorAsync
+            (string creatorId,
             CancellationToken cancellationToken = default)
         {
-            RoleDetailLv1ByProjectSpecification specificationResult =
-                new(projectId);
-            var result = await _unitOfWork
+            var specificationResult =
+                new RoleByCreatorSpecification(creatorId);
+            return await _unitOfWork
                 .Role
-                .GetNextByOffsetAsync(offset, next, sortOrder, specificationResult, cancellationToken);
-            return result;
+                .GetAllEntitiesAsync(specificationResult, cancellationToken);
         }
 
-        public async Task<Role> AddRoleAsync
+        public async Task<IReadOnlyList<Role>> GetRolesWhichMemberOn
+            (string projectId,
+            string memberId,
+            CancellationToken cancellationToken = default)
+        {
+            var specificationResult =
+                new RolesWhichMemberOnSpecification(projectId, memberId);
+            return await _unitOfWork
+                .Role
+                .GetAllEntitiesAsync(specificationResult, cancellationToken);
+        }
+
+        public async Task<Role> AddNewRoleAsync
             (RoleNormalDto role,
             CancellationToken cancellationToken = default)
         {
-            var result = new Role(Guid.NewGuid().ToString(),
-                role.Name,
-                role.Description,
-                role.CreatorId);
+            var result = new Role(role.Name, role.Description, role.CreatorId);
             await _unitOfWork
                 .Role
                 .AddAsync(result, cancellationToken);
+            if(!string.IsNullOrEmpty(role.ProjectId))
+            {
+                var p = await _unitOfWork
+                    .Project
+                    .GetByIdAsync(role.ProjectId, cancellationToken);
+                p?.AddExistRole(result);
+            }
             await _unitOfWork.SaveAsync(cancellationToken);
             return result;
         }
@@ -90,7 +94,7 @@ namespace Bug.API.Services
         }
 
         public async Task DeleteRoleAsync
-            (string id,
+            (int id,
             CancellationToken cancellationToken = default)
         {
             var result = await _unitOfWork.Role.GetByIdAsync(id, cancellationToken);

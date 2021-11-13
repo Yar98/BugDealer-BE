@@ -7,10 +7,10 @@ using Bug.Entities.Model;
 
 namespace Bug.Data.Specifications
 {
-    public class IssueDetailLv1ByProjectSpecification : BaseSpecification<Issue>
+    public class IssueSpecification : BaseSpecification<Issue>
     {
-        public IssueDetailLv1ByProjectSpecification(string projectId)
-            : base(i => i.ProjectId == projectId)
+        public IssueSpecification(string issueId)
+            : base(i=>i.Id == issueId)
         {
             AddInclude(i => i.Status);
             AddInclude(i => i.Priority);

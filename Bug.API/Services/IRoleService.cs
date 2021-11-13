@@ -11,28 +11,26 @@ namespace Bug.API.Services
     public interface IRoleService
     {
         Task<Role> GetDetailRoleByIdAsync
-            (string id,
+            (int id,
             CancellationToken cancellationToken = default);
-        Task<PaginatedListDto<Role>> GetPaginatedDetailByProjectAsync
+        Task<IReadOnlyList<Role>> GetRolesByProjectAsync
             (string projectId,
-            int pageIndex,
-            int pageSize,
-            string sortOrder,
             CancellationToken cancellationToken = default);
-        Task<IReadOnlyList<Role>> GetNextDetailByOffsetByProjectAsync
+        Task<IReadOnlyList<Role>> GetRolesByCreatorAsync
+            (string creatorId,
+            CancellationToken cancellationToken = default);
+        Task<IReadOnlyList<Role>> GetRolesWhichMemberOn
             (string projectId,
-            int offset,
-            int next,
-            string sortOrder,
+            string memberId,
             CancellationToken cancellationToken = default);
-        Task<Role> AddRoleAsync
+        Task<Role> AddNewRoleAsync
             (RoleNormalDto role,
             CancellationToken cancellationToken = default);
         Task UpdateRoleAsync
             (RoleNormalDto role,
             CancellationToken cancellationToken = default);
         Task DeleteRoleAsync
-            (string id,
+            (int id,
             CancellationToken cancellationToken = default);
     }
 }

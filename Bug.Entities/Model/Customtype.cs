@@ -12,6 +12,6 @@ namespace Bug.Entities.Model
         public string Name { get; private set; }
         public string Description { get; private set; }
         public ICollection<Account> Accounts { get; private set; }
-
+        public ICollection<Field> Fields { get; private set; }
     }
 }

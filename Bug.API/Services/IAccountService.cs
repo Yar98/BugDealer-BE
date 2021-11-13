@@ -11,7 +11,7 @@ namespace Bug.API.Services
     public interface IAccountService
     {
         Task<string> GenerateTokenGoogleAccountAsync(AccountGoogleLoginDto acc, CancellationToken cancellationToken = default);
-        Task<Account> GetAccountByIdWithRolesAsync
+        Task<Account> CheckPermissionsOfRolesOfAccount
             (string accountId,
             int permissionId,
             string projectId,

@@ -14,8 +14,15 @@ namespace Bug.Data.Configuration
         public void Configure(EntityTypeBuilder<Relation> builder)
         {
             builder
-                .ToTable("Relation")
-                .HasNoKey();
+                .ToTable("Relation");
+            builder
+                .HasOne(r => r.FromIssue)
+                .WithMany(i => i.FromRelations)
+                .HasForeignKey(r => r.FromIssueId);
+            builder
+                .HasOne(r => r.ToIssue)
+                .WithMany(i => i.ToRelations)
+                .HasForeignKey(r => r.ToIssueId);
         }
     }
 }

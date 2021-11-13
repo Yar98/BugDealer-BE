@@ -43,7 +43,7 @@ namespace Bug.API.ActionFilter
                 else // success login
                 {
                     var user = await accountService
-                        .GetAccountByIdWithRolesAsync(result.Id, Permission, ProjectId);
+                        .CheckPermissionsOfRolesOfAccount(result.Id, Permission, ProjectId);
                     switch (Permission)
                     {
                         case Bts.GetDetailProject:

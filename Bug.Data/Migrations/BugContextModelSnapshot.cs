@@ -37,7 +37,7 @@ namespace Bug.Data.Migrations
             modelBuilder.Entity("AccountIssue", b =>
                 {
                     b.Property<string>("WatchIssuesId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("WatcherId")
                         .HasColumnType("nvarchar(450)");
@@ -52,7 +52,7 @@ namespace Bug.Data.Migrations
             modelBuilder.Entity("AccountIssue1", b =>
                 {
                     b.Property<string>("VoteIssuesId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("VoterId")
                         .HasColumnType("nvarchar(450)");
@@ -84,29 +84,14 @@ namespace Bug.Data.Migrations
                     b.Property<string>("AccountsId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("RolesId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("RolesId")
+                        .HasColumnType("int");
 
                     b.HasKey("AccountsId", "RolesId");
 
                     b.HasIndex("RolesId");
 
                     b.ToTable("AccountRole");
-                });
-
-            modelBuilder.Entity("AccountStatus", b =>
-                {
-                    b.Property<string>("AccountsId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("CreatedStatusesId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("AccountsId", "CreatedStatusesId");
-
-                    b.HasIndex("CreatedStatusesId");
-
-                    b.ToTable("AccountStatus");
                 });
 
             modelBuilder.Entity("Bug.Entities.Model.Account", b =>
@@ -160,7 +145,7 @@ namespace Bug.Data.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("IssueId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Uri")
                         .IsRequired()
@@ -194,8 +179,10 @@ namespace Bug.Data.Migrations
 
             modelBuilder.Entity("Bug.Entities.Model.Comment", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("AccountId")
                         .HasColumnType("nvarchar(450)");
@@ -205,7 +192,7 @@ namespace Bug.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("IssueId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("TimeLog")
                         .HasColumnType("nvarchar(max)");
@@ -230,6 +217,7 @@ namespace Bug.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -237,10 +225,30 @@ namespace Bug.Data.Migrations
                     b.ToTable("Customtype");
                 });
 
+            modelBuilder.Entity("Bug.Entities.Model.Field", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Field");
+                });
+
             modelBuilder.Entity("Bug.Entities.Model.Issue", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("AssigneeId")
                         .HasColumnType("nvarchar(450)");
@@ -303,7 +311,7 @@ namespace Bug.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("IssueId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<DateTime>("LogDate")
                         .HasColumnType("datetime2");
@@ -410,20 +418,24 @@ namespace Bug.Data.Migrations
 
             modelBuilder.Entity("Bug.Entities.Model.Relation", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FromIssueId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<int>("TagId")
                         .HasColumnType("int");
 
                     b.Property<string>("ToIssueId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("FromIssueId");
 
@@ -436,8 +448,10 @@ namespace Bug.Data.Migrations
 
             modelBuilder.Entity("Bug.Entities.Model.Role", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("CreatorId")
                         .HasColumnType("nvarchar(450)");
@@ -555,10 +569,25 @@ namespace Bug.Data.Migrations
                     b.ToTable("Worklog");
                 });
 
+            modelBuilder.Entity("CustomtypeField", b =>
+                {
+                    b.Property<int>("CustomtypesId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("FieldsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CustomtypesId", "FieldsId");
+
+                    b.HasIndex("FieldsId");
+
+                    b.ToTable("CustomtypeField");
+                });
+
             modelBuilder.Entity("IssueTag", b =>
                 {
                     b.Property<string>("IssuesId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<int>("TagsId")
                         .HasColumnType("int");
@@ -575,8 +604,8 @@ namespace Bug.Data.Migrations
                     b.Property<int>("PermissionsId")
                         .HasColumnType("int");
 
-                    b.Property<string>("RolesId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("RolesId")
+                        .HasColumnType("int");
 
                     b.HasKey("PermissionsId", "RolesId");
 
@@ -590,14 +619,29 @@ namespace Bug.Data.Migrations
                     b.Property<string>("ProjectsId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("RolesId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("RolesId")
+                        .HasColumnType("int");
 
                     b.HasKey("ProjectsId", "RolesId");
 
                     b.HasIndex("RolesId");
 
                     b.ToTable("ProjectRole");
+                });
+
+            modelBuilder.Entity("ProjectStatus", b =>
+                {
+                    b.Property<string>("ProjectsId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("StatusesId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("ProjectsId", "StatusesId");
+
+                    b.HasIndex("StatusesId");
+
+                    b.ToTable("ProjectStatus");
                 });
 
             modelBuilder.Entity("ProjectTag", b =>
@@ -701,21 +745,6 @@ namespace Bug.Data.Migrations
                     b.HasOne("Bug.Entities.Model.Role", null)
                         .WithMany()
                         .HasForeignKey("RolesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("AccountStatus", b =>
-                {
-                    b.HasOne("Bug.Entities.Model.Account", null)
-                        .WithMany()
-                        .HasForeignKey("AccountsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Bug.Entities.Model.Status", null)
-                        .WithMany()
-                        .HasForeignKey("CreatedStatusesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -833,7 +862,7 @@ namespace Bug.Data.Migrations
             modelBuilder.Entity("Bug.Entities.Model.Relation", b =>
                 {
                     b.HasOne("Bug.Entities.Model.Issue", "FromIssue")
-                        .WithMany()
+                        .WithMany("FromRelations")
                         .HasForeignKey("FromIssueId");
 
                     b.HasOne("Bug.Entities.Model.Tag", "Tag")
@@ -843,7 +872,7 @@ namespace Bug.Data.Migrations
                         .IsRequired();
 
                     b.HasOne("Bug.Entities.Model.Issue", "ToIssue")
-                        .WithMany()
+                        .WithMany("ToRelations")
                         .HasForeignKey("ToIssueId");
 
                     b.Navigation("FromIssue");
@@ -865,7 +894,7 @@ namespace Bug.Data.Migrations
             modelBuilder.Entity("Bug.Entities.Model.Status", b =>
                 {
                     b.HasOne("Bug.Entities.Model.Account", "Creator")
-                        .WithMany("Statuses")
+                        .WithMany("CreatedStatuses")
                         .HasForeignKey("CreatorId");
 
                     b.Navigation("Creator");
@@ -889,6 +918,21 @@ namespace Bug.Data.Migrations
                         .HasForeignKey("LoggerId");
 
                     b.Navigation("Logger");
+                });
+
+            modelBuilder.Entity("CustomtypeField", b =>
+                {
+                    b.HasOne("Bug.Entities.Model.Customtype", null)
+                        .WithMany()
+                        .HasForeignKey("CustomtypesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Bug.Entities.Model.Field", null)
+                        .WithMany()
+                        .HasForeignKey("FieldsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("IssueTag", b =>
@@ -936,6 +980,21 @@ namespace Bug.Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("ProjectStatus", b =>
+                {
+                    b.HasOne("Bug.Entities.Model.Project", null)
+                        .WithMany()
+                        .HasForeignKey("ProjectsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Bug.Entities.Model.Status", null)
+                        .WithMany()
+                        .HasForeignKey("StatusesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("ProjectTag", b =>
                 {
                     b.HasOne("Bug.Entities.Model.Project", null)
@@ -974,16 +1033,20 @@ namespace Bug.Data.Migrations
 
                     b.Navigation("CreatedRoles");
 
+                    b.Navigation("CreatedStatuses");
+
                     b.Navigation("DefaultAssigneeProjects");
 
                     b.Navigation("ReportIssues");
-
-                    b.Navigation("Statuses");
                 });
 
             modelBuilder.Entity("Bug.Entities.Model.Issue", b =>
                 {
                     b.Navigation("Attachments");
+
+                    b.Navigation("FromRelations");
+
+                    b.Navigation("ToRelations");
                 });
 
             modelBuilder.Entity("Bug.Entities.Model.Project", b =>

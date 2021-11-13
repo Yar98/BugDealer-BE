@@ -8,7 +8,7 @@ namespace Bug.Entities.Model
 {
     public class Comment : IEntityBase
     {
-        public string Id { get; private set; }
+        public int Id { get; private set; }
         public string Content { get; private set; }
         public string TimeLog { get; private set; }
         public string IssueId { get; private set; }
@@ -16,7 +16,8 @@ namespace Bug.Entities.Model
         public string AccountId { get; private set; }
         public Account Account { get; private set; }
         private Comment() { }
-        public Comment(string id,
+        public Comment
+            (int id,
             string content,
             string time,
             string issueId,
@@ -26,6 +27,7 @@ namespace Bug.Entities.Model
             TimeLog = time;
             IssueId = issueId;
             AccountId = accountId;
+            Content = content;
         }
     }
 }

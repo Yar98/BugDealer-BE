@@ -27,6 +27,9 @@ namespace Bug.API.Dto
         public string ReporterName { get; set; }
         public string AssigneeId { get; set; }
         public string AssigneeName { get; set; }
-        public List<Tag> Tags { get; set; } = new List<Tag>();
+        public List<Tag> Tags { get; set; }
+        public List<Attachment> Attachments { get; set; }
+        public List<Relation> FromRelations { get; set; }
+        public List<Relation> ToRelations { get; set; }
     }
 }

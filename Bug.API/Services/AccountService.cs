@@ -69,14 +69,14 @@ namespace Bug.API.Services
                 return null;
         }
 
-        public async Task<Account> GetAccountByIdWithRolesAsync
+        public async Task<Account> CheckPermissionsOfRolesOfAccount
             (string accountId,
             int permissionId,
             string projectId,
             CancellationToken cancellationToken = default)
         {
             var specificationResult =
-                new AccountCheckRoleByIdSpecification(accountId, permissionId, projectId);
+                new AccountByIdCheckRoleSpecification(accountId, permissionId, projectId);
             return await _unitOfWork
                 .Account
                 .GetEntityAsync(specificationResult, cancellationToken);

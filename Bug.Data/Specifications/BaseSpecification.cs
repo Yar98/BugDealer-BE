@@ -13,6 +13,7 @@ namespace Bug.Data.Specifications
         {
             Criteria = criteria;
         }
+
         public Expression<Func<T, bool>> Criteria { get; }
 
         public List<Expression<Func<T, object>>> Includes { get; } =

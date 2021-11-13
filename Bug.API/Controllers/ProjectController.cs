@@ -121,13 +121,25 @@ namespace Bug.API.Controllers
 
         // PUT api/Project/detail/5
         [HttpPut("detail/{id}")]
-        public async Task<IActionResult> PutUpdateDetailProject(
-            string id, 
+        public async Task<IActionResult> PutUpdateDetailProject
+            (string id, 
             [FromBody] ProjectNormalDto pro)
         {
             if (id != pro.Id)
                 return BadRequest();
             await _projectService.UpdateProjectAsync(pro);
+            return NoContent();
+        }
+
+        [HttpPut("{projectId}/add/role/{roleId:int}")]
+        public async Task<IActionResult> PutAddExistRoleToProject
+            (string projectId,
+            int roleId,
+            [FromBody] RoleNormalDto role)
+        {
+            if (projectId != role.ProjectId || roleId != role.Id)
+                return BadRequest();
+            await _projectService.AddExistRoleToProject(role);
             return NoContent();
         }
 

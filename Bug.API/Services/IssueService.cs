@@ -23,7 +23,7 @@ namespace Bug.API.Services
             (string id,
             CancellationToken cancellationToken = default)
         {
-            IssueDetailLv1Specification specificationResult =
+            IssueSpecification specificationResult =
                 new(id);
             return await _unitOfWork
                 .Issue
@@ -36,7 +36,7 @@ namespace Bug.API.Services
             string sortOrder,
             CancellationToken cancellationToken = default)
         {
-            IssueDetailLv1ByProjectSpecification specificationResult =
+            IssueByProjectSpecification specificationResult =
                 new(projectId);
             var result = await _unitOfWork
                 .Issue
@@ -54,8 +54,8 @@ namespace Bug.API.Services
             string sortOrder,
             CancellationToken cancellationToke = default)
         {
-            IssueDetailLv1ByProjectSpecification specificationResult =
-                new IssueDetailLv1ByProjectSpecification(projectId);
+            IssueByProjectSpecification specificationResult =
+                new IssueByProjectSpecification(projectId);
             var result = await _unitOfWork
                 .Issue
                 .GetNextByOffsetAsync(offset, next, sortOrder, specificationResult, cancellationToke);
@@ -82,6 +82,9 @@ namespace Bug.API.Services
                 .AddTitle(issue.Title)
                 .Build();
             result.UpdateTags(issue.Tags);
+            result.UpdateAttachments(issue.Attachments);
+            issue.FromRelations.ForEach(r => r.UpdateFromIssueId(result.Id));
+            result.UpdateFromRelations(issue.FromRelations);           
             await _unitOfWork
                 .Issue
                 .AddAsync(result, cancellationToken);
@@ -93,7 +96,23 @@ namespace Bug.API.Services
             CancellationToken cancellationToken = default)
         {
             var result = await _unitOfWork.Issue.GetByIdAsync(issue.Id, cancellationToken);
-            ////////////////??????????????
+            result.UpdateAssigneeId(issue.AssigneeId);
+            result.UpdateAttachments(issue.Attachments);
+            result.UpdateCreatedDate(issue.CreatedDate);
+            result.UpdateDescription(issue.Description);
+            result.UpdateDueDate(issue.DueDate);
+            result.UpdateEnvironment(issue.Environment);
+            result.UpdateFromRelations(issue.FromRelations);
+            result.UpdateLogDate(issue.LogDate);
+            result.UpdateOriginalEstimateTime(issue.OriginEstimateTime);
+            result.UpdatePriorityId(issue.PriorityId);
+            result.UpdateProjectId(issue.ProjectId);
+            result.UpdateRemainEstimateTime(issue.RemainEstimateTime);
+            result.UpdateReporterId(issue.ReporterId);
+            result.UpdateStatusId(issue.StatusId);
+            result.UpdateTags(issue.Tags);
+            result.UpdateTitle(issue.Title);
+            result.UpdateToRelations(issue.ToRelations);
             _unitOfWork.Issue.Update(result);
             await _unitOfWork.SaveAsync(cancellationToken);
         }

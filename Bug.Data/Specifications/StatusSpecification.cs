@@ -7,13 +7,12 @@ using Bug.Entities.Model;
 
 namespace Bug.Data.Specifications
 {
-    public class StatusDetailLv1Specification : BaseSpecification<Status>
+    public class StatusSpecification : BaseSpecification<Status>
     {
-        public StatusDetailLv1Specification(string statusId)
+        public StatusSpecification(string statusId)
             : base(s=>s.Id == statusId)
         {
             AddInclude(s => s.Tags);
-            AddInclude(s => s.Accounts);
         }
     }
 }

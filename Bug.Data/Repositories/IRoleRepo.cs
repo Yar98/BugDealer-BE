@@ -12,6 +12,10 @@ namespace Bug.Data.Repositories
 {
     public interface IRoleRepo : IEntityRepoBase<Role>
     {
-        
+        Task<IReadOnlyList<Role>> GetDefaultRoles
+            (string creatorId = "bts",
+            CancellationToken cancellationToken = default);
+
+
     }
 }

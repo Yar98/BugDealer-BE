@@ -26,7 +26,7 @@ namespace Bug.API.Services
             (string projectId,
             CancellationToken cancellationToken = default)
         {
-            ProjectDetailLv1Specification specificationResult =
+            ProjectSpecification specificationResult =
                 new(projectId);
             var result = await _unitOfWork
                 .Project
@@ -53,7 +53,7 @@ namespace Bug.API.Services
             (string projectId,
             CancellationToken cancellationToken = default)
         {
-            ProjectDetailLv1Specification specificationResult =
+            ProjectSpecification specificationResult =
                 new(projectId);
             var result = await _unitOfWork
                 .Project
@@ -283,6 +283,7 @@ namespace Bug.API.Services
             await _unitOfWork.SaveAsync(cancellationToken);
             return result;
         }
+
         public async Task UpdateProjectAsync
             (ProjectNormalDto pro,
             CancellationToken cancellationToken = default)
@@ -297,9 +298,28 @@ namespace Bug.API.Services
             result.UpdateEndDate(pro.EndDate);
             result.UpdateProjectType(pro.ProjectType);
             result.UpdateStartDate(pro.StartDate);
+            // add default roles to current project
+            var defaultRoles = await _unitOfWork.Role.GetDefaultRoles(cancellationToken: cancellationToken);
+            result.AddDefaultRoles(defaultRoles);
+            // add default statuses to current project
+            var defaultStatuses = await _unitOfWork.Status.GetDefaultStatuses(cancellationToken: cancellationToken);
+            result.AddDefaultStatuses(defaultStatuses);
+            // update db
             _unitOfWork.Project.Update(result);
             await _unitOfWork.SaveAsync(cancellationToken);
         }
+
+        public async Task AddExistRoleToProject
+            (RoleNormalDto role,
+            CancellationToken cancellationToken = default)
+        {
+            var p = await _unitOfWork.Project.GetByIdAsync(role.ProjectId, cancellationToken);
+            var r = await _unitOfWork.Role.GetByIdAsync(role.Id, cancellationToken);
+            p.AddExistRole(r);
+            _unitOfWork.Project.Update(p);
+            await _unitOfWork.SaveAsync(cancellationToken);
+        }
+
         public async Task DeleteProjectAsync
             (string projectId,
             CancellationToken cancellationToken = default)

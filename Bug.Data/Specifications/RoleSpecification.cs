@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Bug.Data.Specifications
 {
-    public class RoleDetailLv1Specification : BaseSpecification<Role>
+    public class RoleSpecification : BaseSpecification<Role>
     {
-        public RoleDetailLv1Specification(string roleId)
+        public RoleSpecification(int roleId)
             : base(r=>r.Id == roleId)
         {
             AddInclude(r => r.Permissions);

@@ -32,10 +32,16 @@ namespace Bug.Entities.Model
         public ICollection<Account> Watcher { get; private set; }
         public ICollection<Account> Voter { get; private set; }
 
-        private readonly List<Tag> _tags = new List<Tag>();
+        private List<Relation> _fromRelations = new();
+        public ICollection<Relation> FromRelations => _fromRelations.AsReadOnly();
+
+        private List<Relation> _toRelations = new();
+        public ICollection<Relation> ToRelations => _toRelations.AsReadOnly();
+
+        private List<Tag> _tags = new();
         public ICollection<Tag> Tags => _tags.AsReadOnly();
 
-        private readonly List<Attachment> _attachments = new List<Attachment>();
+        private List<Attachment> _attachments = new();
         public ICollection<Attachment> Attachments => _attachments.AsReadOnly();
 
         private Issue() { }
@@ -108,15 +114,45 @@ namespace Bug.Entities.Model
         {
             AssigneeId = id;
         }
-
-        public void UpdateAttachments(IEnumerable<Attachment> result)
+        public void UpdateLogDate(DateTime logDate)
         {
-            
+            LogDate = logDate;
         }
-        public void UpdateTags(IEnumerable<Tag> result)
+        public void UpdateCreatedDate(DateTime dt)
         {
-            _tags.Clear();
-            _tags.AddRange(result);
+            CreatedDate = dt;
+        }
+        public void UpdateEnvironment(string e)
+        {
+            Environment = e;
+        }
+        public void UpdateStatusId(string st)
+        {
+            StatusId = st;
+        }
+
+        public void UpdateAttachments(List<Attachment> result)
+        {
+            if(result != null && result.Any())
+                _attachments = result;
+        }
+
+        public void UpdateTags(List<Tag> result)
+        {
+            if (result != null && result.Any())
+                _tags = result;            
+        }
+
+        public void UpdateFromRelations(List<Relation> result)
+        {
+            if (result != null && result.Any())
+                _fromRelations = result;
+        }
+
+        public void UpdateToRelations(List<Relation> result)
+        {
+            if (result != null && result.Any())
+                _toRelations = result;
         }
     }
 }

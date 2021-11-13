@@ -25,6 +25,8 @@ namespace Bug.Data
         public DbSet<Worklog> Worklogs { get; set; }
         public DbSet<Timezone> Timezones { get; set; }
         public DbSet<Status> Statuses { get; set; }
+        public DbSet<Field> Fields { get; set; }
+        public DbSet<Customtype> Customtypes { get; set; }
         public BugContext(DbContextOptions options)
             : base(options)
         {
@@ -50,6 +52,8 @@ namespace Bug.Data
                 .ApplyConfigurationsFromAssembly(typeof(CommentConfiguration).Assembly)
                 .ApplyConfigurationsFromAssembly(typeof(IssuelogConfiguration).Assembly)
                 .ApplyConfigurationsFromAssembly(typeof(WorklogConfiguration).Assembly)
+                .ApplyConfigurationsFromAssembly(typeof(FieldConfiguration).Assembly)
+                .ApplyConfigurationsFromAssembly(typeof(CustomtypeConfiguration).Assembly)
                 .ApplyConfigurationsFromAssembly(typeof(TimezoneConfiguration).Assembly);
         }
     }

@@ -21,7 +21,7 @@ namespace Bug.API.Services
             (string id,
             CancellationToken cancellationToken = default)
         {
-            StatusDetailLv1Specification specificationResult =
+            StatusSpecification specificationResult =
                 new(id);
             return await _unitOfWork
                 .Status
@@ -35,7 +35,7 @@ namespace Bug.API.Services
             string sortOrder,
             CancellationToken cancellationToken = default)
         {
-            StatusDetailLv1Specification specificationResult =
+            StatusSpecification specificationResult =
                 new(creatorId);
             var result = await _unitOfWork
                 .Status
@@ -53,7 +53,7 @@ namespace Bug.API.Services
             string sortOrder,
             CancellationToken cancellationToken = default)
         {
-            StatusDetailLv1Specification specificationResult =
+            StatusSpecification specificationResult =
                 new(creatorId);
             var result = await _unitOfWork
                 .Status
@@ -69,7 +69,6 @@ namespace Bug.API.Services
                 status.Description,
                 status.Progress,
                 status.CreatorId);
-            result.UpdateAccounts(status.Accounts);
             result.UpdateTags(status.Tags);
             await _unitOfWork
                 .Status
@@ -85,7 +84,6 @@ namespace Bug.API.Services
             result.UpdateName(status.Name);
             result.UpdateDescription(status.Description);
             result.UpdateProgress(status.Progress);
-            result.UpdateAccounts(status.Accounts);
             result.UpdateTags(status.Tags);
             _unitOfWork.Status.Update(result);
             await _unitOfWork.SaveAsync(cancellationToken);

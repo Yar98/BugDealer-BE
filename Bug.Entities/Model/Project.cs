@@ -21,18 +21,21 @@ namespace Bug.Entities.Model
         public Account DefaultAssignee { get; private set; }
         public string CreatorId { get; private set; }
         public Account Creator { get; private set; }
-        //public string WorkflowId { get; private set; }
-        //public Workflow Workflow { get; private set; }
 
         private readonly List<Tag> _tags = new List<Tag>();
         public ICollection<Tag> Tags => _tags.AsReadOnly();
 
+        private readonly List<Issue> _issues = new List<Issue>();
         public ICollection<Issue> Issues { get; private set; }
 
         private readonly List<Account> _accounts = new List<Account>();
         public ICollection<Account> Accounts => _accounts.AsReadOnly();
 
-        public ICollection<Role> Roles { get; private set; }
+        private readonly List<Role> _roles = new List<Role>();
+        public ICollection<Role> Roles => _roles.AsReadOnly();
+
+        private readonly List<Status> _statuses = new List<Status>();
+        public ICollection<Status> Statuses => _statuses.AsReadOnly();
 
         private Project() { }
         public Project(string id,
@@ -107,18 +110,6 @@ namespace Bug.Entities.Model
             }
         }
 
-        public void AddTag(int id,
-            string name,
-            string description,
-            int categoryId)
-        {
-            if (!Tags.Any(i => i.Id.Equals(id)))
-            {
-                _tags.Add(new Tag(name, description, categoryId));
-                return;
-            }                      
-        }
-
         public void AddTag(Tag t)
         {
             if (!Tags.Any(i => i.Id.Equals(t.Id)))
@@ -128,6 +119,38 @@ namespace Bug.Entities.Model
             }
         }
 
+        public void AddExistRole(Role r)
+        {
+            if(!Roles.Any(i => i.Id == r.Id))
+            {
+                _roles.Add(r);
+                return;
+            }
+        }
+
+        public void AddNewRole
+            (string name,
+            string description,
+            string creatorId)
+        {
+            _roles.Add(new Role(name, description, creatorId));
+        }
+
+        public void AddDefaultRoles(IReadOnlyList<Role> roles)
+        {
+            if (!Roles.Any())
+            {
+                _roles.AddRange(roles);
+            }
+        }
+
+        public void AddDefaultStatuses(IReadOnlyList<Status> statuses)
+        {
+            if (!_statuses.Any())
+            {
+                _statuses.AddRange(statuses);
+            }
+        }
 
     }
 }

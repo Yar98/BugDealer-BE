@@ -47,7 +47,7 @@ namespace Bug.API.Controllers
         [HttpGet("project/{projectId}/role/{roleId}")]
         public async Task<IActionResult> GetPermissionsByProjectRole
             (string projectId,
-            string roleId)
+            int roleId)
         {
             var result = await _permissionService
                 .GetPermissionsByRoleProjectAsync(roleId, projectId);

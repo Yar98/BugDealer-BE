@@ -7,9 +7,9 @@ using Bug.Entities.Model;
 
 namespace Bug.Data.Specifications
 {
-    public class PermissionsDetailLv1ByRoleProjectSpecification : BaseSpecification<Permission>
+    public class PermissionsByRoleProjectSpecification : BaseSpecification<Permission>
     {
-        public PermissionsDetailLv1ByRoleProjectSpecification(string roleId, string projectId)
+        public PermissionsByRoleProjectSpecification(int roleId, string projectId)
             : base(p=>p.Roles.AsQueryable().Where(
                 r=>r.Id==roleId &&
                 r.Projects.AsQueryable().Where(p=>p.Id==projectId).Any())
