@@ -12,6 +12,8 @@ namespace Bug.Data.Repositories
 {
     public interface IStatusRepo : IEntityRepoBase<Status>
     {
-
+        Task<IReadOnlyList<Status>> GetDefaultStatuses
+            (string creatorId = "bts",
+            CancellationToken cancellationToken = default);
     }
 }

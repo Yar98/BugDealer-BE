@@ -16,11 +16,11 @@ namespace Bug.API.Services
         Task<IReadOnlyList<Permission>> GetAllAsync
             (CancellationToken cancellationToken = default);
         Task<IReadOnlyList<PermissionNormalDto>> GetPermissionsByRoleProjectAsync
-            (string roleId,
+            (int roleId,
             string projectId,
             CancellationToken cancellationToken = default);
         Task<IReadOnlyList<PermissionNormalDto>> GetPermissionsByAccountProjectAsync
-            (string roleId,
+            (string accountId,
             string projectId,
             CancellationToken cancellationToken = default);
     }

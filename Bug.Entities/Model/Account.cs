@@ -37,10 +37,6 @@ namespace Bug.Entities.Model
         public ICollection<Role> Roles { get; private set; }
         public ICollection<Customtype> Customtype { get; private set; }
 
-
-        private readonly List<Status> _statuses = new List<Status>();
-        public ICollection<Status> Statuses => _statuses.AsReadOnly();
-
         private readonly List<Project> _projects = new List<Project>();
         public ICollection<Project> Projects => _projects.AsReadOnly();
 
@@ -91,17 +87,17 @@ namespace Bug.Entities.Model
         {
             Language = lan;
         }
-        public void AddRole(string roleId, 
-            string name, 
+
+
+        public void AddNewRole
+            (string name, 
             string memberId, 
-            string description ="")
-        {
-            if (!Roles.Any(i => i.Id.Equals(roleId)))
-            {
-                Roles.Add(new Role(roleId, name, description, memberId));
-                return;
-            }
+            string description)
+        {           
+            Roles.Add(new Role(name, description, memberId));
+            return;
         }
+
         public void AddProject
             (string id,
             string name,

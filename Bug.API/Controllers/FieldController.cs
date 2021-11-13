@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Bug.API.Services;
+using Bug.Core.Common;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,36 +14,37 @@ namespace Bug.API.Controllers
     [ApiController]
     public class FieldController : ControllerBase
     {
+        private readonly IFieldSerivce _fieldService;
+        public FieldController(IFieldSerivce fieldService)
+        {
+            _fieldService = fieldService;
+        }
+
         // GET: api/<FieldController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<IActionResult> GetAllFields()
         {
-            return new string[] { "value1", "value2" };
+            var result = await _fieldService.GetAllFieldsAsync();
+            return Ok(Bts.ConvertJson(result));
         }
 
         // GET api/<FieldController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<IActionResult> GetFieldById(int id)
         {
-            return "value";
+            var result = await _fieldService.GetFieldByIdAsync(id);
+            return Ok(Bts.ConvertJson(result));
         }
 
-        // POST api/<FieldController>
-        [HttpPost]
-        public void Post([FromBody] string value)
+        [HttpGet("account/{accountId}/customtype/{customtypeId}")]
+        public async Task<IActionResult> GetFieldsByAccount
+            (string accountId,
+            int customtypeId)
         {
+            var result = await _fieldService.GetFieldsByAccountCustomtypeAsync(accountId, customtypeId);
+            return Ok(Bts.ConvertJson(result));
         }
 
-        // PUT api/<FieldController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
 
-        // DELETE api/<FieldController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
     }
 }

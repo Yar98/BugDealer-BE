@@ -56,17 +56,5 @@ namespace Bug.Data.Repositories
 
 
 
-
-        public async Task Test()
-        {
-            var query = from project in _bugContext.Set<Project>()
-                        join role in _bugContext.Set<Role>()
-                        on project.CreatorId equals role.Id
-                        select new { project, role };
-            var result = query.ToQueryString();
-            var s = await query.ToListAsync();
-        }
-
-
     }
 }

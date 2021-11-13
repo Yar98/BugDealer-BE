@@ -9,17 +9,14 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Bug.Data.Configuration
 {
-    class IssueConfiguration : IEntityTypeConfiguration<Issue>
+    public class CustomtypeConfiguration : IEntityTypeConfiguration<Customtype>
     {
-        public void Configure(EntityTypeBuilder<Issue> builder)
+        public void Configure(EntityTypeBuilder<Customtype> builder)
         {
             builder
-                .ToTable("Issue")
-                .Property(b => b.Title)
+                .ToTable("Customtype")
+                .Property(c => c.Name)
                 .IsRequired();
-            builder
-                .Property(i => i.Id)
-                .HasMaxLength(100);
         }
     }
 }

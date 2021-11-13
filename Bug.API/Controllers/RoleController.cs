@@ -30,33 +30,36 @@ namespace Bug.API.Controllers
 
         // GET api/<RoleController>/5
         [HttpGet("detail/{id}")]
-        public async Task<IActionResult> GetDetailRole(string id)
+        public async Task<IActionResult> GetDetailRole(int id)
         {
             var result =  await _roleService.GetDetailRoleByIdAsync(id);
             return Ok(Bts.ConvertJson(result));
         }
 
-        [HttpGet("paging/project/{projectId}/{pageIndex:int}/{pageSize:int}/{sortOrder}")]
-        public async Task<IActionResult> GetPaginatedDetailRolesByProject
-            (string projectId,
-            int pageIndex,
-            int pageSize,
-            string sortOrder)
+        [HttpGet("project/{projectId}")]
+        public async Task<IActionResult> GetDetailRolesByProject(string projectId)
         {
             var result = await _roleService
-                .GetPaginatedDetailByProjectAsync(projectId, pageIndex, pageSize, sortOrder);
+                .GetRolesByProjectAsync(projectId);
             return Ok(Bts.ConvertJson(result));
         }
 
-        [HttpGet("offset/project/{projectId}/{offset:int}/{next:int}/{sortOrder}")]
-        public async Task<IActionResult> GetNextDetailRolesByOffsetByProject
-            (string projectId,
-            int offset,
-            int next,
-            string sortOrder)
+        [HttpGet("creator/{creatorId}")]
+        public async Task<IActionResult> GetDetailRolesByCreator
+            (string creatorId)
         {
             var result = await _roleService
-                .GetNextDetailByOffsetByProjectAsync(projectId, offset, next, sortOrder);
+                .GetRolesByCreatorAsync(creatorId);
+            return Ok(Bts.ConvertJson(result));
+        }
+
+        [HttpGet("member/{memberId}/project/{projectId}")]
+        public async Task<IActionResult> GetDetailRolesByMember
+            (string projectId,
+            string memberId)
+        {
+            var result = await _roleService
+                .GetRolesWhichMemberOn(projectId, memberId);
             return Ok(Bts.ConvertJson(result));
         }
 
@@ -64,14 +67,14 @@ namespace Bug.API.Controllers
         [HttpPost]
         public async Task<IActionResult> PostAddRole([FromBody] RoleNormalDto value)
         {
-            var result = await _roleService.AddRoleAsync(value);
+            var result = await _roleService.AddNewRoleAsync(value);
             return CreatedAtAction(
                 nameof(GetDetailRole), new { id = result.Id }, result);
         }
 
         // PUT api/<RoleController>/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUpdateRole(string id, [FromBody] RoleNormalDto value)
+        public async Task<IActionResult> PutUpdateRole(int id, [FromBody] RoleNormalDto value)
         {
             if (id != value.Id)
                 return BadRequest();
@@ -81,7 +84,7 @@ namespace Bug.API.Controllers
 
         // DELETE api/<RoleController>/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteRole(string id)
+        public async Task<IActionResult> DeleteRole(int id)
         {
             await _roleService.DeleteRoleAsync(id);
             return NoContent();

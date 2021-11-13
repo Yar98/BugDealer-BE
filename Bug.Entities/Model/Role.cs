@@ -8,7 +8,7 @@ namespace Bug.Entities.Model
 {
     public class Role : IEntityBase
     {
-        public string Id { get; private set; }
+        public int Id { get; private set; }
         public string Name { get; private set; }
         public string Description { get; private set; }
         public string CreatorId { get; private set; }
@@ -16,17 +16,16 @@ namespace Bug.Entities.Model
         public ICollection<Account> Accounts { get; private set; }
         public ICollection<Permission> Permissions { get; private set; }
         public ICollection<Project> Projects { get; private set; }
-        //public ICollection<Transition> Transitions { get; private set; }
+        
         private Role() { }
-        public Role(string id,
-            string name,
+        public Role
+            (string name,
             string description,
-            string memberId)
+            string creatorId)
         {
-            Id = id;
             Name = name;
             Description = description;
-            CreatorId = memberId;
+            CreatorId = creatorId;
         }
 
         public void UpdateName(string name)

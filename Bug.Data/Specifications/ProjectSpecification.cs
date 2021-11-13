@@ -7,9 +7,9 @@ using Bug.Entities.Model;
 
 namespace Bug.Data.Specifications
 {
-    public class ProjectDetailLv1Specification : BaseSpecification<Project>
+    public class ProjectSpecification : BaseSpecification<Project>
     {
-        public ProjectDetailLv1Specification(string projectId)
+        public ProjectSpecification(string projectId)
             : base(p=>p.Id == projectId)
         {
             AddInclude(p => p.Creator);

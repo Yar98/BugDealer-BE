@@ -18,8 +18,8 @@ namespace Bug.Entities.Model
         private readonly List<Tag> _tags = new List<Tag>();
         public ICollection<Tag> Tags => _tags.AsReadOnly();
 
-        private readonly List<Account> _accounts = new List<Account>();
-        public ICollection<Account> Accounts => _accounts.AsReadOnly();
+        private readonly List<Project> _projects = new List<Project>();
+        public ICollection<Project> Projects => _projects.AsReadOnly();
 
         //public ICollection<Workflow> Workflows { get; private set; }
         private Status() { }
@@ -58,18 +58,6 @@ namespace Bug.Entities.Model
             _tags.Clear();
             _tags.AddRange(list);
         }
-        public void UpdateAccounts(IList<Account> list)
-        {
-            _accounts.Clear();
-            _accounts.AddRange(list);
-        }
-        public void AddAccount(Account acc)
-        {
-            if (!Accounts.Any(a => a.Id == acc.Id))
-            {
-                _accounts.Add(acc);
-                return;
-            }
-        }
+
     }
 }

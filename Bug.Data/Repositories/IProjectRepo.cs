@@ -12,6 +12,6 @@ namespace Bug.Data.Repositories
 {
     public interface IProjectRepo : IEntityRepoBase<Project>
     {
-        Task Test();
+        
     }
 }

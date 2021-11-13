@@ -23,6 +23,8 @@ namespace Bug.Data.Infrastructure
         IStatusRepo Status { get; }
         ITagRepo Tag { get; }
         IWorklogRepo Worklog { get; }
+        IFieldRepo Field { get; }
+        ICustomtypeRepo Customtype { get; }
         public Task SaveAsync(CancellationToken cancellationToken = default);
     }
 }

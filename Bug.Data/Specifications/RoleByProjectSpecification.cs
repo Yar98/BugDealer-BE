@@ -7,10 +7,10 @@ using Bug.Entities.Model;
 
 namespace Bug.Data.Specifications
 {
-    public class RoleDetailLv1ByProjectSpecification : BaseSpecification<Role>
+    public class RoleByProjectSpecification : BaseSpecification<Role>
     {
-        public RoleDetailLv1ByProjectSpecification(string projectId)
-            :base(r=>r.Id != null &&
+        public RoleByProjectSpecification(string projectId)
+            :base(r=>r.Id != 0 &&
             r.Projects.AsQueryable().Any(p=>p.Id==projectId))
         {
             AddInclude(r => r.Projects);

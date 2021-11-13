@@ -24,10 +24,34 @@ namespace Bug.Data.Infrastructure
         private IStatusRepo _status;
         private ITagRepo _tag;
         private IWorklogRepo _worklog;
+        private IFieldRepo _field;
+        private ICustomtypeRepo _customtype;
 
         public UnitOfWork(BugContext bugContext)
         {
             _bugContext = bugContext;
+        }
+        public IFieldRepo Field
+        {
+            get
+            {
+                if (_field == null)
+                {
+                    _field = new FieldRepo(_bugContext);
+                }
+                return _field;
+            }
+        }
+        public ICustomtypeRepo Customtype
+        {
+            get
+            {
+                if (_customtype == null)
+                {
+                    _customtype = new CustomtypeRepo(_bugContext);
+                }
+                return _customtype;
+            }
         }
         public IAccountRepo Account
         {
