@@ -31,5 +31,6 @@ namespace Bug.API.Dto
         public List<Attachment> Attachments { get; set; }
         public List<Relation> FromRelations { get; set; }
         public List<Relation> ToRelations { get; set; }
+        
     }
 }

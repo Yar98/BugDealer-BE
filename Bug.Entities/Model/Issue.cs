@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Bug.Entities.Integration;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -37,6 +38,20 @@ namespace Bug.Entities.Model
 
         private List<Relation> _toRelations = new();
         public ICollection<Relation> ToRelations => _toRelations.AsReadOnly();
+
+        public List<RelatedIssues> LinkedIssues
+        {
+            get
+            {
+                return FromRelations.GroupBy(r => r.Tag)
+                    .Select(gr=>new RelatedIssues 
+                    {
+                        Tag = gr.Key,
+                        Issues = gr.Select(item=>item.ToIssue).ToList()
+                    })
+                    .ToList();
+            }
+        }
 
         private List<Tag> _tags = new();
         public ICollection<Tag> Tags => _tags.AsReadOnly();

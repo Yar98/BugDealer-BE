@@ -54,11 +54,11 @@ namespace Bug.API.Services
             string sortOrder,
             CancellationToken cancellationToke = default)
         {
-            IssueByProjectSpecification specificationResult =
+            var specificationResult =
                 new IssueByProjectSpecification(projectId);
             var result = await _unitOfWork
                 .Issue
-                .GetNextByOffsetAsync(offset, next, sortOrder, specificationResult, cancellationToke);
+                .GetNextByOffsetNoTrackAsync(offset, next, sortOrder, specificationResult, cancellationToke);
             return result;
         }
         public async Task<Issue> AddIssueAsync

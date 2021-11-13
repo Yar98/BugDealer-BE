@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Bug.Entities.Integration;
 using Bug.Entities.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -20,6 +21,8 @@ namespace Bug.Data.Configuration
             builder
                 .Property(i => i.Id)
                 .HasMaxLength(100);
+            builder
+                .Ignore(i=>i.LinkedIssues);
         }
     }
 }
