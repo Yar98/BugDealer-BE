@@ -38,6 +38,12 @@ namespace Bug.Data.Repositories
             string sortOrder,
             ISpecification<T> specificationResult,
             CancellationToken cancelltionToken = default);
+        Task<IReadOnlyList<T>> GetNextByOffsetAsync
+            (int offset,
+            int next,
+            string sortOrder,
+            ISpecification<T> specificationResult,
+            CancellationToken cancelltionToken = default);
         Task<T> AddAsync(T entity, CancellationToken cancelltionToken = default);
         void Update(T entity);
         void Delete(T entity);

@@ -58,7 +58,7 @@ namespace Bug.API.Services
                 new IssueByProjectSpecification(projectId);
             var result = await _unitOfWork
                 .Issue
-                .GetNextByOffsetNoTrackAsync(offset, next, sortOrder, specificationResult, cancellationToke);
+                .GetNextByOffsetAsync(offset, next, sortOrder, specificationResult, cancellationToke);
             return result;
         }
         public async Task<Issue> AddIssueAsync

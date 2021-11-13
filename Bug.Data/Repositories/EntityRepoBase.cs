@@ -101,6 +101,23 @@ namespace Bug.Data.Repositories
                 .ToListAsync(cancelltionToken);
         }
 
+        public async Task<IReadOnlyList<T>> GetNextByOffsetAsync
+            (int offset,
+            int next,
+            string sortOrder,
+            ISpecification<T> specificationResult,
+            CancellationToken cancelltionToken = default)
+        {
+            var result = _bugContext
+                .Set<T>()
+                .Specify(specificationResult);
+            result = SortOrder(result, sortOrder);
+            return await result
+                .Skip(offset)
+                .Take(next)
+                .ToListAsync(cancelltionToken);
+        }
+
         public async Task<T> AddAsync(T entity, CancellationToken cancelltionToken = default)
         {
             await _bugContext.Set<T>().AddAsync(entity, cancelltionToken);
