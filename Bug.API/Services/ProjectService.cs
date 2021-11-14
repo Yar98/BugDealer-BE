@@ -277,6 +277,8 @@ namespace Bug.API.Services
                 .Build();
             var acc = await _unitOfWork.Account.GetByIdAsync(pro.CreatorId, cancellationToken);
             result.AddAccount(acc);
+            var tag = await _unitOfWork.Tag.GetByIdAsync(3, cancellationToken);
+            result.AddTag(tag);
             await _unitOfWork
                 .Project
                 .AddAsync(result, cancellationToken);
