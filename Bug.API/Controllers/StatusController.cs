@@ -62,7 +62,8 @@ namespace Bug.API.Controllers
         public async Task<IActionResult> PostAddStatus([FromBody] StatusNormalDto st)
         {
             var result = await _statusService.AddStatusAsync(st);
-            return CreatedAtAction(nameof(GetDetailStatusById),new { id = result.Id },result);
+            return CreatedAtAction(
+                nameof(GetDetailStatusById),new { id = result.Id },result);
         }
 
         // PUT api/<StatusController>/5
