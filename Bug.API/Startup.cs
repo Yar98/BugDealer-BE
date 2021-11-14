@@ -43,9 +43,12 @@ namespace Bug
                 options.AddPolicy(name: MyAllowSpecificOrigins,
                     builder =>
                     {
-                        builder.WithOrigins(
+                        builder
+                        .WithOrigins(
                             "http://localhost:4200",
-                            "http://localhost");
+                            "http://localhost")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
                     });
             });
             /*
