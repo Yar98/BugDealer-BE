@@ -70,6 +70,7 @@ namespace Bug.API.Services
             await _unitOfWork
                 .Role
                 .AddAsync(result, cancellationToken);
+            result.UpdatePermission(role.Permissions);
             if(!string.IsNullOrEmpty(role.ProjectId))
             {
                 var p = await _unitOfWork

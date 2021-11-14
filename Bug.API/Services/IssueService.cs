@@ -29,6 +29,7 @@ namespace Bug.API.Services
                 .Issue
                 .GetEntityAsync(specificationResult, cancellationToken);
         }
+
         public async Task<PaginatedListDto<Issue>> GetPaginatedDetailByProjectAsync
             (string projectId,
             int pageIndex,
@@ -47,6 +48,7 @@ namespace Bug.API.Services
                 Items = result
             };
         }
+
         public async Task<IReadOnlyList<Issue>> GetNextDetailByOffsetByProjectAsync
             (string projectId,
             int offset,
@@ -61,6 +63,7 @@ namespace Bug.API.Services
                 .GetNextByOffsetAsync(offset, next, sortOrder, specificationResult, cancellationToke);
             return result;
         }
+
         public async Task<Issue> AddIssueAsync
             (IssueNormalDto issue,
             CancellationToken cancellationToken = default)
@@ -91,6 +94,7 @@ namespace Bug.API.Services
             await _unitOfWork.SaveAsync(cancellationToken);
             return result;
         }
+
         public async Task UpdateIssueAsync
             (IssueNormalDto issue,
             CancellationToken cancellationToken = default)
@@ -116,6 +120,7 @@ namespace Bug.API.Services
             _unitOfWork.Issue.Update(result);
             await _unitOfWork.SaveAsync(cancellationToken);
         }
+
         public async Task DeleteIssueAsync
             (string id, 
             CancellationToken cancellationToken = default)

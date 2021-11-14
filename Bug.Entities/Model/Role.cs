@@ -14,7 +14,10 @@ namespace Bug.Entities.Model
         public string CreatorId { get; private set; }
         public Account Creator { get; private set; }
         public ICollection<Account> Accounts { get; private set; }
-        public ICollection<Permission> Permissions { get; private set; }
+
+        private List<Permission> _permissions = new();
+        public ICollection<Permission> Permissions => _permissions.AsReadOnly();
+
         public ICollection<Project> Projects { get; private set; }
         
         private Role() { }
@@ -41,6 +44,14 @@ namespace Bug.Entities.Model
         public void UpdateCreatorId(string id)
         {
             CreatorId = id;
+        }
+
+        public void UpdatePermission(List<Permission> ps)
+        {
+            if (ps != null && ps.Any())
+            {
+                _permissions = ps;
+            }
         }
     }
 }
