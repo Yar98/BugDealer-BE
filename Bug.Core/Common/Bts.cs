@@ -24,7 +24,8 @@ namespace Bug.Core.Common
             var json = JsonConvert.SerializeObject(result, Formatting.Indented,
                 new JsonSerializerSettings()
                 {
-                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                    ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver()
                 });
             /*
             var json = System.Text.Json.JsonSerializer.Serialize(result, new JsonSerializerOptions()

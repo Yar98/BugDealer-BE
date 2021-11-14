@@ -63,7 +63,7 @@ namespace Bug.API.Controllers
         {
             var result = await _statusService.AddStatusAsync(st);
             return CreatedAtAction(
-                nameof(GetDetailStatusById),new { id = result.Id },result);
+                nameof(GetDetailStatusById),new { id = result.Id }, Bts.ConvertJson(result));
         }
 
         // PUT api/<StatusController>/5
