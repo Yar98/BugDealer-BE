@@ -69,7 +69,7 @@ namespace Bug.API.Controllers
         {
             var result = await _roleService.AddNewRoleAsync(value);
             return CreatedAtAction(
-                nameof(GetDetailRole), new { id = result.Id }, result);
+                nameof(GetDetailRole), new { id = result.Id }, Bts.ConvertJson(result));
         }
 
         // PUT api/<RoleController>/5

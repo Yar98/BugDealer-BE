@@ -115,8 +115,9 @@ namespace Bug.API.Controllers
         public async Task<IActionResult> PostAddProject([FromBody] ProjectNormalDto pro)
         {
             var result = await _projectService.AddProjectAsync(pro);
+
             return CreatedAtAction(
-                nameof(GetDetailProject), new { id = result.Id }, pro);
+                nameof(GetDetailProject), new { id = result.Id }, Bts.ConvertJson(result));
         }
 
         // PUT api/Project/detail/5
