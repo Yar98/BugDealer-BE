@@ -16,5 +16,10 @@ namespace Bug.Entities.Model
         {
             Action = action;
         }
+        public Permission(int id, string action)
+        {
+            Id = id;
+            Action = action;
+        }
     }
 }

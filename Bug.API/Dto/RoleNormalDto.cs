@@ -14,7 +14,7 @@ namespace Bug.API.Dto
         public string CreatorId { get; set; }
         public string ProjectId { get; set; } // current project which user choose
         public List<Account> Accounts { get; set; }
-        public List<Permission> Permissions { get; set; }
+        public List<PermissionNormalDto> Permissions { get; set; }
         public List<Project> Projects { get; set; }
     }
 }
