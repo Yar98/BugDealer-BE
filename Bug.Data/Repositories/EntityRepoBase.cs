@@ -142,6 +142,10 @@ namespace Bug.Data.Repositories
             //await _bugContext.SaveChangesAsync(cancelltionToken);
         }
 
+        public void Attach(T entity)
+        {
+            _bugContext.Attach(entity);
+        }
 
         public abstract IQueryable<T> SortOrder
             (IQueryable<T> result,

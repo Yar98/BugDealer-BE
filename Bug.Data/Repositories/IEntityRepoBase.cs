@@ -46,6 +46,7 @@ namespace Bug.Data.Repositories
             CancellationToken cancelltionToken = default);
         Task<T> AddAsync(T entity, CancellationToken cancelltionToken = default);
         void Update(T entity);
+        void Attach(T entity);
         void Delete(T entity);
         Task<IReadOnlyList<T>> FindAllAsync(CancellationToken cancelltionToken = default);
 
