@@ -12,39 +12,74 @@ namespace Bug.Entities.Model
         public string Name { get; private set; }
         public string Code { get; private set; }
         public string ProjectType { get; private set; }
-        public DateTime StartDate { get; private set; }
-        public DateTime EndDate { get; private set; }
-        public DateTime RecentDate { get; private set; }
+        public DateTimeOffset StartDate { get; private set; }
+        public DateTimeOffset EndDate { get; private set; }
+        public DateTimeOffset RecentDate { get; private set; }
         public string Description { get; private set; }
         public string AvatarUri { get; private set; }
         public string DefaultAssigneeId { get; private set; }
         public Account DefaultAssignee { get; private set; }
         public string CreatorId { get; private set; }
-        public Account Creator { get; private set; }
+        public Account Creator { get; private set; }        
 
         private readonly List<Tag> _tags = new List<Tag>();
         public ICollection<Tag> Tags => _tags.AsReadOnly();
 
         private readonly List<Issue> _issues = new List<Issue>();
-        public ICollection<Issue> Issues { get; private set; }
+        public ICollection<Issue> Issues => _issues.AsReadOnly();
 
         private readonly List<Account> _accounts = new List<Account>();
         public ICollection<Account> Accounts => _accounts.AsReadOnly();
 
-        private readonly List<Role> _roles = new List<Role>();
+        private List<Role> _roles = new List<Role>();
         public ICollection<Role> Roles => _roles.AsReadOnly();
 
-        private readonly List<Status> _statuses = new List<Status>();
+        private List<Status> _statuses = new List<Status>();
         public ICollection<Status> Statuses => _statuses.AsReadOnly();
+
+        public int TotalIssues 
+        { 
+            get
+            {
+                return Issues.Count;
+            }
+        }
+        public int TotalOpenIssues 
+        { 
+            get
+            {
+                return Issues
+                    .Where(i => i.Status.Tags.Any(t=>t.Id==7))
+                    .Count();
+            }
+        }
+        public int TotalInProgressIssues
+        {
+            get
+            {
+                return Issues
+                    .Where(i => i.Status.Tags.Any(t => t.Id == 8))
+                    .Count();
+            }
+        }
+        public int TotalDoneIssues 
+        {
+            get
+            {
+                return Issues
+                    .Where(i => i.Status.Tags.Any(t => t.Id == 9))
+                    .Count();
+            }
+        }
 
         private Project() { }
         public Project(string id,
             string name,
             string code,
             string projectType,
-            DateTime startDate,
-            DateTime endDate,
-            DateTime recentDate,
+            DateTimeOffset startDate,
+            DateTimeOffset endDate,
+            DateTimeOffset recentDate,
             string description,
             string uri,
             string defaultAssigneeId,
@@ -84,11 +119,11 @@ namespace Bug.Entities.Model
         {
             Description = des;
         }
-        public void UpdateStartDate(DateTime d)
+        public void UpdateStartDate(DateTimeOffset d)
         {
             StartDate = d;
         }
-        public void UpdateEndDate(DateTime d)
+        public void UpdateEndDate(DateTimeOffset d)
         {
             EndDate = d;
         }
@@ -101,7 +136,7 @@ namespace Bug.Entities.Model
             DefaultAssigneeId = id;
         }
 
-        public void AddAccount(Account a)
+        public void AddExistAccount(Account a)
         {
             if (!Accounts.Any(i => i.Id.Equals(a.Id)))
             {
@@ -110,7 +145,7 @@ namespace Bug.Entities.Model
             }
         }
 
-        public void AddTag(Tag t)
+        public void AddExistTag(Tag t)
         {
             if (!Tags.Any(i => i.Id.Equals(t.Id)))
             {
@@ -119,21 +154,9 @@ namespace Bug.Entities.Model
             }
         }
 
-        public void AddExistRole(Role r)
+        public void UpdateRoles(List<Role> r)
         {
-            if(!Roles.Any(i => i.Id == r.Id))
-            {
-                _roles.Add(r);
-                return;
-            }
-        }
-
-        public void AddNewRole
-            (string name,
-            string description,
-            string creatorId)
-        {
-            _roles.Add(new Role(name, description, creatorId));
+            _roles = r;
         }
 
         public void AddDefaultRoles(IReadOnlyList<Role> roles)
@@ -142,6 +165,10 @@ namespace Bug.Entities.Model
             {
                 _roles.AddRange(roles);
             }
+        }
+        public void UpdateStatuses(List<Status> r)
+        {
+            _statuses = r;
         }
 
         public void AddDefaultStatuses(IReadOnlyList<Status> statuses)

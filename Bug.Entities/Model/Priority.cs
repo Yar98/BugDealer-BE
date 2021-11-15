@@ -13,9 +13,11 @@ namespace Bug.Entities.Model
         public string Description { get; private set; }
         private Priority() { }
         public Priority
-            (string name,
+            (int id,
+            string name,
             string description)
         {
+            Id = id;
             Name = name;
             Description = description;
         }

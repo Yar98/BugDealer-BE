@@ -12,5 +12,13 @@ namespace Bug.Entities.Model
         public string Uri { get; private set; }
         public string IssueId { get; private set; }
         public Issue Issue { get; private set; }
+
+        private Attachment() { }
+        public Attachment(int id, string uri, string issueId)
+        {
+            Id = id;
+            Uri = uri;
+            IssueId = issueId;
+        }
     }
 }

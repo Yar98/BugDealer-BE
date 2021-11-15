@@ -21,7 +21,6 @@ namespace Bug.Entities.Model
         private readonly List<Project> _projects = new List<Project>();
         public ICollection<Project> Projects => _projects.AsReadOnly();
 
-        //public ICollection<Workflow> Workflows { get; private set; }
         private Status() { }
         public Status(string id,
             string name,

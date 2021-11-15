@@ -26,10 +26,22 @@ namespace Bug.Data.Infrastructure
         private IWorklogRepo _worklog;
         private IFieldRepo _field;
         private ICustomtypeRepo _customtype;
+        private IAttachmentRepo _attachment;
 
         public UnitOfWork(BugContext bugContext)
         {
             _bugContext = bugContext;
+        }
+        public IAttachmentRepo Attachment
+        {
+            get
+            {
+                if(_attachment == null)
+                {
+                    _attachment = new AttachmentRepo(_bugContext);
+                }
+                return _attachment;
+            }
         }
         public IFieldRepo Field
         {

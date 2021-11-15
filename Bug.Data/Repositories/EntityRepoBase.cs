@@ -125,15 +125,15 @@ namespace Bug.Data.Repositories
             return entity;
         }
 
-        public void Delete(T entity)
-        {
-            _bugContext.Set<T>().Remove(entity);
-            //await _bugContext.SaveChangesAsync(cancelltionToken);
-        }
-
         public async Task<IReadOnlyList<T>> FindAllAsync(CancellationToken cancelltionToken = default)
         {
             return await _bugContext.Set<T>().ToListAsync(cancelltionToken);
+        }
+
+        public void Add(T entity)
+        {
+            _bugContext.Entry(entity).State = EntityState.Added;
+            //await _bugContext.SaveChangesAsync(cancelltionToken);
         }
 
         public void Update(T entity)
@@ -145,6 +145,12 @@ namespace Bug.Data.Repositories
         public void Attach(T entity)
         {
             _bugContext.Attach(entity);
+        }
+
+        public void Delete(T entity)
+        {
+            _bugContext.Set<T>().Remove(entity);
+            //await _bugContext.SaveChangesAsync(cancelltionToken);
         }
 
         public abstract IQueryable<T> SortOrder

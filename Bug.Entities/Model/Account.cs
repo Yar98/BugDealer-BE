@@ -22,7 +22,7 @@ namespace Bug.Entities.Model
         }
         public string Email { get; private set; }
         public string Language { get; private set; }
-        public DateTime CreatedDate { get; private set; }
+        public DateTimeOffset CreatedDate { get; private set; }
         public string ImageUri { get; private set; }
         public string? TimezoneId { get; private set; }
         public Timezone Timezone { get; private set; }
@@ -47,7 +47,7 @@ namespace Bug.Entities.Model
             string firstName,
             string lastName,
             string email,
-            DateTime createdDate,
+            DateTimeOffset createdDate,
             string language,
             string imageUri,
             string timeZone)
@@ -94,7 +94,7 @@ namespace Bug.Entities.Model
             string memberId, 
             string description)
         {           
-            Roles.Add(new Role(name, description, memberId));
+            Roles.Add(new Role(0,name, description, memberId));
             return;
         }
 
@@ -103,9 +103,9 @@ namespace Bug.Entities.Model
             string name,
             string code,
             string projectType,
-            DateTime startDate,
-            DateTime endDate,
-            DateTime recentDate,
+            DateTimeOffset startDate,
+            DateTimeOffset endDate,
+            DateTimeOffset recentDate,
             string description,
             string uri,
             string defaultAssigneeId,

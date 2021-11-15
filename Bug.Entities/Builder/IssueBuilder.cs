@@ -12,9 +12,9 @@ namespace Bug.Entities.Builder
         public string Id { get; private set; }
         public string Title { get; private set; }
         public string Description { get; private set; }
-        public DateTime Timelog { get; private set; }
-        public DateTime CreatedDate { get; private set; }
-        public DateTime DueDate { get; private set; }
+        public DateTimeOffset Timelog { get; private set; }
+        public DateTimeOffset CreatedDate { get; private set; }
+        public DateTimeOffset DueDate { get; private set; }
         public string OriginEstimateTime { get; private set; }
         public string RemainEstimateTime { get; private set; }
         public string Environment { get; private set; }
@@ -30,7 +30,7 @@ namespace Bug.Entities.Builder
             return this;
         }
 
-        public IIssueBuilder AddCreatedDate(DateTime cd)
+        public IIssueBuilder AddCreatedDate(DateTimeOffset cd)
         {
             CreatedDate = cd;
             return this;
@@ -42,7 +42,7 @@ namespace Bug.Entities.Builder
             return this;
         }
 
-        public IIssueBuilder AddDueDate(DateTime dd)
+        public IIssueBuilder AddDueDate(DateTimeOffset dd)
         {
             DueDate = dd;
             return this;
@@ -96,7 +96,7 @@ namespace Bug.Entities.Builder
             return this;
         }
 
-        public IIssueBuilder AddLogDate(DateTime tl)
+        public IIssueBuilder AddLogDate(DateTimeOffset tl)
         {
             Timelog = tl;
             return this;

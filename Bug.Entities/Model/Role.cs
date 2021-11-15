@@ -22,10 +22,12 @@ namespace Bug.Entities.Model
         
         private Role() { }
         public Role
-            (string name,
+            (int id,
+            string name,
             string description,
             string creatorId)
         {
+            Id = id;
             Name = name;
             Description = description;
             CreatorId = creatorId;

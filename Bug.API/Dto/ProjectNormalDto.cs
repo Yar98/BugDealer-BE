@@ -10,20 +10,17 @@ namespace Bug.API.Dto
         public string Id { get; set; }
         public string Name { get; set; }
         public string Code { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
-        public DateTime RecentDate { get; set; }
+        public DateTimeOffset StartDate { get; set; }
+        public DateTimeOffset EndDate { get; set; }
+        public DateTimeOffset RecentDate { get; set; }
         public string AvatarUri { get; set; }
         public string ProjectType { get; set; }
         public string Description { get; set; }
         public string DefaultAssigneeId { get; set; }
-        public string DefaultAssigneeName { get; set; }
         public string CreatorId { get; set; }
-        public string CreatorName { get; set; }
-        //public string WorkflowId { get; set; }
-        //public string WorkflowName { get; set; }
-        public int TotalIssues { get; set; }
-        public int TotalOpenIssues { get; set; }
-        public int TotalCloseIssues { get; set; }
+        public List<TagNormalDto> Tags { get; set; }
+        public List<AccountNormalDto> Accounts { get; set; }
+        public List<RoleNormalDto> Roles { get; set; }
+        public List<StatusNormalDto> Statuses { get; set; }
     }
 }

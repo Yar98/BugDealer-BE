@@ -9,7 +9,7 @@ namespace Bug.Entities.Model
     public class Issuelog : IEntityBase
     {
         public int Id { get; private set; }
-        public DateTime LogDate { get; private set; }
+        public DateTimeOffset LogDate { get; private set; }
         public string IssueId { get; private set; }
         public Issue Issue { get; private set; }
         public string ModifierId { get; private set; }
@@ -20,12 +20,14 @@ namespace Bug.Entities.Model
         public Status ModStatus { get; private set; }
         private Issuelog() { }
         public Issuelog
-            (DateTime timeLog,
+            (int id,
+            DateTimeOffset timeLog,
             string issueId,
             string modifierId,
             string preStatusId,
             string modStatusId)
         {
+            Id = id;
             LogDate = timeLog;
             IssueId = issueId;
             ModifierId = modifierId;

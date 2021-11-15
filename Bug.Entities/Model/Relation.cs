@@ -20,11 +20,13 @@ namespace Bug.Entities.Model
 
         private Relation() { }
         public Relation
-            (string description,
+            (int id,
+            string description,
             int tagId,
             string fromIssueId,
             string toIssueId)
         {
+            Id = id;
             Description = description;
             TagId = tagId;
             FromIssueId = fromIssueId;

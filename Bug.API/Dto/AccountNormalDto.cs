@@ -11,7 +11,7 @@ namespace Bug.API.Dto
         public string LastName { get; set; }
         public string Email { get; set; }
         public string Language { get; set; }
-        public DateTime CreatedDate { get; set; }
+        public DateTimeOffset CreatedDate { get; set; }
         public string ImageUri { get; set; }
         public string TimezoneId { get; set; }
 

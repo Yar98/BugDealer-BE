@@ -11,10 +11,16 @@ namespace Bug.Core.Common
 {
     public static class Bts
     {
-        public static readonly int IssueTag = 1;
-        public static readonly int ProjectTag = 2;
-        public static readonly int AccountTag = 3;
-
+        public const int DefaultProjectTag = 1;
+        public const int DefaultLabelTag = 2;
+        public const int DefaultAccountTag = 3;
+        public const int DefaultStatusTag = 4;
+        public const int DefaultRelationTag = 5;
+        public const int CustomProjectTag = 6;
+        public const int CustomLabelTag = 7;
+        public const int CustomStatusTag = 8;
+        //public const int DefaultProjectPermission = 9;
+        //public const int DefaultIssuePermission = 10;
 
         public const int GetDetailProject = 1;
 

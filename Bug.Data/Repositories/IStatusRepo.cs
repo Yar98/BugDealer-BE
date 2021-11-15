@@ -12,7 +12,10 @@ namespace Bug.Data.Repositories
 {
     public interface IStatusRepo : IEntityRepoBase<Status>
     {
-        Task<IReadOnlyList<Status>> GetDefaultStatuses
+        Task<IReadOnlyList<Status>> GetDefaultStatusesNoTrackAsync
+            (string creatorId = "bts",
+            CancellationToken cancellationToken = default);
+        Task<IReadOnlyList<Status>> GetDefaultStatusesAsync
             (string creatorId = "bts",
             CancellationToken cancellationToken = default);
     }

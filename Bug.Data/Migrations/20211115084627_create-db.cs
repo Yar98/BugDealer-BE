@@ -147,7 +147,7 @@ namespace Bug.Data.Migrations
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Language = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     ImageUri = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     TimezoneId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     TimezoneId1 = table.Column<int>(type: "int", nullable: true)
@@ -195,9 +195,9 @@ namespace Bug.Data.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ProjectType = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    RecentDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    StartDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    EndDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    RecentDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     AvatarUri = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DefaultAssigneeId = table.Column<string>(type: "nvarchar(450)", nullable: true),
@@ -270,7 +270,7 @@ namespace Bug.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     SpentTime = table.Column<int>(type: "int", nullable: false),
                     RemainTime = table.Column<int>(type: "int", nullable: false),
-                    LogDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LogDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     LoggerId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
@@ -411,9 +411,9 @@ namespace Bug.Data.Migrations
                     Id = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LogDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DueDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LogDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    CreatedDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    DueDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     OriginEstimateTime = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     RemainEstimateTime = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Environment = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -558,8 +558,9 @@ namespace Bug.Data.Migrations
                 name: "Issuelog",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
-                    LogDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    LogDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     IssueId = table.Column<string>(type: "nvarchar(100)", nullable: true),
                     ModifierId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     PreStatusId = table.Column<string>(type: "nvarchar(450)", nullable: true),
@@ -567,6 +568,7 @@ namespace Bug.Data.Migrations
                 },
                 constraints: table =>
                 {
+                    table.PrimaryKey("PK_Issuelog", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Issuelog_Account_ModifierId",
                         column: x => x.ModifierId,

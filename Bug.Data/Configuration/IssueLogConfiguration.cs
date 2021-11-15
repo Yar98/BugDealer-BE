@@ -14,8 +14,7 @@ namespace Bug.Data.Configuration
         public void Configure(EntityTypeBuilder<Issuelog> builder)
         {
             builder
-                .ToTable("Issuelog")
-                .HasNoKey();
+                .ToTable("Issuelog");
         }
     }
 }

@@ -63,18 +63,51 @@ namespace Bug.API.Controllers
         {
             var result = await _issueService.AddIssueAsync(issue);
             return CreatedAtAction(
-                nameof(GetDetailIssue), new { id = result.Id }, issue);
+                nameof(GetDetailIssue), new { id = result.Id }, Bts.ConvertJson(result));
         }
 
         // PUT api/Issue/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUpdateIssue
+        public async Task<IActionResult> PutUpdateBasicIssue
             (string id, 
             [FromBody] IssueNormalDto issue)
         {
             if (id != issue.Id)
                 return BadRequest();
             await _issueService.UpdateIssueAsync(issue);
+            return NoContent();
+        }
+
+        [HttpPut("{id}/labels")]
+        public async Task<IActionResult> PutUpdateLabelsOfIssue
+            (string id,
+            [FromBody] IssueNormalDto issue)
+        {
+            if (id != issue.Id)
+                return BadRequest();
+            await _issueService.UpdateTagsOfIssue(issue);
+            return NoContent();
+        }
+
+        [HttpPut("{id}/attachments")]
+        public async Task<IActionResult> PutUpdateAttachmentsOfIssue
+            (string id,
+            [FromBody] IssueNormalDto issue)
+        {
+            if (id != issue.Id)
+                return BadRequest();
+            await _issueService.UpdateAttachmentsOfIssue(issue);
+            return NoContent();
+        }
+
+        [HttpPut("{id}/fromrelations")]
+        public async Task<IActionResult> PutUpdateFromRelationOfIssue
+            (string id,
+            [FromBody] IssueNormalDto issue)
+        {
+            if (id != issue.Id)
+                return BadRequest();
+            await _issueService.UpdateFromRelationsOfIssue(issue);
             return NoContent();
         }
 

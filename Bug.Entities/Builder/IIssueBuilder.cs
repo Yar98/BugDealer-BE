@@ -12,9 +12,9 @@ namespace Bug.Entities.Builder
         IIssueBuilder AddId(string id);
         IIssueBuilder AddTitle(string title);
         IIssueBuilder AddDescription(string des);
-        IIssueBuilder AddLogDate(DateTime tl);
-        IIssueBuilder AddCreatedDate(DateTime cd);
-        IIssueBuilder AddDueDate(DateTime dd);
+        IIssueBuilder AddLogDate(DateTimeOffset tl);
+        IIssueBuilder AddCreatedDate(DateTimeOffset cd);
+        IIssueBuilder AddDueDate(DateTimeOffset dd);
         IIssueBuilder AddOriginEstimateTime(string oet);
         IIssueBuilder AddRemainEstimateTime(string ret);
         IIssueBuilder AddEnvironment(string e);

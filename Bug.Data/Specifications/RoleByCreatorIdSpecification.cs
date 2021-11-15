@@ -7,9 +7,9 @@ using Bug.Entities.Model;
 
 namespace Bug.Data.Specifications
 {
-    public class RoleByCreatorSpecification : BaseSpecification<Role>
+    public class RoleByCreatorIdSpecification : BaseSpecification<Role>
     {
-        public RoleByCreatorSpecification(string creatorId)
+        public RoleByCreatorIdSpecification(string creatorId)
             : base(r => r.Creator.Id==creatorId)
         {
             AddInclude(r => r.Permissions);

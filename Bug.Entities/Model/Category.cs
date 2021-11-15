@@ -15,8 +15,9 @@ namespace Bug.Entities.Model
         public string Description { get; private set; }
 
         private Category() { }
-        public Category(string name, string description)
+        public Category(int id, string name, string description)
         {
+            Id = id;
             Name = name;
             Description = description;
         }

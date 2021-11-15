@@ -17,46 +17,45 @@ namespace Bug.API.Services
         Task<ProjectNormalDto> GetNormalProjectAsync
             (string projectId,
             CancellationToken cancellationToken = default);
-        Task<PaginatedListDto<ProjectNormalDto>> GetPaginatedByCreatorAsync
+        Task<PaginatedListDto<Project>> GetPaginatedByCreatorIdTagIdAsync
             (string creatorId,
             int pageIndex, 
             int pageSize,
-            int categoryId, 
-            string tagName,
+            int tagId,
             string sortOrder,
             CancellationToken cancellationToken = default);
-        Task<PaginatedListDto<ProjectNormalDto>> GetPaginatedByMemberAsync
+        Task<PaginatedListDto<Project>> GetPaginatedByMemberIdTagIdAsync
             (string creatorId,
             int pageIndex, 
             int pageSize,
-            int categoryId, 
-            string tagName,
+            int tagId,
             string sortOrder,
             CancellationToken cancellation = default);
-        Task<IReadOnlyList<ProjectNormalDto>> GetNextByOffsetByCreatorAsync
+        Task<IReadOnlyList<Project>> GetNextByOffsetByCreatorIdTagIdAsync
+            (string creatorId,
+            int offset,
+            int next,
+            int tagId,
+            string sortOrder,
+            CancellationToken cancellation = default);
+        Task<IReadOnlyList<Project>> GetNextByOffsetByMemberIdTagIdAsync
             (string creatorId,
             int offset, 
             int next,
-            int categoryId, 
-            string tagName,
-            string sortOrder,
-            CancellationToken cancellation = default);
-        Task<IReadOnlyList<ProjectNormalDto>> GetNextByOffsetByMemberAsync
-            (string creatorId,
-            int offset, 
-            int next,
-            int categoryId, 
-            string tagName,
+            int tagId,
             string sortOrder,
             CancellationToken cancellation = default);
         Task<Project> AddProjectAsync
             (ProjectNormalDto pro,
             CancellationToken cancellationToken = default);
-        Task UpdateProjectAsync
+        Task UpdateBasicProjectAsync
             (ProjectNormalDto pro,
             CancellationToken cancellation = default);
-        Task AddExistRoleToProject
-            (RoleNormalDto role,
+        Task UpdateRolesOfProjectAsync
+            (ProjectNormalDto pro,
+            CancellationToken cancellationToken = default);
+        Task UpdateStatusesOfProjectAsync
+            (ProjectNormalDto pro,
             CancellationToken cancellationToken = default);
         Task DeleteProjectAsync
             (string projectId,

@@ -44,7 +44,7 @@ namespace Bug.API.Services
             CancellationToken cancellationToken = default)
         {
             var specificationResult =
-                new RoleByCreatorSpecification(creatorId);
+                new RoleByCreatorIdSpecification(creatorId);
             return await _unitOfWork
                 .Role
                 .GetAllEntitiesAsync(specificationResult, cancellationToken);
@@ -66,7 +66,7 @@ namespace Bug.API.Services
             (RoleNormalDto role,
             CancellationToken cancellationToken = default)
         {
-            var result = new Role(role.Name, role.Description, role.CreatorId);
+            var result = new Role(0, role.Name, role.Description, role.CreatorId);
             await _unitOfWork
                 .Role
                 .AddAsync(result, cancellationToken);
@@ -75,13 +75,7 @@ namespace Bug.API.Services
                 .Select(p=>new Permission(p.Id,p.Action))
                 .ToList();
             result.UpdatePermission(ps);
-            if(!string.IsNullOrEmpty(role.ProjectId))
-            {
-                var p = await _unitOfWork
-                    .Project
-                    .GetByIdAsync(role.ProjectId, cancellationToken);
-                p?.AddExistRole(result);
-            }
+            
             await _unitOfWork.SaveAsync(cancellationToken);
             return result;
         }
