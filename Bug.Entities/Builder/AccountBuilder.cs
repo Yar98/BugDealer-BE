@@ -15,7 +15,7 @@ namespace Bug.Entities.Builder
         public string FirstName { get; private set; }
         public string LastName { get; private set; }
         public string Email { get; private set; }
-        public DateTime CreatedDate { get; private set; }
+        public DateTimeOffset CreatedDate { get; private set; }
         public string Language { get; private set; }
         public string ImageUri { get; private set; }
         public string TimezoneId { get; private set; }
@@ -24,7 +24,7 @@ namespace Bug.Entities.Builder
             Language = lan;
             return this;
         }
-        public IAccountBuilder AddCreatedDate(DateTime date)
+        public IAccountBuilder AddCreatedDate(DateTimeOffset date)
         {
             CreatedDate = date;
             return this;

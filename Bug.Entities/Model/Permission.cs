@@ -12,10 +12,6 @@ namespace Bug.Entities.Model
         public string Action { get; private set; }
         public ICollection<Role> Roles { get; private set; }
         private Permission() { }
-        public Permission(string action)
-        {
-            Action = action;
-        }
         public Permission(int id, string action)
         {
             Id = id;

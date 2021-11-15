@@ -45,6 +45,7 @@ namespace Bug.Data.Repositories
             ISpecification<T> specificationResult,
             CancellationToken cancelltionToken = default);
         Task<T> AddAsync(T entity, CancellationToken cancelltionToken = default);
+        void Add(T entity);
         void Update(T entity);
         void Attach(T entity);
         void Delete(T entity);

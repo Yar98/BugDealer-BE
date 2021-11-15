@@ -19,7 +19,7 @@ namespace Bug.Data.Configuration
                 .IsRequired();
             builder
                 .HasMany(a => a.WatchIssues)
-                .WithMany(i => i.Watcher)
+                .WithMany(i => i.Watcher)              
                 .UsingEntity(w => w.ToTable("WatcherIssue"));
             builder
                 .HasMany(a => a.VoteIssues)

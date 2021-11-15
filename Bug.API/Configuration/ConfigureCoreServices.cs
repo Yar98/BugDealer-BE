@@ -33,6 +33,7 @@ namespace Bug.API.Configuration
             services.AddScoped<IWorklogRepo, WorklogRepo>();
             services.AddScoped<IFieldRepo, FieldRepo>();
             services.AddScoped<ICustomtypeRepo, CustomtypeRepo>();
+            services.AddScoped<IAttachmentRepo, AttachmentRepo>();
 
             services.AddScoped<IProjectService, ProjectService>();
             services.AddScoped<IIssueService, IssueService>();

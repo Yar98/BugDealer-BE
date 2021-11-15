@@ -30,13 +30,28 @@ namespace Bug.Data
                 
                 if (!await bugContext.Categories.AnyAsync())
                 {
-                    await bugContext.Categories.AddRangeAsync(
-                    GetPreconfiguredCategory());
+                    //await bugContext.Categories.AddRangeAsync(
+                    //GetPreconfiguredCategory());
+                    GetPreconfiguredCategory()
+                        .ToList()
+                        .ForEach(c =>
+                        {
+                            bugContext.Categories.Add(c);
+                            bugContext.SaveChanges();
+                        });
                 }
+
                 if (!await bugContext.Tags.AnyAsync())
                 {
-                    await bugContext.Tags.AddRangeAsync(
-                    GetPreconfiguredTag());
+                    //await bugContext.Tags.AddRangeAsync(
+                    //GetPreconfiguredTag());
+                    GetPreconfiguredTag()
+                        .ToList()
+                        .ForEach(t =>
+                        {
+                            bugContext.Tags.Add(t);
+                            bugContext.SaveChanges();
+                        });
                 }
                 
                 if (!await bugContext.Statuses.AnyAsync())
@@ -64,6 +79,16 @@ namespace Bug.Data
                     await bugContext.Issues.AddRangeAsync(
                         GetPreconfiguredIssue());
                 }
+                if (!await bugContext.Fields.AnyAsync())
+                {
+                    await bugContext.Fields.AddRangeAsync(
+                        GetPreconfiguredField());
+                }
+                if (!await bugContext.Customtypes.AnyAsync())
+                {
+                    await bugContext.Customtypes.AddRangeAsync(
+                        GetPreconfiguredCustomtype());
+                }
 
                 await bugContext.SaveChangesAsync();
             }
@@ -74,6 +99,7 @@ namespace Bug.Data
                 throw;
             }
         }
+
         static IEnumerable<Project> GetPreconfiguredProjects()
         {
             return new List<Project>()
@@ -93,47 +119,94 @@ namespace Bug.Data
                 new Account("account3","name3","pass3","first3","last3","email3",DateTime.Now,null,"uri3",null)
             };
         }
+        static IEnumerable<Issue> GetPreconfiguredIssue()
+        {
+            return new List<Issue>()
+            {
+                new Issue("issue1","title1","des1",DateTime.Now,DateTime.Now,DateTime.Now,null,null,"environment1","defaultStatus1",1,"project1","account1","account1")
+            };
+        }
         static IEnumerable<Tag> GetPreconfiguredTag()
         {
             return new List<Tag>()
             {               
-                new Tag("Open",null,Bts.IssueTag),
-                new Tag("Close",null,Bts.IssueTag),
-                new Tag("Open",null,Bts.ProjectTag)
+                new Tag(0,"Open",null,Bts.DefaultProjectTag),
+                new Tag(0,"Close",null,Bts.DefaultProjectTag),
+                new Tag(0,"Trash",null,Bts.DefaultProjectTag),
+                        
+                new Tag(0,"Active", null, Bts.DefaultAccountTag),
+                new Tag(0,"Disable", null, Bts.DefaultAccountTag),
+                new Tag(0,"Offline", null, Bts.DefaultAccountTag),
+                        
+                new Tag(0,"Open", null, Bts.DefaultStatusTag),
+                new Tag(0,"InProgress", null, Bts.DefaultStatusTag),
+                new Tag(0,"Done", null, Bts.DefaultStatusTag),
+                        
+                new Tag(0,"Blocks", null, Bts.DefaultRelationTag),
+                new Tag(0,"Is Blocks By", null, Bts.DefaultRelationTag),
+                new Tag(0,"Clones", null, Bts.DefaultRelationTag),
+                new Tag(0,"Is Cloned By", null, Bts.DefaultRelationTag),
+                new Tag(0,"Duplicates", null, Bts.DefaultRelationTag),
+                new Tag(0,"Is Duplicated By", null, Bts.DefaultRelationTag),
+                new Tag(0,"Relates To", null, Bts.DefaultRelationTag)
             };
         }
         static IEnumerable<Category> GetPreconfiguredCategory()
         {
             return new List<Category>()
             {
-                new Category("Issue",null),
-                new Category("Project",null)               
+                new Category(0,"DefaultProjectTag",null),
+                new Category(0,"DefaultLabelTag",null),               
+                new Category(0,"DefaultAccountTag",null),               
+                new Category(0,"DefaultStatusTag",null),               
+                new Category(0,"DefaultRelationTag",null),               
+                new Category(0,"CustomProjectTag",null),               
+                new Category(0,"CustomLabelTag",null),               
+                new Category(0,"CustomStatusTag",null)
+                //new Category("DefaultProjectPermission",null),           
+                //new Category("DefaultIssuePermission",null),           
             };
         }
         static IEnumerable<Status> GetPreconfiguredStatus()
         {
             return new List<Status>()
             {
-                new Status("BTS-status1","name1","des1",1,"bts"),
-                new Status("status1","name1","des1",1,"account1"),
-                new Status("status2","name2","des2",13,"account2")
+                new Status("defaultStatus1","Opened","From Reported status if issue have been reviewed",0,"bts"),
+                new Status("defaultStatus2","Rejected","From Opened status if issue is not a problem\n From Reported status if it is a bad report",0,"bts"),
+                new Status("defaultStatus3","Reported","From Rejected status if issue have been rewritten",0,"bts"),
+                new Status("defaultStatus4","Deferred","From Opened status if issue have been declined for repair",0,"bts"),
+                new Status("defaultStatus5","Assigned","From Opened status if issue have been approved for repair\nFrom Reopened status if issue have been approved for re-repair",50,"bts"),
+                new Status("defaultStatus6","Fixed","From Assigned status if issue have been repaired",75,"bts"),
+                new Status("defaultStatus7","Closed","From Fixed status if issue have been confirmed to be repaired",100,"bts"),
+                new Status("defaultStatus8","Reopened","From Fixed status if issue have been failed confirmation test\nFrom Closed status if problem returned\nFrom Deferred status if issue have been gathered new information",0,"bts")
             };
         }
         static IEnumerable<Permission> GetPreconfiguredPermission()
         {
             return new List<Permission>()
             {
-                new Permission("View Issue"),
-                new Permission("Create Issue"),
-                new Permission("Edit Issue"),
-                new Permission("Delete Issue")
+                new Permission(0,"Edit project details"),
+                new Permission(0,"Edit project roles"),
+                new Permission(0,"Edit project members"),
+                new Permission(0,"Edit project statuses"),
+                new Permission(0,"View issues"),
+                new Permission(0,"Create issues"),
+                new Permission(0,"Edit issues"),
+                new Permission(0,"Delete issues"),
+                new Permission(0,"Add comments"),
+                new Permission(0,"Edit own comments"),
+                new Permission(0,"Delete own comments"),
+                new Permission(0,"Delete other comments"),
+                new Permission(0,"View watcher list"),
+                new Permission(0,"Add watchers"),
+                new Permission(0,"Delete watchers")
             };
         }
         static IEnumerable<Role> GetPreconfiguredRole()
         {
             return new List<Role>()
             {
-                new Role("BTS-Dev",null,"bts")
+                new Role(0,"BTS-Dev",null,"bts")
             };
         }
 
@@ -141,15 +214,35 @@ namespace Bug.Data
         {
             return new List<Priority>()
             {
-                new Priority("pri1","des1")
+                new Priority(0,"Highest","des1"),
+                new Priority(0,"High","des1"),
+                new Priority(0,"Medium","des1"),
+                new Priority(0,"Low","des1"),
+                new Priority(0,"Lowest","des1")
             };
         }
-
-        static IEnumerable<Issue> GetPreconfiguredIssue()
+        static IEnumerable<Field> GetPreconfiguredField()
         {
-            return new List<Issue>()
+            return new List<Field>()
             {
-                new Issue("issue1","title1","des1",DateTime.Now,DateTime.Now,DateTime.Now,null,null,"environment1","status1",1,"project1","account1","account1")
+                new Field(0,"Description", null),
+                new Field(0,"Reporter", null),
+                new Field(0,"Priority", null),
+                new Field(0,"Labels", null),
+                new Field(0,"Time tracking", null),
+                new Field(0,"Attachment", null),
+                new Field(0,"Due date", null),
+                new Field(0,"Linked issues", null),
+                new Field(0,"Assignee", null),
+                new Field(0,"Environment", null),
+                new Field(0,"Severity", null)
+            };
+        }
+        static IEnumerable<Customtype> GetPreconfiguredCustomtype()
+        {
+            return new List<Customtype>()
+            {
+                new Customtype(0, "IssueField",null)
             };
         }
     }

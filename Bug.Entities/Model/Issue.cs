@@ -13,9 +13,9 @@ namespace Bug.Entities.Model
         public string Id { get; private set; }
         public string Title { get; private set; }
         public string Description { get; private set; }
-        public DateTime LogDate { get; private set; }
-        public DateTime CreatedDate { get; private set; }
-        public DateTime DueDate { get; private set; }
+        public DateTimeOffset LogDate { get; private set; }
+        public DateTimeOffset CreatedDate { get; private set; }
+        public DateTimeOffset DueDate { get; private set; }
         public string OriginEstimateTime { get; private set; }
         public string RemainEstimateTime { get; private set; }
         public string Environment { get; private set; }
@@ -65,9 +65,9 @@ namespace Bug.Entities.Model
             (string id,
             string title,
             string description,
-            DateTime timeLog,
-            DateTime createdDate,
-            DateTime dueDate,
+            DateTimeOffset timeLog,
+            DateTimeOffset createdDate,
+            DateTimeOffset dueDate,
             string originEstimateTime,
             string remainEstimateTime,
             string environment,
@@ -121,7 +121,7 @@ namespace Bug.Entities.Model
         {
             RemainEstimateTime = s;
         }
-        public void UpdateDueDate(DateTime dt)
+        public void UpdateDueDate(DateTimeOffset dt)
         {
             DueDate = dt;
         }
@@ -129,11 +129,11 @@ namespace Bug.Entities.Model
         {
             AssigneeId = id;
         }
-        public void UpdateLogDate(DateTime logDate)
+        public void UpdateLogDate(DateTimeOffset logDate)
         {
             LogDate = logDate;
         }
-        public void UpdateCreatedDate(DateTime dt)
+        public void UpdateCreatedDate(DateTimeOffset dt)
         {
             CreatedDate = dt;
         }

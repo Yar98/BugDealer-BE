@@ -31,6 +31,15 @@ namespace Bug.API.Services
         Task UpdateIssueAsync
             (IssueNormalDto issue,
             CancellationToken cancellationToken = default);
+        Task UpdateTagsOfIssue
+            (IssueNormalDto issue,
+            CancellationToken cancellationToken = default);
+        Task UpdateFromRelationsOfIssue
+            (IssueNormalDto issue,
+            CancellationToken cancellationToken = default);
+        Task UpdateAttachmentsOfIssue
+            (IssueNormalDto issue,
+            CancellationToken cancellationToken = default);
         Task DeleteIssueAsync
             (string id,
             CancellationToken cancellationToken = default);

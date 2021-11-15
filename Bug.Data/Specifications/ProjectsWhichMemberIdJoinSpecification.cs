@@ -7,19 +7,21 @@ using Bug.Entities.Model;
 
 namespace Bug.Data.Specifications
 {
-    public class ProjectsWhichMemberJoinSpecification : BaseSpecification<Project>
+    public class ProjectsWhichMemberIdJoinSpecification : BaseSpecification<Project>
     {
-        public ProjectsWhichMemberJoinSpecification
+        public ProjectsWhichMemberIdJoinSpecification
             (string memberId,
-            int categoryId,
-            string tagName)
+            int tagId)
             : base(p => p.Id != null && 
             p.Accounts.AsQueryable().Any(a=>a.Id == memberId) &&
-            p.Tags.AsQueryable().Any(t=>t.Name==tagName && t.CategoryId==categoryId))
+            p.Tags.AsQueryable().Any(t=>t.Id == tagId))
         {
+            AddInclude(p => p.Creator);
+            AddInclude(p => p.DefaultAssignee);
             AddInclude(p => p.Accounts);
-            AddInclude(p => p.Tags);
+            AddInclude(p => p.Roles);
             AddInclude(p => p.Issues);
+            AddInclude(p => p.Tags);
             AddInclude("Issues.Tags");
         }
     }

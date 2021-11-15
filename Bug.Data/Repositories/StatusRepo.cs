@@ -20,13 +20,23 @@ namespace Bug.Data.Repositories
 
         }
 
-        public async Task<IReadOnlyList<Status>> GetDefaultStatuses
+        public async Task<IReadOnlyList<Status>> GetDefaultStatusesNoTrackAsync
             (string creatorId = "bts",
             CancellationToken cancellationToken = default)
         {
             var specificationResult =
                 new StatusByCreatorSpecification(creatorId);
             return await GetNextByOffsetNoTrackAsync
+                (0, 10, null, specificationResult, cancellationToken);
+        }
+
+        public async Task<IReadOnlyList<Status>> GetDefaultStatusesAsync
+            (string creatorId = "bts",
+            CancellationToken cancellationToken = default)
+        {
+            var specificationResult =
+                new StatusByCreatorSpecification(creatorId);
+            return await GetNextByOffsetAsync
                 (0, 10, null, specificationResult, cancellationToken);
         }
 

@@ -99,8 +99,8 @@ namespace Bug.Data.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTimeOffset>("CreatedDate")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
@@ -253,20 +253,20 @@ namespace Bug.Data.Migrations
                     b.Property<string>("AssigneeId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTimeOffset>("CreatedDate")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("DueDate")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTimeOffset>("DueDate")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Environment")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("LogDate")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTimeOffset>("LogDate")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<string>("OriginEstimateTime")
                         .HasColumnType("nvarchar(max)");
@@ -308,13 +308,15 @@ namespace Bug.Data.Migrations
             modelBuilder.Entity("Bug.Entities.Model.Issuelog", b =>
                 {
                     b.Property<int>("Id")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("IssueId")
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<DateTime>("LogDate")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTimeOffset>("LogDate")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<string>("ModStatusId")
                         .HasColumnType("nvarchar(450)");
@@ -324,6 +326,8 @@ namespace Bug.Data.Migrations
 
                     b.Property<string>("PreStatusId")
                         .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("IssueId");
 
@@ -391,8 +395,8 @@ namespace Bug.Data.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("EndDate")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTimeOffset>("EndDate")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -401,11 +405,11 @@ namespace Bug.Data.Migrations
                     b.Property<string>("ProjectType")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("RecentDate")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTimeOffset>("RecentDate")
+                        .HasColumnType("datetimeoffset");
 
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTimeOffset>("StartDate")
+                        .HasColumnType("datetimeoffset");
 
                     b.HasKey("Id");
 
@@ -550,8 +554,8 @@ namespace Bug.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("LogDate")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTimeOffset>("LogDate")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<string>("LoggerId")
                         .HasColumnType("nvarchar(450)");

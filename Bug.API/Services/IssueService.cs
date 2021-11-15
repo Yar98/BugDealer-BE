@@ -72,8 +72,8 @@ namespace Bug.API.Services
                 .AddId(Guid.NewGuid().ToString())
                 .AddDescription(issue.Description)
                 .AddAssigneeId(issue.AssigneeId)
-                .AddCreatedDate(issue.CreatedDate)
-                .AddDueDate(issue.DueDate)
+                //.AddCreatedDate(issue.CreatedDate)
+                //.AddDueDate(issue.DueDate)
                 .AddEnvironment(issue.Environment)
                 .AddOriginEstimateTime(issue.OriginEstimateTime)
                 .AddPriorityId(issue.PriorityId)
@@ -81,13 +81,52 @@ namespace Bug.API.Services
                 .AddRemainEstimateTime(issue.RemainEstimateTime)
                 .AddReporterId(issue.ReporterId)
                 .AddStatusId(issue.StatusId)
-                .AddLogDate(issue.LogDate)
+                //.AddLogDate(issue.LogDate)
                 .AddTitle(issue.Title)
                 .Build();
-            result.UpdateTags(issue.Tags);
-            result.UpdateAttachments(issue.Attachments);
-            issue.FromRelations.ForEach(r => r.UpdateFromIssueId(result.Id));
-            result.UpdateFromRelations(issue.FromRelations);           
+
+            var customLabelTags = issue
+                .Tags
+                .Select(l => 
+                {                     
+                    var item = new Tag(l.Id, l.Name, l.Description, l.CategoryId);
+                    if (item.Id == 0)
+                        _unitOfWork.Tag.Add(item);
+                    else
+                        _unitOfWork.Tag.Attach(item);
+                    return item;
+                })
+                .ToList();
+            result.UpdateTags(customLabelTags);
+
+            var attachments = issue
+                .Attachments
+                .Select(a => 
+                { 
+                    var item = new Attachment(a.Id, a.Uri, a.IssueId);
+                    if (item.Id == 0)
+                        _unitOfWork.Attachment.Add(item);
+                    else
+                        _unitOfWork.Attachment.Attach(item);
+                    return item;
+                })
+                .ToList();
+            result.UpdateAttachments(attachments);
+
+            var fromRelations = issue
+                .FromRelations
+                .Select(r => 
+                { 
+                    var item = new Relation(r.Id, r.Description, r.TagId, result.Id, r.ToIssueId);
+                    if (item.Id == 0)
+                        _unitOfWork.Relation.Add(item);
+                    else
+                        _unitOfWork.Relation.Attach(item);
+                    return item;
+                })
+                .ToList();
+            result.UpdateFromRelations(fromRelations);
+
             await _unitOfWork
                 .Issue
                 .AddAsync(result, cancellationToken);
@@ -100,23 +139,71 @@ namespace Bug.API.Services
             CancellationToken cancellationToken = default)
         {
             var result = await _unitOfWork.Issue.GetByIdAsync(issue.Id, cancellationToken);
-            result.UpdateAssigneeId(issue.AssigneeId);
-            result.UpdateAttachments(issue.Attachments);
-            result.UpdateCreatedDate(issue.CreatedDate);
-            result.UpdateDescription(issue.Description);
-            result.UpdateDueDate(issue.DueDate);
-            result.UpdateEnvironment(issue.Environment);
-            result.UpdateFromRelations(issue.FromRelations);
-            result.UpdateLogDate(issue.LogDate);
-            result.UpdateOriginalEstimateTime(issue.OriginEstimateTime);
-            result.UpdatePriorityId(issue.PriorityId);
-            result.UpdateProjectId(issue.ProjectId);
-            result.UpdateRemainEstimateTime(issue.RemainEstimateTime);
-            result.UpdateReporterId(issue.ReporterId);
-            result.UpdateStatusId(issue.StatusId);
-            result.UpdateTags(issue.Tags);
-            result.UpdateTitle(issue.Title);
-            result.UpdateToRelations(issue.ToRelations);
+            if(issue.AssigneeId != null)
+                result.UpdateAssigneeId(issue.AssigneeId);
+            //result.UpdateCreatedDate(issue.CreatedDate);
+            if(issue.Description != null)
+                result.UpdateDescription(issue.Description);
+            //result.UpdateDueDate(issue.DueDate);
+            if(issue.Environment != null)
+                result.UpdateEnvironment(issue.Environment);
+            //result.UpdateLogDate(issue.LogDate);
+            if(issue.OriginEstimateTime != null)
+                result.UpdateOriginalEstimateTime(issue.OriginEstimateTime);
+            if(issue.PriorityId != 0)
+                result.UpdatePriorityId(issue.PriorityId);
+            if(issue.ProjectId != null)
+                result.UpdateProjectId(issue.ProjectId);
+            if(issue.RemainEstimateTime != null)
+                result.UpdateRemainEstimateTime(issue.RemainEstimateTime);
+            if(issue.ReporterId != null)
+                result.UpdateReporterId(issue.ReporterId);
+            if(issue.StatusId != null)
+                result.UpdateStatusId(issue.StatusId);
+            if(issue.Title != null)
+                result.UpdateTitle(issue.Title);
+            _unitOfWork.Issue.Update(result);
+            await _unitOfWork.SaveAsync(cancellationToken);
+        }
+
+        public async Task UpdateTagsOfIssue
+            (IssueNormalDto issue,
+            CancellationToken cancellationToken = default)
+        {
+            var result = await _unitOfWork.Issue.GetByIdAsync(issue.Id, cancellationToken);
+            var customLabelTags = issue
+                .Tags
+                .Select(l => new Tag(l.Id, l.Name, l.Description, l.CategoryId))
+                .ToList();
+            result.UpdateTags(customLabelTags);
+            _unitOfWork.Issue.Update(result);
+            await _unitOfWork.SaveAsync(cancellationToken);
+        }
+
+        public async Task UpdateFromRelationsOfIssue
+            (IssueNormalDto issue,
+            CancellationToken cancellationToken = default)
+        {
+            var result = await _unitOfWork.Issue.GetByIdAsync(issue.Id, cancellationToken);
+            var fromRelations = issue
+                .FromRelations
+                .Select(r => new Relation(r.Id, r.Description, r.TagId, result.Id, r.ToIssueId))
+                .ToList();
+            result.UpdateFromRelations(fromRelations);
+            _unitOfWork.Issue.Update(result);
+            await _unitOfWork.SaveAsync(cancellationToken);
+        }
+
+        public async Task UpdateAttachmentsOfIssue
+            (IssueNormalDto issue,
+            CancellationToken cancellationToken = default)
+        {
+            var result = await _unitOfWork.Issue.GetByIdAsync(issue.Id, cancellationToken);
+            var attachments = issue
+                .Attachments
+                .Select(a => new Attachment(a.Id, a.Uri, a.IssueId))
+                .ToList();
+            result.UpdateAttachments(attachments);
             _unitOfWork.Issue.Update(result);
             await _unitOfWork.SaveAsync(cancellationToken);
         }

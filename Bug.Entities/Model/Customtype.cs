@@ -13,5 +13,14 @@ namespace Bug.Entities.Model
         public string Description { get; private set; }
         public ICollection<Account> Accounts { get; private set; }
         public ICollection<Field> Fields { get; private set; }
+
+        private Customtype() { }
+
+        public Customtype(int id, string name, string des)
+        {
+            Id = id;
+            Name = name;
+            Description = des;
+        }
     }
 }

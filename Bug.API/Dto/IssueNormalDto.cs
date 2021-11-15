@@ -11,26 +11,21 @@ namespace Bug.API.Dto
         public string Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public DateTime LogDate { get; set; }
-        public DateTime CreatedDate { get; set; }
-        public DateTime DueDate { get; set; }
+        public DateTimeOffset LogDate { get; set; }
+        public DateTimeOffset CreatedDate { get; set; }
+        public DateTimeOffset DueDate { get; set; }
         public string OriginEstimateTime { get; set; }
         public string RemainEstimateTime { get; set; }
         public string Environment { get; set; }
         public string StatusId { get; set; }
-        public string StatusName { get; set; }
         public int PriorityId { get; set; }
-        public string PriorityName { get; set; }
         public string ProjectId { get; set; }
-        public string ProjectName { get; set; }
         public string ReporterId { get; set; }
-        public string ReporterName { get; set; }
         public string AssigneeId { get; set; }
-        public string AssigneeName { get; set; }
-        public List<Tag> Tags { get; set; }
-        public List<Attachment> Attachments { get; set; }
-        public List<Relation> FromRelations { get; set; }
-        public List<Relation> ToRelations { get; set; }
+        public List<TagNormalDto> Tags { get; set; }
+        public List<AttachmentNormalDto> Attachments { get; set; }
+        public List<RelationNormalDto> FromRelations { get; set; }
+        public List<RelationNormalDto> ToRelations { get; set; }
         
     }
 }

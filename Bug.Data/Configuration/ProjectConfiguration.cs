@@ -19,10 +19,16 @@ namespace Bug.Data.Configuration
                 .IsRequired();
             builder
                 .HasOne(p => p.Creator)
-                .WithMany(a => a.CreatedProjects);
+                .WithMany(a => a.CreatedProjects)
+                .HasForeignKey(p=>p.CreatorId);
             builder
                 .HasOne(p => p.DefaultAssignee)
-                .WithMany(a => a.DefaultAssigneeProjects);
+                .WithMany(a => a.DefaultAssigneeProjects)
+                .HasForeignKey(p=>p.DefaultAssigneeId);
+            builder
+                .Ignore(p => p.TotalIssues)
+                .Ignore(p => p.TotalDoneIssues)
+                .Ignore(p => p.TotalOpenIssues);
         }
     }
 }

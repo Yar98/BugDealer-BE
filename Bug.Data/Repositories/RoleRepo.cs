@@ -20,13 +20,24 @@ namespace Bug.Data.Repositories
 
         }
 
-        public async Task<IReadOnlyList<Role>> GetDefaultRoles
+        public async Task<IReadOnlyList<Role>> GetDefaultRolesNoTrackAsync
             (string creatorId = "bts",
             CancellationToken cancellationToken = default)
         {
             var specificationResult =
-                new RoleByCreatorSpecification(creatorId);
+                new RoleByCreatorIdSpecification(creatorId);
             return await GetNextByOffsetNoTrackAsync
+                (0, 10, null, specificationResult, cancellationToken);
+
+        }
+
+        public async Task<IReadOnlyList<Role>> GetDefaultRolesAsync
+            (string creatorId = "bts",
+            CancellationToken cancellationToken = default)
+        {
+            var specificationResult =
+                new RoleByCreatorIdSpecification(creatorId);
+            return await GetNextByOffsetAsync
                 (0, 10, null, specificationResult, cancellationToken);
 
         }
