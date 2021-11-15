@@ -22,6 +22,7 @@ namespace Bug.API.Configuration
             services.AddDbContext<BugContext>(c =>
                 c.UseSqlServer(configuration.GetConnectionString("BugConnection")));
                 //c.UseSqlServer(configuration.GetConnectionString("DockerConnection")));
+                // c.UseSqlServer(configuration.GetConnectionString("MacConnection")));
         }
         public static void ConfigureGoogleServices(this IServiceCollection services, IConfiguration configuration)
         {
