@@ -234,7 +234,7 @@ namespace Bug.API.Services
             var project = await _unitOfWork.Project.GetByIdAsync(pro.Id, cancellationToken);
             var statuses = pro
                 .Statuses
-                .Select(r => new Status(r.Id, r.Name, r.Description, r.Progress, r.CreatorId))
+                .Select(r => new Status(r.Id, r.Name, r.Description, r.Progress, r.CreatorId, r.TagId))
                 .ToList();
             project.UpdateStatuses(statuses);
             _unitOfWork.Project.Update(project);

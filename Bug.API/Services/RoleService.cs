@@ -28,7 +28,7 @@ namespace Bug.API.Services
                 .GetEntityAsync(specification, cancellationToken);
         }
 
-        public async Task<IReadOnlyList<Role>> GetRolesByProjectAsync
+        public async Task<IReadOnlyList<Role>> GetRolesByProjectIdAsync
             (string projectId,            
             CancellationToken cancellationToken = default)
         {
@@ -39,7 +39,7 @@ namespace Bug.API.Services
                 .GetAllEntitiesAsync(specificationResult, cancellationToken);
         }
 
-        public async Task<IReadOnlyList<Role>> GetRolesByCreatorAsync
+        public async Task<IReadOnlyList<Role>> GetRolesByCreatorIdAsync
             (string creatorId,
             CancellationToken cancellationToken = default)
         {
@@ -50,7 +50,7 @@ namespace Bug.API.Services
                 .GetAllEntitiesAsync(specificationResult, cancellationToken);
         }
 
-        public async Task<IReadOnlyList<Role>> GetRolesWhichMemberOn
+        public async Task<IReadOnlyList<Role>> GetRolesWhichMemberIdOnAsync
             (string projectId,
             string memberId,
             CancellationToken cancellationToken = default)

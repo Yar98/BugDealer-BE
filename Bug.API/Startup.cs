@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Bug.API.ActionFilter;
 using System.Text.Json.Serialization;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Http.Features;
 
 namespace Bug
 {
@@ -59,16 +60,18 @@ namespace Bug
                     option.JsonSerializerOptions.WriteIndented = true;
                 });
             */
-            services.AddControllers().AddNewtonsoftJson(
-                options =>
-                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-                );
+            services.AddControllers().AddNewtonsoftJson(options =>
+            {
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                options.SerializerSettings.ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver();
+            });
 
             services.Configure<ForwardedHeadersOptions>(options =>
             {
                 options.ForwardedHeaders =
                     ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto | ForwardedHeaders.XForwardedHost;
             });
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -80,6 +83,7 @@ namespace Bug
                 //app.UseSwagger();
                 //app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Bug v1"));
             }
+            
             app.UseForwardedHeaders();
             app.UseHttpsRedirection();
             

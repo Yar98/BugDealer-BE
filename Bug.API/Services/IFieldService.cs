@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Bug.API.Services
 {
-    public interface IFieldSerivce
+    public interface IFieldService
     {
         Task<Field> GetFieldByIdAsync
             (int id,

@@ -14,9 +14,8 @@ namespace Bug.Entities.Model
         public int Progress { get; private set; }
         public string CreatorId { get; private set; }
         public Account Creator { get; private set; }
-
-        private readonly List<Tag> _tags = new List<Tag>();
-        public ICollection<Tag> Tags => _tags.AsReadOnly();
+        public int TagId { get; private set; }
+        public Tag Tag { get; private set; }       
 
         private readonly List<Project> _projects = new List<Project>();
         public ICollection<Project> Projects => _projects.AsReadOnly();
@@ -26,13 +25,15 @@ namespace Bug.Entities.Model
             string name,
             string description,
             int progress,
-            string creatorId)
+            string creatorId,
+            int tagId)
         {
             Id = id;
             Name = name;
             Description = description;
             Progress = progress;
             CreatorId = creatorId;
+            TagId = tagId;
         }
 
         public void UpdateId(string id)
@@ -51,11 +52,13 @@ namespace Bug.Entities.Model
         {
             Progress = i;
         }
-
-        public void UpdateTags(IList<Tag> list)
+        public void UpdateCreatorId(string id)
         {
-            _tags.Clear();
-            _tags.AddRange(list);
+            CreatorId = id;
+        }
+        public void UpdateTagId(int id)
+        {
+            TagId = id;
         }
 
     }

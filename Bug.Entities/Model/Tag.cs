@@ -13,6 +13,7 @@ namespace Bug.Entities.Model
         public int Id { get; private set; }
         public string Name { get; private set; }
         public string Description { get; private set; }
+        public string Color { get; private set; }
         public int CategoryId { get; private set; }
         public Category Category { get; private set; }
         public ICollection<Status> Statuses { get; private set; }
@@ -25,11 +26,13 @@ namespace Bug.Entities.Model
             (int id,
             string name,
             string description,
+            string color,
             int categoryId)
         {
             Id = id;
             Name = name;
             Description = description;
+            Color = color;
             CategoryId = categoryId;
         }
 

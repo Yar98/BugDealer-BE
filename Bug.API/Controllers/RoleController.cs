@@ -40,7 +40,7 @@ namespace Bug.API.Controllers
         public async Task<IActionResult> GetDetailRolesByProject(string projectId)
         {
             var result = await _roleService
-                .GetRolesByProjectAsync(projectId);
+                .GetRolesByProjectIdAsync(projectId);
             return Ok(Bts.ConvertJson(result));
         }
 
@@ -49,7 +49,7 @@ namespace Bug.API.Controllers
             (string creatorId)
         {
             var result = await _roleService
-                .GetRolesByCreatorAsync(creatorId);
+                .GetRolesByCreatorIdAsync(creatorId);
             return Ok(Bts.ConvertJson(result));
         }
 
@@ -59,7 +59,7 @@ namespace Bug.API.Controllers
             string memberId)
         {
             var result = await _roleService
-                .GetRolesWhichMemberOn(projectId, memberId);
+                .GetRolesWhichMemberIdOnAsync(projectId, memberId);
             return Ok(Bts.ConvertJson(result));
         }
 

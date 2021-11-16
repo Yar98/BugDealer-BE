@@ -119,7 +119,7 @@ namespace Bug.API.Controllers
             var result = await _projectService.AddProjectAsync(pro);
 
             return CreatedAtAction(
-                nameof(GetDetailProject), new { id = result.Id }, Bts.ConvertJson(result));
+                nameof(GetDetailProject), new { id = result.Id }, Bts.ConvertJson(result,4));
         }
 
         // PUT api/Project/detail/5

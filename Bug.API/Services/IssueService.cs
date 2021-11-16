@@ -89,11 +89,11 @@ namespace Bug.API.Services
                 .Tags
                 .Select(l => 
                 {                     
-                    var item = new Tag(l.Id, l.Name, l.Description, l.CategoryId);
+                    var item = new Tag(l.Id, l.Name, l.Description, l.Color, l.CategoryId);
                     if (item.Id == 0)
                         _unitOfWork.Tag.Add(item);
                     else
-                        _unitOfWork.Tag.Attach(item);
+                        _unitOfWork.Tag.Attach(item);                   
                     return item;
                 })
                 .ToList();
@@ -173,7 +173,7 @@ namespace Bug.API.Services
             var result = await _unitOfWork.Issue.GetByIdAsync(issue.Id, cancellationToken);
             var customLabelTags = issue
                 .Tags
-                .Select(l => new Tag(l.Id, l.Name, l.Description, l.CategoryId))
+                .Select(l => new Tag(l.Id, l.Name, l.Description, l.Color, l.CategoryId))
                 .ToList();
             result.UpdateTags(customLabelTags);
             _unitOfWork.Issue.Update(result);

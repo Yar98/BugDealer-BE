@@ -14,8 +14,8 @@ namespace Bug.API.Controllers
     [ApiController]
     public class FieldController : ControllerBase
     {
-        private readonly IFieldSerivce _fieldService;
-        public FieldController(IFieldSerivce fieldService)
+        private readonly IFieldService _fieldService;
+        public FieldController(IFieldService fieldService)
         {
             _fieldService = fieldService;
         }
