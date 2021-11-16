@@ -6,6 +6,8 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using Bug.Core.Utils;
+using System.IO;
 
 namespace Bug.Core.Common
 {
@@ -41,6 +43,26 @@ namespace Bug.Core.Common
             });
             */
             return json;
+        }
+
+        public static string ConvertJson(Object obj, int maxDepth)
+        {
+            using (var strWriter = new StringWriter())
+            {
+                using (var jsonWriter = new CustomJsonTextWriter(strWriter))
+                {
+                    Func<bool> include = () => jsonWriter.CurrentDepth <= maxDepth;
+                    var resolver = new CustomContractResolver(include);
+                    var serializer = new Newtonsoft.Json.JsonSerializer 
+                    {
+                        Formatting = Formatting.Indented,
+                        ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                        ContractResolver = resolver
+                    };
+                    serializer.Serialize(jsonWriter, obj);
+                }
+                return strWriter.ToString();
+            }
         }
     }
 }

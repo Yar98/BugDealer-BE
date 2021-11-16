@@ -13,13 +13,13 @@ namespace Bug.API.Services
         Task<Role> GetDetailRoleByIdAsync
             (int id,
             CancellationToken cancellationToken = default);
-        Task<IReadOnlyList<Role>> GetRolesByProjectAsync
+        Task<IReadOnlyList<Role>> GetRolesByProjectIdAsync
             (string projectId,
             CancellationToken cancellationToken = default);
-        Task<IReadOnlyList<Role>> GetRolesByCreatorAsync
+        Task<IReadOnlyList<Role>> GetRolesByCreatorIdAsync
             (string creatorId,
             CancellationToken cancellationToken = default);
-        Task<IReadOnlyList<Role>> GetRolesWhichMemberOn
+        Task<IReadOnlyList<Role>> GetRolesWhichMemberIdOnAsync
             (string projectId,
             string memberId,
             CancellationToken cancellationToken = default);

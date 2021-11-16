@@ -41,7 +41,8 @@ namespace Bug.API.Configuration
             services.AddScoped<IStatusService, StatusService>();
             services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<IPermissionService, PermissionService>();
-            services.AddScoped<IFieldSerivce, FieldService>();
+            services.AddScoped<IFieldService, FieldService>();
+            services.AddScoped<ITagService, TagService>();
 
             services.AddScoped<IProjectBuilder, ProjectBuilder>();
             services.AddScoped<IIssueBuilder, IssueBuilder>();

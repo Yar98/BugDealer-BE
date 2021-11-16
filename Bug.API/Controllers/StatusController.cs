@@ -42,7 +42,8 @@ namespace Bug.API.Controllers
             int pageSize,
             string sortOrder)
         {
-            var result = await _statusService.GetPaginatedDetailByCreatorAsync(creatorId, pageIndex, pageSize, sortOrder);
+            var result = await _statusService
+                .GetPaginatedDetailByCreatorIdAsync(creatorId, pageIndex, pageSize, sortOrder);
             return Ok(Bts.ConvertJson(result));
         }
 
@@ -53,7 +54,24 @@ namespace Bug.API.Controllers
             int next,
             string sortOrder)
         {
-            var result = await _statusService.GetNextByOffsetDetailByCreatorAsync(creatorId, offset, next, sortOrder);
+            var result = await _statusService
+                .GetNextByOffsetDetailByCreatorIdAsync(creatorId, offset, next, sortOrder);
+            return Ok(Bts.ConvertJson(result));
+        }
+
+        [HttpGet("creator/{creatorId}")]
+        public async Task<IActionResult> GetStatusesByCreatorId(string creatorId)
+        {
+            var result = await _statusService
+                .GetStatusesByCreatorIdAsync(creatorId);
+            return Ok(Bts.ConvertJson(result));
+        }
+
+        [HttpGet("project/{projectId}")]
+        public async Task<IActionResult> GetStatusesByProjectId(string projectId)
+        {
+            var result = await _statusService
+                .GetStatusesByProjectIdAsync(projectId);
             return Ok(Bts.ConvertJson(result));
         }
 

@@ -25,7 +25,7 @@ namespace Bug.Data.Repositories
             CancellationToken cancellationToken = default)
         {
             var specificationResult =
-                new StatusByCreatorSpecification(creatorId);
+                new StatusByCreatorIdSpecification(creatorId);
             return await GetNextByOffsetNoTrackAsync
                 (0, 10, null, specificationResult, cancellationToken);
         }
@@ -35,7 +35,7 @@ namespace Bug.Data.Repositories
             CancellationToken cancellationToken = default)
         {
             var specificationResult =
-                new StatusByCreatorSpecification(creatorId);
+                new StatusByCreatorIdSpecification(creatorId);
             return await GetNextByOffsetAsync
                 (0, 10, null, specificationResult, cancellationToken);
         }

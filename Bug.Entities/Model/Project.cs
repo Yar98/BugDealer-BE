@@ -49,7 +49,7 @@ namespace Bug.Entities.Model
             get
             {
                 return Issues
-                    .Where(i => i.Status.Tags.Any(t=>t.Id==7))
+                    .Where(i => i.Status.TagId == 7)
                     .Count();
             }
         }
@@ -58,7 +58,7 @@ namespace Bug.Entities.Model
             get
             {
                 return Issues
-                    .Where(i => i.Status.Tags.Any(t => t.Id == 8))
+                    .Where(i => i.Status.TagId == 8)
                     .Count();
             }
         }
@@ -67,7 +67,7 @@ namespace Bug.Entities.Model
             get
             {
                 return Issues
-                    .Where(i => i.Status.Tags.Any(t => t.Id == 9))
+                    .Where(i => i.Status.TagId == 9)
                     .Count();
             }
         }

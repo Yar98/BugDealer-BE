@@ -10,7 +10,7 @@ using Bug.API.Dto;
 
 namespace Bug.API.Services
 {
-    public class FieldService : IFieldSerivce
+    public class FieldService : IFieldService
     {
         private readonly IUnitOfWork _unitOfWork;
         public FieldService(IUnitOfWork unitOfWork)

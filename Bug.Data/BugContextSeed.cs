@@ -130,25 +130,25 @@ namespace Bug.Data
         {
             return new List<Tag>()
             {               
-                new Tag(0,"Open",null,Bts.DefaultProjectTag),
-                new Tag(0,"Close",null,Bts.DefaultProjectTag),
-                new Tag(0,"Trash",null,Bts.DefaultProjectTag),
+                new Tag(0,"Open",null,null,Bts.DefaultProjectTag),
+                new Tag(0,"Close",null,null,Bts.DefaultProjectTag),
+                new Tag(0,"Trash",null,null,Bts.DefaultProjectTag),
                         
-                new Tag(0,"Active", null, Bts.DefaultAccountTag),
-                new Tag(0,"Disable", null, Bts.DefaultAccountTag),
-                new Tag(0,"Offline", null, Bts.DefaultAccountTag),
+                new Tag(0,"Active", null,null, Bts.DefaultAccountTag),
+                new Tag(0,"Disable", null,null, Bts.DefaultAccountTag),
+                new Tag(0,"Offline", null,null, Bts.DefaultAccountTag),
                         
-                new Tag(0,"Open", null, Bts.DefaultStatusTag),
-                new Tag(0,"InProgress", null, Bts.DefaultStatusTag),
-                new Tag(0,"Done", null, Bts.DefaultStatusTag),
+                new Tag(0,"Open", null,null, Bts.DefaultStatusTag),
+                new Tag(0,"InProgress", null,null, Bts.DefaultStatusTag),
+                new Tag(0,"Done", null,null, Bts.DefaultStatusTag),
                         
-                new Tag(0,"Blocks", null, Bts.DefaultRelationTag),
-                new Tag(0,"Is Blocks By", null, Bts.DefaultRelationTag),
-                new Tag(0,"Clones", null, Bts.DefaultRelationTag),
-                new Tag(0,"Is Cloned By", null, Bts.DefaultRelationTag),
-                new Tag(0,"Duplicates", null, Bts.DefaultRelationTag),
-                new Tag(0,"Is Duplicated By", null, Bts.DefaultRelationTag),
-                new Tag(0,"Relates To", null, Bts.DefaultRelationTag)
+                new Tag(0,"Blocks", null,null, Bts.DefaultRelationTag),
+                new Tag(0,"Is Blocks By", null,null, Bts.DefaultRelationTag),
+                new Tag(0,"Clones", null,null, Bts.DefaultRelationTag),
+                new Tag(0,"Is Cloned By", null,null, Bts.DefaultRelationTag),
+                new Tag(0,"Duplicates", null,null, Bts.DefaultRelationTag),
+                new Tag(0,"Is Duplicated By", null,null, Bts.DefaultRelationTag),
+                new Tag(0,"Relates To", null,null, Bts.DefaultRelationTag)
             };
         }
         static IEnumerable<Category> GetPreconfiguredCategory()
@@ -171,14 +171,14 @@ namespace Bug.Data
         {
             return new List<Status>()
             {
-                new Status("defaultStatus1","Opened","From Reported status if issue have been reviewed",0,"bts"),
-                new Status("defaultStatus2","Rejected","From Opened status if issue is not a problem\n From Reported status if it is a bad report",0,"bts"),
-                new Status("defaultStatus3","Reported","From Rejected status if issue have been rewritten",0,"bts"),
-                new Status("defaultStatus4","Deferred","From Opened status if issue have been declined for repair",0,"bts"),
-                new Status("defaultStatus5","Assigned","From Opened status if issue have been approved for repair\nFrom Reopened status if issue have been approved for re-repair",50,"bts"),
-                new Status("defaultStatus6","Fixed","From Assigned status if issue have been repaired",75,"bts"),
-                new Status("defaultStatus7","Closed","From Fixed status if issue have been confirmed to be repaired",100,"bts"),
-                new Status("defaultStatus8","Reopened","From Fixed status if issue have been failed confirmation test\nFrom Closed status if problem returned\nFrom Deferred status if issue have been gathered new information",0,"bts")
+                new Status("defaultStatus1","Opened","From Reported status if issue have been reviewed",0,"bts",7),
+                new Status("defaultStatus2","Rejected","From Opened status if issue is not a problem\n From Reported status if it is a bad report",0,"bts",7),
+                new Status("defaultStatus3","Reported","From Rejected status if issue have been rewritten",0,"bts",7),
+                new Status("defaultStatus4","Deferred","From Opened status if issue have been declined for repair",0,"bts",7),
+                new Status("defaultStatus5","Assigned","From Opened status if issue have been approved for repair\nFrom Reopened status if issue have been approved for re-repair",50,"bts",7),
+                new Status("defaultStatus6","Fixed","From Assigned status if issue have been repaired",75,"bts",7),
+                new Status("defaultStatus7","Closed","From Fixed status if issue have been confirmed to be repaired",100,"bts",7),
+                new Status("defaultStatus8","Reopened","From Fixed status if issue have been failed confirmation test\nFrom Closed status if problem returned\nFrom Deferred status if issue have been gathered new information",0,"bts",7)
             };
         }
         static IEnumerable<Permission> GetPreconfiguredPermission()

@@ -12,7 +12,9 @@ namespace Bug.Data.Specifications
         public StatusSpecification(string statusId)
             : base(s=>s.Id == statusId)
         {
-            AddInclude(s => s.Tags);
+            AddInclude(s => s.Tag);
+            AddInclude(st => st.Creator);
+            AddInclude(st => st.Projects);
         }
     }
 }

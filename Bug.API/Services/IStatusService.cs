@@ -13,17 +13,23 @@ namespace Bug.API.Services
         Task<Status> GetDetailStatusByIdAsync
             (string id,
             CancellationToken cancellationToken = default);
-        Task<PaginatedListDto<Status>> GetPaginatedDetailByCreatorAsync
+        Task<PaginatedListDto<Status>> GetPaginatedDetailByCreatorIdAsync
             (string creatorId,
             int pageIndex,
             int pageSize,
             string sortOrder,
             CancellationToken cancellationToken = default);
-        Task<IReadOnlyList<Status>> GetNextByOffsetDetailByCreatorAsync
+        Task<IReadOnlyList<Status>> GetNextByOffsetDetailByCreatorIdAsync
             (string creatorId,
             int offset,
             int next,
             string sortOrder,
+            CancellationToken cancellationToken = default);
+        Task<IReadOnlyList<Status>> GetStatusesByCreatorIdAsync
+           (string creatorId,
+           CancellationToken cancellationToken = default);
+        Task<IReadOnlyList<Status>> GetStatusesByProjectIdAsync
+            (string projectId,
             CancellationToken cancellationToken = default);
         Task<Status> AddStatusAsync
             (StatusNormalDto status,
