@@ -22,7 +22,7 @@ namespace Bug.Entities.Builder
         public int Status { get; private set; }
         public int TemplateId { get; private set; }
 
-        public IProjectBuilder AddTagId(int id)
+        public IProjectBuilder AddStatus(int id)
         {
             Status = id;
             return this;

@@ -43,6 +43,8 @@ namespace Bug.API.Services
                 AvatarUri = result.AvatarUri,
                 CreatorId = result.CreatorId,
                 DefaultAssigneeId = result.DefaultAssigneeId,
+                TemplateId = result.TemplateId,
+                Status = result.Status
             };
         }
         
@@ -170,6 +172,8 @@ namespace Bug.API.Services
                 .AddDescription(pro.Description)
                 .AddAvatarUri(pro.AvatarUri)
                 .AddCreatorId(pro.CreatorId)
+                .AddStatus(pro.Status)
+                .AddTemplateId(pro.TemplateId)
                 .Build();
             // add creator as member to project
             var acc = await _unitOfWork.Account.GetByIdAsync(pro.CreatorId, cancellationToken);
@@ -201,7 +205,8 @@ namespace Bug.API.Services
             result.UpdateStartDate(pro.StartDate);
             result.UpdateCreatorId(pro.CreatorId);
             result.UpdateDefaultAssigneeId(pro.DefaultAssigneeId);
-
+            result.UpdateStatus(pro.Status);
+            result.UpdateTemplateId(pro.TemplateId);
             // update db
             _unitOfWork.Project.Update(result);
             await _unitOfWork.SaveAsync(cancellationToken);

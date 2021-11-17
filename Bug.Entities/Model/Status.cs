@@ -16,7 +16,7 @@ namespace Bug.Entities.Model
         public string CreatorId { get; private set; }
         public Account Creator { get; private set; }
         public int TagId { get; private set; }
-        public Tag Tag { get; private set; }       
+        public Tag Tag { get; private set; }
 
         private readonly List<Project> _projects = new List<Project>();
         public ICollection<Project> Projects => _projects.AsReadOnly();
