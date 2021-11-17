@@ -27,6 +27,7 @@ namespace Bug.Data
         public DbSet<Status> Statuses { get; set; }
         public DbSet<Field> Fields { get; set; }
         public DbSet<Customtype> Customtypes { get; set; }
+        public DbSet<Template> Templates { get; set; }
         public BugContext(DbContextOptions options)
             : base(options)
         {
@@ -54,6 +55,7 @@ namespace Bug.Data
                 .ApplyConfigurationsFromAssembly(typeof(WorklogConfiguration).Assembly)
                 .ApplyConfigurationsFromAssembly(typeof(FieldConfiguration).Assembly)
                 .ApplyConfigurationsFromAssembly(typeof(CustomtypeConfiguration).Assembly)
+                .ApplyConfigurationsFromAssembly(typeof(TemplateConfiguration).Assembly)
                 .ApplyConfigurationsFromAssembly(typeof(TimezoneConfiguration).Assembly);
         }
     }

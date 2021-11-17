@@ -17,10 +17,10 @@ namespace Bug.Entities.Builder
         IProjectBuilder AddRecentDate(DateTimeOffset date);
         IProjectBuilder AddDescription(string des);
         IProjectBuilder AddAvatarUri(string url);
-        IProjectBuilder AddProjectType(string t);
         IProjectBuilder AddDefaultAssigneeId(string id);
         IProjectBuilder AddCreatorId(string id);
-        //IProjectBuilder AddWorkflowId(string id);
+        IProjectBuilder AddTagId(int id);
+        IProjectBuilder AddTemplateId(int id);
         Project Build();
     }
 }

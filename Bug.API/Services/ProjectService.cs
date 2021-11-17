@@ -39,7 +39,6 @@ namespace Bug.API.Services
                 StartDate = result.StartDate,
                 EndDate = result.EndDate,
                 RecentDate = result.RecentDate,
-                ProjectType = result.ProjectType,
                 Description = result.Description,
                 AvatarUri = result.AvatarUri,
                 CreatorId = result.CreatorId,
@@ -70,7 +69,7 @@ namespace Bug.API.Services
         {
             // filter project by creator
             var specificationResult =
-                new ProjectsByCreatorIdTagIdSpecification(accountId, tagId);
+                new ProjectsByStatusCreatorIdTagIdSpecification(accountId, tagId);
             var result = await _unitOfWork
                 .Project
                 .GetPaginatedNoTrackAsync(
@@ -96,7 +95,7 @@ namespace Bug.API.Services
         {
             // filter project which member working on
             var specificationResult =
-                new ProjectsWhichMemberIdJoinSpecification(accountId, tagId);
+                new ProjectsByStatusWhichMemberIdJoinSpecification(accountId, tagId);
             var result = await _unitOfWork
                 .Project
                 .GetPaginatedNoTrackAsync(
@@ -121,7 +120,7 @@ namespace Bug.API.Services
         {
             // filter projects by creator
             var specificationResult =
-                new ProjectsByCreatorIdTagIdSpecification(accountId, tagId);
+                new ProjectsByStatusCreatorIdTagIdSpecification(accountId, tagId);
             var result = await _unitOfWork
                 .Project
                 .GetNextByOffsetNoTrackAsync(
@@ -144,7 +143,7 @@ namespace Bug.API.Services
         {
             // filter projects which member working on
             var specificationResult =
-                new ProjectsWhichMemberIdJoinSpecification(accountId, tagId);
+                new ProjectsByStatusWhichMemberIdJoinSpecification(accountId, tagId);
             var result = await _unitOfWork
                 .Project
                 .GetNextByOffsetNoTrackAsync(
@@ -165,7 +164,6 @@ namespace Bug.API.Services
                 .AddId(pro.Id)
                 .AddName(pro.Name)
                 .AddCode(pro.Code)
-                .AddProjectType(pro.ProjectType)
                 .AddStartDate(pro.StartDate)
                 .AddEndDate(pro.EndDate)
                 .AddRecentDate(pro.RecentDate)
@@ -176,9 +174,6 @@ namespace Bug.API.Services
             // add creator as member to project
             var acc = await _unitOfWork.Account.GetByIdAsync(pro.CreatorId, cancellationToken);
             result.AddExistAccount(acc);
-            // add open tag to project
-            var tag = await _unitOfWork.Tag.GetByIdAsync(1, cancellationToken);
-            result.AddExistTag(tag);
             // add default roles to project
             var defaultRoles = await _unitOfWork.Role.GetDefaultRolesAsync(cancellationToken:cancellationToken);
             result.AddDefaultRoles(defaultRoles);
@@ -203,7 +198,6 @@ namespace Bug.API.Services
             result.UpdateCode(pro.Code);
             result.UpdateDescription(pro.Description);
             result.UpdateEndDate(pro.EndDate);
-            result.UpdateProjectType(pro.ProjectType);
             result.UpdateStartDate(pro.StartDate);
             result.UpdateCreatorId(pro.CreatorId);
             result.UpdateDefaultAssigneeId(pro.DefaultAssigneeId);

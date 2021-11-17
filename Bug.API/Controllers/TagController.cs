@@ -1,4 +1,5 @@
 ﻿using Bug.API.Services;
+using Bug.Core.Common;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -27,28 +28,19 @@ namespace Bug.API.Controllers
         }
 
         // GET api/<TagController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("{id}/detail")]
+        public async Task<IActionResult> GetDetailTagById(int id)
         {
-            return "value";
+            var result = await _tagService.GetDetailTagByIdAsync(id);
+            return Ok(Bts.ConvertJson(result));
         }
 
-        // POST api/<TagController>
-        [HttpPost]
-        public void Post([FromBody] string value)
+        [HttpGet("category/{categoryId:int}")]
+        public async Task<IActionResult> GetTagsByCategory(int id)
         {
+            var result = await _tagService.GetTagsByCategoryIdAsync(id);
+            return Ok(Bts.ConvertJson(result));
         }
 
-        // PUT api/<TagController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<TagController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
     }
 }

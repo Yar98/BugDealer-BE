@@ -40,27 +40,27 @@ namespace Bug.API.Controllers
         }
 
         [HttpGet("paging/project/{projectId}/{pageIndex:int}/{pageSize:int}/{sortOrder}")]
-        public async Task<IActionResult> GetPaginatedProjectsByCreator
+        public async Task<IActionResult> GetPaginatedByProjectId
            (string projectId,
            int pageIndex,
            int pageSize,
            string sortOrder)
         {
             var result =
-                await _accountService.GetPaginatedByProjectAsync(
+                await _accountService.GetPaginatedByProjectIdAsync(
                     projectId, pageIndex, pageSize, sortOrder);
             return Ok(Bts.ConvertJson(result));
         }
 
-        [HttpGet("offset/project/{projectId}/{tagName}/{offset:int}/{next:int}/{sortOrder}")]
-        public async Task<IActionResult> GetNextProjectsByOffsetByCreator
+        [HttpGet("offset/project/{projectId}/{offset:int}/{next:int}/{sortOrder}")]
+        public async Task<IActionResult> GetNextByOffsetByProjectId
             (string projectId,
             int offset,
             int next,
             string sortOrder)
         {
             var result =
-                await _accountService.GetNextByOffsetByProjectAsync(
+                await _accountService.GetNextByOffsetByProjectIdAsync(
                     projectId, offset, next, sortOrder);
             return Ok(Bts.ConvertJson(result));
         }
@@ -83,7 +83,7 @@ namespace Bug.API.Controllers
             Response.Headers.Add("token", token);
             return CreatedAtAction(
                 nameof(GetAccountById), new { id = result.Id }, result);
-            
+
         }
 
         // POST api/Account/register

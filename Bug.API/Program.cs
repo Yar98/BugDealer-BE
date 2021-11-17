@@ -19,7 +19,31 @@ namespace Bug
         public static async Task Main(string[] args)
         {
             var host = CreateHostBuilder(args).Build();
-            CreateDbIfNotExists(host);
+            await CreateDbIfNotExists(host);
+            await SeedDb(host);
+            host.Run();
+        }
+
+        private static async Task CreateDbIfNotExists(IHost host)
+        {
+            using (var scope = host.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                try
+                {
+                    var context = services.GetRequiredService<BugContext>();
+                    await context.Database.EnsureCreatedAsync();                    
+                }
+                catch (Exception ex)
+                {
+                    var logger = services.GetRequiredService<ILogger<Program>>();
+                    logger.LogError(ex, "An error occurred creating the DBBB.");
+                }
+            }
+        }
+
+        private static async Task SeedDb(IHost host)
+        {
             using (var scope = host.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
@@ -29,29 +53,10 @@ namespace Bug
                     var bugContext = services.GetRequiredService<BugContext>();
                     await BugContextSeed.SeedAsync(bugContext, loggerFactory);
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     var logger = loggerFactory.CreateLogger<Program>();
                     logger.LogError(ex, "An error occurred seeding the DB");
-                }
-            }
-                host.Run();
-        }
-
-        private static void CreateDbIfNotExists(IHost host)
-        {
-            using (var scope = host.Services.CreateScope())
-            {
-                var services = scope.ServiceProvider;
-                try
-                {
-                    var context = services.GetRequiredService<BugContext>();
-                    context.Database.EnsureCreated();                    
-                }
-                catch (Exception ex)
-                {
-                    var logger = services.GetRequiredService<ILogger<Program>>();
-                    logger.LogError(ex, "An error occurred creating the DBBB.");
                 }
             }
         }
