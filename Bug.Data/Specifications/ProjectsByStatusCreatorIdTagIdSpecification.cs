@@ -7,25 +7,25 @@ using System.Threading.Tasks;
 
 namespace Bug.Data.Specifications
 {
-    public class ProjectsByCreatorIdTagIdSpecification : BaseSpecification<Project>
+    public class ProjectsByStatusCreatorIdTagIdSpecification : BaseSpecification<Project>
     {
-        public ProjectsByCreatorIdTagIdSpecification(string accountId)
+        public ProjectsByStatusCreatorIdTagIdSpecification(string accountId)
             : base(p=>p.CreatorId == accountId)
         {
             AddInclude(p => p.Issues.SelectMany(i => i.Tags));
         }
-        public ProjectsByCreatorIdTagIdSpecification
+        public ProjectsByStatusCreatorIdTagIdSpecification
             (string accountId,
             int tagId)
             : base(p => p.CreatorId == accountId && 
-            p.Tags.AsQueryable().Any(t=>t.Id == tagId))
+            p.Status == tagId)
         {
             AddInclude(p => p.Creator);
             AddInclude(p => p.DefaultAssignee);
             AddInclude(p => p.Accounts);
             AddInclude(p => p.Roles);
             AddInclude(p => p.Issues);
-            AddInclude(p => p.Tags);
+            AddInclude(p => p.Template);
             AddInclude("Issues.Tags");
         }
     }

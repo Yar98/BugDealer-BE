@@ -11,20 +11,19 @@ namespace Bug.Entities.Model
         public string Id { get; private set; }
         public string Name { get; private set; }
         public string Code { get; private set; }
-        public string ProjectType { get; private set; }
         public DateTimeOffset StartDate { get; private set; }
         public DateTimeOffset EndDate { get; private set; }
         public DateTimeOffset RecentDate { get; private set; }
         public string Description { get; private set; }
         public string AvatarUri { get; private set; }
+        public int Status { get; private set; }
         public string DefaultAssigneeId { get; private set; }
         public Account DefaultAssignee { get; private set; }
         public string CreatorId { get; private set; }
-        public Account Creator { get; private set; }        
-
-        private readonly List<Tag> _tags = new List<Tag>();
-        public ICollection<Tag> Tags => _tags.AsReadOnly();
-
+        public Account Creator { get; private set; }
+        public int TemplateId { get; private set; }
+        public Template Template { get; private set; }
+        
         private readonly List<Issue> _issues = new List<Issue>();
         public ICollection<Issue> Issues => _issues.AsReadOnly();
 
@@ -76,19 +75,19 @@ namespace Bug.Entities.Model
         public Project(string id,
             string name,
             string code,
-            string projectType,
             DateTimeOffset startDate,
             DateTimeOffset endDate,
             DateTimeOffset recentDate,
             string description,
             string uri,
             string defaultAssigneeId,
-            string creatorId)
+            string creatorId,
+            int templateId,
+            int tagId)
         {
             Id = id;
             Name = name;
             Code = code;
-            ProjectType = projectType;
             StartDate = startDate;
             EndDate = endDate;
             RecentDate = recentDate;
@@ -96,7 +95,8 @@ namespace Bug.Entities.Model
             AvatarUri = uri;
             DefaultAssigneeId = defaultAssigneeId;
             CreatorId = creatorId;
-            //WorkflowId = workflowId;
+            TemplateId = templateId;
+            Status = tagId;
         }
 
         public void UpdateName(string name)
@@ -110,10 +110,6 @@ namespace Bug.Entities.Model
         public void UpdateCode(string code)
         {
             Code = code;
-        }
-        public void UpdateProjectType(string s)
-        {
-            ProjectType = s;
         }
         public void UpdateDescription(string des)
         {
@@ -144,21 +140,10 @@ namespace Bug.Entities.Model
                 return;
             }
         }
-
-        public void AddExistTag(Tag t)
-        {
-            if (!Tags.Any(i => i.Id.Equals(t.Id)))
-            {
-                _tags.Add(t);
-                return;
-            }
-        }
-
         public void UpdateRoles(List<Role> r)
         {
             _roles = r;
         }
-
         public void AddDefaultRoles(IReadOnlyList<Role> roles)
         {
             if (!Roles.Any())
@@ -170,7 +155,6 @@ namespace Bug.Entities.Model
         {
             _statuses = r;
         }
-
         public void AddDefaultStatuses(IReadOnlyList<Status> statuses)
         {
             if (!_statuses.Any())

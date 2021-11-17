@@ -17,7 +17,7 @@ namespace Bug.Data.Specifications
             AddInclude(p => p.Accounts);
             AddInclude(p => p.Roles);
             AddInclude(p => p.Issues);
-            AddInclude(p => p.Tags);
+            AddInclude(p => p.Template);
         }
     }
 }

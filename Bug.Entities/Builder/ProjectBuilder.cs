@@ -16,12 +16,22 @@ namespace Bug.Entities.Builder
         public DateTimeOffset EndDate { get; private set; }
         public DateTimeOffset RecentDate { get; private set; }
         public string Description { get; private set; }
-        public string ProjectType { get; private set; }
         public string AvatarUri { get; private set; }
         public string DefaultAssigneeId { get; private set; }
         public string CreatorId { get; private set; }
-        //public string WorkflowId { get; private set; }
+        public int Status { get; private set; }
+        public int TemplateId { get; private set; }
 
+        public IProjectBuilder AddTagId(int id)
+        {
+            Status = id;
+            return this;
+        }
+        public IProjectBuilder AddTemplateId(int id)
+        {
+            TemplateId = id;
+            return this;
+        }
         public IProjectBuilder AddCreatorId(string id)
         {
             CreatorId = id;
@@ -70,20 +80,6 @@ namespace Bug.Entities.Builder
             return this;
         }
 
-        public IProjectBuilder AddProjectType(string t)
-        {
-            ProjectType = t;
-            return this;
-        }
-
-        /*
-        public IProjectBuilder AddWorkflowId(string id)
-        {
-            WorkflowId = id;
-            return this;
-        }
-        */
-
         public IProjectBuilder AddDefaultAssigneeId(string id)
         {
             DefaultAssigneeId = id;
@@ -98,7 +94,7 @@ namespace Bug.Entities.Builder
 
         public Project Build()
         {
-            return new Project(Id, Name, Code, ProjectType, StartDate, EndDate, RecentDate, Description, AvatarUri, DefaultAssigneeId, CreatorId);
+            return new Project(Id, Name, Code, StartDate, EndDate, RecentDate, Description, AvatarUri, DefaultAssigneeId, CreatorId, TemplateId, Status);
         }
     }
 }

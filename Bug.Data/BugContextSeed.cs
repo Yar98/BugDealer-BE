@@ -17,7 +17,12 @@ namespace Bug.Data
         {
             try
             {
-                if(!await bugContext.Projects.AnyAsync())
+                if (!await bugContext.Templates.AnyAsync())
+                {
+                    await bugContext.Templates.AddRangeAsync(
+                        GetPreconfiguredTemplate());
+                }
+                if (!await bugContext.Projects.AnyAsync())
                 {
                     await bugContext.Projects.AddRangeAsync(
                         GetPreconfiguredProjects());                   
@@ -104,9 +109,9 @@ namespace Bug.Data
         {
             return new List<Project>()
             {
-                new Project("project1","name1","code1","type1",DateTime.Now,DateTime.Now,DateTime.Now,"des1",null,null,"account1"),
-                new Project("project2","name2","code2","type2",DateTime.Now,DateTime.Now,DateTime.Now,"des2",null,null,"account2"),
-                new Project("project3","name3","code3","type3",DateTime.Now,DateTime.Now,DateTime.Now,"des3",null,null,"account3")
+                new Project("project1","name1","code1",DateTime.Now,DateTime.Now,DateTime.Now,"des1",null,null,"account1",1,1),
+                new Project("project2","name2","code2",DateTime.Now,DateTime.Now,DateTime.Now,"des2",null,null,"account2",1,1),
+                new Project("project3","name3","code3",DateTime.Now,DateTime.Now,DateTime.Now,"des3",null,null,"account3",1,1)
             };
         }
         static IEnumerable<Account> GetPreconfiguredAccount()
@@ -129,15 +134,7 @@ namespace Bug.Data
         static IEnumerable<Tag> GetPreconfiguredTag()
         {
             return new List<Tag>()
-            {               
-                new Tag(0,"Open",null,null,Bts.DefaultProjectTag),
-                new Tag(0,"Close",null,null,Bts.DefaultProjectTag),
-                new Tag(0,"Trash",null,null,Bts.DefaultProjectTag),
-                        
-                new Tag(0,"Active", null,null, Bts.DefaultAccountTag),
-                new Tag(0,"Disable", null,null, Bts.DefaultAccountTag),
-                new Tag(0,"Offline", null,null, Bts.DefaultAccountTag),
-                        
+            {                                       
                 new Tag(0,"Open", null,null, Bts.DefaultStatusTag),
                 new Tag(0,"InProgress", null,null, Bts.DefaultStatusTag),
                 new Tag(0,"Done", null,null, Bts.DefaultStatusTag),
@@ -156,15 +153,13 @@ namespace Bug.Data
             return new List<Category>()
             {
                 new Category(0,"DefaultProjectTag",null),
-                new Category(0,"DefaultLabelTag",null),               
-                new Category(0,"DefaultAccountTag",null),               
-                new Category(0,"DefaultStatusTag",null),               
-                new Category(0,"DefaultRelationTag",null),               
-                new Category(0,"CustomProjectTag",null),               
+                new Category(0,"DefaultAccountTag",null),
+                new Category(0,"DefaultStatusTag",null),
+                new Category(0,"DefaultRelationTag",null),
+                new Category(0,"DefaultActionTag",null),
                 new Category(0,"CustomLabelTag",null),               
-                new Category(0,"CustomStatusTag",null)
                 //new Category("DefaultProjectPermission",null),           
-                //new Category("DefaultIssuePermission",null),           
+                //new Category("DefaultIssuePermission",null),            
             };
         }
         static IEnumerable<Status> GetPreconfiguredStatus()
@@ -243,6 +238,13 @@ namespace Bug.Data
             return new List<Customtype>()
             {
                 new Customtype(0, "IssueField",null)
+            };
+        }
+        static IEnumerable<Template> GetPreconfiguredTemplate()
+        {
+            return new List<Template>()
+            {
+                new Template(0, "IssueField",null)
             };
         }
     }

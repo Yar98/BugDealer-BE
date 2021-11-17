@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Bug.Data.Migrations
 {
-    public partial class createdb : Migration
+    public partial class Createdb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -74,6 +74,20 @@ namespace Bug.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Priority", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Template",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Template", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -195,14 +209,16 @@ namespace Bug.Data.Migrations
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ProjectType = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     StartDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     EndDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     RecentDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     AvatarUri = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Status = table.Column<int>(type: "int", nullable: false),
                     DefaultAssigneeId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    CreatorId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    CreatorId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    TemplateId = table.Column<int>(type: "int", nullable: false),
+                    TagId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -219,6 +235,18 @@ namespace Bug.Data.Migrations
                         principalTable: "Account",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Project_Tag_TagId",
+                        column: x => x.TagId,
+                        principalTable: "Tag",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Project_Template_TemplateId",
+                        column: x => x.TemplateId,
+                        principalTable: "Template",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -250,7 +278,9 @@ namespace Bug.Data.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Progress = table.Column<int>(type: "int", nullable: false),
-                    CreatorId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    Default = table.Column<int>(type: "int", nullable: false),
+                    CreatorId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    TagId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -261,6 +291,12 @@ namespace Bug.Data.Migrations
                         principalTable: "Account",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Status_Tag_TagId",
+                        column: x => x.TagId,
+                        principalTable: "Tag",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -305,30 +341,6 @@ namespace Bug.Data.Migrations
                         name: "FK_AccountProject_Project_ProjectsId",
                         column: x => x.ProjectsId,
                         principalTable: "Project",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ProjectTag",
-                columns: table => new
-                {
-                    ProjectsId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    TagsId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ProjectTag", x => new { x.ProjectsId, x.TagsId });
-                    table.ForeignKey(
-                        name: "FK_ProjectTag_Project_ProjectsId",
-                        column: x => x.ProjectsId,
-                        principalTable: "Project",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ProjectTag_Tag_TagsId",
-                        column: x => x.TagsId,
-                        principalTable: "Tag",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -479,30 +491,6 @@ namespace Bug.Data.Migrations
                         name: "FK_ProjectStatus_Status_StatusesId",
                         column: x => x.StatusesId,
                         principalTable: "Status",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "StatusTag",
-                columns: table => new
-                {
-                    StatusesId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    TagsId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_StatusTag", x => new { x.StatusesId, x.TagsId });
-                    table.ForeignKey(
-                        name: "FK_StatusTag_Status_StatusesId",
-                        column: x => x.StatusesId,
-                        principalTable: "Status",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_StatusTag_Tag_TagsId",
-                        column: x => x.TagsId,
-                        principalTable: "Tag",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -808,6 +796,16 @@ namespace Bug.Data.Migrations
                 column: "DefaultAssigneeId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Project_TagId",
+                table: "Project",
+                column: "TagId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Project_TemplateId",
+                table: "Project",
+                column: "TemplateId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ProjectRole_RolesId",
                 table: "ProjectRole",
                 column: "RolesId");
@@ -816,11 +814,6 @@ namespace Bug.Data.Migrations
                 name: "IX_ProjectStatus_StatusesId",
                 table: "ProjectStatus",
                 column: "StatusesId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ProjectTag_TagsId",
-                table: "ProjectTag",
-                column: "TagsId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Relation_FromIssueId",
@@ -848,9 +841,9 @@ namespace Bug.Data.Migrations
                 column: "CreatorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_StatusTag_TagsId",
-                table: "StatusTag",
-                column: "TagsId");
+                name: "IX_Status_TagId",
+                table: "Status",
+                column: "TagId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Tag_CategoryId",
@@ -909,13 +902,7 @@ namespace Bug.Data.Migrations
                 name: "ProjectStatus");
 
             migrationBuilder.DropTable(
-                name: "ProjectTag");
-
-            migrationBuilder.DropTable(
                 name: "Relation");
-
-            migrationBuilder.DropTable(
-                name: "StatusTag");
 
             migrationBuilder.DropTable(
                 name: "VoterIssue");
@@ -939,13 +926,7 @@ namespace Bug.Data.Migrations
                 name: "Role");
 
             migrationBuilder.DropTable(
-                name: "Tag");
-
-            migrationBuilder.DropTable(
                 name: "Issue");
-
-            migrationBuilder.DropTable(
-                name: "Category");
 
             migrationBuilder.DropTable(
                 name: "Priority");
@@ -957,10 +938,19 @@ namespace Bug.Data.Migrations
                 name: "Status");
 
             migrationBuilder.DropTable(
+                name: "Template");
+
+            migrationBuilder.DropTable(
                 name: "Account");
 
             migrationBuilder.DropTable(
+                name: "Tag");
+
+            migrationBuilder.DropTable(
                 name: "Timezone");
+
+            migrationBuilder.DropTable(
+                name: "Category");
         }
     }
 }

@@ -20,14 +20,14 @@ namespace Bug.API.Services
 
         public async Task<Tag> GetTagByIdAsync
             (int id, 
-            CancellationToken cancellationToken)
+            CancellationToken cancellationToken = default)
         {
             return await _unitOfWork.Tag.GetByIdAsync(id, cancellationToken);
         }
 
         public async Task<Tag> GetDetailTagByIdAsync
             (int id,
-            CancellationToken cancellationToken)
+            CancellationToken cancellationToken = default)
         {
             var specificationResult =
                 new TagSpecification(id);
@@ -38,7 +38,7 @@ namespace Bug.API.Services
 
         public async Task<IReadOnlyList<Tag>> GetTagsByCategoryIdAsync
             (int id,
-            CancellationToken cancellationToken)
+            CancellationToken cancellationToken = default)
         {
             var specificationResult =
                 new TagsByCategoryIdSpecification(id);

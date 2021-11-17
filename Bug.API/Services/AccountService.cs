@@ -101,7 +101,7 @@ namespace Bug.API.Services
             };
         }
 
-        public async Task<PaginatedListDto<AccountNormalDto>> GetPaginatedByProjectAsync
+        public async Task<PaginatedListDto<AccountNormalDto>> GetPaginatedByProjectIdAsync
             (string projectId,
             int pageIndex,
             int pageSize,
@@ -131,7 +131,7 @@ namespace Bug.API.Services
             };
         }
 
-        public async Task<IReadOnlyList<AccountNormalDto>> GetNextByOffsetByProjectAsync
+        public async Task<IReadOnlyList<AccountNormalDto>> GetNextByOffsetByProjectIdAsync
             (string projectId,
             int offset,
             int next,

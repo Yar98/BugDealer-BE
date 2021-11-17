@@ -18,13 +18,13 @@ namespace Bug.API.Services
             CancellationToken cancellationToken = default);
         Task<AccountNormalDto> LoginLocalAsync(string name, string password, CancellationToken cancellationToken = default);
         Task<AccountNormalDto> GetAccountByIdAsync(string id, CancellationToken cancellationToken = default);
-        Task<PaginatedListDto<AccountNormalDto>> GetPaginatedByProjectAsync
+        Task<PaginatedListDto<AccountNormalDto>> GetPaginatedByProjectIdAsync
             (string projectId,
             int pageIndex,
             int pageSize,
             string sortOrder,
             CancellationToken cancellationToken = default);
-        Task<IReadOnlyList<AccountNormalDto>> GetNextByOffsetByProjectAsync
+        Task<IReadOnlyList<AccountNormalDto>> GetNextByOffsetByProjectIdAsync
             (string projectId,
             int offset,
             int next,
