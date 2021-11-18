@@ -79,7 +79,7 @@ namespace Bug.API.Services
                 new AccountByIdCheckRoleSpecification(accountId, permissionId, projectId);
             return await _unitOfWork
                 .Account
-                .GetEntityAsync(specificationResult, cancellationToken);
+                .GetEntityBySpecAsync(specificationResult, cancellationToken);
         }
 
         public async Task<AccountNormalDto> GetAccountByIdAsync
@@ -110,7 +110,7 @@ namespace Bug.API.Services
         {
             AccountsByProjectSpecification specificationResult =
                 new(projectId);
-            var result = await _unitOfWork.Account.GetPaginatedNoTrackAsync(pageIndex, pageSize, sortOrder, specificationResult, cancellationToken);
+            var result = await _unitOfWork.Account.GetPaginatedNoTrackBySpecAsync(pageIndex, pageSize, sortOrder, specificationResult, cancellationToken);
             return new PaginatedListDto<AccountNormalDto>
             {
                 Length = result.Length,
@@ -140,7 +140,7 @@ namespace Bug.API.Services
         {
             AccountsByProjectSpecification specificationResult =
                 new(projectId);
-            var result = await _unitOfWork.Account.GetNextByOffsetNoTrackAsync(offset, next, sortOrder, specificationResult, cancellationToken);
+            var result = await _unitOfWork.Account.GetNextByOffsetNoTrackBySpecAsync(offset, next, sortOrder, specificationResult, cancellationToken);
             return result
                 .Select(a => new AccountNormalDto
                 {

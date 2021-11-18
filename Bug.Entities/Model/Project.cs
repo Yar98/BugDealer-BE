@@ -131,6 +131,14 @@ namespace Bug.Entities.Model
         {
             DefaultAssigneeId = id;
         }
+        public void UpdateTemplateId(int id)
+        {
+            TemplateId = id;
+        }
+        public void UpdateStatus(int id)
+        {
+            Status = id;
+        }
 
         public void AddExistAccount(Account a)
         {

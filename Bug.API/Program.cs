@@ -11,6 +11,7 @@ using Bug.API.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Bug.Data;
 using System.IO;
+using Microsoft.EntityFrameworkCore;
 
 namespace Bug
 {
@@ -32,7 +33,8 @@ namespace Bug
                 try
                 {
                     var context = services.GetRequiredService<BugContext>();
-                    await context.Database.EnsureCreatedAsync();                    
+                    await context.Database.EnsureCreatedAsync();
+                    //await context.Database.MigrateAsync();
                 }
                 catch (Exception ex)
                 {

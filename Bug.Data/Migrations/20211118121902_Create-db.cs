@@ -522,7 +522,7 @@ namespace Bug.Data.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TimeLog = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TimeLog = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     IssueId = table.Column<string>(type: "nvarchar(100)", nullable: true),
                     AccountId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
@@ -553,7 +553,11 @@ namespace Bug.Data.Migrations
                     IssueId = table.Column<string>(type: "nvarchar(100)", nullable: true),
                     ModifierId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     PreStatusId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    ModStatusId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    ModStatusId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    PrePriorityId = table.Column<int>(type: "int", nullable: true),
+                    ModePriorityId = table.Column<int>(type: "int", nullable: true),
+                    ModPriorityId = table.Column<int>(type: "int", nullable: true),
+                    TagId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -571,6 +575,18 @@ namespace Bug.Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
+                        name: "FK_Issuelog_Priority_ModPriorityId",
+                        column: x => x.ModPriorityId,
+                        principalTable: "Priority",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Issuelog_Priority_PrePriorityId",
+                        column: x => x.PrePriorityId,
+                        principalTable: "Priority",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
                         name: "FK_Issuelog_Status_ModStatusId",
                         column: x => x.ModStatusId,
                         principalTable: "Status",
@@ -580,6 +596,12 @@ namespace Bug.Data.Migrations
                         name: "FK_Issuelog_Status_PreStatusId",
                         column: x => x.PreStatusId,
                         principalTable: "Status",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Issuelog_Tag_TagId",
+                        column: x => x.TagId,
+                        principalTable: "Tag",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -766,14 +788,29 @@ namespace Bug.Data.Migrations
                 column: "ModifierId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Issuelog_ModPriorityId",
+                table: "Issuelog",
+                column: "ModPriorityId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Issuelog_ModStatusId",
                 table: "Issuelog",
                 column: "ModStatusId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Issuelog_PrePriorityId",
+                table: "Issuelog",
+                column: "PrePriorityId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Issuelog_PreStatusId",
                 table: "Issuelog",
                 column: "PreStatusId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Issuelog_TagId",
+                table: "Issuelog",
+                column: "TagId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_IssueTag_TagsId",

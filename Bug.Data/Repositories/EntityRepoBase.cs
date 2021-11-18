@@ -33,7 +33,7 @@ namespace Bug.Data.Repositories
             return await _bugContext.Set<T>().FindAsync(keyValues, cancelltionToken);
         }
 
-        public async Task<T> GetEntityAsync
+        public async Task<T> GetEntityBySpecAsync
             (ISpecification<T> specificationResult,
             CancellationToken cancelltionToken = default)
         {
@@ -43,7 +43,7 @@ namespace Bug.Data.Repositories
                 .FirstOrDefaultAsync(cancelltionToken);
         }
 
-        public async Task<IReadOnlyList<T>> GetAllEntitiesAsync
+        public async Task<IReadOnlyList<T>> GetAllEntitiesBySpecAsync
             (ISpecification<T> specificationResult,
             CancellationToken cancellationToken = default)
         {
@@ -53,7 +53,7 @@ namespace Bug.Data.Repositories
                 .ToListAsync(cancellationToken);
         }
 
-        public async Task<PaginatedList<T>> GetPaginatedNoTrackAsync
+        public async Task<PaginatedList<T>> GetPaginatedNoTrackBySpecAsync
             (int pageIndex,
             int pageSize,
             string sortOrder,
@@ -68,7 +68,7 @@ namespace Bug.Data.Repositories
                 .CreateListAsync(result.AsNoTracking(), pageIndex, pageSize, cancelltionToken);
         }
 
-        public async Task<PaginatedList<T>> GetPaginatedAsync
+        public async Task<PaginatedList<T>> GetPaginatedBySpecAsync
             (int pageIndex,
             int pageSize,
             string sortOrder,
@@ -83,7 +83,7 @@ namespace Bug.Data.Repositories
                 .CreateListAsync(result, pageIndex, pageSize, cancelltionToken);
         }
 
-        public async Task<IReadOnlyList<T>> GetNextByOffsetNoTrackAsync
+        public async Task<IReadOnlyList<T>> GetNextByOffsetNoTrackBySpecAsync
             (int offset,
             int next,
             string sortOrder,
@@ -101,7 +101,7 @@ namespace Bug.Data.Repositories
                 .ToListAsync(cancelltionToken);
         }
 
-        public async Task<IReadOnlyList<T>> GetNextByOffsetAsync
+        public async Task<IReadOnlyList<T>> GetNextByOffsetBySpecAsync
             (int offset,
             int next,
             string sortOrder,

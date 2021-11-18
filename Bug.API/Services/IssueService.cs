@@ -27,7 +27,7 @@ namespace Bug.API.Services
                 new(id);
             return await _unitOfWork
                 .Issue
-                .GetEntityAsync(specificationResult, cancellationToken);
+                .GetEntityBySpecAsync(specificationResult, cancellationToken);
         }
 
         public async Task<PaginatedListDto<Issue>> GetPaginatedDetailByProjectAsync
@@ -41,7 +41,7 @@ namespace Bug.API.Services
                 new(projectId);
             var result = await _unitOfWork
                 .Issue
-                .GetPaginatedAsync(pageIndex, pageSize, sortOrder, specificationResult, cancellationToken);
+                .GetPaginatedBySpecAsync(pageIndex, pageSize, sortOrder, specificationResult, cancellationToken);
             return new PaginatedListDto<Issue>
             {
                 Length = result.Length,
@@ -60,7 +60,7 @@ namespace Bug.API.Services
                 new IssueByProjectSpecification(projectId);
             var result = await _unitOfWork
                 .Issue
-                .GetNextByOffsetAsync(offset, next, sortOrder, specificationResult, cancellationToke);
+                .GetNextByOffsetBySpecAsync(offset, next, sortOrder, specificationResult, cancellationToke);
             return result;
         }
 
@@ -140,15 +140,15 @@ namespace Bug.API.Services
         {
             var result = await _unitOfWork.Issue.GetByIdAsync(issue.Id, cancellationToken);
             if(issue.AssigneeId != null)
-                result.UpdateAssigneeId(issue.AssigneeId);
-            //result.UpdateCreatedDate(issue.CreatedDate);
+                result.UpdateAssigneeId(issue.AssigneeId);           
             if(issue.Description != null)
                 result.UpdateDescription(issue.Description);
-            //result.UpdateDueDate(issue.DueDate);
             if(issue.Environment != null)
                 result.UpdateEnvironment(issue.Environment);
-            //result.UpdateLogDate(issue.LogDate);
-            if(issue.OriginEstimateTime != null)
+            result.UpdateLogDate(issue.LogDate);
+            result.UpdateCreatedDate(issue.CreatedDate);
+            result.UpdateDueDate(issue.DueDate);
+            if (issue.OriginEstimateTime != null)
                 result.UpdateOriginalEstimateTime(issue.OriginEstimateTime);
             if(issue.PriorityId != 0)
                 result.UpdatePriorityId(issue.PriorityId);

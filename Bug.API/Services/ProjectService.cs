@@ -30,7 +30,7 @@ namespace Bug.API.Services
                 new(projectId);
             var result = await _unitOfWork
                 .Project
-                .GetEntityAsync(specificationResult, cancellationToken);
+                .GetEntityBySpecAsync(specificationResult, cancellationToken);
             return new ProjectNormalDto
             {
                 Id = result.Id,
@@ -43,6 +43,8 @@ namespace Bug.API.Services
                 AvatarUri = result.AvatarUri,
                 CreatorId = result.CreatorId,
                 DefaultAssigneeId = result.DefaultAssigneeId,
+                TemplateId = result.TemplateId,
+                Status = result.Status
             };
         }
         
@@ -54,7 +56,7 @@ namespace Bug.API.Services
                 new(projectId);
             var result = await _unitOfWork
                 .Project
-                .GetEntityAsync(specificationResult,cancellationToken);
+                .GetEntityBySpecAsync(specificationResult,cancellationToken);
             return result;
         }
 
@@ -72,7 +74,7 @@ namespace Bug.API.Services
                 new ProjectsByStatusCreatorIdTagIdSpecification(accountId, tagId);
             var result = await _unitOfWork
                 .Project
-                .GetPaginatedNoTrackAsync(
+                .GetPaginatedNoTrackBySpecAsync(
                 pageIndex, pageSize,
                 sortOrder,
                 specificationResult,
@@ -98,7 +100,7 @@ namespace Bug.API.Services
                 new ProjectsByStatusWhichMemberIdJoinSpecification(accountId, tagId);
             var result = await _unitOfWork
                 .Project
-                .GetPaginatedNoTrackAsync(
+                .GetPaginatedNoTrackBySpecAsync(
                 pageIndex, pageSize,
                 sortOrder,
                 specificationResult,
@@ -123,7 +125,7 @@ namespace Bug.API.Services
                 new ProjectsByStatusCreatorIdTagIdSpecification(accountId, tagId);
             var result = await _unitOfWork
                 .Project
-                .GetNextByOffsetNoTrackAsync(
+                .GetNextByOffsetNoTrackBySpecAsync(
                 offset,
                 next,
                 sortOrder,
@@ -146,7 +148,7 @@ namespace Bug.API.Services
                 new ProjectsByStatusWhichMemberIdJoinSpecification(accountId, tagId);
             var result = await _unitOfWork
                 .Project
-                .GetNextByOffsetNoTrackAsync(
+                .GetNextByOffsetNoTrackBySpecAsync(
                 offset,
                 next,
                 sortOrder,
@@ -170,6 +172,8 @@ namespace Bug.API.Services
                 .AddDescription(pro.Description)
                 .AddAvatarUri(pro.AvatarUri)
                 .AddCreatorId(pro.CreatorId)
+                .AddStatus(pro.Status)
+                .AddTemplateId(pro.TemplateId)
                 .Build();
             // add creator as member to project
             var acc = await _unitOfWork.Account.GetByIdAsync(pro.CreatorId, cancellationToken);
@@ -201,7 +205,8 @@ namespace Bug.API.Services
             result.UpdateStartDate(pro.StartDate);
             result.UpdateCreatorId(pro.CreatorId);
             result.UpdateDefaultAssigneeId(pro.DefaultAssigneeId);
-
+            result.UpdateStatus(pro.Status);
+            result.UpdateTemplateId(pro.TemplateId);
             // update db
             _unitOfWork.Project.Update(result);
             await _unitOfWork.SaveAsync(cancellationToken);

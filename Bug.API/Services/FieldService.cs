@@ -44,7 +44,7 @@ namespace Bug.API.Services
                 new FieldsByAccountSpecification(accountId, customtypeId);
             var activeFields = await _unitOfWork
                 .Field
-                .GetAllEntitiesAsync(specificationResult, cancellationToken);
+                .GetAllEntitiesBySpecAsync(specificationResult, cancellationToken);
             var fields = await _unitOfWork
                 .Field
                 .FindAllAsync(cancellationToken);
