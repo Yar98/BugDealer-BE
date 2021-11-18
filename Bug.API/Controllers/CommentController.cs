@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Bug.API.Dto;
+using Bug.API.Services;
+using Bug.Core.Common;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +15,11 @@ namespace Bug.API.Controllers
     [ApiController]
     public class CommentController : ControllerBase
     {
+        private readonly ICommentService _commentService;
+        public CommentController(ICommentService commentService)
+        {
+            _commentService = commentService;
+        }
         // GET: api/<CommentController>
         [HttpGet]
         public IEnumerable<string> Get()
@@ -21,27 +29,45 @@ namespace Bug.API.Controllers
 
         // GET api/<CommentController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<IActionResult> GetCommentById(int id)
         {
-            return "value";
+            var result = await _commentService.GetDetailCommentByIdAsync(id);
+            return Ok(Bts.ConvertJson(result));
+        }
+
+        [HttpGet("issue/{issueId}")]
+        public async Task<IActionResult> GetCommentsByIssueId(string id)
+        {
+            var result = await _commentService.GetCommentsByIssueIdAsync(id);
+            return Ok(Bts.ConvertJson(result));
         }
 
         // POST api/<CommentController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<IActionResult> Post([FromBody] CommentNormalDto cmt)
         {
+            var result = await _commentService.AddCommentAsync(cmt);
+            return CreatedAtAction(
+                nameof(GetCommentById), new { id = result.Id }, Bts.ConvertJson(result));
         }
 
         // PUT api/<CommentController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<IActionResult> PutUpdateCommentById
+            (int id, [FromBody] CommentNormalDto cmt)
         {
+            if (id != cmt.Id)
+                return BadRequest();
+            await _commentService.UpdateCommentByIdAsync(cmt);
+            return NoContent();
         }
 
         // DELETE api/<CommentController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<IActionResult> DeleteCommentById(int id)
         {
+            await _commentService.DeleteCommentByIdAsync(id);
+            return NoContent();
         }
     }
 }

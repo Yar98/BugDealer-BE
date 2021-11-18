@@ -30,7 +30,7 @@ namespace Bug.API.Services
                 new(projectId);
             var result = await _unitOfWork
                 .Project
-                .GetEntityAsync(specificationResult, cancellationToken);
+                .GetEntityBySpecAsync(specificationResult, cancellationToken);
             return new ProjectNormalDto
             {
                 Id = result.Id,
@@ -56,7 +56,7 @@ namespace Bug.API.Services
                 new(projectId);
             var result = await _unitOfWork
                 .Project
-                .GetEntityAsync(specificationResult,cancellationToken);
+                .GetEntityBySpecAsync(specificationResult,cancellationToken);
             return result;
         }
 
@@ -74,7 +74,7 @@ namespace Bug.API.Services
                 new ProjectsByStatusCreatorIdTagIdSpecification(accountId, tagId);
             var result = await _unitOfWork
                 .Project
-                .GetPaginatedNoTrackAsync(
+                .GetPaginatedNoTrackBySpecAsync(
                 pageIndex, pageSize,
                 sortOrder,
                 specificationResult,
@@ -100,7 +100,7 @@ namespace Bug.API.Services
                 new ProjectsByStatusWhichMemberIdJoinSpecification(accountId, tagId);
             var result = await _unitOfWork
                 .Project
-                .GetPaginatedNoTrackAsync(
+                .GetPaginatedNoTrackBySpecAsync(
                 pageIndex, pageSize,
                 sortOrder,
                 specificationResult,
@@ -125,7 +125,7 @@ namespace Bug.API.Services
                 new ProjectsByStatusCreatorIdTagIdSpecification(accountId, tagId);
             var result = await _unitOfWork
                 .Project
-                .GetNextByOffsetNoTrackAsync(
+                .GetNextByOffsetNoTrackBySpecAsync(
                 offset,
                 next,
                 sortOrder,
@@ -148,7 +148,7 @@ namespace Bug.API.Services
                 new ProjectsByStatusWhichMemberIdJoinSpecification(accountId, tagId);
             var result = await _unitOfWork
                 .Project
-                .GetNextByOffsetNoTrackAsync(
+                .GetNextByOffsetNoTrackBySpecAsync(
                 offset,
                 next,
                 sortOrder,

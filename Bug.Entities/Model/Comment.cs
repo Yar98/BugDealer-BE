@@ -10,7 +10,7 @@ namespace Bug.Entities.Model
     {
         public int Id { get; private set; }
         public string Content { get; private set; }
-        public string TimeLog { get; private set; }
+        public DateTimeOffset TimeLog { get; private set; }
         public string IssueId { get; private set; }
         public Issue Issue { get; private set; }
         public string AccountId { get; private set; }
@@ -19,7 +19,7 @@ namespace Bug.Entities.Model
         public Comment
             (int id,
             string content,
-            string time,
+            DateTimeOffset time,
             string issueId,
             string accountId)
         {
@@ -28,6 +28,23 @@ namespace Bug.Entities.Model
             IssueId = issueId;
             AccountId = accountId;
             Content = content;
+        }
+
+        public void UpdateContent(string s)
+        {
+            Content = s;
+        }
+        public void UpdateTimeLog(DateTimeOffset s)
+        {
+            TimeLog = s;
+        }
+        public void UpdateAccountId(string id)
+        {
+            AccountId = id;
+        }
+        public void UpdateIssueId(string id)
+        {
+            IssueId = id;
         }
     }
 }

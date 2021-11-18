@@ -14,10 +14,22 @@ namespace Bug.Entities.Model
         public Issue Issue { get; private set; }
         public string ModifierId { get; private set; }
         public Account Modifier { get; private set; }
+        // old status
         public string? PreStatusId { get; private set; }
         public Status PreStatus { get; private set; }
+        // new status
         public string? ModStatusId { get; private set; }
         public Status ModStatus { get; private set; }
+        // old priority
+        public int? PrePriorityId { get; private set; }
+        public Priority PrePriority { get; private set; }
+        // new priority
+        public int? ModePriorityId { get; private set; }
+        public Priority ModPriority { get; private set; }
+        // action
+        public int? TagId { get; private set; }
+        public Tag Tag { get; private set; }
+
         private Issuelog() { }
         public Issuelog
             (int id,
@@ -25,7 +37,8 @@ namespace Bug.Entities.Model
             string issueId,
             string modifierId,
             string preStatusId,
-            string modStatusId)
+            string modStatusId,
+            int tagId)
         {
             Id = id;
             LogDate = timeLog;
@@ -33,6 +46,7 @@ namespace Bug.Entities.Model
             ModifierId = modifierId;
             PreStatusId = preStatusId;
             ModifierId = modStatusId;
+            TagId = tagId;
         }
     }
 }

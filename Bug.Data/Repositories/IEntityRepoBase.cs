@@ -14,31 +14,31 @@ namespace Bug.Data.Repositories
     {
         Task<T> GetByIdAsync(string id, CancellationToken cancelltionToken = default);
         Task<T> GetByIdAsync(int id, CancellationToken cancelltionToken = default);
-        Task<T> GetEntityAsync
+        Task<T> GetEntityBySpecAsync
             (ISpecification<T> specificationResult,
             CancellationToken cancelltionToken = default);
-        Task<IReadOnlyList<T>> GetAllEntitiesAsync
+        Task<IReadOnlyList<T>> GetAllEntitiesBySpecAsync
             (ISpecification<T> specificationResult,
             CancellationToken cancellationToken = default);
-        Task<PaginatedList<T>> GetPaginatedNoTrackAsync
+        Task<PaginatedList<T>> GetPaginatedNoTrackBySpecAsync
             (int pageIndex,
             int pageSize,
             string sortOrder,
             ISpecification<T> specificationResult,
             CancellationToken cancelltionToken = default);
-        Task<PaginatedList<T>> GetPaginatedAsync
+        Task<PaginatedList<T>> GetPaginatedBySpecAsync
             (int pageIndex,
             int pageSize,
             string sortOrder,
             ISpecification<T> specificationResult,
             CancellationToken cancelltionToken = default);
-        Task<IReadOnlyList<T>> GetNextByOffsetNoTrackAsync
+        Task<IReadOnlyList<T>> GetNextByOffsetNoTrackBySpecAsync
             (int offset,
             int next,
             string sortOrder,
             ISpecification<T> specificationResult,
             CancellationToken cancelltionToken = default);
-        Task<IReadOnlyList<T>> GetNextByOffsetAsync
+        Task<IReadOnlyList<T>> GetNextByOffsetBySpecAsync
             (int offset,
             int next,
             string sortOrder,

@@ -194,8 +194,8 @@ namespace Bug.Data.Migrations
                     b.Property<string>("IssueId")
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("TimeLog")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTimeOffset>("TimeLog")
+                        .HasColumnType("datetimeoffset");
 
                     b.HasKey("Id");
 
@@ -318,24 +318,42 @@ namespace Bug.Data.Migrations
                     b.Property<DateTimeOffset>("LogDate")
                         .HasColumnType("datetimeoffset");
 
+                    b.Property<int?>("ModPriorityId")
+                        .HasColumnType("int");
+
                     b.Property<string>("ModStatusId")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<int?>("ModePriorityId")
+                        .HasColumnType("int");
 
                     b.Property<string>("ModifierId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<int?>("PrePriorityId")
+                        .HasColumnType("int");
+
                     b.Property<string>("PreStatusId")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<int?>("TagId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("IssueId");
 
+                    b.HasIndex("ModPriorityId");
+
                     b.HasIndex("ModStatusId");
 
                     b.HasIndex("ModifierId");
 
+                    b.HasIndex("PrePriorityId");
+
                     b.HasIndex("PreStatusId");
+
+                    b.HasIndex("TagId");
 
                     b.ToTable("Issuelog");
                 });
@@ -836,6 +854,10 @@ namespace Bug.Data.Migrations
                         .WithMany()
                         .HasForeignKey("IssueId");
 
+                    b.HasOne("Bug.Entities.Model.Priority", "ModPriority")
+                        .WithMany()
+                        .HasForeignKey("ModPriorityId");
+
                     b.HasOne("Bug.Entities.Model.Status", "ModStatus")
                         .WithMany()
                         .HasForeignKey("ModStatusId");
@@ -844,17 +866,31 @@ namespace Bug.Data.Migrations
                         .WithMany()
                         .HasForeignKey("ModifierId");
 
+                    b.HasOne("Bug.Entities.Model.Priority", "PrePriority")
+                        .WithMany()
+                        .HasForeignKey("PrePriorityId");
+
                     b.HasOne("Bug.Entities.Model.Status", "PreStatus")
                         .WithMany()
                         .HasForeignKey("PreStatusId");
+
+                    b.HasOne("Bug.Entities.Model.Tag", "Tag")
+                        .WithMany()
+                        .HasForeignKey("TagId");
 
                     b.Navigation("Issue");
 
                     b.Navigation("Modifier");
 
+                    b.Navigation("ModPriority");
+
                     b.Navigation("ModStatus");
 
+                    b.Navigation("PrePriority");
+
                     b.Navigation("PreStatus");
+
+                    b.Navigation("Tag");
                 });
 
             modelBuilder.Entity("Bug.Entities.Model.Project", b =>

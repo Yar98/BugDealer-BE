@@ -26,7 +26,7 @@ namespace Bug.API.Services
                 new(id);
             return await _unitOfWork
                 .Status
-                .GetEntityAsync(specificationResult, cancellationToken);
+                .GetEntityBySpecAsync(specificationResult, cancellationToken);
         }
 
         public async Task<PaginatedListDto<Status>> GetPaginatedDetailByCreatorIdAsync
@@ -40,7 +40,7 @@ namespace Bug.API.Services
                 new(creatorId);
             var result = await _unitOfWork
                 .Status
-                .GetPaginatedNoTrackAsync(pageIndex, pageSize, sortOrder, specificationResult,cancellationToken);
+                .GetPaginatedNoTrackBySpecAsync(pageIndex, pageSize, sortOrder, specificationResult,cancellationToken);
             return new PaginatedListDto<Status>
             {
                 Length = result.Length,
@@ -59,7 +59,7 @@ namespace Bug.API.Services
                 new(creatorId);
             var result = await _unitOfWork
                 .Status
-                .GetNextByOffsetNoTrackAsync(offset, next, sortOrder, specificationResult, cancellationToken);
+                .GetNextByOffsetNoTrackBySpecAsync(offset, next, sortOrder, specificationResult, cancellationToken);
             return result;
         }
 
@@ -71,7 +71,7 @@ namespace Bug.API.Services
                 new StatusByCreatorIdSpecification(creatorId);
             return await _unitOfWork
                 .Status
-                .GetAllEntitiesAsync(specificationResult, cancellationToken);
+                .GetAllEntitiesBySpecAsync(specificationResult, cancellationToken);
         }
 
         public async Task<IReadOnlyList<Status>> GetStatusesByProjectIdAsync
@@ -82,7 +82,7 @@ namespace Bug.API.Services
                 new StatusByProjectIdSpecification(projectId);
             return await _unitOfWork
                 .Status
-                .GetAllEntitiesAsync(specificationResult, cancellationToken);
+                .GetAllEntitiesBySpecAsync(specificationResult, cancellationToken);
         }
 
         public async Task<Status> AddStatusAsync

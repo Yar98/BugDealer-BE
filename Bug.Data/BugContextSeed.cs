@@ -135,31 +135,35 @@ namespace Bug.Data
         {
             return new List<Tag>()
             {                                       
-                new Tag(0,"Open", null,null, Bts.DefaultStatusTag),
-                new Tag(0,"InProgress", null,null, Bts.DefaultStatusTag),
-                new Tag(0,"Done", null,null, Bts.DefaultStatusTag),
+                new Tag(0,"Open", null, null, Bts.DefaultStatusTag),
+                new Tag(0,"InProgress", null, null, Bts.DefaultStatusTag),
+                new Tag(0,"Done", null, null, Bts.DefaultStatusTag),
                         
-                new Tag(0,"Blocks", null,null, Bts.DefaultRelationTag),
-                new Tag(0,"Is Blocks By", null,null, Bts.DefaultRelationTag),
-                new Tag(0,"Clones", null,null, Bts.DefaultRelationTag),
-                new Tag(0,"Is Cloned By", null,null, Bts.DefaultRelationTag),
+                new Tag(0,"Blocks", null, null, Bts.DefaultRelationTag),
+                new Tag(0,"Is Blocks By", null, null, Bts.DefaultRelationTag),
+                new Tag(0,"Clones", null, null, Bts.DefaultRelationTag),
+                new Tag(0,"Is Cloned By", null, null, Bts.DefaultRelationTag),
                 new Tag(0,"Duplicates", null,null, Bts.DefaultRelationTag),
-                new Tag(0,"Is Duplicated By", null,null, Bts.DefaultRelationTag),
-                new Tag(0,"Relates To", null,null, Bts.DefaultRelationTag)
+                new Tag(0,"Is Duplicated By", null, null, Bts.DefaultRelationTag),
+                new Tag(0,"Relates To", null, null, Bts.DefaultRelationTag),
+
+                new Tag(0,"Create", null, null, Bts.DefaultActionTag),
+                new Tag(0,"Edit", null, null, Bts.DefaultActionTag),
+                new Tag(0,"Comment", null, null, Bts.DefaultActionTag),
+                new Tag(0,"Worklog", null, null, Bts.DefaultActionTag)
             };
         }
         static IEnumerable<Category> GetPreconfiguredCategory()
         {
             return new List<Category>()
             {
-                new Category(0,"DefaultProjectTag",null),
-                new Category(0,"DefaultAccountTag",null),
                 new Category(0,"DefaultStatusTag",null),
                 new Category(0,"DefaultRelationTag",null),
                 new Category(0,"DefaultActionTag",null),
-                new Category(0,"CustomLabelTag",null),               
-                //new Category("DefaultProjectPermission",null),           
-                //new Category("DefaultIssuePermission",null),            
+                new Category(0,"DefaultWorkLogTag",null),
+                new Category(0,"CustomLabelTag",null),
+                //new Category("DefaultProjectPermission",null),
+                //new Category("DefaultIssuePermission",null),
             };
         }
         static IEnumerable<Status> GetPreconfiguredStatus()

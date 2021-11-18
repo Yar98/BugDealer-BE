@@ -25,7 +25,7 @@ namespace Bug.API.Services
             RoleSpecification specification =
                 new(id);
             return await _unitOfWork.Role
-                .GetEntityAsync(specification, cancellationToken);
+                .GetEntityBySpecAsync(specification, cancellationToken);
         }
 
         public async Task<IReadOnlyList<Role>> GetRolesByProjectIdAsync
@@ -36,7 +36,7 @@ namespace Bug.API.Services
                 new RoleByProjectSpecification(projectId);
             return await _unitOfWork
                 .Role
-                .GetAllEntitiesAsync(specificationResult, cancellationToken);
+                .GetAllEntitiesBySpecAsync(specificationResult, cancellationToken);
         }
 
         public async Task<IReadOnlyList<Role>> GetRolesByCreatorIdAsync
@@ -47,7 +47,7 @@ namespace Bug.API.Services
                 new RoleByCreatorIdSpecification(creatorId);
             return await _unitOfWork
                 .Role
-                .GetAllEntitiesAsync(specificationResult, cancellationToken);
+                .GetAllEntitiesBySpecAsync(specificationResult, cancellationToken);
         }
 
         public async Task<IReadOnlyList<Role>> GetRolesWhichMemberIdOnAsync
@@ -59,7 +59,7 @@ namespace Bug.API.Services
                 new RolesWhichMemberOnSpecification(projectId, memberId);
             return await _unitOfWork
                 .Role
-                .GetAllEntitiesAsync(specificationResult, cancellationToken);
+                .GetAllEntitiesBySpecAsync(specificationResult, cancellationToken);
         }
 
         public async Task<Role> AddNewRoleAsync

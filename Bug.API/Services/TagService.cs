@@ -33,7 +33,7 @@ namespace Bug.API.Services
                 new TagSpecification(id);
             return await _unitOfWork
                 .Tag
-                .GetEntityAsync(specificationResult, cancellationToken);
+                .GetEntityBySpecAsync(specificationResult, cancellationToken);
         }
 
         public async Task<IReadOnlyList<Tag>> GetTagsByCategoryIdAsync
@@ -44,7 +44,7 @@ namespace Bug.API.Services
                 new TagsByCategoryIdSpecification(id);
             return await _unitOfWork
                 .Tag
-                .GetAllEntitiesAsync(specificationResult, cancellationToken);
+                .GetAllEntitiesBySpecAsync(specificationResult, cancellationToken);
         }
 
 
