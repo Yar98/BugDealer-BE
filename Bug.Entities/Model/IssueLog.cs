@@ -24,7 +24,7 @@ namespace Bug.Entities.Model
         public int? PrePriorityId { get; private set; }
         public Priority PrePriority { get; private set; }
         // new priority
-        public int? ModePriorityId { get; private set; }
+        public int? ModPriorityId { get; private set; }
         public Priority ModPriority { get; private set; }
         // action
         public int? TagId { get; private set; }
@@ -38,6 +38,8 @@ namespace Bug.Entities.Model
             string modifierId,
             string preStatusId,
             string modStatusId,
+            int prePriorityId,
+            int modPriorityId,
             int tagId)
         {
             Id = id;
@@ -46,7 +48,14 @@ namespace Bug.Entities.Model
             ModifierId = modifierId;
             PreStatusId = preStatusId;
             ModifierId = modStatusId;
+            PrePriorityId = prePriorityId;
+            ModPriorityId = modPriorityId;
             TagId = tagId;
+        }
+
+        public void UpdateModifier(Account acc)
+        {
+            Modifier = acc;
         }
     }
 }

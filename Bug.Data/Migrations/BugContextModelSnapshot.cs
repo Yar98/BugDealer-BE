@@ -324,9 +324,6 @@ namespace Bug.Data.Migrations
                     b.Property<string>("ModStatusId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int?>("ModePriorityId")
-                        .HasColumnType("int");
-
                     b.Property<string>("ModifierId")
                         .HasColumnType("nvarchar(450)");
 
@@ -863,7 +860,7 @@ namespace Bug.Data.Migrations
                         .HasForeignKey("ModStatusId");
 
                     b.HasOne("Bug.Entities.Model.Account", "Modifier")
-                        .WithMany()
+                        .WithMany("Issuelogs")
                         .HasForeignKey("ModifierId");
 
                     b.HasOne("Bug.Entities.Model.Priority", "PrePriority")
@@ -1075,6 +1072,8 @@ namespace Bug.Data.Migrations
                     b.Navigation("CreatedStatuses");
 
                     b.Navigation("DefaultAssigneeProjects");
+
+                    b.Navigation("Issuelogs");
 
                     b.Navigation("ReportIssues");
                 });
