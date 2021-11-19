@@ -555,7 +555,6 @@ namespace Bug.Data.Migrations
                     PreStatusId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     ModStatusId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     PrePriorityId = table.Column<int>(type: "int", nullable: true),
-                    ModePriorityId = table.Column<int>(type: "int", nullable: true),
                     ModPriorityId = table.Column<int>(type: "int", nullable: true),
                     TagId = table.Column<int>(type: "int", nullable: true)
                 },

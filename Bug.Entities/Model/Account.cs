@@ -36,6 +36,7 @@ namespace Bug.Entities.Model
         public ICollection<Issue> AssignIssues { get; private set; }
         public ICollection<Role> Roles { get; private set; }
         public ICollection<Customtype> Customtype { get; private set; }
+        public ICollection<Issuelog> Issuelogs { get; private set; }
 
         private readonly List<Project> _projects = new List<Project>();
         public ICollection<Project> Projects => _projects.AsReadOnly();

@@ -13,6 +13,8 @@ namespace Bug.API.Dto
         public string ModifierId { get; set; }
         public string PreStatusId { get; set; }
         public string ModStatusId { get; set; }
+        public int PrePriorityId { get; set; }
+        public int ModPriorityId { get; set; }
         public int TagId { get; set; }
     }
 }

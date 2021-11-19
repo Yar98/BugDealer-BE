@@ -15,6 +15,10 @@ namespace Bug.Data.Configuration
         {
             builder
                 .ToTable("Issuelog");
+            builder
+                .HasOne(i => i.Modifier)
+                .WithMany(i => i.Issuelogs)
+                .HasForeignKey(i => i.ModifierId);
         }
     }
 }

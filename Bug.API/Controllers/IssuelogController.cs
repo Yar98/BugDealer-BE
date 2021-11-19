@@ -1,4 +1,5 @@
-﻿using Bug.API.Services;
+﻿using Bug.API.Dto;
+using Bug.API.Services;
 using Bug.Core.Common;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -16,6 +17,13 @@ namespace Bug.API.Controllers
         public IssuelogController(IIssuelogService issuelogService)
         {
             _issuelogService = issuelogService;
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetIssuelogById(int id)
+        {
+            var result = await _issuelogService.GetDetailIssuelogByIdAsync(id);
+            return Ok(Bts.ConvertJson(result));
         }
 
         [HttpGet("issue/{issueId}")]
@@ -44,6 +52,15 @@ namespace Bug.API.Controllers
             var result = await _issuelogService
                 .GetIssuelogsByIssueIdCategoryIdAsync(issueId, categoryId);
             return Ok(Bts.ConvertJson(result));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> PostAddIssuelog([FromBody] IssuelogNormalDto ilog)
+        {
+            var result = await _issuelogService
+                .AddIssuelogAsync(ilog);
+            return CreatedAtAction(
+                nameof(GetIssuelogById), new { id = result.Id }, Bts.ConvertJson(result));
         }
     }
 }

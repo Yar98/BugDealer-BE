@@ -49,7 +49,8 @@ namespace Bug
                             "http://localhost:4200",
                             "http://localhost")
                         .AllowAnyHeader()
-                        .AllowAnyMethod();
+                        .AllowAnyMethod()
+                        .WithExposedHeaders("token","error");
                     });
             });
             /*
