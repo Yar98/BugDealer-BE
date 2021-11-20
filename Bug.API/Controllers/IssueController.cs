@@ -9,6 +9,8 @@ using Bug.API.Services;
 using Bug.Core.Common;
 using Bug.Entities.Model;
 using Bug.API.Dto;
+using Microsoft.AspNetCore.SignalR;
+using Bug.API.SignalR;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -19,9 +21,23 @@ namespace Bug.API.Controllers
     public class IssueController : ControllerBase
     {
         private readonly IIssueService _issueService;
-        public IssueController(IIssueService issueService)
+        private readonly IHubContext<ChatHub, IChatClient> _strongChatHubContext;
+        public IssueController
+            (IIssueService issueService, 
+            IHubContext<ChatHub, IChatClient> chatHubContext)
         {
             _issueService = issueService;
+            _strongChatHubContext = chatHubContext;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Get()
+        {
+            await _strongChatHubContext
+                .Clients
+                .All
+                .ReceiveMessage("", "");
+            return Ok();
         }
 
         // GET api/Issue/5

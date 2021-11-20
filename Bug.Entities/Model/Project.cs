@@ -40,7 +40,7 @@ namespace Bug.Entities.Model
         { 
             get
             {
-                return Issues.Count;
+                return Issues.Count();
             }
         }
         public int TotalOpenIssues 
@@ -48,7 +48,7 @@ namespace Bug.Entities.Model
             get
             {
                 return Issues
-                    .Where(i => i.Status.TagId == 7)
+                    .Where(i => i.Status.TagId == 1)
                     .Count();
             }
         }
@@ -57,7 +57,7 @@ namespace Bug.Entities.Model
             get
             {
                 return Issues
-                    .Where(i => i.Status.TagId == 8)
+                    .Where(i => i.Status.TagId == 2)
                     .Count();
             }
         }
@@ -66,7 +66,7 @@ namespace Bug.Entities.Model
             get
             {
                 return Issues
-                    .Where(i => i.Status.TagId == 9)
+                    .Where(i => i.Status.TagId == 3)
                     .Count();
             }
         }
