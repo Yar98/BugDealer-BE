@@ -12,7 +12,7 @@ namespace Bug.Data.Specifications
         public TagsByCategoryIdSpecification(int id)
             : base(t => t.CategoryId == id)
         {
-            AddInclude(t => t.Projects);
+            AddInclude(t => t.Issues);
             AddInclude(t => t.Category);
             AddInclude(t => t.Statuses);
         }

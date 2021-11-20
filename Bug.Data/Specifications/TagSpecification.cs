@@ -12,7 +12,7 @@ namespace Bug.Data.Specifications
         public TagSpecification(int id)
             :base(t=>t.Id == id)
         {
-            AddInclude(t => t.Projects);
+            AddInclude(t => t.Issues);
             AddInclude(t => t.Category);
             AddInclude(t => t.Statuses);
         }
