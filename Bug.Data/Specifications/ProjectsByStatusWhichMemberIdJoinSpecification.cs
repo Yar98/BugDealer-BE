@@ -21,8 +21,10 @@ namespace Bug.Data.Specifications
             AddInclude(p => p.Template);
             AddInclude(p => p.Accounts);
             AddInclude(p => p.Roles);
+            AddInclude(p => p.Statuses);
             AddInclude(p => p.Issues);
             AddInclude("Issues.Tags");
+            AddInclude("Issues.Status");
         }
     }
     

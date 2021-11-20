@@ -72,8 +72,8 @@ namespace Bug.API.Services
                 .AddId(Guid.NewGuid().ToString())
                 .AddDescription(issue.Description)
                 .AddAssigneeId(issue.AssigneeId)
-                //.AddCreatedDate(issue.CreatedDate)
-                //.AddDueDate(issue.DueDate)
+                .AddCreatedDate(issue.CreatedDate)
+                .AddDueDate(issue.DueDate)
                 .AddEnvironment(issue.Environment)
                 .AddOriginEstimateTime(issue.OriginEstimateTime)
                 .AddPriorityId(issue.PriorityId)
@@ -81,7 +81,7 @@ namespace Bug.API.Services
                 .AddRemainEstimateTime(issue.RemainEstimateTime)
                 .AddReporterId(issue.ReporterId)
                 .AddStatusId(issue.StatusId)
-                //.AddLogDate(issue.LogDate)
+                .AddLogDate(issue.LogDate)
                 .AddTitle(issue.Title)
                 .Build();
 

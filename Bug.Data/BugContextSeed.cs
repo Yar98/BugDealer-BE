@@ -213,11 +213,11 @@ namespace Bug.Data
         {
             return new List<Priority>()
             {
-                new Priority(0,"Highest","des1"),
-                new Priority(0,"High","des1"),
-                new Priority(0,"Medium","des1"),
-                new Priority(0,"Low","des1"),
-                new Priority(0,"Lowest","des1")
+                new Priority(0,"Highest","des1","keyboard_double_arrow_up"),
+                new Priority(0,"High","des1","keyboard_arrow_up"),
+                new Priority(0,"Medium","des1","drag_handle"),
+                new Priority(0,"Low","des1","keyboard_arrow_down"),
+                new Priority(0,"Lowest","des1","keyboard_double_arrow_down")
             };
         }
         static IEnumerable<Field> GetPreconfiguredField()

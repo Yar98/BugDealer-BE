@@ -21,12 +21,14 @@ namespace Bug.Data.Specifications
             p.Status == tagId)
         {
             AddInclude(p => p.Creator);
+            AddInclude(p => p.Template);
             AddInclude(p => p.DefaultAssignee);
             AddInclude(p => p.Accounts);
             AddInclude(p => p.Roles);
             AddInclude(p => p.Issues);
-            AddInclude(p => p.Template);
+            AddInclude(p => p.Statuses);
             AddInclude("Issues.Tags");
+            AddInclude("Issues.Status");
         }
     }
 }
