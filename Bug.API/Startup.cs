@@ -17,6 +17,7 @@ using Bug.API.ActionFilter;
 using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Http.Features;
+using Bug.API.SignalR;
 
 namespace Bug
 {
@@ -39,6 +40,7 @@ namespace Bug
             services.ConfigureGoogleServices(Configuration);
             services.AddCoreServices(Configuration);
 
+            services.AddSignalR();
             services.AddCors(options =>
             {
                 options.AddPolicy(name: MyAllowSpecificOrigins,
@@ -98,6 +100,7 @@ namespace Bug
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<ChatHub>("/chathub");
             });
         }
 

@@ -18,5 +18,9 @@ namespace Bug.API.Services
         Task<IReadOnlyList<Tag>> GetTagsByCategoryIdAsync
             (int id,
             CancellationToken cancellationToken = default);
+        Task<IReadOnlyList<Tag>> GetTagsByCategoryIdProjectIdAsync
+            (string projectId,
+            int id,
+            CancellationToken cancellationToken = default);
     }
 }
