@@ -68,9 +68,7 @@ namespace Bug.API.Controllers
             {
                 return BadRequest(result.Failure);
             }
-
-            //return Json(claims);
-            //return StatusCode(200);
         }
+
     }
 }

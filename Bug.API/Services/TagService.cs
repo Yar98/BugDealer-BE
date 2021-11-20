@@ -47,6 +47,16 @@ namespace Bug.API.Services
                 .GetAllEntitiesBySpecAsync(specificationResult, cancellationToken);
         }
 
-
+        public async Task<IReadOnlyList<Tag>> GetTagsByCategoryIdProjectIdAsync
+            (string projectId,
+            int id,
+            CancellationToken cancellationToken = default)
+        {
+            var specificationResult =
+                new TagsByCategoryIdProjectIdSpecification(projectId, id);
+            return await _unitOfWork
+                .Tag
+                .GetAllEntitiesBySpecAsync(specificationResult, cancellationToken);
+        }
     }
 }
