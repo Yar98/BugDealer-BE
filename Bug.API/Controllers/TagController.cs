@@ -42,7 +42,7 @@ namespace Bug.API.Controllers
             return Ok(Bts.ConvertJson(result));
         }
 
-        [HttpGet("project/{projectId}/category/{categoryId}")]
+        [HttpGet("project/{projectId}/category/{categoryId:int}")]
         public async Task<IActionResult> GetTagsByCategoryIdProjectId
             (string projectId,
             int categoryId)

@@ -18,7 +18,6 @@ namespace Bug.Entities.Model
         public Category Category { get; private set; }
         public ICollection<Status> Statuses { get; private set; }
         public ICollection<Issue> Issues { get; private set; }
-        public ICollection<Project> Projects { get; private set; }
 
         private Tag() { }
 

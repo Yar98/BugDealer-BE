@@ -11,11 +11,11 @@ namespace Bug.Data.Specifications
     {
         public TagsByCategoryIdProjectIdSpecification(string projectId, int id)
             : base(t => t.CategoryId == id && 
-            t.Projects.AsQueryable().Where(p=>p.Id == projectId).Any())
+            t.Issues.AsQueryable().Where(p=>p.ProjectId == projectId).Any())
         {
-            AddInclude(t => t.Projects);
             AddInclude(t => t.Category);
             AddInclude(t => t.Statuses);
+            AddInclude(t => t.Issues);
         }
     }
 }
