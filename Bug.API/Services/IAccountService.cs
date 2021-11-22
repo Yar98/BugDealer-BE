@@ -30,6 +30,11 @@ namespace Bug.API.Services
             int next,
             string sortOrder,
             CancellationToken cancellationToken = default);
+        Task ConfirmEmailBts
+            (string email,
+            string clientId,
+            string code,
+            CancellationToken cancellationToken = default);
         Task<AccountNormalDto> AddRegistedAccountAsync(AccountBtsRegister user, CancellationToken cancellationToken = default);
         Task UpdateAccountAsync(AccountNormalDto user, CancellationToken cancellationToken = default);
         Task DeleteAccountAsync(string id, CancellationToken cancellationToken = default);

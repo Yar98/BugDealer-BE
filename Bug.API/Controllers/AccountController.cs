@@ -65,6 +65,16 @@ namespace Bug.API.Controllers
             return Ok(Bts.ConvertJson(result));
         }
 
+        [HttpGet("confirm-email")]
+        public async Task<IActionResult> ConfirmEmailBts()
+        {
+            var email = Request.Query["email"].ToString();
+            var clientId = Request.Query["clientId"].ToString();
+            var code = Request.Query["code"].ToString();
+            await _accountService.ConfirmEmailBts(email,clientId,code);
+            return Ok();
+        }
+
         // POST api/Account/login
         [HttpPost("login")]
         public async Task<IActionResult> PostLoginBts([FromBody] AccountBtsLoginDto user)

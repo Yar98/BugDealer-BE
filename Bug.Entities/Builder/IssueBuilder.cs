@@ -15,6 +15,7 @@ namespace Bug.Entities.Builder
         public DateTimeOffset Timelog { get; private set; }
         public DateTimeOffset CreatedDate { get; private set; }
         public DateTimeOffset DueDate { get; private set; }
+        public DateTimeOffset WorklogDate { get; private set; }
         public string OriginEstimateTime { get; private set; }
         public string RemainEstimateTime { get; private set; }
         public string Environment { get; private set; }
@@ -24,6 +25,11 @@ namespace Bug.Entities.Builder
         public string ReporterId { get; private set; }
         public string AssigneeId { get; private set; }
 
+        public IIssueBuilder AddWorklogDate(DateTimeOffset dd)
+        {
+            WorklogDate = dd;
+            return this;
+        }
         public IIssueBuilder AddAssigneeId(string s)
         {
             AssigneeId = s;
@@ -117,6 +123,7 @@ namespace Bug.Entities.Builder
                 Timelog,
                 CreatedDate,
                 DueDate,
+                WorklogDate,
                 OriginEstimateTime,
                 RemainEstimateTime,
                 Environment,

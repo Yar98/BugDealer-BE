@@ -15,6 +15,7 @@ namespace Bug.Entities.Builder
         IIssueBuilder AddLogDate(DateTimeOffset tl);
         IIssueBuilder AddCreatedDate(DateTimeOffset cd);
         IIssueBuilder AddDueDate(DateTimeOffset dd);
+        IIssueBuilder AddWorklogDate(DateTimeOffset dd);
         IIssueBuilder AddOriginEstimateTime(string oet);
         IIssueBuilder AddRemainEstimateTime(string ret);
         IIssueBuilder AddEnvironment(string e);

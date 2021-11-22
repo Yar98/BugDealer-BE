@@ -1,9 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "KqAzTT4sJclQbhKoBcJ36GDvWBmBCEwbWH9RB4T13CqqQVvPAksoQwGC5wNmiK0bASBXgr+Y2qfX15gBbSdM7A==",
+  "dgSpecHash": "rcqQ+HsrOP7xrm/JVb4SVgg1ZGyYErBIg9U20Y5RY5q+uOwS9k0g4RZRuMZrqeQH41MelHLYZ9tfi5bP9ZgkCA==",
   "success": true,
   "projectFilePath": "Y:\\BugDealer-BE\\Bug.Data\\Bug.Data.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\tienf\\.nuget\\packages\\awssdk.cognitoidentityprovider\\3.7.1.74\\awssdk.cognitoidentityprovider.3.7.1.74.nupkg.sha512",
+    "C:\\Users\\tienf\\.nuget\\packages\\awssdk.core\\3.7.5\\awssdk.core.3.7.5.nupkg.sha512",
     "C:\\Users\\tienf\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\tienf\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
     "C:\\Users\\tienf\\.nuget\\packages\\microsoft.data.sqlclient\\2.0.1\\microsoft.data.sqlclient.2.0.1.nupkg.sha512",

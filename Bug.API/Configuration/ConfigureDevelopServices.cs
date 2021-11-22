@@ -29,6 +29,7 @@ namespace Bug.API.Configuration
                 .AddAuthentication(options =>
                 {
                     options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+
                 })
                 .AddCookie(options =>
                 {

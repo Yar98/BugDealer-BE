@@ -5,11 +5,13 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Bug.Data.Repositories;
+using Microsoft.Extensions.Configuration;
 
 namespace Bug.Data.Infrastructure
 {
     public class UnitOfWork : IUnitOfWork
     {
+        private readonly IConfiguration _config;
         private readonly BugContext _bugContext;
         private IAccountRepo _account;
         private ICategoryRepo _category;
@@ -28,9 +30,10 @@ namespace Bug.Data.Infrastructure
         private ICustomtypeRepo _customtype;
         private IAttachmentRepo _attachment;
 
-        public UnitOfWork(BugContext bugContext)
+        public UnitOfWork(BugContext bugContext, IConfiguration config)
         {
             _bugContext = bugContext;
+            _config = config;
         }
         public IAttachmentRepo Attachment
         {
@@ -71,7 +74,7 @@ namespace Bug.Data.Infrastructure
             {
                 if(_account == null)
                 {
-                    _account = new AccountRepo(_bugContext);
+                    _account = new AccountRepo(_bugContext, _config);
                 }
                 return _account;
             }

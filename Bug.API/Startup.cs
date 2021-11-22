@@ -39,6 +39,7 @@ namespace Bug
             services.ConfigureJwtServices(Configuration);
             services.ConfigureGoogleServices(Configuration);
             services.AddCoreServices(Configuration);
+            services.AddSingleton<IConfiguration>(Configuration);
 
             services.AddSignalR();
             services.AddCors(options =>
@@ -52,6 +53,7 @@ namespace Bug
                             "http://localhost")
                         .AllowAnyHeader()
                         .AllowAnyMethod()
+                        .AllowCredentials()
                         .WithExposedHeaders("token","error");
                     });
             });

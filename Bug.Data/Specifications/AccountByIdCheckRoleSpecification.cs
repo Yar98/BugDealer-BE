@@ -14,6 +14,7 @@ namespace Bug.Data.Specifications
             a.Roles.AsQueryable().Any(r => r.Permissions.AsQueryable().Any(p => p.Id == permission)) &&
             a.Roles.AsQueryable().Any(r => r.Projects.AsQueryable().Any(p => p.Id == projectId)))
         {
+            AddInclude(a => a.Timezone);
             AddInclude(a => a.Roles);
             AddInclude(a => a.Projects);
             AddInclude("Roles.Permissions");

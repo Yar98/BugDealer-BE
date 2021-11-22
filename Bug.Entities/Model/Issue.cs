@@ -16,6 +16,7 @@ namespace Bug.Entities.Model
         public DateTimeOffset LogDate { get; private set; }
         public DateTimeOffset CreatedDate { get; private set; }
         public DateTimeOffset DueDate { get; private set; }
+        public DateTimeOffset WorklogDate { get; private set; }
         public string OriginEstimateTime { get; private set; }
         public string RemainEstimateTime { get; private set; }
         public string Environment { get; private set; }
@@ -68,6 +69,7 @@ namespace Bug.Entities.Model
             DateTimeOffset timeLog,
             DateTimeOffset createdDate,
             DateTimeOffset dueDate,
+            DateTimeOffset worklogDate,
             string originEstimateTime,
             string remainEstimateTime,
             string environment,
@@ -83,6 +85,7 @@ namespace Bug.Entities.Model
             LogDate = timeLog;
             CreatedDate = createdDate;
             DueDate = dueDate;
+            WorklogDate = worklogDate;
             OriginEstimateTime = originEstimateTime;
             RemainEstimateTime = remainEstimateTime;
             Environment = environment;
@@ -144,6 +147,10 @@ namespace Bug.Entities.Model
         public void UpdateStatusId(string st)
         {
             StatusId = st;
+        }
+        public void UpdateWorklogDate(DateTimeOffset dt)
+        {
+            WorklogDate = dt;
         }
 
         public void UpdateAttachments(List<Attachment> result)
