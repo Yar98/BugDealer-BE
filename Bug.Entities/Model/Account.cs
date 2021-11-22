@@ -24,6 +24,7 @@ namespace Bug.Entities.Model
         public string Language { get; private set; }
         public DateTimeOffset CreatedDate { get; private set; }
         public string ImageUri { get; private set; }
+        public bool VerifyEmail { get; private set; } = false;
         public string? TimezoneId { get; private set; }
         public Timezone Timezone { get; private set; }
         public ICollection<Project> CreatedProjects { get; private set; }
@@ -36,7 +37,6 @@ namespace Bug.Entities.Model
         public ICollection<Issue> AssignIssues { get; private set; }
         public ICollection<Role> Roles { get; private set; }
         public ICollection<Customtype> Customtype { get; private set; }
-        public ICollection<Issuelog> Issuelogs { get; private set; }
 
         private readonly List<Project> _projects = new List<Project>();
         public ICollection<Project> Projects => _projects.AsReadOnly();
@@ -87,6 +87,10 @@ namespace Bug.Entities.Model
         public void UpdateLanguage(string lan)
         {
             Language = lan;
+        }
+        public void UpdateVerifyEmail(bool i)
+        {
+            VerifyEmail = i;
         }
 
 

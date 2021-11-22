@@ -7,11 +7,10 @@ using System.Threading.Tasks;
 
 namespace Bug.Data.Specifications
 {
-    public class AccountsByProjectSpecification : BaseSpecification<Account>
+    public class AccountByEmailSpecification : BaseSpecification<Account>
     {
-        public AccountsByProjectSpecification(string projectId)
-            : base(m=>m.Id != null && 
-            m.Projects.AsQueryable().Any(p=>p.Id==projectId))
+        public AccountByEmailSpecification(string email)
+            : base(a => a.Email == email)
         {
             AddInclude(a => a.Timezone);
             AddInclude(a => a.Roles);

@@ -157,10 +157,28 @@ namespace Bug.API.Services
                 .ToList();
         }
 
+        public async Task ConfirmEmailBts
+            (string email,
+            string clientId,
+            string code,
+            CancellationToken cancellationToken = default)
+        {
+            await _unitOfWork.Account.ConfirmSignUp(email, clientId, code, cancellationToken);
+            var specificationResult =
+                new AccountByEmailSpecification(email);
+            var result = await _unitOfWork
+                .Account
+                .GetEntityBySpecAsync(specificationResult, cancellationToken);
+            result.UpdateVerifyEmail(true);
+            _unitOfWork.Account.Update(result);
+            await _unitOfWork.SaveAsync(cancellationToken);
+        }
+
         public async Task<AccountNormalDto> AddRegistedAccountAsync
             (AccountBtsRegister user,
             CancellationToken cancellationToken = default)
         {
+            await _unitOfWork.Account.AddCognitoUser(user.Email, user.Password);
             var result = new AccountBuilder()
                 .AddId(Guid.NewGuid().ToString())
                 .AddUserName(user.UserName)

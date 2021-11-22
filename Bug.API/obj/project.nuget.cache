@@ -1,9 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "jIgGRRx6y0UHuusnpCA07BfDYP5BmIqA7SGd9GJVkhlR8YjOjCmASiJ7ZlBNkm3yaTPBb122IVOQDZOH8vVLlg==",
+  "dgSpecHash": "TClIF2hwhsMrihvpQ+6LpyOTEfwONZ07b3tDBO4vpl5U7OAl7yGNguNkIN4+tmika5WnsMEVWkfPTLdvTXRwjw==",
   "success": true,
   "projectFilePath": "Y:\\BugDealer-BE\\Bug.API\\Bug.API.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\tienf\\.nuget\\packages\\amazon.extensions.cognitoauthentication\\2.2.2\\amazon.extensions.cognitoauthentication.2.2.2.nupkg.sha512",
+    "C:\\Users\\tienf\\.nuget\\packages\\awssdk.cognitoidentity\\3.7.0.2\\awssdk.cognitoidentity.3.7.0.2.nupkg.sha512",
+    "C:\\Users\\tienf\\.nuget\\packages\\awssdk.cognitoidentityprovider\\3.7.1.74\\awssdk.cognitoidentityprovider.3.7.1.74.nupkg.sha512",
+    "C:\\Users\\tienf\\.nuget\\packages\\awssdk.core\\3.7.5\\awssdk.core.3.7.5.nupkg.sha512",
+    "C:\\Users\\tienf\\.nuget\\packages\\awssdk.securitytoken\\3.7.0.2\\awssdk.securitytoken.3.7.0.2.nupkg.sha512",
     "C:\\Users\\tienf\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\tienf\\.nuget\\packages\\microsoft.aspnetcore.authentication.google\\5.0.11\\microsoft.aspnetcore.authentication.google.5.0.11.nupkg.sha512",
     "C:\\Users\\tienf\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\5.0.11\\microsoft.aspnetcore.authentication.jwtbearer.5.0.11.nupkg.sha512",

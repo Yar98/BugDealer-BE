@@ -74,6 +74,7 @@ namespace Bug.API.Services
                 .AddAssigneeId(issue.AssigneeId)
                 .AddCreatedDate(issue.CreatedDate)
                 .AddDueDate(issue.DueDate)
+                .AddWorklogDate(issue.WorklogDate)
                 .AddEnvironment(issue.Environment)
                 .AddOriginEstimateTime(issue.OriginEstimateTime)
                 .AddPriorityId(issue.PriorityId)
@@ -148,6 +149,7 @@ namespace Bug.API.Services
             result.UpdateLogDate(issue.LogDate);
             result.UpdateCreatedDate(issue.CreatedDate);
             result.UpdateDueDate(issue.DueDate);
+            result.UpdateWorklogDate(issue.WorklogDate);
             if (issue.OriginEstimateTime != null)
                 result.UpdateOriginalEstimateTime(issue.OriginEstimateTime);
             if(issue.PriorityId != 0)

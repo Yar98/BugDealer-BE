@@ -130,6 +130,9 @@ namespace Bug.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("VerifyEmail")
+                        .HasColumnType("bit");
+
                     b.HasKey("Id");
 
                     b.HasIndex("TimezoneId1");
@@ -381,6 +384,9 @@ namespace Bug.Data.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Icon")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -426,9 +432,6 @@ namespace Bug.Data.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.Property<int?>("TagId")
-                        .HasColumnType("int");
-
                     b.Property<int>("TemplateId")
                         .HasColumnType("int");
 
@@ -437,8 +440,6 @@ namespace Bug.Data.Migrations
                     b.HasIndex("CreatorId");
 
                     b.HasIndex("DefaultAssigneeId");
-
-                    b.HasIndex("TagId");
 
                     b.HasIndex("TemplateId");
 
@@ -860,7 +861,7 @@ namespace Bug.Data.Migrations
                         .HasForeignKey("ModStatusId");
 
                     b.HasOne("Bug.Entities.Model.Account", "Modifier")
-                        .WithMany("Issuelogs")
+                        .WithMany()
                         .HasForeignKey("ModifierId");
 
                     b.HasOne("Bug.Entities.Model.Priority", "PrePriority")
@@ -899,10 +900,6 @@ namespace Bug.Data.Migrations
                     b.HasOne("Bug.Entities.Model.Account", "DefaultAssignee")
                         .WithMany("DefaultAssigneeProjects")
                         .HasForeignKey("DefaultAssigneeId");
-
-                    b.HasOne("Bug.Entities.Model.Tag", null)
-                        .WithMany("Projects")
-                        .HasForeignKey("TagId");
 
                     b.HasOne("Bug.Entities.Model.Template", "Template")
                         .WithMany()
@@ -1073,8 +1070,6 @@ namespace Bug.Data.Migrations
 
                     b.Navigation("DefaultAssigneeProjects");
 
-                    b.Navigation("Issuelogs");
-
                     b.Navigation("ReportIssues");
                 });
 
@@ -1094,8 +1089,6 @@ namespace Bug.Data.Migrations
 
             modelBuilder.Entity("Bug.Entities.Model.Tag", b =>
                 {
-                    b.Navigation("Projects");
-
                     b.Navigation("Statuses");
                 });
 #pragma warning restore 612, 618

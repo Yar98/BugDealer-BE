@@ -4,20 +4,26 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Amazon;
+using Amazon.CognitoIdentityProvider;
+using Amazon.CognitoIdentityProvider.Model;
+//using Amazon.Extensions.CognitoAuthentication;
 using Bug.Core.Utils;
 using Bug.Data.Extensions;
 using Bug.Data.Specifications;
 using Bug.Entities.Model;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace Bug.Data.Repositories
 {
     public class AccountRepo : EntityRepoBase<Account>, IAccountRepo
     {
-        public AccountRepo(BugContext repositoryContext)
+        private readonly IConfiguration _config;
+        public AccountRepo(BugContext repositoryContext, IConfiguration config)
             : base(repositoryContext)
         {
-
+            _config = config;
         }
 
         public async Task<Account> GetAccountByEmail(string email)
@@ -35,6 +41,66 @@ namespace Bug.Data.Repositories
                 .FirstOrDefaultAsync(
                 a => a.UserName == userName && 
                 a.Password == password);
+        }
+
+        public async Task AddCognitoUser
+            (string email, 
+            string pass,
+            CancellationToken cancellationToken = default)
+        {
+            var provider = new AmazonCognitoIdentityProviderClient(
+                _config.GetSection("Cognito")["AccessKeyId"],
+                _config.GetSection("Cognito")["AccessSecretKey"],
+                RegionEndpoint.GetBySystemName(_config.GetSection("Cognito")["Region"]));
+            var signUpRequest = new SignUpRequest
+            {
+                ClientId = _config.GetSection("Cognito").GetSection("ClientId").Value,
+                Username = email,
+                Password = pass
+            };
+            signUpRequest.UserAttributes.Add(new AttributeType
+            {
+                Name = "email",
+                Value = email
+            });
+            try
+            {
+                SignUpResponse response = await provider.SignUpAsync(signUpRequest, cancellationToken);
+            }
+            catch (UsernameExistsException)
+            {
+
+            }
+        }
+
+        public async Task ConfirmSignUp
+            (string email,
+            string clientId,
+            string code,
+            CancellationToken cancellationToken = default)
+        {
+            var provider = new AmazonCognitoIdentityProviderClient(
+                _config.GetSection("Cognito")["AccessKeyId"],
+                _config.GetSection("Cognito")["AccessSecretKey"],
+                RegionEndpoint.GetBySystemName(_config.GetSection("Cognito")["Region"]));
+            var confirmSignUpRequest = new ConfirmSignUpRequest
+            {
+                ClientId = clientId,
+                Username = email,
+                ConfirmationCode = code
+            };
+            try
+            {
+                var respone = await provider.ConfirmSignUpAsync(confirmSignUpRequest, cancellationToken);
+            }
+            catch (ExpiredCodeException)
+            {
+
+            }
+            catch (UserNotFoundException)
+            {
+
+            }
         }
 
         public override IQueryable<Account> SortOrder

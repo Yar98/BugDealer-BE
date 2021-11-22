@@ -20,5 +20,9 @@
   </ImportGroup>
   <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
     <PkgMicrosoft_EntityFrameworkCore_Tools Condition=" '$(PkgMicrosoft_EntityFrameworkCore_Tools)' == '' ">C:\Users\tienf\.nuget\packages\microsoft.entityframeworkcore.tools\5.0.11</PkgMicrosoft_EntityFrameworkCore_Tools>
+    <PkgAWSSDK_Core Condition=" '$(PkgAWSSDK_Core)' == '' ">C:\Users\tienf\.nuget\packages\awssdk.core\3.7.5</PkgAWSSDK_Core>
+    <PkgAWSSDK_CognitoIdentityProvider Condition=" '$(PkgAWSSDK_CognitoIdentityProvider)' == '' ">C:\Users\tienf\.nuget\packages\awssdk.cognitoidentityprovider\3.7.1.74</PkgAWSSDK_CognitoIdentityProvider>
+    <PkgAWSSDK_SecurityToken Condition=" '$(PkgAWSSDK_SecurityToken)' == '' ">C:\Users\tienf\.nuget\packages\awssdk.securitytoken\3.7.0.2</PkgAWSSDK_SecurityToken>
+    <PkgAWSSDK_CognitoIdentity Condition=" '$(PkgAWSSDK_CognitoIdentity)' == '' ">C:\Users\tienf\.nuget\packages\awssdk.cognitoidentity\3.7.0.2</PkgAWSSDK_CognitoIdentity>
   </PropertyGroup>
 </Project>

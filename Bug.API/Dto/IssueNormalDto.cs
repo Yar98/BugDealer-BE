@@ -14,6 +14,7 @@ namespace Bug.API.Dto
         public DateTimeOffset LogDate { get; set; }
         public DateTimeOffset CreatedDate { get; set; }
         public DateTimeOffset DueDate { get; set; }
+        public DateTimeOffset WorklogDate { get; set; }
         public string OriginEstimateTime { get; set; }
         public string RemainEstimateTime { get; set; }
         public string Environment { get; set; }

@@ -69,7 +69,8 @@ namespace Bug.Data.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Icon = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -164,6 +165,7 @@ namespace Bug.Data.Migrations
                     Language = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     ImageUri = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    VerifyEmail = table.Column<bool>(type: "bit", nullable: false),
                     TimezoneId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     TimezoneId1 = table.Column<int>(type: "int", nullable: true)
                 },
@@ -217,8 +219,7 @@ namespace Bug.Data.Migrations
                     Status = table.Column<int>(type: "int", nullable: false),
                     DefaultAssigneeId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     CreatorId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    TemplateId = table.Column<int>(type: "int", nullable: false),
-                    TagId = table.Column<int>(type: "int", nullable: true)
+                    TemplateId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -233,12 +234,6 @@ namespace Bug.Data.Migrations
                         name: "FK_Project_Account_DefaultAssigneeId",
                         column: x => x.DefaultAssigneeId,
                         principalTable: "Account",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Project_Tag_TagId",
-                        column: x => x.TagId,
-                        principalTable: "Tag",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -830,11 +825,6 @@ namespace Bug.Data.Migrations
                 name: "IX_Project_DefaultAssigneeId",
                 table: "Project",
                 column: "DefaultAssigneeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Project_TagId",
-                table: "Project",
-                column: "TagId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Project_TemplateId",
