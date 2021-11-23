@@ -13,18 +13,46 @@ namespace Bug.API.Services
         Task<Issue> GetDetailIssueAsync
             (string id,
             CancellationToken cancelltionToken = default);
-        Task<PaginatedListDto<Issue>> GetPaginatedDetailByProjectAsync
+        Task<PaginatedListDto<Issue>> GetPaginatedDetailByProjectIdAsync
             (string projectId,
             int pageIndex,
             int pageSize,
             string sortOrder,
             CancellationToken cancellationToken = default);
-        Task<IReadOnlyList<Issue>> GetNextDetailByOffsetByProjectAsync
+        Task<IReadOnlyList<Issue>> GetNextDetailByOffsetByProjectIdAsync
             (string projectId,
             int offset,
             int next,
             string sortOrder,
-            CancellationToken cancellationToke = default);
+            CancellationToken cancellationToken = default);
+        Task<PaginatedListDto<Issue>> GetPaginatedDetailByReporterIdAsync
+            (string reportId,
+            int pageIndex,
+            int pageSize,
+            string sortOrder,
+            CancellationToken cancellationToken = default);
+        Task<IReadOnlyList<Issue>> GetNextDetailByOffsetByReporterIdAsync
+            (string reporterId,
+            int offset,
+            int next,
+            string sortOrder,
+            CancellationToken cancellationToken = default);
+        Task<PaginatedListDto<Issue>> GetPaginatedDetailByAssigneeIdAsync
+            (string assigneeId,
+            int pageIndex,
+            int pageSize,
+            string sortOrder,
+            CancellationToken cancellationToken = default);
+        Task<IReadOnlyList<Issue>> GetNextDetailByOffsetByAssigneeIdAsync
+            (string assigneeId,
+            int offset,
+            int next,
+            string sortOrder,
+            CancellationToken cancellationToken = default);
+        Task<IReadOnlyList<Issue>> GetSuggestIssueByCode
+            (string code,
+            string projectId,
+            CancellationToken cancellationToken = default);
         Task<Issue> AddIssueAsync
             (IssueNormalDto issue,
             CancellationToken cancellationToken = default);

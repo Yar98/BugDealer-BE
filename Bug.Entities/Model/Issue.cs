@@ -13,6 +13,7 @@ namespace Bug.Entities.Model
         public string Id { get; private set; }
         public string Title { get; private set; }
         public string Description { get; private set; }
+        public string Code { get; private set; }
         public DateTimeOffset LogDate { get; private set; }
         public DateTimeOffset CreatedDate { get; private set; }
         public DateTimeOffset DueDate { get; private set; }
@@ -65,6 +66,7 @@ namespace Bug.Entities.Model
         public Issue
             (string id,
             string title,
+            string code,
             string description,
             DateTimeOffset timeLog,
             DateTimeOffset createdDate,
@@ -81,6 +83,7 @@ namespace Bug.Entities.Model
         {
             Id = id;
             Title = title;
+            Code = code;
             Description = description;
             LogDate = timeLog;
             CreatedDate = createdDate;

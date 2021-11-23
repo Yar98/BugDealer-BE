@@ -11,6 +11,7 @@ namespace Bug.Entities.Builder
     {
         public string Id { get; private set; }
         public string Title { get; private set; }
+        public string Code { get; private set; }
         public string Description { get; private set; }
         public DateTimeOffset Timelog { get; private set; }
         public DateTimeOffset CreatedDate { get; private set; }
@@ -25,6 +26,11 @@ namespace Bug.Entities.Builder
         public string ReporterId { get; private set; }
         public string AssigneeId { get; private set; }
 
+        public IIssueBuilder AddCode(string code)
+        {
+            Code = code;
+            return this;
+        }
         public IIssueBuilder AddWorklogDate(DateTimeOffset dd)
         {
             WorklogDate = dd;
@@ -119,6 +125,7 @@ namespace Bug.Entities.Builder
             return new Issue
                 (Id,
                 Title,
+                Code,
                 Description,
                 Timelog,
                 CreatedDate,
