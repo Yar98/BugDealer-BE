@@ -30,7 +30,7 @@ namespace Bug.API.Services
                 .GetEntityBySpecAsync(specificationResult, cancellationToken);
         }
 
-        public async Task<PaginatedListDto<Issue>> GetPaginatedDetailByProjectAsync
+        public async Task<PaginatedListDto<Issue>> GetPaginatedDetailByProjectIdAsync
             (string projectId,
             int pageIndex,
             int pageSize,
@@ -41,7 +41,7 @@ namespace Bug.API.Services
                 new(projectId);
             var result = await _unitOfWork
                 .Issue
-                .GetPaginatedBySpecAsync(pageIndex, pageSize, sortOrder, specificationResult, cancellationToken);
+                .GetPaginatedNoTrackBySpecAsync(pageIndex, pageSize, sortOrder, specificationResult, cancellationToken);
             return new PaginatedListDto<Issue>
             {
                 Length = result.Length,
@@ -49,19 +49,98 @@ namespace Bug.API.Services
             };
         }
 
-        public async Task<IReadOnlyList<Issue>> GetNextDetailByOffsetByProjectAsync
+        public async Task<IReadOnlyList<Issue>> GetNextDetailByOffsetByProjectIdAsync
             (string projectId,
             int offset,
             int next,
             string sortOrder,
-            CancellationToken cancellationToke = default)
+            CancellationToken cancellationToken = default)
         {
             var specificationResult =
                 new IssueByProjectSpecification(projectId);
             var result = await _unitOfWork
                 .Issue
-                .GetNextByOffsetBySpecAsync(offset, next, sortOrder, specificationResult, cancellationToke);
+                .GetNextByOffsetNoTrackBySpecAsync(offset, next, sortOrder, specificationResult, cancellationToken);
             return result;
+        }
+
+        public async Task<PaginatedListDto<Issue>> GetPaginatedDetailByReporterIdAsync
+            (string reportId,
+            int pageIndex,
+            int pageSize,
+            string sortOrder,
+            CancellationToken cancellationToken = default)
+        {
+            var specificationResult =
+                new IssuesByReporterIdSpecification(reportId);
+            var result = await _unitOfWork
+                .Issue
+                .GetPaginatedNoTrackBySpecAsync(pageIndex, pageSize, sortOrder, specificationResult, cancellationToken);
+            return new PaginatedListDto<Issue>
+            {
+                Length = result.Length,
+                Items = result
+            };
+        }
+
+        public async Task<IReadOnlyList<Issue>> GetNextDetailByOffsetByReporterIdAsync
+            (string reporterId,
+            int offset,
+            int next,
+            string sortOrder,
+            CancellationToken cancellationToken = default)
+        {
+            var specificationResult =
+                new IssuesByReporterIdSpecification(reporterId);
+            var result = await _unitOfWork
+                .Issue
+                .GetNextByOffsetNoTrackBySpecAsync(offset, next, sortOrder, specificationResult, cancellationToken);
+            return result;
+        }
+
+        public async Task<PaginatedListDto<Issue>> GetPaginatedDetailByAssigneeIdAsync
+            (string assigneeId,
+            int pageIndex,
+            int pageSize,
+            string sortOrder,
+            CancellationToken cancellationToken = default)
+        {
+            var specificationResult =
+                new IssuesByAssigneeIdSpecification(assigneeId);
+            var result = await _unitOfWork
+                .Issue
+                .GetPaginatedNoTrackBySpecAsync(pageIndex, pageSize, sortOrder, specificationResult, cancellationToken);
+            return new PaginatedListDto<Issue>
+            {
+                Length = result.Length,
+                Items = result
+            };
+        }
+
+        public async Task<IReadOnlyList<Issue>> GetNextDetailByOffsetByAssigneeIdAsync
+            (string assigneeId,
+            int offset,
+            int next,
+            string sortOrder,
+            CancellationToken cancellationToken = default)
+        {
+            var specificationResult =
+                new IssuesByAssigneeIdSpecification(assigneeId);
+            var result = await _unitOfWork
+                .Issue.GetNextByOffsetNoTrackBySpecAsync(offset, next, sortOrder, specificationResult, cancellationToken);
+            return result;
+        }
+
+        public async Task<IReadOnlyList<Issue>> GetSuggestIssueByCode
+            (string code,
+            string projectId,
+            CancellationToken cancellationToken = default)
+        {
+            var specificationResult =
+                new IssuesByCodeProjectIdSpecification(code, projectId);
+            return await _unitOfWork
+                .Issue
+                .GetAllEntitiesBySpecAsync(specificationResult, cancellationToken);
         }
 
         public async Task<Issue> AddIssueAsync
