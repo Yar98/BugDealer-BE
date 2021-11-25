@@ -7,6 +7,7 @@ using Bug.API.Utils;
 using Bug.API.Dto;
 using Bug.API.Services;
 using Bug.Core.Common;
+using Bug.API.ActionFilter;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -77,6 +78,8 @@ namespace Bug.API.Controllers
 
         // POST api/Account/login
         [HttpPost("login")]
+        [ModelFilter]
+        [AccountFilter]
         public async Task<IActionResult> PostLoginBts([FromBody] AccountBtsLoginDto user)
         {
             var result = await _accountService.LoginLocalAsync(user.UserName, user.Password);

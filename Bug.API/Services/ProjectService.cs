@@ -177,6 +177,7 @@ namespace Bug.API.Services
                 .Build();
             // add creator as member to project
             var acc = await _unitOfWork.Account.GetByIdAsync(pro.CreatorId, cancellationToken);
+            //_unitOfWork.Account.Attach(acc);
             result.AddExistAccount(acc);
             // add default roles to project
             var defaultRoles = await _unitOfWork.Role.GetDefaultRolesAsync(cancellationToken:cancellationToken);

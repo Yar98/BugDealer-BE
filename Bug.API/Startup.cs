@@ -18,6 +18,7 @@ using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Http.Features;
 using Bug.API.SignalR;
+using Bug.API.CustomMiddlewares;
 
 namespace Bug
 {
@@ -88,7 +89,7 @@ namespace Bug
                 //app.UseSwagger();
                 //app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Bug v1"));
             }
-            
+            app.UseMiddleware<ExceptionMiddleware>();
             app.UseForwardedHeaders();
             app.UseHttpsRedirection();
             

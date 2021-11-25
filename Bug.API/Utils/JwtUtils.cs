@@ -41,7 +41,7 @@ namespace Bug.API.Utils
             return tokenHandler.WriteToken(token);
         }
 
-        public AccountJwtDto ValidateToken(string token)
+        public AccountBtsJwtDto ValidateToken(string token)
         {
             if (token == null)
                 return null;
@@ -65,7 +65,7 @@ namespace Bug.API.Utils
                 var jwtToken = (JwtSecurityToken)validatedToken;
                 //var testId = int.Parse(jwtToken.Claims.First(x => x.Type == "id").Value);
                 // return user id from JWT token if validation successful
-                return new AccountJwtDto
+                return new AccountBtsJwtDto
                 {
                     Id = jwtToken.Claims.First(x => x.Type == "id").Value,
                     Name = jwtToken.Claims.First(x => x.Type == "name").Value,

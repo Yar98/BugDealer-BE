@@ -53,6 +53,8 @@ namespace Bug.API.Configuration
             services.AddScoped<IJwtUtils, JwtUtils>();
 
             services.AddScoped<JwtFilter>();
+            services.AddScoped<ModelFilter>();
+            services.AddScoped<AccountFilter>();
             return services;
         }
     }

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Bug.API.Dto
 {
-    public class AccountJwtDto
+    public class AccountBtsJwtDto
     {
         public string Id { get; set; }
         public string Name { get; set; }
