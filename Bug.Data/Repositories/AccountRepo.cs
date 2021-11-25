@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using Amazon;
 using Amazon.CognitoIdentityProvider;
 using Amazon.CognitoIdentityProvider.Model;
-//using Amazon.Extensions.CognitoAuthentication;
 using Bug.Core.Utils;
 using Bug.Data.Extensions;
 using Bug.Data.Specifications;
@@ -63,14 +62,7 @@ namespace Bug.Data.Repositories
                 Name = "email",
                 Value = email
             });
-            try
-            {
-                SignUpResponse response = await provider.SignUpAsync(signUpRequest, cancellationToken);
-            }
-            catch (UsernameExistsException)
-            {
-
-            }
+            await provider.SignUpAsync(signUpRequest, cancellationToken);            
         }
 
         public async Task ConfirmSignUp
@@ -89,18 +81,7 @@ namespace Bug.Data.Repositories
                 Username = email,
                 ConfirmationCode = code
             };
-            try
-            {
-                var respone = await provider.ConfirmSignUpAsync(confirmSignUpRequest, cancellationToken);
-            }
-            catch (ExpiredCodeException)
-            {
-
-            }
-            catch (UserNotFoundException)
-            {
-
-            }
+            await provider.ConfirmSignUpAsync(confirmSignUpRequest, cancellationToken);
         }
 
         public override IQueryable<Account> SortOrder

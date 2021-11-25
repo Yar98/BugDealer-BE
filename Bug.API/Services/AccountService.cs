@@ -9,6 +9,8 @@ using Bug.Entities.Builder;
 using System.Threading;
 using Bug.Entities.Model;
 using Bug.Data.Specifications;
+using Amazon;
+
 
 namespace Bug.API.Services
 {
@@ -178,7 +180,7 @@ namespace Bug.API.Services
             (AccountBtsRegister user,
             CancellationToken cancellationToken = default)
         {
-            await _unitOfWork.Account.AddCognitoUser(user.Email, user.Password);
+            await _unitOfWork.Account.AddCognitoUser(user.Email, user.Password, cancellationToken);
             var result = new AccountBuilder()
                 .AddId(Guid.NewGuid().ToString())
                 .AddUserName(user.UserName)
