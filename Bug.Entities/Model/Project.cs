@@ -11,9 +11,9 @@ namespace Bug.Entities.Model
         public string Id { get; private set; }
         public string Name { get; private set; }
         public string Code { get; private set; }
-        public DateTimeOffset StartDate { get; private set; }
-        public DateTimeOffset EndDate { get; private set; }
-        public DateTimeOffset RecentDate { get; private set; }
+        public DateTimeOffset? StartDate { get; private set; }
+        public DateTimeOffset? EndDate { get; private set; }
+        public DateTimeOffset? RecentDate { get; private set; }
         public string Description { get; private set; }
         public string AvatarUri { get; private set; }
         public int Status { get; private set; }
@@ -75,9 +75,9 @@ namespace Bug.Entities.Model
         public Project(string id,
             string name,
             string code,
-            DateTimeOffset startDate,
-            DateTimeOffset endDate,
-            DateTimeOffset recentDate,
+            DateTimeOffset? startDate,
+            DateTimeOffset? endDate,
+            DateTimeOffset? recentDate,
             string description,
             string uri,
             string defaultAssigneeId,
@@ -115,11 +115,11 @@ namespace Bug.Entities.Model
         {
             Description = des;
         }
-        public void UpdateStartDate(DateTimeOffset d)
+        public void UpdateStartDate(DateTimeOffset? d)
         {
             StartDate = d;
         }
-        public void UpdateEndDate(DateTimeOffset d)
+        public void UpdateEndDate(DateTimeOffset? d)
         {
             EndDate = d;
         }

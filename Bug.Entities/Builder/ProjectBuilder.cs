@@ -12,9 +12,9 @@ namespace Bug.Entities.Builder
         public string Id { get; private set; }
         public string Name { get; private set; }
         public string Code { get; private set; }
-        public DateTimeOffset StartDate { get; private set; }
-        public DateTimeOffset EndDate { get; private set; }
-        public DateTimeOffset RecentDate { get; private set; }
+        public DateTimeOffset? StartDate { get; private set; }
+        public DateTimeOffset? EndDate { get; private set; }
+        public DateTimeOffset? RecentDate { get; private set; }
         public string Description { get; private set; }
         public string AvatarUri { get; private set; }
         public string DefaultAssigneeId { get; private set; }
@@ -50,7 +50,7 @@ namespace Bug.Entities.Builder
             return this;
         }
 
-        public IProjectBuilder AddEndDate(DateTimeOffset date)
+        public IProjectBuilder AddEndDate(DateTimeOffset? date)
         {
             EndDate = date;
             return this;
@@ -68,13 +68,13 @@ namespace Bug.Entities.Builder
             return this;
         }
 
-        public IProjectBuilder AddStartDate(DateTimeOffset date)
+        public IProjectBuilder AddStartDate(DateTimeOffset? date)
         {
             StartDate = date;
             return this;
         }
         
-        public IProjectBuilder AddRecentDate(DateTimeOffset date)
+        public IProjectBuilder AddRecentDate(DateTimeOffset? date)
         {
             RecentDate = date;
             return this;

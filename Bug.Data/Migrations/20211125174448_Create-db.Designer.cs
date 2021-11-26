@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bug.Data.Migrations
 {
     [DbContext(typeof(BugContext))]
-    [Migration("20211122210058_Create-db")]
+    [Migration("20211125174448_Create-db")]
     partial class Createdb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -258,19 +258,22 @@ namespace Bug.Data.Migrations
                     b.Property<string>("AssigneeId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<DateTimeOffset>("CreatedDate")
+                    b.Property<string>("Code")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset?>("CreatedDate")
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTimeOffset>("DueDate")
+                    b.Property<DateTimeOffset?>("DueDate")
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Environment")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTimeOffset>("LogDate")
+                    b.Property<DateTimeOffset?>("LogDate")
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("OriginEstimateTime")
@@ -294,6 +297,9 @@ namespace Bug.Data.Migrations
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset?>("WorklogDate")
+                        .HasColumnType("datetimeoffset");
 
                     b.HasKey("Id");
 
@@ -418,17 +424,17 @@ namespace Bug.Data.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTimeOffset>("EndDate")
+                    b.Property<DateTimeOffset?>("EndDate")
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTimeOffset>("RecentDate")
+                    b.Property<DateTimeOffset?>("RecentDate")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<DateTimeOffset>("StartDate")
+                    b.Property<DateTimeOffset?>("StartDate")
                         .HasColumnType("datetimeoffset");
 
                     b.Property<int>("Status")

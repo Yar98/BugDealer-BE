@@ -225,10 +225,14 @@ namespace Bug.API.Services
                 result.UpdateDescription(issue.Description);
             if(issue.Environment != null)
                 result.UpdateEnvironment(issue.Environment);
-            result.UpdateLogDate(issue.LogDate);
-            result.UpdateCreatedDate(issue.CreatedDate);
-            result.UpdateDueDate(issue.DueDate);
-            result.UpdateWorklogDate(issue.WorklogDate);
+            if(issue.LogDate != null)
+                result.UpdateLogDate(issue.LogDate);
+            if(issue.CreatedDate != null)
+                result.UpdateCreatedDate(issue.CreatedDate);
+            if(issue.DueDate != null)
+                result.UpdateDueDate(issue.DueDate);
+            if(issue.WorklogDate != null)
+                result.UpdateWorklogDate(issue.WorklogDate);
             if (issue.OriginEstimateTime != null)
                 result.UpdateOriginalEstimateTime(issue.OriginEstimateTime);
             if(issue.PriorityId != 0)
