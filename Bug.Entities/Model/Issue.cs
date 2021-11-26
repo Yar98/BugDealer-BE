@@ -14,10 +14,10 @@ namespace Bug.Entities.Model
         public string Title { get; private set; }
         public string Description { get; private set; }
         public string Code { get; private set; }
-        public DateTimeOffset LogDate { get; private set; }
-        public DateTimeOffset CreatedDate { get; private set; }
-        public DateTimeOffset DueDate { get; private set; }
-        public DateTimeOffset WorklogDate { get; private set; }
+        public DateTimeOffset? LogDate { get; private set; }
+        public DateTimeOffset? CreatedDate { get; private set; }
+        public DateTimeOffset? DueDate { get; private set; }
+        public DateTimeOffset? WorklogDate { get; private set; }
         public string OriginEstimateTime { get; private set; }
         public string RemainEstimateTime { get; private set; }
         public string Environment { get; private set; }
@@ -68,10 +68,10 @@ namespace Bug.Entities.Model
             string title,
             string code,
             string description,
-            DateTimeOffset timeLog,
-            DateTimeOffset createdDate,
-            DateTimeOffset dueDate,
-            DateTimeOffset worklogDate,
+            DateTimeOffset? timeLog,
+            DateTimeOffset? createdDate,
+            DateTimeOffset? dueDate,
+            DateTimeOffset? worklogDate,
             string originEstimateTime,
             string remainEstimateTime,
             string environment,
@@ -127,7 +127,7 @@ namespace Bug.Entities.Model
         {
             RemainEstimateTime = s;
         }
-        public void UpdateDueDate(DateTimeOffset dt)
+        public void UpdateDueDate(DateTimeOffset? dt)
         {
             DueDate = dt;
         }
@@ -135,11 +135,11 @@ namespace Bug.Entities.Model
         {
             AssigneeId = id;
         }
-        public void UpdateLogDate(DateTimeOffset logDate)
+        public void UpdateLogDate(DateTimeOffset? logDate)
         {
             LogDate = logDate;
         }
-        public void UpdateCreatedDate(DateTimeOffset dt)
+        public void UpdateCreatedDate(DateTimeOffset? dt)
         {
             CreatedDate = dt;
         }
@@ -151,7 +151,7 @@ namespace Bug.Entities.Model
         {
             StatusId = st;
         }
-        public void UpdateWorklogDate(DateTimeOffset dt)
+        public void UpdateWorklogDate(DateTimeOffset? dt)
         {
             WorklogDate = dt;
         }

@@ -9,6 +9,7 @@ using System.Net;
 using Microsoft.Extensions.Logging;
 using Bug.API.Dto;
 using Bug.Core.Common;
+using Bug.API.BtsException;
 
 namespace Bug.API.CustomMiddlewares
 {
@@ -34,16 +35,21 @@ namespace Bug.API.CustomMiddlewares
             {
                 await HandleExceptionAsync(context, e);               
             }
-            
+            catch(CannotDeleteDefault e)
+            {
+                await HandleExceptionAsync(context, e);
+            }
         }
 
         private async Task HandleExceptionAsync(HttpContext context, Exception exception)
         {
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+            // custom code for each exception
             string code = exception switch
             {
                 UsernameExistsException => "email exsit",
+                CannotDeleteDefault => "cannot delete default",
                 _ => "undefined"
             };
             context.Response.Headers.Add("error", code);

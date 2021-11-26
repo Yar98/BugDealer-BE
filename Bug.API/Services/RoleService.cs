@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Bug.API.BtsException;
 
 namespace Bug.API.Services
 {
@@ -96,7 +97,16 @@ namespace Bug.API.Services
             (int id,
             CancellationToken cancellationToken = default)
         {
-            var result = await _unitOfWork.Role.GetByIdAsync(id, cancellationToken);
+            var defaultRoles = await _unitOfWork
+                .Role
+                .GetDefaultRolesNoTrackAsync(cancellationToken:cancellationToken);
+            if(defaultRoles.Any(r=>r.Id == id))
+            {
+                throw new CannotDeleteDefault();
+            }    
+            var result = await _unitOfWork
+                .Role
+                .GetByIdAsync(id, cancellationToken);
             _unitOfWork.Role.Delete(result);
             await _unitOfWork.SaveAsync(cancellationToken);
         }

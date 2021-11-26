@@ -11,10 +11,10 @@ namespace Bug.API.Dto
         public string Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public DateTimeOffset LogDate { get; set; }
-        public DateTimeOffset CreatedDate { get; set; }
-        public DateTimeOffset DueDate { get; set; }
-        public DateTimeOffset WorklogDate { get; set; }
+        public DateTimeOffset? LogDate { get; set; }
+        public DateTimeOffset? CreatedDate { get; set; }
+        public DateTimeOffset? DueDate { get; set; }
+        public DateTimeOffset? WorklogDate { get; set; }
         public string OriginEstimateTime { get; set; }
         public string RemainEstimateTime { get; set; }
         public string Environment { get; set; }

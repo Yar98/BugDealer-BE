@@ -7,6 +7,7 @@ using Bug.Data.Infrastructure;
 using Bug.Entities.Model;
 using Bug.Data.Specifications;
 using Bug.API.Dto;
+using Bug.API.BtsException;
 
 namespace Bug.API.Services
 {
@@ -120,7 +121,16 @@ namespace Bug.API.Services
             (string statusId,
             CancellationToken cancellationToken = default)
         {
-            var result = await _unitOfWork.Status.GetByIdAsync(statusId, cancellationToken);
+            var defaultStatuses = await _unitOfWork
+                .Status
+                .GetDefaultStatusesNoTrackAsync(cancellationToken: cancellationToken);
+            if (defaultStatuses.Any(r => r.Id == statusId))
+            {
+                throw new CannotDeleteDefault();
+            }
+            var result = await _unitOfWork
+                .Status
+                .GetByIdAsync(statusId, cancellationToken);
             _unitOfWork.Status.Delete(result);
             await _unitOfWork.SaveAsync(cancellationToken);
         }

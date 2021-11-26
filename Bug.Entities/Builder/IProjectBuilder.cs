@@ -12,9 +12,9 @@ namespace Bug.Entities.Builder
         IProjectBuilder AddId(string id);
         IProjectBuilder AddName(string name);
         IProjectBuilder AddCode(string code);
-        IProjectBuilder AddStartDate(DateTimeOffset date);
-        IProjectBuilder AddEndDate(DateTimeOffset date);
-        IProjectBuilder AddRecentDate(DateTimeOffset date);
+        IProjectBuilder AddStartDate(DateTimeOffset? date);
+        IProjectBuilder AddEndDate(DateTimeOffset? date);
+        IProjectBuilder AddRecentDate(DateTimeOffset? date);
         IProjectBuilder AddDescription(string des);
         IProjectBuilder AddAvatarUri(string url);
         IProjectBuilder AddDefaultAssigneeId(string id);
