@@ -152,6 +152,14 @@ namespace Bug.Entities.Model
         {
             _roles = r;
         }
+        public void AddExistRole(Role r)
+        {
+            if(!Roles.Any(i=>i.Id == r.Id))
+            {
+                _roles.Add(r);
+                return;
+            }
+        }
         public void AddDefaultRoles(IReadOnlyList<Role> roles)
         {
             if (!Roles.Any())
