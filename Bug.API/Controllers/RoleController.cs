@@ -63,6 +63,30 @@ namespace Bug.API.Controllers
             return Ok(Bts.ConvertJson(result));
         }
 
+        [HttpGet("paging/creator/{creatorId}/{pageIndex:int}/{pageSize:int}/{sortOrder}")]
+        public async Task<IActionResult> GetPaginatedRolesByCreatorId
+            (string creatorId,
+            int pageIndex,
+            int pageSize,
+            string sortOrder)
+        {
+            var result = await _roleService
+                .GetPaginatedByCreatorId(creatorId, pageIndex, pageSize, sortOrder);
+            return Ok(Bts.ConvertJson(result));
+        }
+
+        [HttpGet("offset/creator/{creatorId}/{offset:int}/{next:int}/{sortOrder}")]
+        public async Task<IActionResult> GetNextRolesByOffsetByCreatorId
+            (string creatorId,
+            int offset,
+            int next,
+            string sortOrder)
+        {
+            var result = await _roleService
+                .GetNextByOffsetByCreatorIdAsync(creatorId, offset, next, sortOrder);
+            return Ok(Bts.ConvertJson(result));
+        }
+
         // POST api/<RoleController>
         [HttpPost]
         public async Task<IActionResult> PostAddRole([FromBody] RoleNormalDto value)
