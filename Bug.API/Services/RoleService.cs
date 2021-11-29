@@ -63,6 +63,42 @@ namespace Bug.API.Services
                 .GetAllEntitiesBySpecAsync(specificationResult, cancellationToken);
         }
 
+        public async Task<PaginatedListDto<Role>> GetPaginatedByCreatorId
+            (string accountId,
+            int pageIndex,
+            int pageSize,
+            string sortOrder,
+            CancellationToken cancellationToken = default)
+        {
+            var specificationResult =
+                new RoleByCreatorIdSpecification(accountId);
+            var result = await _unitOfWork
+                .Role
+                .GetPaginatedNoTrackBySpecAsync(pageIndex, pageSize, sortOrder, specificationResult, cancellationToken);
+
+            return new PaginatedListDto<Role>
+            {
+                Length = result.Length,
+                Items = result
+            };
+        }
+
+        public async Task<IReadOnlyList<Role>> GetNextByOffsetByCreatorIdAsync
+            (string accountId,
+            int offset,
+            int next,
+            string sortOrder,
+            CancellationToken cancellationToken = default)
+        {
+            var specificationResult =
+                new RoleByCreatorIdSpecification(accountId);
+            var result = await _unitOfWork
+                .Role
+                .GetNextByOffsetNoTrackBySpecAsync(offset,next,sortOrder,specificationResult,cancellationToken);
+            
+            return result;
+        }
+
         public async Task<Role> AddNewRoleAsync
             (RoleNormalDto role,
             CancellationToken cancellationToken = default)

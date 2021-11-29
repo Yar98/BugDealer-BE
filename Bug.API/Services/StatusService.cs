@@ -37,8 +37,8 @@ namespace Bug.API.Services
             string sortOrder,
             CancellationToken cancellationToken = default)
         {
-            StatusSpecification specificationResult =
-                new(creatorId);
+            var specificationResult =
+                new StatusByCreatorIdSpecification(creatorId);
             var result = await _unitOfWork
                 .Status
                 .GetPaginatedNoTrackBySpecAsync(pageIndex, pageSize, sortOrder, specificationResult,cancellationToken);
@@ -56,8 +56,8 @@ namespace Bug.API.Services
             string sortOrder,
             CancellationToken cancellationToken = default)
         {
-            StatusSpecification specificationResult =
-                new(creatorId);
+            var specificationResult =
+                new StatusByCreatorIdSpecification(creatorId);
             var result = await _unitOfWork
                 .Status
                 .GetNextByOffsetNoTrackBySpecAsync(offset, next, sortOrder, specificationResult, cancellationToken);
