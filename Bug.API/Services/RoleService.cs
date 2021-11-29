@@ -113,7 +113,7 @@ namespace Bug.API.Services
                 .ToList();
             result.UpdatePermission(ps);
             
-            await _unitOfWork.SaveAsync(cancellationToken);
+            _unitOfWork.Save();
             return result;
         }
 
@@ -126,7 +126,7 @@ namespace Bug.API.Services
             result.UpdateDescription(role.Description);
             result.UpdateName(role.Name);
             _unitOfWork.Role.Update(result);
-            await _unitOfWork.SaveAsync(cancellationToken);
+            _unitOfWork.Save();
         }
 
         public async Task DeleteRoleAsync
@@ -144,7 +144,7 @@ namespace Bug.API.Services
                 .Role
                 .GetByIdAsync(id, cancellationToken);
             _unitOfWork.Role.Delete(result);
-            await _unitOfWork.SaveAsync(cancellationToken);
+            _unitOfWork.Save();
         }
     }
 }

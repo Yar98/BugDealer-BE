@@ -211,7 +211,7 @@ namespace Bug.API.Services
             await _unitOfWork
                 .Issue
                 .AddAsync(result, cancellationToken);
-            await _unitOfWork.SaveAsync(cancellationToken);
+            _unitOfWork.Save();
             return result;
         }
 
@@ -249,7 +249,7 @@ namespace Bug.API.Services
             if(issue.Title != null)
                 result.UpdateTitle(issue.Title);
             _unitOfWork.Issue.Update(result);
-            await _unitOfWork.SaveAsync(cancellationToken);
+            _unitOfWork.Save();
         }
 
         public async Task UpdateTagsOfIssue
@@ -263,7 +263,7 @@ namespace Bug.API.Services
                 .ToList();
             result.UpdateTags(customLabelTags);
             _unitOfWork.Issue.Update(result);
-            await _unitOfWork.SaveAsync(cancellationToken);
+            _unitOfWork.Save();
         }
 
         public async Task UpdateFromRelationsOfIssue
@@ -277,7 +277,7 @@ namespace Bug.API.Services
                 .ToList();
             result.UpdateFromRelations(fromRelations);
             _unitOfWork.Issue.Update(result);
-            await _unitOfWork.SaveAsync(cancellationToken);
+            _unitOfWork.Save();
         }
 
         public async Task UpdateAttachmentsOfIssue
@@ -291,7 +291,7 @@ namespace Bug.API.Services
                 .ToList();
             result.UpdateAttachments(attachments);
             _unitOfWork.Issue.Update(result);
-            await _unitOfWork.SaveAsync(cancellationToken);
+            _unitOfWork.Save();
         }
 
         public async Task DeleteIssueAsync
@@ -300,7 +300,7 @@ namespace Bug.API.Services
         {
             var result = await _unitOfWork.Issue.GetByIdAsync(id, cancellationToken);
             _unitOfWork.Issue.Delete(result);
-            await _unitOfWork.SaveAsync(cancellationToken);
+            _unitOfWork.Save();
         }
     }
 }

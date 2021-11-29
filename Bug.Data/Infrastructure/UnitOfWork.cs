@@ -29,11 +29,24 @@ namespace Bug.Data.Infrastructure
         private IFieldRepo _field;
         private ICustomtypeRepo _customtype;
         private IAttachmentRepo _attachment;
+        private ITemplateRepo _template;
 
         public UnitOfWork(BugContext bugContext, IConfiguration config)
         {
             _bugContext = bugContext;
             _config = config;
+        }
+
+        public ITemplateRepo Template
+        {
+            get
+            {
+                if (_template == null)
+                {
+                    _template = new TemplateRepo(_bugContext);
+                }
+                return _template;
+            }
         }
         public IAttachmentRepo Attachment
         {
@@ -212,9 +225,9 @@ namespace Bug.Data.Infrastructure
                 return _worklog;
             }
         }
-        public async Task SaveAsync(CancellationToken cancellationToken = default)
+        public void Save()
         {
-            await _bugContext.SaveChangesAsync(cancellationToken);
+            _bugContext.SaveChanges();
         }
     }
 }

@@ -30,6 +30,9 @@ namespace Bug.API.Services
             int next,
             string sortOrder,
             CancellationToken cancellationToken = default);
+        Task VerifyEmailAsync
+            (string email,
+            CancellationToken cancellationToken = default);
         Task ConfirmEmailBts
             (string email,
             string clientId,

@@ -10,7 +10,7 @@ using System.Threading;
 using Bug.Entities.Model;
 using Bug.Data.Specifications;
 using Amazon;
-
+using Amazon.CognitoIdentityProvider.Model;
 
 namespace Bug.API.Services
 {
@@ -43,7 +43,7 @@ namespace Bug.API.Services
                     .AddLastName(acc.SurName)
                     .Build();
                 await _unitOfWork.Account.AddAsync(newAccount, cancellationToken);
-                await _unitOfWork.SaveAsync(cancellationToken);
+                _unitOfWork.Save();
                 return _jwtUtils.GenerateToken(newAccount.Id, newAccount.UserName, newAccount.Email);
             }
         }
@@ -91,15 +91,15 @@ namespace Bug.API.Services
             var result =  await _unitOfWork.Account.GetByIdAsync(id, cancellationToken);
             return new AccountNormalDto
             {
-                Id = result.Id,
-                UserName = result.UserName,
-                CreatedDate = result.CreatedDate,
-                Email = result.Email,
-                FirstName = result.FirstName,
-                ImageUri = result.ImageUri,
-                Language = result.LastName,
-                LastName = result.LastName,
-                TimezoneId = result.TimezoneId
+                Id = result?.Id,
+                UserName = result?.UserName,
+                CreatedDate = result?.CreatedDate,
+                Email = result?.Email,
+                FirstName = result?.FirstName,
+                ImageUri = result?.ImageUri,
+                Language = result?.LastName,
+                LastName = result?.LastName,
+                TimezoneId = result?.TimezoneId
             };
         }
 
@@ -140,8 +140,8 @@ namespace Bug.API.Services
             string sortOrder,
             CancellationToken cancellationToken = default)
         {
-            AccountsByProjectSpecification specificationResult =
-                new(projectId);
+            var specificationResult =
+                new AccountsByProjectSpecification(projectId);
             var result = await _unitOfWork.Account.GetNextByOffsetNoTrackBySpecAsync(offset, next, sortOrder, specificationResult, cancellationToken);
             return result
                 .Select(a => new AccountNormalDto
@@ -159,13 +159,34 @@ namespace Bug.API.Services
                 .ToList();
         }
 
+        public async Task VerifyEmailAsync
+            (string email,
+            CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                await _unitOfWork
+                    .Account
+                    .AddCognitoUser(email, "Pass@word123", cancellationToken);
+            }
+            catch(UsernameExistsException)
+            {
+                await _unitOfWork
+                    .Account
+                    .ResendVerifyCognito(email, cancellationToken);
+            }
+            
+        }
+
         public async Task ConfirmEmailBts
             (string email,
             string clientId,
             string code,
             CancellationToken cancellationToken = default)
         {
-            await _unitOfWork.Account.ConfirmSignUp(email, clientId, code, cancellationToken);
+            await _unitOfWork
+                .Account
+                .ConfirmSignUp(email, clientId, code, cancellationToken);
             var specificationResult =
                 new AccountByEmailSpecification(email);
             var result = await _unitOfWork
@@ -173,14 +194,13 @@ namespace Bug.API.Services
                 .GetEntityBySpecAsync(specificationResult, cancellationToken);
             result.UpdateVerifyEmail(true);
             _unitOfWork.Account.Update(result);
-            await _unitOfWork.SaveAsync(cancellationToken);
+            _unitOfWork.Save();
         }
 
         public async Task<AccountNormalDto> AddRegistedAccountAsync
             (AccountBtsRegister user,
             CancellationToken cancellationToken = default)
         {
-            await _unitOfWork.Account.AddCognitoUser(user.Email, user.Password, cancellationToken);
             var result = new AccountBuilder()
                 .AddId(Guid.NewGuid().ToString())
                 .AddUserName(user.UserName)
@@ -190,7 +210,7 @@ namespace Bug.API.Services
                 .AddEmail(user.Email)
                 .Build();
             await _unitOfWork.Account.AddAsync(result, cancellationToken);
-            await _unitOfWork.SaveAsync(cancellationToken);
+            _unitOfWork.Save();
             return new AccountNormalDto
             {
                 Id = result.Id,
@@ -213,7 +233,7 @@ namespace Bug.API.Services
             result.UpdateLanguage(user.Language);
             result.UpdateImageUri(user.ImageUri);
             _unitOfWork.Account.Update(result);
-            await _unitOfWork.SaveAsync(cancellationToken);
+            _unitOfWork.Save();
         }
 
         public async Task DeleteAccountAsync
@@ -222,7 +242,7 @@ namespace Bug.API.Services
         {
             var result = await _unitOfWork.Account.GetByIdAsync(id, cancellationToken);
             _unitOfWork.Account.Delete(result);
-            await _unitOfWork.SaveAsync(cancellationToken);
+            _unitOfWork.Save();
         }
 
 

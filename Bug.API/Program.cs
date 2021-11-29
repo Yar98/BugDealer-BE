@@ -27,39 +27,35 @@ namespace Bug
 
         private static async Task CreateDbIfNotExists(IHost host)
         {
-            using (var scope = host.Services.CreateScope())
+            using var scope = host.Services.CreateScope();
+            var services = scope.ServiceProvider;
+            try
             {
-                var services = scope.ServiceProvider;
-                try
-                {
-                    var context = services.GetRequiredService<BugContext>();
-                    await context.Database.EnsureCreatedAsync();
-                    //await context.Database.MigrateAsync();
-                }
-                catch (Exception ex)
-                {
-                    var logger = services.GetRequiredService<ILogger<Program>>();
-                    logger.LogError(ex, "An error occurred creating the DBBB.");
-                }
+                var context = services.GetRequiredService<BugContext>();
+                await context.Database.EnsureCreatedAsync();
+                //await context.Database.MigrateAsync();
+            }
+            catch (Exception ex)
+            {
+                var logger = services.GetRequiredService<ILogger<Program>>();
+                logger.LogError(ex, "An error occurred creating the DBBB.");
             }
         }
 
         private static async Task SeedDb(IHost host)
         {
-            using (var scope = host.Services.CreateScope())
+            using var scope = host.Services.CreateScope();
+            var services = scope.ServiceProvider;
+            var loggerFactory = services.GetRequiredService<ILoggerFactory>();
+            try
             {
-                var services = scope.ServiceProvider;
-                var loggerFactory = services.GetRequiredService<ILoggerFactory>();
-                try
-                {
-                    var bugContext = services.GetRequiredService<BugContext>();
-                    await BugContextSeed.SeedAsync(bugContext, loggerFactory);
-                }
-                catch (Exception ex)
-                {
-                    var logger = loggerFactory.CreateLogger<Program>();
-                    logger.LogError(ex, "An error occurred seeding the DB");
-                }
+                var bugContext = services.GetRequiredService<BugContext>();
+                await BugContextSeed.SeedAsync(bugContext, loggerFactory);
+            }
+            catch (Exception ex)
+            {
+                var logger = loggerFactory.CreateLogger<Program>();
+                logger.LogError(ex, "An error occurred seeding the DB");
             }
         }
 

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bug.Data.Migrations
 {
     [DbContext(typeof(BugContext))]
-    [Migration("20211125174448_Create-db")]
+    [Migration("20211129190844_Create-db")]
     partial class Createdb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -64,17 +64,7 @@ namespace Bug.API.Controllers
                 await _accountService.GetNextByOffsetByProjectIdAsync(
                     projectId, offset, next, sortOrder);
             return Ok(Bts.ConvertJson(result));
-        }
-
-        [HttpGet("confirm-email")]
-        public async Task<IActionResult> ConfirmEmailBts()
-        {
-            var email = Request.Query["email"].ToString();
-            var clientId = Request.Query["clientId"].ToString();
-            var code = Request.Query["code"].ToString();
-            await _accountService.ConfirmEmailBts(email,clientId,code);
-            return Ok();
-        }
+        }       
 
         // POST api/Account/login
         [HttpPost("login")]
@@ -108,6 +98,23 @@ namespace Bug.API.Controllers
             var result = await _accountService.AddRegistedAccountAsync(user);
             return CreatedAtAction(
                 nameof(GetAccountById), new { id = result.Id }, result);
+        }
+
+        [HttpPut("verify-email")]
+        public async Task<IActionResult> VerifyEmailBts([FromBody] string email)
+        {
+            await _accountService.VerifyEmailAsync(email);
+            return NoContent();
+        }
+
+        [HttpGet("confirm-email")]
+        public async Task<IActionResult> ConfirmEmailBts()
+        {
+            var email = Request.Query["email"].ToString();
+            var clientId = Request.Query["clientId"].ToString();
+            var code = Request.Query["code"].ToString();
+            await _accountService.ConfirmEmailBts(email, clientId, code);
+            return Ok();
         }
 
         // PUT api/Account/5

@@ -17,7 +17,7 @@ namespace Bug.Entities.Model
         public string Description { get; private set; }
         public string AvatarUri { get; private set; }
         public int Status { get; private set; }
-        public string DefaultAssigneeId { get; private set; }
+        public string? DefaultAssigneeId { get; private set; }
         public Account DefaultAssignee { get; private set; }
         public string CreatorId { get; private set; }
         public Account Creator { get; private set; }

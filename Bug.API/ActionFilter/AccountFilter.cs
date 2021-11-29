@@ -1,11 +1,14 @@
 ﻿using Bug.API.Dto;
+using Bug.API.Services;
 using Bug.Core.Utils;
+using Bug.Data.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Bug.API.ActionFilter
 {
@@ -15,7 +18,9 @@ namespace Bug.API.ActionFilter
             (ActionExecutingContext context,
             ActionExecutionDelegate next)
         {
-            if(context
+            var sv = context.HttpContext.RequestServices;
+            var uow = sv.GetService<IUnitOfWork>();
+            if (context
                 .ActionArguments
                 .SingleOrDefault(o => o.Value is AccountBtsLoginDto)
                 .Value is AccountBtsLoginDto login)
@@ -55,6 +60,11 @@ namespace Bug.API.ActionFilter
                 if (!StringHandler.ValidName(register.LastName))
                 {
                     context.Result = new BadRequestObjectResult("Not valid lastname");
+                    return;
+                }
+                if(await uow.Account.GetAccountByEmail(register.Email) != null)
+                {
+                    context.Result = new BadRequestObjectResult("Email exist");
                     return;
                 }
             }

@@ -99,7 +99,7 @@ namespace Bug.API.Services
             await _unitOfWork
                 .Status
                 .AddAsync(result, cancellationToken);
-            await _unitOfWork.SaveAsync(cancellationToken);
+            _unitOfWork.Save();
             return result;
         }
 
@@ -114,7 +114,7 @@ namespace Bug.API.Services
             result.UpdateCreatorId(status.CreatorId);
             result.UpdateTagId(status.TagId);
             _unitOfWork.Status.Update(result);
-            await _unitOfWork.SaveAsync(cancellationToken);
+            _unitOfWork.Save();
         }
 
         public async Task DeleteStatusAsync
@@ -132,7 +132,7 @@ namespace Bug.API.Services
                 .Status
                 .GetByIdAsync(statusId, cancellationToken);
             _unitOfWork.Status.Delete(result);
-            await _unitOfWork.SaveAsync(cancellationToken);
+            _unitOfWork.Save();
         }
     }
 }
