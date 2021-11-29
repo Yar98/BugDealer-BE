@@ -25,6 +25,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Bug.API\Bug.API.csproj" />
+    <ProjectReference Include="..\Bug.Data\Bug.Data.csproj" />
     <ProjectReference Include="..\Bug.Entities\Bug.Entities.csproj" />
   </ItemGroup>
 

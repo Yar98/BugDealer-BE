@@ -15,44 +15,50 @@ namespace Bug.API.ActionFilter
             (ActionExecutingContext context,
             ActionExecutionDelegate next)
         {
-            var login = context
+            if(context
                 .ActionArguments
                 .SingleOrDefault(o => o.Value is AccountBtsLoginDto)
-                .Value as AccountBtsLoginDto;
-            if (!StringHandler.ValidUserName(login.UserName))
+                .Value is AccountBtsLoginDto login)
             {
-                context.Result = new BadRequestObjectResult("Not valid username");
-                return;
+                if (!StringHandler.ValidUserName(login.UserName))
+                {
+                    context.Result = new BadRequestObjectResult("Not valid username");
+                    return;
+                }
+                if (!StringHandler.ValidPassword(login.Password))
+                {
+                    context.Result = new BadRequestObjectResult("Not valid password");
+                    return;
+                }
             }
-            if (!StringHandler.ValidPassword(login.Password))
-            {
-                context.Result = new BadRequestObjectResult("Not valid password");
-                return;
-            }
-            var register = context
+            
+            if (context
                 .ActionArguments
                 .SingleOrDefault(o => o.Value is AccountBtsRegister)
-                .Value as AccountBtsRegister;
-            if (!StringHandler.ValidUserName(register.UserName))
+                .Value is AccountBtsRegister register)
             {
-                context.Result = new BadRequestObjectResult("Not valid username");
-                return;
+                if (!StringHandler.ValidUserName(register.UserName))
+                {
+                    context.Result = new BadRequestObjectResult("Not valid username");
+                    return;
+                }
+                if (!StringHandler.ValidPassword(register.Password))
+                {
+                    context.Result = new BadRequestObjectResult("Not valid password");
+                    return;
+                }
+                if (!StringHandler.ValidName(register.FirstName))
+                {
+                    context.Result = new BadRequestObjectResult("Not valid firstname");
+                    return;
+                }
+                if (!StringHandler.ValidName(register.LastName))
+                {
+                    context.Result = new BadRequestObjectResult("Not valid lastname");
+                    return;
+                }
             }
-            if (!StringHandler.ValidPassword(register.Password))
-            {
-                context.Result = new BadRequestObjectResult("Not valid password");
-                return;
-            }
-            if(!StringHandler.ValidName(register.FirstName))
-            {
-                context.Result = new BadRequestObjectResult("Not valid firstname");
-                return;
-            }
-            if (!StringHandler.ValidName(register.LastName))
-            {
-                context.Result = new BadRequestObjectResult("Not valid lastname");
-                return;
-            }
+
 
             await next();
 

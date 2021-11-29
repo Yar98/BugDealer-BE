@@ -101,6 +101,8 @@ namespace Bug.API.Controllers
 
         // POST api/Account/register
         [HttpPost("register")]
+        [ModelFilter]
+        [AccountFilter]
         public async Task<IActionResult> PostRegisterBts([FromBody] AccountBtsRegister user)
         {
             var result = await _accountService.AddRegistedAccountAsync(user);
