@@ -227,6 +227,23 @@ namespace Bug.API.Services
             await _unitOfWork.SaveAsync(cancellationToken);
         }
 
+        public async Task AddRoleToProjectAsync
+            (string projectId,
+            int roleId,
+            CancellationToken cancellationToken = default)
+        {
+            var project = await _unitOfWork
+                .Project
+                .GetByIdAsync(projectId, cancellationToken);
+            var role = await _unitOfWork
+                .Role
+                .GetByIdAsync(roleId, cancellationToken);
+
+            project.AddExistRole(role);
+            _unitOfWork.Project.Update(project);
+            await _unitOfWork.SaveAsync(cancellationToken);
+        }
+
         public async Task UpdateStatusesOfProjectAsync
             (ProjectNormalDto pro,
             CancellationToken cancellationToken = default)
