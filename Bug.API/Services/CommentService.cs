@@ -47,7 +47,7 @@ namespace Bug.API.Services
             var result = 
                 new Comment(0, cmt.Content, cmt.TimeLog, cmt.IssueId, cmt.AccountId);
             await _unitOfWork.Comment.AddAsync(result, cancellationToken);
-            await _unitOfWork.SaveAsync(cancellationToken);
+            _unitOfWork.Save();
             return result;
         }
 
@@ -63,7 +63,7 @@ namespace Bug.API.Services
             result.UpdateIssueId(cmt.IssueId);
             result.UpdateTimeLog(cmt.TimeLog);
             _unitOfWork.Comment.Update(result);
-            await _unitOfWork.SaveAsync(cancellationToken);
+            _unitOfWork.Save();
         }
 
         public async Task DeleteCommentByIdAsync
@@ -72,7 +72,7 @@ namespace Bug.API.Services
         {
             var result = await _unitOfWork.Comment.GetByIdAsync(id, cancellationToken);
             _unitOfWork.Comment.Delete(result);
-            await _unitOfWork.SaveAsync(cancellationToken);
+            _unitOfWork.Save();
         }
     }
 }

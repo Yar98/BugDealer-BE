@@ -83,7 +83,7 @@ namespace Bug.API.Services
             var modifier = await _unitOfWork.Account.GetByIdAsync(ilog.ModifierId, cancellationToken);
             result.UpdateModifier(modifier);
             await _unitOfWork.Issuelog.AddAsync(result, cancellationToken);
-            await _unitOfWork.SaveAsync(cancellationToken);
+            _unitOfWork.Save();
             return result;
         }
     }

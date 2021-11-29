@@ -18,6 +18,9 @@ namespace Bug.Data.Repositories
             (string email,
             string pass,
             CancellationToken cancellationToken = default);
+        Task ResendVerifyCognito
+            (string email,
+            CancellationToken cancellationToken = default);
         Task ConfirmSignUp
             (string email,
             string clientId,

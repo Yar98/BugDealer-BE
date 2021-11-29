@@ -189,7 +189,7 @@ namespace Bug.API.Services
             await _unitOfWork
                 .Project
                 .AddAsync(result, cancellationToken);
-            await _unitOfWork.SaveAsync(cancellationToken);
+            _unitOfWork.Save();
             return result;
         }
 
@@ -210,7 +210,7 @@ namespace Bug.API.Services
             result.UpdateTemplateId(pro.TemplateId);
             // update db
             _unitOfWork.Project.Update(result);
-            await _unitOfWork.SaveAsync(cancellationToken);
+            _unitOfWork.Save();
         }
 
         public async Task UpdateRolesOfProjectAsync
@@ -224,7 +224,7 @@ namespace Bug.API.Services
                 .ToList();
             project.UpdateRoles(roles);
             _unitOfWork.Project.Update(project);
-            await _unitOfWork.SaveAsync(cancellationToken);
+            _unitOfWork.Save();
         }
 
         public async Task AddRoleToProjectAsync
@@ -241,7 +241,7 @@ namespace Bug.API.Services
 
             project.AddExistRole(role);
             _unitOfWork.Project.Update(project);
-            await _unitOfWork.SaveAsync(cancellationToken);
+            _unitOfWork.Save();
         }
 
         public async Task UpdateStatusesOfProjectAsync
@@ -255,7 +255,7 @@ namespace Bug.API.Services
                 .ToList();
             project.UpdateStatuses(statuses);
             _unitOfWork.Project.Update(project);
-            await _unitOfWork.SaveAsync(cancellationToken);
+            _unitOfWork.Save();
         }
 
         public async Task DeleteProjectAsync
@@ -264,7 +264,7 @@ namespace Bug.API.Services
         {
             var result = await _unitOfWork.Project.GetByIdAsync(projectId,cancellationToken);
             _unitOfWork.Project.Delete(result);
-            await _unitOfWork.SaveAsync(cancellationToken);
+            _unitOfWork.Save();
         }
 
     }

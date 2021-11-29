@@ -1,4 +1,5 @@
-﻿using Bug.Entities.Model;
+﻿using Bug.API.Dto;
+using Bug.Entities.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace UnitTests.Builders
 {
     public class ProjectBuilder
     {
-        private Project _project;
+        private readonly Project _project;
         public string TestName = "Test Name";
         public string TestCode = "PJ-131";
         public DateTimeOffset TestStartDate = DateTime.Now;
@@ -20,19 +21,38 @@ namespace UnitTests.Builders
         public string TestDefaultAssigneeId = null;
         public string TestCreatorId = "account1";
         public int TestTemplateId = 1;
-        public int TestStatusId = 1;
+        public int TestStatus = 1;
 
         public ProjectBuilder()
         {
             var id = Guid.NewGuid().ToString();
             _project = new Project(id,TestName,TestCode,TestStartDate,TestEndDate,
                 TestRecentDate,TestDescription,TestUri,TestDefaultAssigneeId,
-                TestCreatorId,TestTemplateId,TestStatusId);
+                TestCreatorId,TestTemplateId,TestStatus);
         }
 
         public Project Build()
         {
             return _project;
+        }
+
+        public ProjectNormalDto BuildDto()
+        {
+            return new ProjectNormalDto
+            {
+                Id = _project.Id,
+                Name = TestName,
+                Code = TestCode,
+                StartDate = TestStartDate,
+                EndDate = TestEndDate,
+                RecentDate = TestRecentDate,
+                Description = TestDescription,
+                AvatarUri = TestUri,
+                DefaultAssigneeId = TestDefaultAssigneeId,
+                CreatorId = TestCreatorId,
+                TemplateId = TestTemplateId,
+                Status = TestStatus
+            };
         }
     }
 }

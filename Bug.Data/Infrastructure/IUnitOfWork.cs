@@ -26,6 +26,7 @@ namespace Bug.Data.Infrastructure
         IFieldRepo Field { get; }
         ICustomtypeRepo Customtype { get; }
         IAttachmentRepo Attachment { get; }
-        public Task SaveAsync(CancellationToken cancellationToken = default);
+        ITemplateRepo Template { get; }
+        public void Save();
     }
 }

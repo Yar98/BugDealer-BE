@@ -65,6 +65,22 @@ namespace Bug.Data.Repositories
             await provider.SignUpAsync(signUpRequest, cancellationToken);            
         }
 
+        public async Task ResendVerifyCognito
+            (string email,
+            CancellationToken cancellationToken = default)
+        {
+            var provider = new AmazonCognitoIdentityProviderClient(
+                _config.GetSection("Cognito")["AccessKeyId"],
+                _config.GetSection("Cognito")["AccessSecretKey"],
+                RegionEndpoint.GetBySystemName(_config.GetSection("Cognito")["Region"]));
+            var resendVerifyRequest = new ResendConfirmationCodeRequest
+            {
+                ClientId = _config.GetSection("Cognito").GetSection("ClientId").Value,
+                Username = email,
+            };
+            await provider.ResendConfirmationCodeAsync(resendVerifyRequest, cancellationToken);
+        }
+
         public async Task ConfirmSignUp
             (string email,
             string clientId,

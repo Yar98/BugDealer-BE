@@ -27,7 +27,7 @@ namespace UnitTests.ApplicationCore.Services.ProjectServicesTests
         }
 
         [Fact]
-        public async Task InvokeSaveAsyncAfterAddRoleToProject()
+        public async Task InvokeSaveAsyncOnlyOnce()
         {
             var project = new ProjectBuilder().Build();
             var role = new Role(_testRoleId, _testName, _testDescription, _testCreatorId);
@@ -41,7 +41,7 @@ namespace UnitTests.ApplicationCore.Services.ProjectServicesTests
             var projectService = new ProjectService(_mockRepo.Object);
             await projectService.AddRoleToProjectAsync(project.Id, role.Id, default);
 
-            _mockRepo.Verify(mock=>mock.SaveAsync(default),Times.Once);
+            _mockRepo.Verify(mock=>mock.Save(),Times.Once);
         }
     }
 }
