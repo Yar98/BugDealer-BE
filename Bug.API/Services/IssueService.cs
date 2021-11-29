@@ -41,7 +41,7 @@ namespace Bug.API.Services
                 new(projectId);
             var result = await _unitOfWork
                 .Issue
-                .GetPaginatedNoTrackBySpecAsync(pageIndex, pageSize, sortOrder, specificationResult, cancellationToken);
+                .GetPaginatedBySpecAsync(pageIndex, pageSize, sortOrder, specificationResult, cancellationToken);
             return new PaginatedListDto<Issue>
             {
                 Length = result.Length,
@@ -60,7 +60,7 @@ namespace Bug.API.Services
                 new IssueByProjectSpecification(projectId);
             var result = await _unitOfWork
                 .Issue
-                .GetNextByOffsetNoTrackBySpecAsync(offset, next, sortOrder, specificationResult, cancellationToken);
+                .GetNextByOffsetBySpecAsync(offset, next, sortOrder, specificationResult, cancellationToken);
             return result;
         }
 
@@ -75,7 +75,7 @@ namespace Bug.API.Services
                 new IssuesByReporterIdSpecification(reportId);
             var result = await _unitOfWork
                 .Issue
-                .GetPaginatedNoTrackBySpecAsync(pageIndex, pageSize, sortOrder, specificationResult, cancellationToken);
+                .GetPaginatedBySpecAsync(pageIndex, pageSize, sortOrder, specificationResult, cancellationToken);
             return new PaginatedListDto<Issue>
             {
                 Length = result.Length,
@@ -94,7 +94,7 @@ namespace Bug.API.Services
                 new IssuesByReporterIdSpecification(reporterId);
             var result = await _unitOfWork
                 .Issue
-                .GetNextByOffsetNoTrackBySpecAsync(offset, next, sortOrder, specificationResult, cancellationToken);
+                .GetNextByOffsetBySpecAsync(offset, next, sortOrder, specificationResult, cancellationToken);
             return result;
         }
 
@@ -109,7 +109,7 @@ namespace Bug.API.Services
                 new IssuesByAssigneeIdSpecification(assigneeId);
             var result = await _unitOfWork
                 .Issue
-                .GetPaginatedNoTrackBySpecAsync(pageIndex, pageSize, sortOrder, specificationResult, cancellationToken);
+                .GetPaginatedBySpecAsync(pageIndex, pageSize, sortOrder, specificationResult, cancellationToken);
             return new PaginatedListDto<Issue>
             {
                 Length = result.Length,
@@ -127,7 +127,8 @@ namespace Bug.API.Services
             var specificationResult =
                 new IssuesByAssigneeIdSpecification(assigneeId);
             var result = await _unitOfWork
-                .Issue.GetNextByOffsetNoTrackBySpecAsync(offset, next, sortOrder, specificationResult, cancellationToken);
+                .Issue
+                .GetNextByOffsetBySpecAsync(offset, next, sortOrder, specificationResult, cancellationToken);
             return result;
         }
 

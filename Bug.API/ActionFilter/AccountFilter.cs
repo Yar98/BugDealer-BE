@@ -59,7 +59,6 @@ namespace Bug.API.ActionFilter
                 }
             }
 
-
             await next();
 
         }
