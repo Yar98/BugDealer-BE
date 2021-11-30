@@ -73,51 +73,55 @@ namespace Bug.API.Controllers
             return Ok(Bts.ConvertJson(result));
         }
 
-        [HttpGet("paging/reporter/{reporterId}/{pageIndex:int}/{pageSize:int}/{sortOrder}")]
+        [HttpGet("paging/project/{projectId}/reporter/{reporterId}/{pageIndex:int}/{pageSize:int}/{sortOrder}")]
         public async Task<IActionResult> GetPaginatedIssuesByReporterId
-            (string reporterId,
+            (string projectId,
+            string reporterId,
             int pageIndex,
             int pageSize,
             string sortOrder)
         {
             var result = await _issueService
-                .GetPaginatedDetailByReporterIdAsync(reporterId, pageIndex, pageSize, sortOrder);
+                .GetPaginatedDetailByProjectIdReporterIdAsync(projectId, reporterId, pageIndex, pageSize, sortOrder);
             return Ok(Bts.ConvertJson(result));
         }
 
-        [HttpGet("offset/reporter/{reporterId}/{offset:int}/{next:int}/{sortOrder}")]
+        [HttpGet("offset/project/{projectId}/reporter/{reporterId}/{offset:int}/{next:int}/{sortOrder}")]
         public async Task<IActionResult> GetNextByOffsetByReporterId
-            (string reporterId,
+            (string projectId,
+            string reporterId,
             int offset,
             int next,
             string sortOrder)
         {
             var result = await _issueService
-                .GetNextDetailByOffsetByReporterIdAsync(reporterId, offset, next, sortOrder);
+                .GetNextDetailByOffsetByProjectIdReporterIdAsync(projectId, reporterId, offset, next, sortOrder);
             return Ok(Bts.ConvertJson(result));
         }
 
-        [HttpGet("paging/assignee/{assigneeId}/{pageIndex:int}/{pageSize:int}/{sortOrder}")]
+        [HttpGet("paging/project/{projectId}/assignee/{assigneeId}/{pageIndex:int}/{pageSize:int}/{sortOrder}")]
         public async Task<IActionResult> GetPaginatedIssuesByAssigneeId
-            (string assigneeId,
+            (string projectId,
+            string assigneeId,
             int pageIndex,
             int pageSize,
             string sortOrder)
         {
             var result = await _issueService
-                .GetPaginatedDetailByAssigneeIdAsync(assigneeId, pageIndex, pageSize, sortOrder);
+                .GetPaginatedDetailByProjectIdAssigneeIdAsync(projectId,assigneeId, pageIndex, pageSize, sortOrder);
             return Ok(Bts.ConvertJson(result));
         }
 
-        [HttpGet("offset/assignee/{assigneeId}/{offset:int}/{next:int}/{sortOrder}")]
+        [HttpGet("offset/project/{projectId}/assignee/{assigneeId}/{offset:int}/{next:int}/{sortOrder}")]
         public async Task<IActionResult> GetNextByOffsetByAssigneeId
-            (string assigneeId,
+            (string projectId,
+            string assigneeId,
             int offset,
             int next,
             string sortOrder)
         {
             var result = await _issueService
-                .GetNextDetailByOffsetByAssigneeIdAsync(assigneeId, offset, next, sortOrder);
+                .GetNextDetailByOffsetByProjectIdAssigneeIdAsync(projectId, assigneeId, offset, next, sortOrder);
             return Ok(Bts.ConvertJson(result));
         }
 

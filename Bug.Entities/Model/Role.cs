@@ -11,6 +11,7 @@ namespace Bug.Entities.Model
         public int Id { get; private set; }
         public string Name { get; private set; }
         public string Description { get; private set; }
+        public bool Default { get; private set; }
         public string CreatorId { get; private set; }
         public Account Creator { get; private set; }
         public ICollection<Account> Accounts { get; private set; }
@@ -41,6 +42,11 @@ namespace Bug.Entities.Model
         public void UpdateDescription(string des)
         {
             Description = des;
+        }
+
+        public void UpdateDefault(bool s)
+        {
+            Default = s;
         }
         
         public void UpdateCreatorId(string id)

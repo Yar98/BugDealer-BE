@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace Bug.Data.Specifications
 {
-    public class IssuesByAssigneeIdSpecification : BaseSpecification<Issue>
+    public class IssuesByAssigneeIdProjectIdSpecification : BaseSpecification<Issue>
     {
-        public IssuesByAssigneeIdSpecification(string assigneeId)
-            :base(i=>i.AssigneeId == assigneeId )
+        public IssuesByAssigneeIdProjectIdSpecification(string projectId,string assigneeId)
+            :base(i=>i.ProjectId == projectId && i.AssigneeId == assigneeId)
         {
             AddInclude(i => i.Status);
             AddInclude(i => i.Priority);

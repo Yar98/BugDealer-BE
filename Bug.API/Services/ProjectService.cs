@@ -61,7 +61,7 @@ namespace Bug.API.Services
         }
 
         // filter by tags, return not contain tags
-        public async Task<PaginatedListDto<Project>> GetPaginatedByCreatorIdTagIdAsync
+        public async Task<PaginatedListDto<Project>> GetPaginatedByCreatorIdStatusAsync
             (string accountId,
             int pageIndex,
             int pageSize,
@@ -172,8 +172,8 @@ namespace Bug.API.Services
                 .AddDescription(pro.Description)
                 .AddAvatarUri(pro.AvatarUri)
                 .AddCreatorId(pro.CreatorId)
-                .AddStatus(pro.Status)
-                .AddTemplateId(pro.TemplateId)
+                .AddStatus(pro.Status??1)
+                .AddTemplateId(pro.TemplateId??1)
                 .Build();
             // add creator as member to project
             var acc = await _unitOfWork.Account.GetByIdAsync(pro.CreatorId, cancellationToken);
@@ -198,16 +198,26 @@ namespace Bug.API.Services
             CancellationToken cancellationToken = default)
         {
             var result = await _unitOfWork.Project.GetByIdAsync(pro.Id,cancellationToken);
-            result.UpdateName(pro.Name);
-            result.UpdateAvatarUri(pro.AvatarUri);
-            result.UpdateCode(pro.Code);
-            result.UpdateDescription(pro.Description);
-            result.UpdateEndDate(pro.EndDate);
-            result.UpdateStartDate(pro.StartDate);
-            result.UpdateCreatorId(pro.CreatorId);
-            result.UpdateDefaultAssigneeId(pro.DefaultAssigneeId);
-            result.UpdateStatus(pro.Status);
-            result.UpdateTemplateId(pro.TemplateId);
+            if(pro.Name != null)
+                result.UpdateName(pro.Name);
+            if(pro.AvatarUri != null)
+                result.UpdateAvatarUri(pro.AvatarUri);
+            if(pro.Code != null)
+                result.UpdateCode(pro.Code);
+            if(pro.Description != null)
+                result.UpdateDescription(pro.Description);
+            if(pro.EndDate != null)
+                result.UpdateEndDate(pro.EndDate);
+            if(pro.StartDate != null)
+                result.UpdateStartDate(pro.StartDate);
+            if(pro.CreatorId != null)
+                result.UpdateCreatorId(pro.CreatorId);
+            if(pro.DefaultAssigneeId != null)
+                result.UpdateDefaultAssigneeId(pro.DefaultAssigneeId);
+            if(pro.Status != null)
+                result.UpdateStatus(pro.Status??0);
+            if(pro.TemplateId != null)
+                result.UpdateTemplateId(pro.TemplateId??0);
             // update db
             _unitOfWork.Project.Update(result);
             _unitOfWork.Save();
@@ -251,7 +261,7 @@ namespace Bug.API.Services
             var project = await _unitOfWork.Project.GetByIdAsync(pro.Id, cancellationToken);
             var statuses = pro
                 .Statuses
-                .Select(r => new Status(r.Id, r.Name, r.Description, r.Progress, r.CreatorId, r.TagId))
+                .Select(r => new Status(r.Id, r.Name, r.Description, r.Progress??0, r.CreatorId, r.TagId??1))
                 .ToList();
             project.UpdateStatuses(statuses);
             _unitOfWork.Project.Update(project);

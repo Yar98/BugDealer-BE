@@ -25,26 +25,30 @@ namespace Bug.API.Services
             int next,
             string sortOrder,
             CancellationToken cancellationToken = default);
-        Task<PaginatedListDto<Issue>> GetPaginatedDetailByReporterIdAsync
-            (string reportId,
+        Task<PaginatedListDto<Issue>> GetPaginatedDetailByProjectIdReporterIdAsync
+            (string projectId,
+            string reportId,
             int pageIndex,
             int pageSize,
             string sortOrder,
             CancellationToken cancellationToken = default);
-        Task<IReadOnlyList<Issue>> GetNextDetailByOffsetByReporterIdAsync
-            (string reporterId,
+        Task<IReadOnlyList<Issue>> GetNextDetailByOffsetByProjectIdReporterIdAsync
+            (string projectId,
+            string reporterId,
             int offset,
             int next,
             string sortOrder,
             CancellationToken cancellationToken = default);
-        Task<PaginatedListDto<Issue>> GetPaginatedDetailByAssigneeIdAsync
-            (string assigneeId,
+        Task<PaginatedListDto<Issue>> GetPaginatedDetailByProjectIdAssigneeIdAsync
+            (string projectId, 
+            string assigneeId,
             int pageIndex,
             int pageSize,
             string sortOrder,
             CancellationToken cancellationToken = default);
-        Task<IReadOnlyList<Issue>> GetNextDetailByOffsetByAssigneeIdAsync
-            (string assigneeId,
+        Task<IReadOnlyList<Issue>> GetNextDetailByOffsetByProjectIdAssigneeIdAsync
+            (string projectId, 
+            string assigneeId,
             int offset,
             int next,
             string sortOrder,
