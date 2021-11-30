@@ -11,6 +11,7 @@ namespace Bug.API.Dto
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public bool? Default { get; set; }
         public string CreatorId { get; set; }
         public List<AccountNormalDto> Accounts { get; set; }
         public List<PermissionNormalDto> Permissions { get; set; }

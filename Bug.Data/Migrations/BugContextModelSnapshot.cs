@@ -79,6 +79,21 @@ namespace Bug.Data.Migrations
                     b.ToTable("AccountProject");
                 });
 
+            modelBuilder.Entity("AccountProject1", b =>
+                {
+                    b.Property<string>("RelateProjectsId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("RelatorId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("RelateProjectsId", "RelatorId");
+
+                    b.HasIndex("RelatorId");
+
+                    b.ToTable("RelatorProject");
+                });
+
             modelBuilder.Entity("AccountRole", b =>
                 {
                     b.Property<string>("AccountsId")
@@ -765,6 +780,21 @@ namespace Bug.Data.Migrations
                     b.HasOne("Bug.Entities.Model.Project", null)
                         .WithMany()
                         .HasForeignKey("ProjectsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("AccountProject1", b =>
+                {
+                    b.HasOne("Bug.Entities.Model.Project", null)
+                        .WithMany()
+                        .HasForeignKey("RelateProjectsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Bug.Entities.Model.Account", null)
+                        .WithMany()
+                        .HasForeignKey("RelatorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

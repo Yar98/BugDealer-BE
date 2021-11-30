@@ -64,15 +64,16 @@ namespace Bug.API.Services
             return result;
         }
 
-        public async Task<PaginatedListDto<Issue>> GetPaginatedDetailByReporterIdAsync
-            (string reportId,
+        public async Task<PaginatedListDto<Issue>> GetPaginatedDetailByProjectIdReporterIdAsync
+            (string projectId,
+            string reportId,
             int pageIndex,
             int pageSize,
             string sortOrder,
             CancellationToken cancellationToken = default)
         {
             var specificationResult =
-                new IssuesByReporterIdSpecification(reportId);
+                new IssuesByReporterIdProjectIdSpecification(projectId, reportId);
             var result = await _unitOfWork
                 .Issue
                 .GetPaginatedBySpecAsync(pageIndex, pageSize, sortOrder, specificationResult, cancellationToken);
@@ -83,30 +84,32 @@ namespace Bug.API.Services
             };
         }
 
-        public async Task<IReadOnlyList<Issue>> GetNextDetailByOffsetByReporterIdAsync
-            (string reporterId,
+        public async Task<IReadOnlyList<Issue>> GetNextDetailByOffsetByProjectIdReporterIdAsync
+            (string projectId,
+            string reporterId,
             int offset,
             int next,
             string sortOrder,
             CancellationToken cancellationToken = default)
         {
             var specificationResult =
-                new IssuesByReporterIdSpecification(reporterId);
+                new IssuesByReporterIdProjectIdSpecification(projectId, reporterId);
             var result = await _unitOfWork
                 .Issue
                 .GetNextByOffsetBySpecAsync(offset, next, sortOrder, specificationResult, cancellationToken);
             return result;
         }
 
-        public async Task<PaginatedListDto<Issue>> GetPaginatedDetailByAssigneeIdAsync
-            (string assigneeId,
+        public async Task<PaginatedListDto<Issue>> GetPaginatedDetailByProjectIdAssigneeIdAsync
+            (string projectId,
+            string assigneeId,
             int pageIndex,
             int pageSize,
             string sortOrder,
             CancellationToken cancellationToken = default)
         {
             var specificationResult =
-                new IssuesByAssigneeIdSpecification(assigneeId);
+                new IssuesByAssigneeIdProjectIdSpecification(projectId,assigneeId);
             var result = await _unitOfWork
                 .Issue
                 .GetPaginatedBySpecAsync(pageIndex, pageSize, sortOrder, specificationResult, cancellationToken);
@@ -117,8 +120,9 @@ namespace Bug.API.Services
             };
         }
 
-        public async Task<IReadOnlyList<Issue>> GetNextDetailByOffsetByAssigneeIdAsync
-            (string assigneeId,
+        public async Task<IReadOnlyList<Issue>> GetNextDetailByOffsetByProjectIdAssigneeIdAsync
+            (string projectId,
+            string assigneeId,
             int offset,
             int next,
             string sortOrder,

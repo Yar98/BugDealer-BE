@@ -30,6 +30,10 @@ namespace Bug.Data.Configuration
                 .WithMany(r => r.Accounts)
                 .UsingEntity(a => a.ToTable("AccountRole"));
             builder
+                .HasMany(a => a.RelateProjects)
+                .WithMany(r => r.Relator)
+                .UsingEntity(a => a.ToTable("RelatorProject"));
+            builder
                 .HasMany(a => a.ReportIssues)
                 .WithOne(i => i.Reporter)
                 .HasForeignKey(i => i.ReporterId);

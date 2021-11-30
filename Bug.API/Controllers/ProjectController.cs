@@ -53,17 +53,17 @@ namespace Bug.API.Controllers
         }
 
         // GET: api/Project/paging/1/account1/1/1/3/id
-        [HttpGet("paging/creator/{accountId}/{tagId:int}/{pageIndex:int}/{pageSize:int}/{sortOrder}")]
+        [HttpGet("paging/creator/{accountId}/{status:int}/{pageIndex:int}/{pageSize:int}/{sortOrder}")]
         public async Task<IActionResult> GetPaginatedProjectsByCreatorIdTagId
             (string accountId,
             int pageIndex, 
             int pageSize,
-            int tagId,
+            int status,
             string sortOrder)
         {
             var result = 
-                await _projectService.GetPaginatedByCreatorIdTagIdAsync(
-                    accountId, pageIndex, pageSize, tagId, sortOrder);
+                await _projectService.GetPaginatedByCreatorIdStatusAsync(
+                    accountId, pageIndex, pageSize, status, sortOrder);
             return Ok(Bts.ConvertJson(result));
         }
 

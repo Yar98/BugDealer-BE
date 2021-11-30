@@ -122,9 +122,14 @@ namespace Bug.API.Services
             CancellationToken cancellationToken = default)
         {
             var result = await _unitOfWork.Role.GetByIdAsync(role.Id,cancellationToken);
-            result.UpdateCreatorId(role.CreatorId);
-            result.UpdateDescription(role.Description);
-            result.UpdateName(role.Name);
+            if(role.CreatorId != null)
+                result.UpdateCreatorId(role.CreatorId);
+            if(role.Description != null)
+                result.UpdateDescription(role.Description);
+            if(role.Name != null)
+                result.UpdateName(role.Name);
+            if (role.Default != null)
+                result.UpdateDefault(role.Default??false);
             _unitOfWork.Role.Update(result);
             _unitOfWork.Save();
         }

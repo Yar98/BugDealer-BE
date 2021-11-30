@@ -93,9 +93,9 @@ namespace Bug.API.Services
             var result = new Status(Guid.NewGuid().ToString(),
                 status.Name,
                 status.Description,
-                status.Progress,
+                status.Progress??0,
                 status.CreatorId,
-                status.TagId);
+                status.TagId??1);
             await _unitOfWork
                 .Status
                 .AddAsync(result, cancellationToken);
@@ -110,9 +110,9 @@ namespace Bug.API.Services
             var result = await _unitOfWork.Status.GetByIdAsync(status.Id, cancellationToken);
             result.UpdateName(status.Name);
             result.UpdateDescription(status.Description);
-            result.UpdateProgress(status.Progress);
+            result.UpdateProgress(status.Progress??0);
             result.UpdateCreatorId(status.CreatorId);
-            result.UpdateTagId(status.TagId);
+            result.UpdateTagId(status.TagId??1);
             _unitOfWork.Status.Update(result);
             _unitOfWork.Save();
         }

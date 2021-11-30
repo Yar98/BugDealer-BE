@@ -23,6 +23,8 @@ namespace Bug.Entities.Model
         public Account Creator { get; private set; }
         public int TemplateId { get; private set; }
         public Template Template { get; private set; }
+
+        public ICollection<Account> Relator { get; private set; }
         
         private readonly List<Issue> _issues = new List<Issue>();
         public ICollection<Issue> Issues => _issues.AsReadOnly();

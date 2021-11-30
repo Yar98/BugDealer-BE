@@ -341,6 +341,30 @@ namespace Bug.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "RelatorProject",
+                columns: table => new
+                {
+                    RelateProjectsId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    RelatorId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RelatorProject", x => new { x.RelateProjectsId, x.RelatorId });
+                    table.ForeignKey(
+                        name: "FK_RelatorProject_Account_RelatorId",
+                        column: x => x.RelatorId,
+                        principalTable: "Account",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_RelatorProject_Project_RelateProjectsId",
+                        column: x => x.RelateProjectsId,
+                        principalTable: "Project",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AccountRole",
                 columns: table => new
                 {
@@ -859,6 +883,11 @@ namespace Bug.Data.Migrations
                 column: "ToIssueId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_RelatorProject_RelatorId",
+                table: "RelatorProject",
+                column: "RelatorId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Role_CreatorId",
                 table: "Role",
                 column: "CreatorId");
@@ -931,6 +960,9 @@ namespace Bug.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Relation");
+
+            migrationBuilder.DropTable(
+                name: "RelatorProject");
 
             migrationBuilder.DropTable(
                 name: "VoterIssue");
