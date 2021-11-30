@@ -232,6 +232,10 @@ namespace Bug.API.Services
                 .Roles
                 .Select(r => new Role(r.Id, r.Name, r.Description, r.CreatorId))
                 .ToList();
+            var defaultRoles = await _unitOfWork
+                .Role
+                .GetDefaultRolesAsync(cancellationToken:cancellationToken);
+            roles.AddRange(defaultRoles);
             project.UpdateRoles(roles);
             _unitOfWork.Project.Update(project);
             _unitOfWork.Save();
@@ -263,6 +267,10 @@ namespace Bug.API.Services
                 .Statuses
                 .Select(r => new Status(r.Id, r.Name, r.Description, r.Progress??0, r.CreatorId, r.TagId??1))
                 .ToList();
+            var defaultStatuses = await _unitOfWork
+                .Status
+                .GetDefaultStatusesAsync(cancellationToken: cancellationToken);
+            statuses.AddRange(defaultStatuses);
             project.UpdateStatuses(statuses);
             _unitOfWork.Project.Update(project);
             _unitOfWork.Save();
