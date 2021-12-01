@@ -22,16 +22,16 @@ namespace Bug.API.Services
             _unitOfWork = uow;
         }
 
-        public async Task<ProjectNormalDto> GetNormalProjectAsync
+        public async Task<ProjectPostDto> GetNormalProjectAsync
             (string projectId,
             CancellationToken cancellationToken = default)
         {
-            ProjectSpecification specificationResult =
-                new(projectId);
+            var specificationResult =
+                new ProjectSpecification(projectId);
             var result = await _unitOfWork
                 .Project
                 .GetEntityBySpecAsync(specificationResult, cancellationToken);
-            return new ProjectNormalDto
+            return new ProjectPostDto
             {
                 Id = result.Id,
                 Name = result.Name,
@@ -52,8 +52,8 @@ namespace Bug.API.Services
             (string projectId,
             CancellationToken cancellationToken = default)
         {
-            ProjectSpecification specificationResult =
-                new(projectId);
+            var specificationResult =
+                new ProjectSpecification(projectId);
             var result = await _unitOfWork
                 .Project
                 .GetEntityBySpecAsync(specificationResult,cancellationToken);
@@ -125,8 +125,8 @@ namespace Bug.API.Services
                 new ProjectsByStatusCreatorIdTagIdSpecification(accountId, tagId);
             var result = await _unitOfWork
                 .Project
-                .GetNextByOffsetNoTrackBySpecAsync(
-                offset,
+                .GetNextByOffsetNoTrackBySpecAsync
+                (offset,
                 next,
                 sortOrder,
                 specificationResult,
@@ -148,8 +148,8 @@ namespace Bug.API.Services
                 new ProjectsByStatusWhichMemberIdJoinSpecification(accountId, tagId);
             var result = await _unitOfWork
                 .Project
-                .GetNextByOffsetNoTrackBySpecAsync(
-                offset,
+                .GetNextByOffsetNoTrackBySpecAsync
+                (offset,
                 next,
                 sortOrder,
                 specificationResult,
@@ -158,7 +158,7 @@ namespace Bug.API.Services
         }
 
         public async Task<Project> AddProjectAsync
-            (ProjectNormalDto pro,
+            (ProjectPostDto pro,
             CancellationToken cancellationToken = default)
         {
             pro.Id = Guid.NewGuid().ToString();
@@ -194,7 +194,7 @@ namespace Bug.API.Services
         }
 
         public async Task UpdateBasicProjectAsync
-            (ProjectNormalDto pro,
+            (ProjectPutDto pro,
             CancellationToken cancellationToken = default)
         {
             var result = await _unitOfWork.Project.GetByIdAsync(pro.Id,cancellationToken);
@@ -224,7 +224,7 @@ namespace Bug.API.Services
         }
 
         public async Task UpdateRolesOfProjectAsync
-            (ProjectNormalDto pro,
+            (ProjectPutDto pro,
             CancellationToken cancellationToken = default)
         {
             var project = await _unitOfWork.Project.GetByIdAsync(pro.Id, cancellationToken);
@@ -259,7 +259,7 @@ namespace Bug.API.Services
         }
 
         public async Task UpdateStatusesOfProjectAsync
-            (ProjectNormalDto pro,
+            (ProjectPutDto pro,
             CancellationToken cancellationToken = default)
         {
             var project = await _unitOfWork.Project.GetByIdAsync(pro.Id, cancellationToken);

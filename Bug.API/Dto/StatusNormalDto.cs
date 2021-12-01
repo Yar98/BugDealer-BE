@@ -16,6 +16,6 @@ namespace Bug.API.Dto
         public string CreatorId { get; set; }
         public int? TagId { get; set; }
 
-        public List<ProjectNormalDto> Projects { get; set; }
+        public List<ProjectPostDto> Projects { get; set; }
     }
 }

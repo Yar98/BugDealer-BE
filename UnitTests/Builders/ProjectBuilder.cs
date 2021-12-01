@@ -11,6 +11,7 @@ namespace UnitTests.Builders
     public class ProjectBuilder
     {
         private readonly Project _project;
+        public string TestId = "project1";
         public string TestName = "Test Name";
         public string TestCode = "PJ-131";
         public DateTimeOffset TestStartDate = DateTime.Now;
@@ -25,8 +26,7 @@ namespace UnitTests.Builders
 
         public ProjectBuilder()
         {
-            var id = Guid.NewGuid().ToString();
-            _project = new Project(id,TestName,TestCode,TestStartDate,TestEndDate,
+            _project = new Project(TestId,TestName,TestCode,TestStartDate,TestEndDate,
                 TestRecentDate,TestDescription,TestUri,TestDefaultAssigneeId,
                 TestCreatorId,TestTemplateId,TestStatus);
         }
@@ -36,11 +36,11 @@ namespace UnitTests.Builders
             return _project;
         }
 
-        public ProjectNormalDto BuildDto()
+        public ProjectPostDto BuildDto()
         {
-            return new ProjectNormalDto
+            return new ProjectPostDto
             {
-                Id = _project.Id,
+                Id = TestId,
                 Name = TestName,
                 Code = TestCode,
                 StartDate = TestStartDate,

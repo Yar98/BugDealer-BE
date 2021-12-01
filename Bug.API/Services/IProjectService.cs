@@ -14,7 +14,7 @@ namespace Bug.API.Services
         Task<Project> GetDetailProjectAsync
             (string id,
             CancellationToken cancellationToken = default);
-        Task<ProjectNormalDto> GetNormalProjectAsync
+        Task<ProjectPostDto> GetNormalProjectAsync
             (string projectId,
             CancellationToken cancellationToken = default);
         Task<PaginatedListDto<Project>> GetPaginatedByCreatorIdStatusAsync
@@ -46,20 +46,20 @@ namespace Bug.API.Services
             string sortOrder,
             CancellationToken cancellation = default);
         Task<Project> AddProjectAsync
-            (ProjectNormalDto pro,
+            (ProjectPostDto pro,
             CancellationToken cancellationToken = default);
         Task UpdateBasicProjectAsync
-            (ProjectNormalDto pro,
+            (ProjectPutDto pro,
             CancellationToken cancellation = default);
         Task UpdateRolesOfProjectAsync
-            (ProjectNormalDto pro,
+            (ProjectPutDto pro,
             CancellationToken cancellationToken = default);
         Task AddRoleToProjectAsync
             (string projectId,
             int roleId,
             CancellationToken cancellationToken = default);
         Task UpdateStatusesOfProjectAsync
-            (ProjectNormalDto pro,
+            (ProjectPutDto pro,
             CancellationToken cancellationToken = default);
         Task DeleteProjectAsync
             (string projectId,
