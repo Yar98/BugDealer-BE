@@ -30,5 +30,7 @@ namespace UnitTests.ApplicationCore.Entities.ProjectTests
             Assert.Equal(_testDescription, result.Description);
             Assert.Equal(_testCreatorId, result.CreatorId);
         }
+
+        
     }
 }

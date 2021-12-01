@@ -1,6 +1,5 @@
 ﻿using Bug.API.Services;
 using Bug.Data.Infrastructure;
-using Bug.Data.Repositories;
 using Bug.Entities.Model;
 using Moq;
 using System;

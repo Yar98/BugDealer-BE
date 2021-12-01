@@ -114,7 +114,7 @@ namespace Bug.API.Controllers
         // POST api/Project
         [HttpPost]
         public async Task<IActionResult> PostAddProject
-            ([FromBody] ProjectNormalDto pro)
+            ([FromBody] ProjectPostDto pro)
         {
             var result = await _projectService.AddProjectAsync(pro);
 
@@ -124,9 +124,9 @@ namespace Bug.API.Controllers
 
         // PUT api/Project/detail/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUpdateDetailProject
+        public async Task<IActionResult> PutUpdateBasicProject
             (string id, 
-            [FromBody] ProjectNormalDto pro)
+            [FromBody] ProjectPutDto pro)
         {
             if (id != pro.Id)
                 return BadRequest();
@@ -137,7 +137,7 @@ namespace Bug.API.Controllers
         [HttpPut("{projectId}/updateroles")]
         public async Task<IActionResult> PutUpdateRolesOfProject
             (string projectId,
-            [FromBody] ProjectNormalDto pro)
+            [FromBody] ProjectPutDto pro)
         {
             if (projectId != pro.Id)
                 return BadRequest();
@@ -157,7 +157,7 @@ namespace Bug.API.Controllers
         [HttpPut("{projectId}/updatestatuses")]
         public async Task<IActionResult> PutUpdateStatusesOfProject
             (string projectId,
-            [FromBody] ProjectNormalDto pro)
+            [FromBody] ProjectPutDto pro)
         {
             if (projectId != pro.Id)
                 return BadRequest();

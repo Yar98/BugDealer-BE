@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Bug.API.Dto
 {
-    public class ProjectNormalDto
+    public class ProjectPostDto
     {
         public string Id { get; set; }
         [Required]
