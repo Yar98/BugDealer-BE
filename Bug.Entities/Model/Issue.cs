@@ -31,6 +31,8 @@ namespace Bug.Entities.Model
         public Account Reporter { get; private set; }
         public string AssigneeId { get; private set; }
         public Account Assignee { get; private set; }
+        public int? WorklogId { get; private set; }
+        public Worklog Worklog { get; private set; }
 
         public ICollection<Account> Watcher { get; private set; }
         public ICollection<Account> Voter { get; private set; }
@@ -79,7 +81,8 @@ namespace Bug.Entities.Model
             int priorityId,
             string projectId,
             string reporterId,
-            string assigneeId)
+            string assigneeId,
+            int? worklogId)
         {
             Id = id;
             Title = title;
@@ -97,6 +100,12 @@ namespace Bug.Entities.Model
             ProjectId = projectId;
             ReporterId = reporterId;
             AssigneeId = assigneeId;
+            WorklogId = worklogId;
+        }
+
+        public void UpdateWorklogId(int i)
+        {
+            WorklogId = i;
         }
 
         public void UpdateProjectId(string id)

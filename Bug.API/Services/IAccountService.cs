@@ -18,6 +18,12 @@ namespace Bug.API.Services
             CancellationToken cancellationToken = default);
         Task<AccountNormalDto> LoginLocalAsync(string name, string password, CancellationToken cancellationToken = default);
         Task<AccountNormalDto> GetAccountByIdAsync(string id, CancellationToken cancellationToken = default);
+        Task<Account> GetDetailAccountById
+            (string id,
+            CancellationToken cancellationToken = default);
+        Task<Account> GetDetailAccountByUserNameAsync
+            (string username,
+            CancellationToken cancellationToken = default);
         Task<PaginatedListDto<AccountNormalDto>> GetPaginatedByProjectIdAsync
             (string projectId,
             int pageIndex,
@@ -40,6 +46,9 @@ namespace Bug.API.Services
             CancellationToken cancellationToken = default);
         Task<AccountNormalDto> AddRegistedAccountAsync(AccountBtsRegister user, CancellationToken cancellationToken = default);
         Task UpdateAccountAsync(AccountNormalDto user, CancellationToken cancellationToken = default);
+        Task<int> UpdateAccountWithCheckPasswordAsync
+            (AccountPutWithCheckDto user,
+            CancellationToken cancellationToken = default);
         Task DeleteAccountAsync(string id, CancellationToken cancellationToken = default);
     }
 }

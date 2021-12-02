@@ -103,6 +103,30 @@ namespace Bug.API.Services
             };
         }
 
+        public async Task<Account> GetDetailAccountById
+            (string id,
+            CancellationToken cancellationToken = default)
+        {
+            var specificationResult =
+                new AccountSpecification(id);
+            var result = await _unitOfWork
+                .Account
+                .GetEntityBySpecAsync(specificationResult, cancellationToken);
+            return result;
+        }
+
+        public async Task<Account> GetDetailAccountByUserNameAsync
+            (string username,
+            CancellationToken cancellationToken = default)
+        {
+            var specificationResult =
+                new AccountByUserNameSpecification(username);
+            var result = await _unitOfWork
+                .Account
+                .GetEntityBySpecAsync(specificationResult, cancellationToken);
+            return result;
+        }
+
         public async Task<PaginatedListDto<AccountNormalDto>> GetPaginatedByProjectIdAsync
             (string projectId,
             int pageIndex,
@@ -226,14 +250,48 @@ namespace Bug.API.Services
             CancellationToken cancellationToken = default)
         {
             var result = await _unitOfWork.Account.GetByIdAsync(user.Id, cancellationToken);
-            result.UpdateUserName(user.UserName);
-            result.UpdateLastName(user.LastName);
-            result.UpdateFirstName(user.FirstName);
-            result.UpdateEmail(user.Email);
-            result.UpdateLanguage(user.Language);
-            result.UpdateImageUri(user.ImageUri);
+            if (user.UserName != null)
+                result.UpdateUserName(user.UserName);
+            if (user.LastName != null)
+                result.UpdateLastName(user.LastName);
+            if (user.FirstName != null)
+                result.UpdateFirstName(user.FirstName);
+            if (user.Email != null)
+                result.UpdateEmail(user.Email);
+            if (user.Language != null)
+                result.UpdateLanguage(user.Language);
+            if (user.ImageUri != null)
+                result.UpdateImageUri(user.ImageUri);
             _unitOfWork.Account.Update(result);
             _unitOfWork.Save();
+        }
+
+        public async Task<int> UpdateAccountWithCheckPasswordAsync
+            (AccountPutWithCheckDto user,
+            CancellationToken cancellationToken = default)
+        {
+            var specificationResult =
+                new AccountSpecification(user.Id);
+            var result = await _unitOfWork
+                .Account
+                .GetEntityBySpecAsync(specificationResult, cancellationToken);
+            if (string.Compare(result.Password, user.Password) != 0)
+                return 0;
+            if (user.UserName != null)
+                result.UpdateUserName(user.UserName);
+            if (user.LastName != null)
+                result.UpdateLastName(user.LastName);
+            if (user.FirstName != null)
+                result.UpdateFirstName(user.FirstName);
+            if (user.Email != null)
+                result.UpdateEmail(user.Email);
+            if (user.Language != null)
+                result.UpdateLanguage(user.Language);
+            if (user.ImageUri != null)
+                result.UpdateImageUri(user.ImageUri);
+            _unitOfWork.Account.Update(result);
+            _unitOfWork.Save();
+            return 1;
         }
 
         public async Task DeleteAccountAsync

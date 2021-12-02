@@ -26,8 +26,15 @@ namespace Bug.Core.Utils
         public static bool ValidName(string name)
         {
             var regex =
-                new Regex(@"[a-zA-Z]+");
+                new Regex(@"^[a-zA-Z]+$");
             return regex.IsMatch(name);
+        }
+
+        public static bool ValidEmail(string email)
+        {
+            var regex =
+                new Regex(@"^[a-zA-Z0-9]+\@([a-z]+\.[a-z]+)+$");
+            return regex.IsMatch(email);
         }
     }
 }

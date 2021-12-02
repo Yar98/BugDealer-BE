@@ -62,7 +62,7 @@ namespace Bug.API.Controllers
         }
 
         [HttpGet("offset/project/{projectId}/{offset:int}/{next:int}/{sortOrder}")]
-        public async Task<IActionResult> GetByOffsetIssuesByProject
+        public async Task<IActionResult> GetNextByOffsetIssuesByProject
             (string projectId,
             int offset,
             int next,
@@ -136,7 +136,7 @@ namespace Bug.API.Controllers
 
         // POST api/Issue
         [HttpPost]
-        public async Task<IActionResult> PostAddIssue([FromBody] IssueNormalDto issue)
+        public async Task<IActionResult> PostAddIssue([FromBody] IssuePostDto issue)
         {
             var result = await _issueService.AddIssueAsync(issue);
             return CreatedAtAction(
@@ -147,7 +147,7 @@ namespace Bug.API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutUpdateBasicIssue
             (string id, 
-            [FromBody] IssueNormalDto issue)
+            [FromBody] IssuePostDto issue)
         {
             if (id != issue.Id)
                 return BadRequest();
@@ -158,7 +158,7 @@ namespace Bug.API.Controllers
         [HttpPut("{id}/labels")]
         public async Task<IActionResult> PutUpdateLabelsOfIssue
             (string id,
-            [FromBody] IssueNormalDto issue)
+            [FromBody] IssuePostDto issue)
         {
             if (id != issue.Id)
                 return BadRequest();
@@ -169,7 +169,7 @@ namespace Bug.API.Controllers
         [HttpPut("{id}/attachments")]
         public async Task<IActionResult> PutUpdateAttachmentsOfIssue
             (string id,
-            [FromBody] IssueNormalDto issue)
+            [FromBody] IssuePostDto issue)
         {
             if (id != issue.Id)
                 return BadRequest();
@@ -180,7 +180,7 @@ namespace Bug.API.Controllers
         [HttpPut("{id}/fromrelations")]
         public async Task<IActionResult> PutUpdateFromRelationOfIssue
             (string id,
-            [FromBody] IssueNormalDto issue)
+            [FromBody] IssuePostDto issue)
         {
             if (id != issue.Id)
                 return BadRequest();

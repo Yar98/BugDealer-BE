@@ -26,7 +26,7 @@ namespace UnitTests.ApplicationCore.Services.ProjectServicesTests
         }
 
         [Fact]
-        public async Task InvokeSaveAsyncOnlyOnce()
+        public async Task InvokeSaveOnlyOnce()
         {
             var project = new ProjectBuilder().Build();
             var role = new Role(_testRoleId, _testName, _testDescription, _testCreatorId);

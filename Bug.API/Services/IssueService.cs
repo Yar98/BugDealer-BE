@@ -149,7 +149,7 @@ namespace Bug.API.Services
         }
 
         public async Task<Issue> AddIssueAsync
-            (IssueNormalDto issue,
+            (IssuePostDto issue,
             CancellationToken cancellationToken = default)
         {
             var result = new IssueBuilder()
@@ -220,7 +220,7 @@ namespace Bug.API.Services
         }
 
         public async Task UpdateIssueAsync
-            (IssueNormalDto issue,
+            (IssuePostDto issue,
             CancellationToken cancellationToken = default)
         {
             var result = await _unitOfWork.Issue.GetByIdAsync(issue.Id, cancellationToken);
@@ -257,7 +257,7 @@ namespace Bug.API.Services
         }
 
         public async Task UpdateTagsOfIssue
-            (IssueNormalDto issue,
+            (IssuePostDto issue,
             CancellationToken cancellationToken = default)
         {
             var result = await _unitOfWork.Issue.GetByIdAsync(issue.Id, cancellationToken);
@@ -271,7 +271,7 @@ namespace Bug.API.Services
         }
 
         public async Task UpdateFromRelationsOfIssue
-            (IssueNormalDto issue,
+            (IssuePostDto issue,
             CancellationToken cancellationToken = default)
         {
             var result = await _unitOfWork.Issue.GetByIdAsync(issue.Id, cancellationToken);
@@ -285,7 +285,7 @@ namespace Bug.API.Services
         }
 
         public async Task UpdateAttachmentsOfIssue
-            (IssueNormalDto issue,
+            (IssuePostDto issue,
             CancellationToken cancellationToken = default)
         {
             var result = await _unitOfWork.Issue.GetByIdAsync(issue.Id, cancellationToken);

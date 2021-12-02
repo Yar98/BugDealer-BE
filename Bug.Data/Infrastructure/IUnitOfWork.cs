@@ -27,6 +27,7 @@ namespace Bug.Data.Infrastructure
         ICustomtypeRepo Customtype { get; }
         IAttachmentRepo Attachment { get; }
         ITemplateRepo Template { get; }
+        INotificationRepo Notification { get; }
         public void Save();
     }
 }

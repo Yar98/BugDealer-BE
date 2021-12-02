@@ -8,5 +8,6 @@ namespace Bug.API.SignalR
     public interface IChatClient
     {
         Task ReceiveMessage(string user, string message);
+        
     }
 }

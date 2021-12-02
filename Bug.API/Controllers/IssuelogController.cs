@@ -1,7 +1,9 @@
 ﻿using Bug.API.Dto;
 using Bug.API.Services;
+using Bug.API.SignalR;
 using Bug.Core.Common;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,9 +16,19 @@ namespace Bug.API.Controllers
     public class IssuelogController : ControllerBase
     {
         private readonly IIssuelogService _issuelogService;
-        public IssuelogController(IIssuelogService issuelogService)
+        private readonly IHubContext<ChatHub, IChatClient> _hubContext;
+
+        public IssuelogController(IIssuelogService issuelogService, IHubContext<ChatHub, IChatClient> hubContext)
         {
             _issuelogService = issuelogService;
+            _hubContext = hubContext;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetTest()
+        {
+            await _hubContext.Clients.Group("group").ReceiveMessage("issue1","hihihi");
+            return Ok();
         }
 
         [HttpGet("{id}")]

@@ -128,6 +128,19 @@ namespace Bug.API.Controllers
             return NoContent();
         }
 
+        [HttpPut("checkpass/{id}")]
+        public async Task<IActionResult> PutUpdateAccountWithCheckPass
+            (string id, [FromBody] AccountPutWithCheckDto user)
+        {
+            if (id != user.Id)
+                return BadRequest();
+            var temp = await _accountService
+                .UpdateAccountWithCheckPasswordAsync(user);
+            if (temp == 0)
+                return BadRequest();
+            return NoContent();
+        }
+
         // DELETE api/Account/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAccount(string id)
