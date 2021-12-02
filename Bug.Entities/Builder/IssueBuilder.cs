@@ -25,17 +25,26 @@ namespace Bug.Entities.Builder
         public string ProjectId { get; private set; }
         public string ReporterId { get; private set; }
         public string AssigneeId { get; private set; }
+        public int WorklogId { get; private set; }
+
+        public IIssueBuilder AddWorklogId(int w)
+        {
+            WorklogId = w;
+            return this;
+        }
 
         public IIssueBuilder AddCode(string code)
         {
             Code = code;
             return this;
         }
+
         public IIssueBuilder AddWorklogDate(DateTimeOffset? dd)
         {
             WorklogDate = dd;
             return this;
         }
+
         public IIssueBuilder AddAssigneeId(string s)
         {
             AssigneeId = s;
@@ -138,7 +147,8 @@ namespace Bug.Entities.Builder
                 PriorityId,
                 ProjectId,
                 ReporterId,
-                AssigneeId);
+                AssigneeId,
+                WorklogId);
         }
     }
 }

@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using Bug.API.Services;
+using Bug.Data.Infrastructure;
+using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,33 +11,31 @@ namespace Bug.API.SignalR
 {
     public class ChatHub : Hub<IChatClient>
     {
-
-        public Task SendMessage(string user, string message)
+        private readonly ILogger _logger;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IAccountService _accountService;
+        
+        public ChatHub(ILogger<ChatHub> logger, IAccountService accountService)
         {
-            return Clients.All.ReceiveMessage(user, message);
+            _logger = logger;
+            _accountService = accountService;
         }
 
-        public Task SendMessageToCaller(string user, string message)
+        public async Task GetConnectionId(string accountId, string connectionId)
         {
-            return Clients.Caller.ReceiveMessage(user, message);
+            _logger.LogInformation(connectionId);
+            var user = await _accountService
+                .GetDetailAccountById(accountId);
+            if (user == null || user.WatchIssues.Count == 0)
+                return;
+            foreach(var i in user.WatchIssues)
+            {
+                await Groups.AddToGroupAsync(connectionId, i.Id);
+            }
         }
-
-        public async Task AddToGroup(string groupName)
-        {
-            await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
-
-            await Clients.Group(groupName).ReceiveMessage("Send", $"{Context.ConnectionId} has joined the group {groupName}.");
-        }
-
-        public async Task RemoveFromGroup(string groupName)
-        {
-            await Groups.RemoveFromGroupAsync(Context.ConnectionId, groupName);
-
-            await Clients.Group(groupName).ReceiveMessage("Send", $"{Context.ConnectionId} has left the group {groupName}.");
-        }
-
         public override async Task OnConnectedAsync()
         {
+            _logger.LogInformation("Hello SignalR");
             await Groups.AddToGroupAsync(Context.ConnectionId, "SignalR Users");
             await base.OnConnectedAsync();
         }

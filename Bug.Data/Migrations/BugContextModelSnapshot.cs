@@ -314,6 +314,9 @@ namespace Bug.Data.Migrations
                     b.Property<DateTimeOffset?>("WorklogDate")
                         .HasColumnType("datetimeoffset");
 
+                    b.Property<int?>("WorklogId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("AssigneeId");
@@ -325,6 +328,8 @@ namespace Bug.Data.Migrations
                     b.HasIndex("ReporterId");
 
                     b.HasIndex("StatusId");
+
+                    b.HasIndex("WorklogId");
 
                     b.ToTable("Issue");
                 });
@@ -377,6 +382,31 @@ namespace Bug.Data.Migrations
                     b.HasIndex("TagId");
 
                     b.ToTable("Issuelog");
+                });
+
+            modelBuilder.Entity("Bug.Entities.Model.Notification", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("AccountId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("IssuelogId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Seen")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AccountId");
+
+                    b.HasIndex("IssuelogId");
+
+                    b.ToTable("Notification");
                 });
 
             modelBuilder.Entity("Bug.Entities.Model.Permission", b =>
@@ -507,6 +537,9 @@ namespace Bug.Data.Migrations
                     b.Property<string>("CreatorId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<bool>("Default")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
@@ -529,8 +562,8 @@ namespace Bug.Data.Migrations
                     b.Property<string>("CreatorId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("Default")
-                        .HasColumnType("int");
+                    b.Property<bool>("Default")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -871,6 +904,10 @@ namespace Bug.Data.Migrations
                         .WithMany()
                         .HasForeignKey("StatusId");
 
+                    b.HasOne("Bug.Entities.Model.Worklog", "Worklog")
+                        .WithMany()
+                        .HasForeignKey("WorklogId");
+
                     b.Navigation("Assignee");
 
                     b.Navigation("Priority");
@@ -880,6 +917,8 @@ namespace Bug.Data.Migrations
                     b.Navigation("Reporter");
 
                     b.Navigation("Status");
+
+                    b.Navigation("Worklog");
                 });
 
             modelBuilder.Entity("Bug.Entities.Model.Issuelog", b =>
@@ -925,6 +964,23 @@ namespace Bug.Data.Migrations
                     b.Navigation("PreStatus");
 
                     b.Navigation("Tag");
+                });
+
+            modelBuilder.Entity("Bug.Entities.Model.Notification", b =>
+                {
+                    b.HasOne("Bug.Entities.Model.Account", "Account")
+                        .WithMany()
+                        .HasForeignKey("AccountId");
+
+                    b.HasOne("Bug.Entities.Model.Issuelog", "Issuelog")
+                        .WithMany()
+                        .HasForeignKey("IssuelogId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Account");
+
+                    b.Navigation("Issuelog");
                 });
 
             modelBuilder.Entity("Bug.Entities.Model.Project", b =>

@@ -51,5 +51,80 @@ namespace UnitTests.ApplicationCore.Services.ProjectServicesTests
             _mockRepo
                 .Verify(mock => mock.Account.GetByIdAsync(acc.Id, default), Times.Once);
         }
+
+        [Fact]
+        public async Task InvokeGetDefaultRolesOnce()
+        {
+            var acc = new TestAccountBuilder().Build();
+
+            var proDto = new TestProjectBuilder().BuildDto();
+            _mockRepo
+                .Setup(mock => mock.Account.GetByIdAsync(It.IsAny<string>(), default))
+                .ReturnsAsync(acc);
+            _mockRepo
+                .Setup(mock => mock.Role.GetDefaultRolesAsync(It.IsAny<string>(), default))
+                .ReturnsAsync(TestRoles);
+            _mockRepo
+                .Setup(mock => mock.Status.GetDefaultStatusesAsync(It.IsAny<string>(), default))
+                .ReturnsAsync(TestStatuses);
+            _mockRepo
+                .Setup(mock => mock.Project.AddAsync(It.IsAny<Project>(), default))
+                .ReturnsAsync(It.IsAny<Project>());
+            var projectService = new ProjectService(_mockRepo.Object);
+            await projectService.AddProjectAsync(proDto);
+
+            _mockRepo
+                .Verify(mock => mock.Role.GetDefaultRolesAsync("bts", default), Times.Once);
+        }
+
+        [Fact]
+        public async Task InvokeGetDefaultStatusesOnce()
+        {
+            var acc = new TestAccountBuilder().Build();
+
+            var proDto = new TestProjectBuilder().BuildDto();
+            _mockRepo
+                .Setup(mock => mock.Account.GetByIdAsync(It.IsAny<string>(), default))
+                .ReturnsAsync(acc);
+            _mockRepo
+                .Setup(mock => mock.Role.GetDefaultRolesAsync(It.IsAny<string>(), default))
+                .ReturnsAsync(TestRoles);
+            _mockRepo
+                .Setup(mock => mock.Status.GetDefaultStatusesAsync(It.IsAny<string>(), default))
+                .ReturnsAsync(TestStatuses);
+            _mockRepo
+                .Setup(mock => mock.Project.AddAsync(It.IsAny<Project>(), default))
+                .ReturnsAsync(It.IsAny<Project>());
+            var projectService = new ProjectService(_mockRepo.Object);
+            await projectService.AddProjectAsync(proDto);
+
+            _mockRepo
+                .Verify(mock => mock.Status.GetDefaultStatusesAsync("bts", default), Times.Once);
+        }
+
+        [Fact]
+        public async Task InvokeSaveOnce()
+        {
+            var acc = new TestAccountBuilder().Build();
+
+            var proDto = new TestProjectBuilder().BuildDto();
+            _mockRepo
+                .Setup(mock => mock.Account.GetByIdAsync(It.IsAny<string>(), default))
+                .ReturnsAsync(acc);
+            _mockRepo
+                .Setup(mock => mock.Role.GetDefaultRolesAsync(It.IsAny<string>(), default))
+                .ReturnsAsync(TestRoles);
+            _mockRepo
+                .Setup(mock => mock.Status.GetDefaultStatusesAsync(It.IsAny<string>(), default))
+                .ReturnsAsync(TestStatuses);
+            _mockRepo
+                .Setup(mock => mock.Project.AddAsync(It.IsAny<Project>(), default))
+                .ReturnsAsync(It.IsAny<Project>());
+            var projectService = new ProjectService(_mockRepo.Object);
+            await projectService.AddProjectAsync(proDto);
+
+            _mockRepo
+                .Verify(mock => mock.Save(), Times.Once);
+        }
     }
 }

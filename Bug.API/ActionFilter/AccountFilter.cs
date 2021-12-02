@@ -20,6 +20,7 @@ namespace Bug.API.ActionFilter
         {
             var sv = context.HttpContext.RequestServices;
             var uow = sv.GetService<IUnitOfWork>();
+            var accountService = sv.GetService<IAccountService>();
             if (context
                 .ActionArguments
                 .SingleOrDefault(o => o.Value is AccountBtsLoginDto)
@@ -60,6 +61,16 @@ namespace Bug.API.ActionFilter
                 if (!StringHandler.ValidName(register.LastName))
                 {
                     context.Result = new BadRequestObjectResult("Not valid lastname");
+                    return;
+                }
+                if (!StringHandler.ValidEmail(register.Email))
+                {
+                    context.Result = new BadRequestObjectResult("Not valid email");
+                    return;
+                }
+                if(await accountService.GetDetailAccountByUserNameAsync(register.UserName) != null)
+                {
+                    context.Result = new BadRequestObjectResult("Username exist");
                     return;
                 }
                 if(await uow.Account.GetAccountByEmail(register.Email) != null)

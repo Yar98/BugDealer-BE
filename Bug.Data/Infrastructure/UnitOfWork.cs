@@ -30,11 +30,24 @@ namespace Bug.Data.Infrastructure
         private ICustomtypeRepo _customtype;
         private IAttachmentRepo _attachment;
         private ITemplateRepo _template;
+        private INotificationRepo _notification;
 
         public UnitOfWork(BugContext bugContext, IConfiguration config)
         {
             _bugContext = bugContext;
             _config = config;
+        }
+
+        public INotificationRepo Notification
+        {
+            get
+            {
+                if(_notification == null)
+                {
+                    _notification = new NotificationRepo(_bugContext);
+                }
+                return _notification;
+            }
         }
 
         public ITemplateRepo Template

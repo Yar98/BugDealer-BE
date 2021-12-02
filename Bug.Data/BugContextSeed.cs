@@ -128,7 +128,7 @@ namespace Bug.Data
         {
             return new List<Issue>()
             {
-                new Issue("issue1","title1","code1","des1",DateTime.Now,DateTime.Now,DateTime.Now,DateTime.Now,null,null,"environment1","defaultStatus1",1,"project1","account1","account1")
+                new Issue("issue1","title1","code1","des1",DateTime.Now,DateTime.Now,DateTime.Now,DateTime.Now,null,null,"environment1","defaultStatus1",1,"project1","account1","account1",null)
             };
         }
         static IEnumerable<Tag> GetPreconfiguredTag()
