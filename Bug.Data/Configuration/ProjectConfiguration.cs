@@ -26,6 +26,14 @@ namespace Bug.Data.Configuration
                 .WithMany(a => a.DefaultAssigneeProjects)
                 .HasForeignKey(p=>p.DefaultAssigneeId);
             builder
+                .HasOne(p => p.DefaultRole)
+                .WithMany(r => r.DefaultInProjects)
+                .HasForeignKey(p => p.DefaultRoleId);
+            builder
+                .HasOne(p => p.DefaultStatus)
+                .WithMany(r => r.DefaultInProjects)
+                .HasForeignKey(p => p.DefaultStatusId);
+            builder
                 .Ignore(p => p.TotalIssues)
                 .Ignore(p => p.TotalDoneIssues)
                 .Ignore(p => p.TotalOpenIssues);

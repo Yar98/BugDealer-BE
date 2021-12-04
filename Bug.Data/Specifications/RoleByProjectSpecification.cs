@@ -14,8 +14,8 @@ namespace Bug.Data.Specifications
             r.Projects.AsQueryable().Any(p=>p.Id==projectId))
         {
             AddInclude(r => r.Projects);
-            AddInclude(r => r.Accounts);
             AddInclude(r => r.Permissions);
         }
+
     }
 }

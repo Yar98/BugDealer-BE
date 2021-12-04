@@ -166,3 +166,12 @@ Y:\BugDealer-BE\Bug.API\bin\Debug\net5.0\AWSSDK.CognitoIdentity.dll
 Y:\BugDealer-BE\Bug.API\bin\Debug\net5.0\AWSSDK.CognitoIdentityProvider.dll
 Y:\BugDealer-BE\Bug.API\bin\Debug\net5.0\AWSSDK.Core.dll
 Y:\BugDealer-BE\Bug.API\bin\Debug\net5.0\AWSSDK.SecurityToken.dll
+Y:\BugDealer-BE\Bug.API\bin\Debug\net5.0\EntityFramework.SqlServer.dll
+Y:\BugDealer-BE\Bug.API\bin\Debug\net5.0\EntityFramework.dll
+Y:\BugDealer-BE\Bug.API\bin\Debug\net5.0\System.CodeDom.dll
+Y:\BugDealer-BE\Bug.API\bin\Debug\net5.0\System.Data.SqlClient.dll
+Y:\BugDealer-BE\Bug.API\bin\Debug\net5.0\runtimes\win-arm64\native\sni.dll
+Y:\BugDealer-BE\Bug.API\bin\Debug\net5.0\runtimes\win-x64\native\sni.dll
+Y:\BugDealer-BE\Bug.API\bin\Debug\net5.0\runtimes\win-x86\native\sni.dll
+Y:\BugDealer-BE\Bug.API\bin\Debug\net5.0\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
+Y:\BugDealer-BE\Bug.API\bin\Debug\net5.0\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll

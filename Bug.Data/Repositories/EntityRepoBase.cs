@@ -33,6 +33,11 @@ namespace Bug.Data.Repositories
             return await _bugContext.Set<T>().FindAsync(keyValues, cancelltionToken);
         }
 
+        public async Task<T> GetByIdAsync(object[] id, CancellationToken cancelltionToken = default)
+        {            
+            return await _bugContext.Set<T>().FindAsync(id, cancelltionToken);
+        }
+
         public async Task<T> GetEntityBySpecAsync
             (ISpecification<T> specificationResult,
             CancellationToken cancelltionToken = default)

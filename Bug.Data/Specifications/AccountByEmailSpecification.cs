@@ -13,10 +13,7 @@ namespace Bug.Data.Specifications
             : base(a => a.Email == email)
         {
             AddInclude(a => a.Timezone);
-            AddInclude(a => a.Roles);
-            AddInclude(a => a.Projects);
-            AddInclude("Roles.Permissions");
-            AddInclude("Roles.Projects");
+            AddInclude(a => a.AccountProjectRoles);
         }
     }
 }

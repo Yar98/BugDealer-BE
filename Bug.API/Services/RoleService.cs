@@ -128,11 +128,11 @@ namespace Bug.API.Services
                 result.UpdateDescription(role.Description);
             if(role.Name != null)
                 result.UpdateName(role.Name);
-            if (role.Default != null)
-                result.UpdateDefault(role.Default??false);
             _unitOfWork.Role.Update(result);
             _unitOfWork.Save();
         }
+
+        
 
         public async Task DeleteRoleAsync
             (int id,
@@ -144,7 +144,7 @@ namespace Bug.API.Services
             if(defaultRoles.Any(r=>r.Id == id))
             {
                 throw new CannotDeleteDefault();
-            }    
+            }
             var result = await _unitOfWork
                 .Role
                 .GetByIdAsync(id, cancellationToken);

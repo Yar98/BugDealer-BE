@@ -127,37 +127,24 @@ namespace Bug.API.Services
             return result;
         }
 
-        public async Task<PaginatedListDto<AccountNormalDto>> GetPaginatedByProjectIdAsync
+        public async Task<PaginatedListDto<Account>> GetPaginatedByProjectIdAsync
             (string projectId,
             int pageIndex,
             int pageSize,
             string sortOrder,
             CancellationToken cancellationToken = default)
         {
-            AccountsByProjectSpecification specificationResult =
-                new(projectId);
+            var specificationResult =
+                new AccountsByProjectIdSpecification(projectId);
             var result = await _unitOfWork.Account.GetPaginatedNoTrackBySpecAsync(pageIndex, pageSize, sortOrder, specificationResult, cancellationToken);
-            return new PaginatedListDto<AccountNormalDto>
+            return new PaginatedListDto<Account>
             {
                 Length = result.Length,
-                Items = result.Select(
-                    a => new AccountNormalDto
-                    {
-                        Id = a.Id,
-                        UserName = a.UserName,
-                        CreatedDate = a.CreatedDate,
-                        Email = a.Email,
-                        FirstName = a.FirstName,
-                        ImageUri = a.ImageUri,
-                        Language = a.LastName,
-                        LastName = a.LastName,
-                        TimezoneId = a.TimezoneId
-                    })
-                .ToList()
+                Items = result
             };
         }
 
-        public async Task<IReadOnlyList<AccountNormalDto>> GetNextByOffsetByProjectIdAsync
+        public async Task<IReadOnlyList<Account>> GetNextByOffsetByProjectIdAsync
             (string projectId,
             int offset,
             int next,
@@ -165,22 +152,9 @@ namespace Bug.API.Services
             CancellationToken cancellationToken = default)
         {
             var specificationResult =
-                new AccountsByProjectSpecification(projectId);
+                new AccountsByProjectIdSpecification(projectId);
             var result = await _unitOfWork.Account.GetNextByOffsetNoTrackBySpecAsync(offset, next, sortOrder, specificationResult, cancellationToken);
-            return result
-                .Select(a => new AccountNormalDto
-                {
-                    Id = a.Id,
-                    UserName = a.UserName,
-                    CreatedDate = a.CreatedDate,
-                    Email = a.Email,
-                    FirstName = a.FirstName,
-                    ImageUri = a.ImageUri,
-                    Language = a.LastName,
-                    LastName = a.LastName,
-                    TimezoneId = a.TimezoneId
-                })
-                .ToList();
+            return result;
         }
 
         public async Task VerifyEmailAsync

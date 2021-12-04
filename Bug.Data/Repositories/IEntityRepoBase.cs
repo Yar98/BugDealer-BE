@@ -14,6 +14,7 @@ namespace Bug.Data.Repositories
     {
         Task<T> GetByIdAsync(string id, CancellationToken cancelltionToken = default);
         Task<T> GetByIdAsync(int id, CancellationToken cancelltionToken = default);
+        Task<T> GetByIdAsync(object[] id, CancellationToken cancelltionToken = default);
         Task<T> GetEntityBySpecAsync
             (ISpecification<T> specificationResult,
             CancellationToken cancelltionToken = default);

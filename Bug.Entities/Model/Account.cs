@@ -36,11 +36,21 @@ namespace Bug.Entities.Model
         public ICollection<Issue> ReportIssues { get; private set; }
         public ICollection<Issue> AssignIssues { get; private set; }
         public ICollection<Project> RelateProjects { get; private set; }
-        public ICollection<Role> Roles { get; private set; }
         public ICollection<Customtype> Customtype { get; private set; }
-
-        private readonly List<Project> _projects = new List<Project>();
-        public ICollection<Project> Projects => _projects.AsReadOnly();
+        public ICollection<AccountProjectRole> AccountProjectRoles { get; private set; }        
+        
+        public ICollection <Role> Roles
+        {
+            get
+            {
+                if (AccountProjectRoles == null)
+                    return null;
+                var result = AccountProjectRoles
+                    .Select(apr => apr.Role)
+                    .ToList();
+                return result;
+            }
+        }
 
         private Account() { }
         public Account(string id,
@@ -94,35 +104,5 @@ namespace Bug.Entities.Model
             VerifyEmail = i;
         }
 
-
-        public void AddNewRole
-            (string name, 
-            string memberId, 
-            string description)
-        {           
-            Roles.Add(new Role(0,name, description, memberId));
-            return;
-        }
-
-        public void AddProject
-            (string id,
-            string name,
-            string code,
-            DateTimeOffset startDate,
-            DateTimeOffset endDate,
-            DateTimeOffset recentDate,
-            string description,
-            string uri,
-            string defaultAssigneeId,
-            string creatorId,
-            int templateId,
-            int tagId)
-        {
-            if (!Projects.Any(i => i.Id.Equals(id)))
-            {
-                _projects.Add(new Project(id, name, code, startDate, endDate, recentDate, description, uri, defaultAssigneeId, creatorId,templateId,tagId));
-                return;
-            }
-        }
     }
 }

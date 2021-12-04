@@ -24,13 +24,13 @@ namespace Bug.API.Services
         Task<Account> GetDetailAccountByUserNameAsync
             (string username,
             CancellationToken cancellationToken = default);
-        Task<PaginatedListDto<AccountNormalDto>> GetPaginatedByProjectIdAsync
+        Task<PaginatedListDto<Account>> GetPaginatedByProjectIdAsync
             (string projectId,
             int pageIndex,
             int pageSize,
             string sortOrder,
             CancellationToken cancellationToken = default);
-        Task<IReadOnlyList<AccountNormalDto>> GetNextByOffsetByProjectIdAsync
+        Task<IReadOnlyList<Account>> GetNextByOffsetByProjectIdAsync
             (string projectId,
             int offset,
             int next,

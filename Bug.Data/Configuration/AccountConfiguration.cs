@@ -26,10 +26,6 @@ namespace Bug.Data.Configuration
                 .WithMany(i => i.Voter)
                 .UsingEntity(v => v.ToTable("VoterIssue"));
             builder
-                .HasMany(a => a.Roles)
-                .WithMany(r => r.Accounts)
-                .UsingEntity(a => a.ToTable("AccountRole"));
-            builder
                 .HasMany(a => a.RelateProjects)
                 .WithMany(r => r.Relator)
                 .UsingEntity(a => a.ToTable("RelatorProject"));
@@ -45,6 +41,8 @@ namespace Bug.Data.Configuration
                 .HasMany(a => a.CreatedRoles)
                 .WithOne(r => r.Creator)
                 .HasForeignKey(r => r.CreatorId);
+            builder
+                .Ignore(a => a.Roles);
         }
     }
 }

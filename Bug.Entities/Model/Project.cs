@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Bug.Entities.Model
 {
-    public class Project : IEntityBase, IIntegrationBase
+    public class Project : IEntityBase
     {
         public string Id { get; private set; }
         public string Name { get; private set; }
@@ -16,21 +16,23 @@ namespace Bug.Entities.Model
         public DateTimeOffset? RecentDate { get; private set; }
         public string Description { get; private set; }
         public string AvatarUri { get; private set; }
-        public int Status { get; private set; }
+        public int State { get; private set; }
         public string? DefaultAssigneeId { get; private set; }
         public Account DefaultAssignee { get; private set; }
+        public int? DefaultRoleId { get; private set; }
+        public Role DefaultRole { get; private set; }
+        public string? DefaultStatusId { get; private set; }
+        public Status DefaultStatus { get; private set; }
         public string CreatorId { get; private set; }
         public Account Creator { get; private set; }
         public int TemplateId { get; private set; }
         public Template Template { get; private set; }
 
+        public ICollection<AccountProjectRole> AccountProjectRoles { get; private set; }
         public ICollection<Account> Relator { get; private set; }
         
         private readonly List<Issue> _issues = new List<Issue>();
         public ICollection<Issue> Issues => _issues.AsReadOnly();
-
-        private readonly List<Account> _accounts = new List<Account>();
-        public ICollection<Account> Accounts => _accounts.AsReadOnly();
 
         private List<Role> _roles = new List<Role>();
         public ICollection<Role> Roles => _roles.AsReadOnly();
@@ -98,7 +100,7 @@ namespace Bug.Entities.Model
             DefaultAssigneeId = defaultAssigneeId;
             CreatorId = creatorId;
             TemplateId = templateId;
-            Status = tagId;
+            State = tagId;
         }
 
         public void UpdateName(string name)
@@ -139,17 +141,9 @@ namespace Bug.Entities.Model
         }
         public void UpdateStatus(int id)
         {
-            Status = id;
+            State = id;
         }
 
-        public void AddExistAccount(Account a)
-        {
-            if (!Accounts.Any(i => i.Id.Equals(a.Id)))
-            {
-                _accounts.Add(a);
-                return;
-            }
-        }
         public void UpdateRoles(List<Role> r)
         {
             _roles = r;

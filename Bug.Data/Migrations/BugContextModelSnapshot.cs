@@ -66,21 +66,6 @@ namespace Bug.Data.Migrations
 
             modelBuilder.Entity("AccountProject", b =>
                 {
-                    b.Property<string>("AccountsId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("ProjectsId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("AccountsId", "ProjectsId");
-
-                    b.HasIndex("ProjectsId");
-
-                    b.ToTable("AccountProject");
-                });
-
-            modelBuilder.Entity("AccountProject1", b =>
-                {
                     b.Property<string>("RelateProjectsId")
                         .HasColumnType("nvarchar(450)");
 
@@ -92,21 +77,6 @@ namespace Bug.Data.Migrations
                     b.HasIndex("RelatorId");
 
                     b.ToTable("RelatorProject");
-                });
-
-            modelBuilder.Entity("AccountRole", b =>
-                {
-                    b.Property<string>("AccountsId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("RolesId")
-                        .HasColumnType("int");
-
-                    b.HasKey("AccountsId", "RolesId");
-
-                    b.HasIndex("RolesId");
-
-                    b.ToTable("AccountRole");
                 });
 
             modelBuilder.Entity("Bug.Entities.Model.Account", b =>
@@ -153,6 +123,26 @@ namespace Bug.Data.Migrations
                     b.HasIndex("TimezoneId1");
 
                     b.ToTable("Account");
+                });
+
+            modelBuilder.Entity("Bug.Entities.Model.AccountProjectRole", b =>
+                {
+                    b.Property<string>("AccountId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProjectId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
+
+                    b.HasKey("AccountId", "ProjectId", "RoleId");
+
+                    b.HasIndex("ProjectId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AccountProjectRole");
                 });
 
             modelBuilder.Entity("Bug.Entities.Model.Attachment", b =>
@@ -464,6 +454,12 @@ namespace Bug.Data.Migrations
                     b.Property<string>("DefaultAssigneeId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<int?>("DefaultRoleId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("DefaultStatusId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
@@ -480,7 +476,7 @@ namespace Bug.Data.Migrations
                     b.Property<DateTimeOffset?>("StartDate")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<int>("Status")
+                    b.Property<int>("State")
                         .HasColumnType("int");
 
                     b.Property<int>("TemplateId")
@@ -491,6 +487,10 @@ namespace Bug.Data.Migrations
                     b.HasIndex("CreatorId");
 
                     b.HasIndex("DefaultAssigneeId");
+
+                    b.HasIndex("DefaultRoleId");
+
+                    b.HasIndex("DefaultStatusId");
 
                     b.HasIndex("TemplateId");
 
@@ -537,9 +537,6 @@ namespace Bug.Data.Migrations
                     b.Property<string>("CreatorId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<bool>("Default")
-                        .HasColumnType("bit");
-
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
@@ -562,9 +559,6 @@ namespace Bug.Data.Migrations
                     b.Property<string>("CreatorId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<bool>("Default")
-                        .HasColumnType("bit");
-
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
@@ -584,7 +578,7 @@ namespace Bug.Data.Migrations
 
                     b.HasIndex("TagId");
 
-                    b.ToTable("Status");
+                    b.ToTable("State");
                 });
 
             modelBuilder.Entity("Bug.Entities.Model.Tag", b =>
@@ -669,11 +663,12 @@ namespace Bug.Data.Migrations
                     b.Property<string>("LoggerId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("RemainTime")
-                        .HasColumnType("int");
+                    b.Property<string>("RemainTime")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("SpentTime")
-                        .HasColumnType("int");
+                    b.Property<string>("SpentTime")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -804,21 +799,6 @@ namespace Bug.Data.Migrations
 
             modelBuilder.Entity("AccountProject", b =>
                 {
-                    b.HasOne("Bug.Entities.Model.Account", null)
-                        .WithMany()
-                        .HasForeignKey("AccountsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Bug.Entities.Model.Project", null)
-                        .WithMany()
-                        .HasForeignKey("ProjectsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("AccountProject1", b =>
-                {
                     b.HasOne("Bug.Entities.Model.Project", null)
                         .WithMany()
                         .HasForeignKey("RelateProjectsId")
@@ -832,21 +812,6 @@ namespace Bug.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("AccountRole", b =>
-                {
-                    b.HasOne("Bug.Entities.Model.Account", null)
-                        .WithMany()
-                        .HasForeignKey("AccountsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Bug.Entities.Model.Role", null)
-                        .WithMany()
-                        .HasForeignKey("RolesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Bug.Entities.Model.Account", b =>
                 {
                     b.HasOne("Bug.Entities.Model.Timezone", "Timezone")
@@ -854,6 +819,33 @@ namespace Bug.Data.Migrations
                         .HasForeignKey("TimezoneId1");
 
                     b.Navigation("Timezone");
+                });
+
+            modelBuilder.Entity("Bug.Entities.Model.AccountProjectRole", b =>
+                {
+                    b.HasOne("Bug.Entities.Model.Account", "Account")
+                        .WithMany("AccountProjectRoles")
+                        .HasForeignKey("AccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Bug.Entities.Model.Project", "Project")
+                        .WithMany("AccountProjectRoles")
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Bug.Entities.Model.Role", "Role")
+                        .WithMany("AccountProjectRoles")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Account");
+
+                    b.Navigation("Project");
+
+                    b.Navigation("Role");
                 });
 
             modelBuilder.Entity("Bug.Entities.Model.Attachment", b =>
@@ -993,6 +985,14 @@ namespace Bug.Data.Migrations
                         .WithMany("DefaultAssigneeProjects")
                         .HasForeignKey("DefaultAssigneeId");
 
+                    b.HasOne("Bug.Entities.Model.Role", "DefaultRole")
+                        .WithMany("DefaultInProjects")
+                        .HasForeignKey("DefaultRoleId");
+
+                    b.HasOne("Bug.Entities.Model.Status", "DefaultStatus")
+                        .WithMany("DefaultInProjects")
+                        .HasForeignKey("DefaultStatusId");
+
                     b.HasOne("Bug.Entities.Model.Template", "Template")
                         .WithMany()
                         .HasForeignKey("TemplateId")
@@ -1002,6 +1002,10 @@ namespace Bug.Data.Migrations
                     b.Navigation("Creator");
 
                     b.Navigation("DefaultAssignee");
+
+                    b.Navigation("DefaultRole");
+
+                    b.Navigation("DefaultStatus");
 
                     b.Navigation("Template");
                 });
@@ -1152,6 +1156,8 @@ namespace Bug.Data.Migrations
 
             modelBuilder.Entity("Bug.Entities.Model.Account", b =>
                 {
+                    b.Navigation("AccountProjectRoles");
+
                     b.Navigation("AssignIssues");
 
                     b.Navigation("CreatedProjects");
@@ -1176,7 +1182,21 @@ namespace Bug.Data.Migrations
 
             modelBuilder.Entity("Bug.Entities.Model.Project", b =>
                 {
+                    b.Navigation("AccountProjectRoles");
+
                     b.Navigation("Issues");
+                });
+
+            modelBuilder.Entity("Bug.Entities.Model.Role", b =>
+                {
+                    b.Navigation("AccountProjectRoles");
+
+                    b.Navigation("DefaultInProjects");
+                });
+
+            modelBuilder.Entity("Bug.Entities.Model.Status", b =>
+                {
+                    b.Navigation("DefaultInProjects");
                 });
 
             modelBuilder.Entity("Bug.Entities.Model.Tag", b =>

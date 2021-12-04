@@ -35,7 +35,7 @@ namespace Bug.API.Controllers
         }
 
         // GET: api/Project/5
-        [HttpGet("{id}")]
+        [HttpGet("{projectId}")]
         public async Task<IActionResult> GetProject(string projectId)
         {
             var result = await _projectService

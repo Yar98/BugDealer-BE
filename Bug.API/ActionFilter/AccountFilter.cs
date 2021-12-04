@@ -21,22 +21,6 @@ namespace Bug.API.ActionFilter
             var sv = context.HttpContext.RequestServices;
             var uow = sv.GetService<IUnitOfWork>();
             var accountService = sv.GetService<IAccountService>();
-            if (context
-                .ActionArguments
-                .SingleOrDefault(o => o.Value is AccountBtsLoginDto)
-                .Value is AccountBtsLoginDto login)
-            {
-                if (!StringHandler.ValidUserName(login.UserName))
-                {
-                    context.Result = new BadRequestObjectResult("Not valid username");
-                    return;
-                }
-                if (!StringHandler.ValidPassword(login.Password))
-                {
-                    context.Result = new BadRequestObjectResult("Not valid password");
-                    return;
-                }
-            }
             
             if (context
                 .ActionArguments

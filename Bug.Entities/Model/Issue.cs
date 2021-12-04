@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Bug.Entities.Model
 {
-    public class Issue : IEntityBase, IIntegrationBase
+    public class Issue : IEntityBase
     {
         public string Id { get; private set; }
         public string Title { get; private set; }

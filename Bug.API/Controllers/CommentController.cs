@@ -36,9 +36,9 @@ namespace Bug.API.Controllers
         }
 
         [HttpGet("issue/{issueId}")]
-        public async Task<IActionResult> GetCommentsByIssueId(string id)
+        public async Task<IActionResult> GetCommentsByIssueId(string issueId)
         {
-            var result = await _commentService.GetCommentsByIssueIdAsync(id);
+            var result = await _commentService.GetCommentsByIssueIdAsync(issueId);
             return Ok(Bts.ConvertJson(result));
         }
 

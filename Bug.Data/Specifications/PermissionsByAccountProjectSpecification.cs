@@ -11,13 +11,14 @@ namespace Bug.Data.Specifications
     {
         public PermissionsByAccountProjectSpecification(string accountId, string projectId)
             : base(p=>p.Roles.AsQueryable().Where(
-                r => r.Accounts.AsQueryable().Where(a => a.Id == accountId).Any() &&
-                    r.Projects.AsQueryable().Where(p => p.Id == projectId).Any())
+                r => r.AccountProjectRoles.AsQueryable().Where(
+                    p => p.ProjectId == projectId).Any() &&
+                r.AccountProjectRoles.AsQueryable().Where(
+                    apr=>apr.AccountId == accountId).Any())
             .Any())
         {
             AddInclude(p => p.Roles);
-            AddInclude("Roles.Accounts");
-            AddInclude("Roles.Projects");
+            AddInclude("Roles.AccountProjectRoles");
         }
     }
 }
