@@ -38,19 +38,6 @@ namespace Bug.Entities.Model
         public ICollection<Project> RelateProjects { get; private set; }
         public ICollection<Customtype> Customtype { get; private set; }
         public ICollection<AccountProjectRole> AccountProjectRoles { get; private set; }        
-        
-        public ICollection <Role> Roles
-        {
-            get
-            {
-                if (AccountProjectRoles == null)
-                    return null;
-                var result = AccountProjectRoles
-                    .Select(apr => apr.Role)
-                    .ToList();
-                return result;
-            }
-        }
 
         private Account() { }
         public Account(string id,
@@ -78,6 +65,10 @@ namespace Bug.Entities.Model
         public void UpdateUserName(string username)
         {
             UserName = username;
+        }
+        public void UpdatePassword(string pass)
+        {
+            Password = pass;
         }
         public void UpdateFirstName(string firstname)
         {

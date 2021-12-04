@@ -41,8 +41,6 @@ namespace Bug.Data.Configuration
                 .HasMany(a => a.CreatedRoles)
                 .WithOne(r => r.Creator)
                 .HasForeignKey(r => r.CreatorId);
-            builder
-                .Ignore(a => a.Roles);
         }
     }
 }

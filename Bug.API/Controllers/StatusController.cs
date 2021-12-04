@@ -59,6 +59,32 @@ namespace Bug.API.Controllers
             return Ok(Bts.ConvertJson(result));
         }
 
+        [HttpGet("paging/project/{projectId}/creator/{creatorId}/{pageIndex:int}/{pageSize:int}/{sortOrder}")]
+        public async Task<IActionResult> GetPaginatedStatusesByCreatorIdProjectId
+            (string projectId,
+            string creatorId,
+            int pageIndex,
+            int pageSize,
+            string sortOrder)
+        {
+            var result = await _statusService
+                .GetPaginatedDetailByCreatorIdProjectIdAsync(projectId, creatorId, pageIndex, pageSize, sortOrder);
+            return Ok(Bts.ConvertJson(result));
+        }
+
+        [HttpGet("offset/project/{projectId}/creator/{creatorId}/{offset:int}/{next:int}/{sortOrder}")]
+        public async Task<IActionResult> GetNextByOffsetStatusesByCreatorIdProjectId
+            (string projectId,
+            string creatorId,
+            int offset,
+            int next,
+            string sortOrder)
+        {
+            var result = await _statusService
+                .GetNextByOffsetDetailByCreatorIdProjectIdAsync(projectId, creatorId, offset, next, sortOrder);
+            return Ok(Bts.ConvertJson(result));
+        }
+
         [HttpGet("creator/{creatorId}")]
         public async Task<IActionResult> GetStatusesByCreatorId(string creatorId)
         {

@@ -30,6 +30,42 @@ namespace Bug.API.Services
                 .GetEntityBySpecAsync(specificationResult, cancellationToken);
         }
 
+        public async Task<PaginatedListDto<Status>> GetPaginatedDetailByCreatorIdProjectIdAsync
+            (string projectId,
+            string creatorId,
+            int pageIndex,
+            int pageSize,
+            string sortOrder,
+            CancellationToken cancellationToken = default)
+        {
+            var specificationResult =
+                new StatusByCreatorIdProjectIdSpecification(projectId, creatorId);
+            var result = await _unitOfWork
+                .Status
+                .GetPaginatedNoTrackBySpecAsync(pageIndex, pageSize, sortOrder, specificationResult, cancellationToken);
+            return new PaginatedListDto<Status>
+            {
+                Length = result.Length,
+                Items = result
+            };
+        }
+
+        public async Task<IReadOnlyList<Status>> GetNextByOffsetDetailByCreatorIdProjectIdAsync
+            (string projectId,
+            string creatorId,
+            int offset,
+            int next,
+            string sortOrder,
+            CancellationToken cancellationToken = default)
+        {
+            var specificationResult =
+                new StatusByCreatorIdProjectIdSpecification(projectId, creatorId);
+            var result = await _unitOfWork
+                .Status
+                .GetNextByOffsetNoTrackBySpecAsync(offset, next, sortOrder, specificationResult, cancellationToken);
+            return result;
+        }
+
         public async Task<PaginatedListDto<Status>> GetPaginatedDetailByCreatorIdAsync
             (string creatorId,
             int pageIndex,
