@@ -23,6 +23,20 @@ namespace Bug.API.Services
             (string projectId,
             string memberId,
             CancellationToken cancellationToken = default);
+        Task<PaginatedListDto<Role>> GetPaginatedWhichMemberIdOnAsync
+            (string projectId,
+            string memberId,
+            int pageIndex,
+            int pageSize,
+            string sortOrder,
+            CancellationToken cancellationToken = default);
+        Task<IReadOnlyList<Role>> GetNextByOffsetWhichMemberIdOnAsync
+            (string projectId,
+            string memberId,
+            int offset,
+            int next,
+            string sortOrder,
+            CancellationToken cancellationToken = default);
         Task<PaginatedListDto<Role>> GetPaginatedByCreatorId
             (string accountId,
             int pageIndex,

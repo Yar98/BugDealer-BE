@@ -11,6 +11,7 @@ using Bug.Entities.Model;
 using Bug.Data.Specifications;
 using Amazon;
 using Amazon.CognitoIdentityProvider.Model;
+using Bug.API.BtsException;
 
 namespace Bug.API.Services
 {
@@ -249,8 +250,8 @@ namespace Bug.API.Services
             var result = await _unitOfWork
                 .Account
                 .GetEntityBySpecAsync(specificationResult, cancellationToken);
-            if (string.Compare(result.Password, user.Password) != 0)
-                return 0;
+            if (string.Compare(result.Password, user.OldPassWord) != 0)
+                throw new OldPasswordWrong("Old password is false");
             if (user.UserName != null)
                 result.UpdateUserName(user.UserName);
             if (user.LastName != null)
@@ -263,6 +264,7 @@ namespace Bug.API.Services
                 result.UpdateLanguage(user.Language);
             if (user.ImageUri != null)
                 result.UpdateImageUri(user.ImageUri);
+            result.UpdatePassword(user.NewPassword);
             _unitOfWork.Account.Update(result);
             _unitOfWork.Save();
             return 1;

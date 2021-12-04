@@ -62,6 +62,31 @@ namespace Bug.API.Controllers
                 .GetRolesWhichMemberIdOnAsync(projectId, memberId);
             return Ok(Bts.ConvertJson(result));
         }
+        [HttpGet("paging/project/{projectId}/member/{memberId}/{pageIndex:int}/{pageSize:int}/{sortOrder}")]
+        public async Task<IActionResult> GetPaginatedWhichMemberIdOn
+            (string projectId,
+            string memberId,
+            int pageIndex,
+            int pageSize,
+            string sortOrder)
+        {
+            var result = await _roleService
+                .GetPaginatedWhichMemberIdOnAsync(projectId, memberId, pageIndex, pageSize, sortOrder);
+            return Ok(Bts.ConvertJson(result));
+        }
+
+        [HttpGet("offset/project/{projectId}/member/{memberId}/{pageIndex:int}/{pageSize:int}/{sortOrder}")]
+        public async Task<IActionResult> GetNextByOffsetWhichMemberIdOn
+            (string projectId,
+            string memberId,
+            int offset,
+            int next,
+            string sortOrder)
+        {
+            var result = await _roleService
+                .GetNextByOffsetWhichMemberIdOnAsync(projectId, memberId, offset, next, sortOrder);
+            return Ok(Bts.ConvertJson(result));
+        }
 
         [HttpGet("paging/creator/{creatorId}/{pageIndex:int}/{pageSize:int}/{sortOrder}")]
         public async Task<IActionResult> GetPaginatedRolesByCreatorId

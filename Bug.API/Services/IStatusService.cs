@@ -25,6 +25,20 @@ namespace Bug.API.Services
             int next,
             string sortOrder,
             CancellationToken cancellationToken = default);
+        Task<PaginatedListDto<Status>> GetPaginatedDetailByCreatorIdProjectIdAsync
+            (string projectId,
+            string creatorId,
+            int pageIndex,
+            int pageSize,
+            string sortOrder,
+            CancellationToken cancellationToken = default);
+        Task<IReadOnlyList<Status>> GetNextByOffsetDetailByCreatorIdProjectIdAsync
+            (string projectId,
+            string creatorId,
+            int offset,
+            int next,
+            string sortOrder,
+            CancellationToken cancellationToken = default);
         Task<IReadOnlyList<Status>> GetStatusesByCreatorIdAsync
            (string creatorId,
            CancellationToken cancellationToken = default);

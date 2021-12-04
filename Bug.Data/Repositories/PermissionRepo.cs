@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Bug.Entities.Model;
+using Microsoft.EntityFrameworkCore;
 
 namespace Bug.Data.Repositories
 {
@@ -13,6 +15,18 @@ namespace Bug.Data.Repositories
             : base(repositoryContext)
         {
 
+        }
+
+        public async Task<List<Permission>> GetPermissionsFromMutiIdsAsync
+            (List<int> list,
+            CancellationToken cancellationToken = default)
+        {
+            var result = await _bugContext
+                .Permissions
+                .AsQueryable()
+                .Where(p=>list.Contains(p.Id))
+                .ToListAsync(cancellationToken);
+            return result;
         }
 
         public override IQueryable<Permission> SortOrder

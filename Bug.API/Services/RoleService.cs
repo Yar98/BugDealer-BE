@@ -63,6 +63,42 @@ namespace Bug.API.Services
                 .GetAllEntitiesBySpecAsync(specificationResult, cancellationToken);
         }
 
+        public async Task<PaginatedListDto<Role>> GetPaginatedWhichMemberIdOnAsync
+            (string projectId,
+            string memberId,
+            int pageIndex,
+            int pageSize,
+            string sortOrder,
+            CancellationToken cancellationToken = default)
+        {
+            var specificationResult =
+                new RolesWhichMemberOnSpecification(projectId, memberId);
+            var result = await _unitOfWork
+                .Role
+                .GetPaginatedNoTrackBySpecAsync(pageIndex,pageSize,sortOrder,specificationResult, cancellationToken);
+            return new PaginatedListDto<Role>
+            {
+                Length = result.Length,
+                Items = result
+            };
+        }
+
+        public async Task<IReadOnlyList<Role>> GetNextByOffsetWhichMemberIdOnAsync
+            (string projectId,
+            string memberId,
+            int offset,
+            int next,
+            string sortOrder,
+            CancellationToken cancellationToken = default)
+        {
+            var specificationResult =
+                new RolesWhichMemberOnSpecification(projectId, memberId);
+            var result = await _unitOfWork
+                .Role
+                .GetNextByOffsetNoTrackBySpecAsync(offset, next, sortOrder, specificationResult, cancellationToken);
+            return result;
+        }
+
         public async Task<PaginatedListDto<Role>> GetPaginatedByCreatorId
             (string accountId,
             int pageIndex,
@@ -106,11 +142,10 @@ namespace Bug.API.Services
             var result = new Role(0, role.Name, role.Description, role.CreatorId);
             await _unitOfWork
                 .Role
-                .AddAsync(result, cancellationToken);
-            var ps = role
-                .Permissions
-                .Select(p=>new Permission(p.Id,p.Action))
-                .ToList();
+                .AddAsync(result, cancellationToken);           
+            var ps = await _unitOfWork
+                .Permission
+                .GetPermissionsFromMutiIdsAsync(role.Permissions.Select(p=>p.Id).ToList(),cancellationToken);
             result.UpdatePermission(ps);
             
             _unitOfWork.Save();
@@ -128,6 +163,11 @@ namespace Bug.API.Services
                 result.UpdateDescription(role.Description);
             if(role.Name != null)
                 result.UpdateName(role.Name);
+            var ps = await _unitOfWork
+               .Permission
+               .GetPermissionsFromMutiIdsAsync(role.Permissions.Select(p => p.Id).ToList(), cancellationToken);
+            result.UpdatePermission(ps);
+
             _unitOfWork.Role.Update(result);
             _unitOfWork.Save();
         }

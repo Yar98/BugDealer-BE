@@ -39,6 +39,10 @@ namespace Bug.API.CustomMiddlewares
             {
                 await HandleExceptionAsync(context, e);
             }
+            catch(OldPasswordWrong e)
+            {
+                await HandleExceptionAsync(context, e);
+            }
         }
 
         private async Task HandleExceptionAsync(HttpContext context, Exception exception)
@@ -50,6 +54,7 @@ namespace Bug.API.CustomMiddlewares
             {
                 UsernameExistsException => "email exsit",
                 CannotDeleteDefault => "cannot delete default",
+                OldPasswordWrong => "old password wrong",
                 _ => "undefined"
             };
             context.Response.Headers.Add("error", code);
