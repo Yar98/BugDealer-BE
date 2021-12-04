@@ -13,8 +13,6 @@ namespace Bug.Data.Specifications
             :base(a=>a.Id == id)
         {
             AddInclude(a => a.Timezone);
-            AddInclude(a => a.Roles);
-            AddInclude(a => a.Projects);
             AddInclude(a => a.VoteIssues);
             AddInclude(a => a.WatchIssues);
         }

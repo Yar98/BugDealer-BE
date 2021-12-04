@@ -26,6 +26,7 @@ namespace Bug.API.Services
             (string projectId,
             CancellationToken cancellationToken = default)
         {
+            
             var specificationResult =
                 new ProjectSpecification(projectId);
             var result = await _unitOfWork
@@ -33,18 +34,18 @@ namespace Bug.API.Services
                 .GetEntityBySpecAsync(specificationResult, cancellationToken);
             return new ProjectPostDto
             {
-                Id = result.Id,
-                Name = result.Name,
-                Code = result.Code,
-                StartDate = result.StartDate,
-                EndDate = result.EndDate,
-                RecentDate = result.RecentDate,
-                Description = result.Description,
-                AvatarUri = result.AvatarUri,
-                CreatorId = result.CreatorId,
-                DefaultAssigneeId = result.DefaultAssigneeId,
-                TemplateId = result.TemplateId,
-                Status = result.Status
+                Id = result?.Id,
+                Name = result?.Name,
+                Code = result?.Code,
+                StartDate = result?.StartDate,
+                EndDate = result?.EndDate,
+                RecentDate = result?.RecentDate,
+                Description = result?.Description,
+                AvatarUri = result?.AvatarUri,
+                CreatorId = result?.CreatorId,
+                DefaultAssigneeId = result?.DefaultAssigneeId,
+                TemplateId = result?.TemplateId,
+                Status = result?.State
             };
         }
         
@@ -71,7 +72,7 @@ namespace Bug.API.Services
         {
             // filter project by creator
             var specificationResult =
-                new ProjectsByStatusCreatorIdTagIdSpecification(accountId, tagId);
+                new ProjectsByStateCreatorIdSpecification(accountId, tagId);
             var result = await _unitOfWork
                 .Project
                 .GetPaginatedNoTrackBySpecAsync(
@@ -97,7 +98,7 @@ namespace Bug.API.Services
         {
             // filter project which member working on
             var specificationResult =
-                new ProjectsByStatusWhichMemberIdJoinSpecification(accountId, tagId);
+                new ProjectsByStateWhichMemberIdJoinSpecification(accountId, tagId);
             var result = await _unitOfWork
                 .Project
                 .GetPaginatedNoTrackBySpecAsync(
@@ -122,7 +123,7 @@ namespace Bug.API.Services
         {
             // filter projects by creator
             var specificationResult =
-                new ProjectsByStatusCreatorIdTagIdSpecification(accountId, tagId);
+                new ProjectsByStateCreatorIdSpecification(accountId, tagId);
             var result = await _unitOfWork
                 .Project
                 .GetNextByOffsetNoTrackBySpecAsync
@@ -145,7 +146,7 @@ namespace Bug.API.Services
         {
             // filter projects which member working on
             var specificationResult =
-                new ProjectsByStatusWhichMemberIdJoinSpecification(accountId, tagId);
+                new ProjectsByStateWhichMemberIdJoinSpecification(accountId, tagId);
             var result = await _unitOfWork
                 .Project
                 .GetNextByOffsetNoTrackBySpecAsync
@@ -178,7 +179,7 @@ namespace Bug.API.Services
             // add creator as member to project
             var acc = await _unitOfWork.Account.GetByIdAsync(pro.CreatorId, cancellationToken);
             //_unitOfWork.Account.Attach(acc);
-            result.AddExistAccount(acc);
+
             // add default roles to project
             var defaultRoles = await _unitOfWork.Role.GetDefaultRolesAsync(cancellationToken:cancellationToken);
             result.AddDefaultRoles(defaultRoles);
@@ -227,19 +228,27 @@ namespace Bug.API.Services
             (ProjectPutDto pro,
             CancellationToken cancellationToken = default)
         {
-            var project = await _unitOfWork.Project.GetByIdAsync(pro.Id, cancellationToken);
+            var specificationResult =
+                new ProjectSpecification(pro.Id);
+            var project = await _unitOfWork
+                .Project
+                .GetEntityBySpecAsync(specificationResult, cancellationToken);
             var roles = pro
                 .Roles
                 .Select(r => new Role(r.Id, r.Name, r.Description, r.CreatorId))
-                .ToList();
+                .ToList();           
             var defaultRoles = await _unitOfWork
                 .Role
-                .GetDefaultRolesAsync(cancellationToken:cancellationToken);
+                .GetDefaultRolesAsync(cancellationToken:cancellationToken);           
             roles.AddRange(defaultRoles);
             project.UpdateRoles(roles);
             _unitOfWork.Project.Update(project);
             _unitOfWork.Save();
+
+            _unitOfWork.AccountProjectRole.UpdateMultiByRoleIdProjectId(pro.Id, roles);
         }
+
+
 
         public async Task AddRoleToProjectAsync
             (string projectId,

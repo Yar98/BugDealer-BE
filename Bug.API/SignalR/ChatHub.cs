@@ -12,7 +12,6 @@ namespace Bug.API.SignalR
     public class ChatHub : Hub<IChatClient>
     {
         private readonly ILogger _logger;
-        private readonly IUnitOfWork _unitOfWork;
         private readonly IAccountService _accountService;
         
         public ChatHub(ILogger<ChatHub> logger, IAccountService accountService)

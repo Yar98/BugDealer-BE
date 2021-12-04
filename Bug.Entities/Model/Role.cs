@@ -11,16 +11,16 @@ namespace Bug.Entities.Model
         public int Id { get; private set; }
         public string Name { get; private set; }
         public string Description { get; private set; }
-        public bool Default { get; private set; }
         public string CreatorId { get; private set; }
         public Account Creator { get; private set; }
-        public ICollection<Account> Accounts { get; private set; }
 
         private List<Permission> _permissions = new();
         public ICollection<Permission> Permissions => _permissions.AsReadOnly();
 
+        public ICollection<Project> DefaultInProjects { get; private set; }
         public ICollection<Project> Projects { get; private set; }
-        
+        public ICollection<AccountProjectRole> AccountProjectRoles { get; private set; }
+
         private Role() { }
         public Role
             (int id,
@@ -44,11 +44,6 @@ namespace Bug.Entities.Model
             Description = des;
         }
 
-        public void UpdateDefault(bool s)
-        {
-            Default = s;
-        }
-        
         public void UpdateCreatorId(string id)
         {
             CreatorId = id;

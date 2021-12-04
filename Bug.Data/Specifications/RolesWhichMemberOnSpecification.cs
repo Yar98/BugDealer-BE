@@ -10,13 +10,15 @@ namespace Bug.Data.Specifications
     public class RolesWhichMemberOnSpecification : BaseSpecification<Role>
     {
         public RolesWhichMemberOnSpecification(string projectId, string memberId)
-            : base(r=>r.Accounts.AsQueryable().Where(a=>a.Id==memberId).Any() &&
-            r.Projects.AsQueryable().Where(p=>p.Id==projectId).Any())
+            : base(r => r.AccountProjectRoles.AsQueryable().Where(
+                p => p.ProjectId == projectId).Any() &&
+            r.AccountProjectRoles.AsQueryable().Where(
+                apr => apr.AccountId == memberId).Any())
         {
-            AddInclude(r => r.Accounts);
             AddInclude(r => r.CreatorId);
             AddInclude(r => r.Permissions);
             AddInclude(r => r.Projects);
+            AddInclude(r => r.AccountProjectRoles);
         }
     }
 }

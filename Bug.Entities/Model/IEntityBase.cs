@@ -8,6 +8,6 @@ namespace Bug.Entities.Model
 {
     public abstract class IEntityBase
     {
-        public virtual string Id { get; protected set; }
+        
     }
 }

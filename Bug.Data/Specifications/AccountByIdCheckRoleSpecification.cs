@@ -11,14 +11,13 @@ namespace Bug.Data.Specifications
     {
         public AccountByIdCheckRoleSpecification(string id, int permission, string projectId)
             : base(a => a.Id == id &&
-            a.Roles.AsQueryable().Any(r => r.Permissions.AsQueryable().Any(p => p.Id == permission)) &&
-            a.Roles.AsQueryable().Any(r => r.Projects.AsQueryable().Any(p => p.Id == projectId)))
+            a.AccountProjectRoles.AsQueryable().Any(apr=>apr.ProjectId == projectId) &&
+            a.AccountProjectRoles.AsQueryable().Any(
+                apr=>apr.Role.Permissions.AsQueryable().Any(p=>p.Id==permission)))
         {
             AddInclude(a => a.Timezone);
-            AddInclude(a => a.Roles);
-            AddInclude(a => a.Projects);
-            AddInclude("Roles.Permissions");
-            AddInclude("Roles.Projects");
+            AddInclude(a => a.AccountProjectRoles);
+            AddInclude("AccountProjectRoles.Role.Permissions");
         }
     }
 }

@@ -28,6 +28,7 @@ namespace Bug.Data.Infrastructure
         IAttachmentRepo Attachment { get; }
         ITemplateRepo Template { get; }
         INotificationRepo Notification { get; }
+        IAccountProjectRoleRepo AccountProjectRole { get; }
         public void Save();
     }
 }

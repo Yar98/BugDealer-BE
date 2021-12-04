@@ -32,8 +32,8 @@ namespace Bug
             try
             {
                 var context = services.GetRequiredService<BugContext>();
-                await context.Database.EnsureCreatedAsync();
-                //await context.Database.MigrateAsync();
+                //await context.Database.EnsureCreatedAsync();
+                await context.Database.MigrateAsync();
             }
             catch (Exception ex)
             {

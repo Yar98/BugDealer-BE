@@ -13,8 +13,8 @@ namespace Bug.Data.Specifications
             : base(r=>r.Id == roleId)
         {
             AddInclude(r => r.Permissions);
-            AddInclude(r => r.Accounts);
             AddInclude(r => r.Projects);
         }
+
     }
 }

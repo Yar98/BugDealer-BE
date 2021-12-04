@@ -29,6 +29,7 @@ namespace Bug.Data
         public DbSet<Customtype> Customtypes { get; set; }
         public DbSet<Template> Templates { get; set; }
         public DbSet<Notification> Notifications { get; set; }
+        public DbSet<AccountProjectRole> AccountProjectRoles { get; set; }
 
         public BugContext(DbContextOptions options)
             : base(options)
@@ -36,12 +37,7 @@ namespace Bug.Data
         }
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            base.OnModelCreating(builder);
-            builder
-                .Entity<Account>()
-                .HasMany(p => p.Projects)
-                .WithMany(a => a.Accounts)
-                .UsingEntity(a => a.ToTable("AccountProject"));
+            base.OnModelCreating(builder);            
             builder
                 .ApplyConfigurationsFromAssembly(typeof(AccountConfiguration).Assembly)
                 .ApplyConfigurationsFromAssembly(typeof(AttachmentConfiguration).Assembly)
@@ -59,6 +55,7 @@ namespace Bug.Data
                 .ApplyConfigurationsFromAssembly(typeof(CustomtypeConfiguration).Assembly)
                 .ApplyConfigurationsFromAssembly(typeof(TemplateConfiguration).Assembly)
                 .ApplyConfigurationsFromAssembly(typeof(NotificationConfiguration).Assembly)
+                .ApplyConfigurationsFromAssembly(typeof(AccountProjectRoleConfiguration).Assembly)
                 .ApplyConfigurationsFromAssembly(typeof(TimezoneConfiguration).Assembly);
         }
     }

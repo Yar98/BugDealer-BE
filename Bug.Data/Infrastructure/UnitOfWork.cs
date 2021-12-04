@@ -31,11 +31,24 @@ namespace Bug.Data.Infrastructure
         private IAttachmentRepo _attachment;
         private ITemplateRepo _template;
         private INotificationRepo _notification;
+        private IAccountProjectRoleRepo _accountProjectRole;
 
         public UnitOfWork(BugContext bugContext, IConfiguration config)
         {
             _bugContext = bugContext;
             _config = config;
+        }
+
+        public IAccountProjectRoleRepo AccountProjectRole
+        {
+            get
+            {
+                if (_accountProjectRole == null)
+                {
+                    _accountProjectRole = new AccountProjectRoleRepo(_bugContext);
+                }
+                return _accountProjectRole;
+            }
         }
 
         public INotificationRepo Notification

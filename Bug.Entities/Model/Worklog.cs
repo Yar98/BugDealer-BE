@@ -9,16 +9,16 @@ namespace Bug.Entities.Model
     public class Worklog : IEntityBase
     {
         public int Id { get; private set; }
-        public int SpentTime { get; private set; }
-        public int RemainTime { get; private set; }
+        public string SpentTime { get; private set; }
+        public string RemainTime { get; private set; }
         public DateTimeOffset LogDate { get; private set; }
         public string LoggerId { get; private set; }
         public Account Logger { get; private set; }
         private Worklog() { }
         public Worklog
             (int id,
-            int spentTime,
-            int remainTime,
+            string spentTime,
+            string remainTime,
             DateTimeOffset logDate,
             string loggerId)
         {
