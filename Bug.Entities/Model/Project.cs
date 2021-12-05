@@ -28,7 +28,7 @@ namespace Bug.Entities.Model
         public int TemplateId { get; private set; }
         public Template Template { get; private set; }
 
-        public ICollection<AccountProjectRole> AccountProjectRoles { get; private set; }
+        
         public ICollection<Account> Relator { get; private set; }
         
         private readonly List<Issue> _issues = new List<Issue>();
@@ -39,6 +39,8 @@ namespace Bug.Entities.Model
 
         private List<Status> _statuses = new List<Status>();
         public ICollection<Status> Statuses => _statuses.AsReadOnly();
+
+        public ICollection<AccountProjectRole> AccountProjectRoles { get; set; } = new List<AccountProjectRole>();
 
         public int TotalIssues 
         { 
@@ -148,6 +150,7 @@ namespace Bug.Entities.Model
         {
             _roles = r;
         }
+
         public void AddExistRole(Role r)
         {
             if(!Roles.Any(i=>i.Id == r.Id))

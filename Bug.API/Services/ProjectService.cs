@@ -87,6 +87,30 @@ namespace Bug.API.Services
                 Length = result.Length
             };
         }
+        
+        // filter by tags, return not contain tags
+        public async Task<IReadOnlyList<Project>> GetNextByOffsetByCreatorIdTagIdAsync
+            (string accountId,
+            int offset,
+            int next,
+            int tagId,
+            string sortOrder,
+            CancellationToken cancellationToken = default)
+        {
+            // filter projects by creator
+            var specificationResult =
+                new ProjectsByStateCreatorIdSpecification(accountId, tagId);
+            var result = await _unitOfWork
+                .Project
+                .GetNextByOffsetNoTrackBySpecAsync
+                (offset,
+                next,
+                sortOrder,
+                specificationResult,
+                cancellationToken);
+            return result;
+        }
+
         // filter by tags, return not contain tags
         public async Task<PaginatedListDto<Project>> GetPaginatedByMemberIdTagIdAsync
             (string accountId,
@@ -111,28 +135,6 @@ namespace Bug.API.Services
                 Items = result,
                 Length = result.Length
             };
-        }
-        // filter by tags, return not contain tags
-        public async Task<IReadOnlyList<Project>> GetNextByOffsetByCreatorIdTagIdAsync
-            (string accountId,
-            int offset,
-            int next,
-            int tagId,
-            string sortOrder,
-            CancellationToken cancellationToken = default)
-        {
-            // filter projects by creator
-            var specificationResult =
-                new ProjectsByStateCreatorIdSpecification(accountId, tagId);
-            var result = await _unitOfWork
-                .Project
-                .GetNextByOffsetNoTrackBySpecAsync
-                (offset,
-                next,
-                sortOrder,
-                specificationResult,
-                cancellationToken);
-            return result;
         }
 
         // filter by tags, return not contain tags
@@ -177,9 +179,10 @@ namespace Bug.API.Services
                 .AddTemplateId(pro.TemplateId??1)
                 .Build();
             // add creator as member to project
-            var acc = await _unitOfWork.Account.GetByIdAsync(pro.CreatorId, cancellationToken);
-            //_unitOfWork.Account.Attach(acc);
-
+            //var acc = await _unitOfWork.Account.GetByIdAsync(pro.CreatorId, cancellationToken);
+            result
+                .AccountProjectRoles
+                .Add(new AccountProjectRole(pro.CreatorId, result.Id, 1));
             // add default roles to project
             var defaultRoles = await _unitOfWork.Role.GetDefaultRolesAsync(cancellationToken:cancellationToken);
             result.AddDefaultRoles(defaultRoles);
