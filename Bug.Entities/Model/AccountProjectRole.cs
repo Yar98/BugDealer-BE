@@ -14,5 +14,17 @@ namespace Bug.Entities.Model
         public Project Project { get; set; }
         public int RoleId { get; set; }
         public Role Role { get; set; }
+
+        private AccountProjectRole() { }
+
+        public AccountProjectRole
+            (string accountId,
+            string projectId,
+            int roleId)
+        {
+            AccountId = accountId;
+            ProjectId = projectId;
+            RoleId = roleId;
+        }
     }
 }

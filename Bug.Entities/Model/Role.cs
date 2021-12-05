@@ -19,7 +19,7 @@ namespace Bug.Entities.Model
 
         public ICollection<Project> DefaultInProjects { get; private set; }
         public ICollection<Project> Projects { get; private set; }
-        public ICollection<AccountProjectRole> AccountProjectRoles { get; private set; }
+        public ICollection<AccountProjectRole> AccountProjectRoles { get; set; } = new List<AccountProjectRole>();
 
         private Role() { }
         public Role

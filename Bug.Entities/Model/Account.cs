@@ -37,7 +37,7 @@ namespace Bug.Entities.Model
         public ICollection<Issue> AssignIssues { get; private set; }
         public ICollection<Project> RelateProjects { get; private set; }
         public ICollection<Customtype> Customtype { get; private set; }
-        public ICollection<AccountProjectRole> AccountProjectRoles { get; private set; }        
+        public ICollection<AccountProjectRole> AccountProjectRoles { get; set; } = new List<AccountProjectRole>();
 
         private Account() { }
         public Account(string id,
