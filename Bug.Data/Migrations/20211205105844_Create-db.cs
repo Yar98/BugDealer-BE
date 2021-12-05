@@ -14,7 +14,6 @@ namespace Bug.Data.Migrations
                 AS
                 BEGIN				
 				    SET NOCOUNT ON;
-
 					INSERT INTO [AccountProjectRole]
 					SELECT a.Id, @pro, @role FROM 
 					Account as a INNER JOIN [AccountProjectRole] as apr
@@ -23,7 +22,6 @@ namespace Bug.Data.Migrations
 						[AccountProjectRole] as apr
 						INNER JOIN Account as a ON apr.AccountId = a.Id
 						WHERE apr.RoleId = 2 AND apr.ProjectId = 'project1')
-
 					DELETE FROM [AccountProjectRole]
                     WHERE ProjectId = @pro AND RoleId NOT IN (SELECT VALUE FROM STRING_SPLIT(@list,','))
                 END";
@@ -248,7 +246,7 @@ namespace Bug.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "State",
+                name: "Status",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
@@ -260,15 +258,15 @@ namespace Bug.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_State", x => x.Id);
+                    table.PrimaryKey("PK_Status", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_State_Account_CreatorId",
+                        name: "FK_Status_Account_CreatorId",
                         column: x => x.CreatorId,
                         principalTable: "Account",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_State_Tag_TagId",
+                        name: "FK_Status_Tag_TagId",
                         column: x => x.TagId,
                         principalTable: "Tag",
                         principalColumn: "Id",
@@ -362,9 +360,9 @@ namespace Bug.Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Project_State_DefaultStatusId",
+                        name: "FK_Project_Status_DefaultStatusId",
                         column: x => x.DefaultStatusId,
-                        principalTable: "State",
+                        principalTable: "Status",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -456,9 +454,9 @@ namespace Bug.Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Issue_State_StatusId",
+                        name: "FK_Issue_Status_StatusId",
                         column: x => x.StatusId,
-                        principalTable: "State",
+                        principalTable: "Status",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -510,9 +508,9 @@ namespace Bug.Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ProjectStatus_State_StatusesId",
+                        name: "FK_ProjectStatus_Status_StatusesId",
                         column: x => x.StatusesId,
-                        principalTable: "State",
+                        principalTable: "Status",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -632,15 +630,15 @@ namespace Bug.Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Issuelog_State_ModStatusId",
+                        name: "FK_Issuelog_Status_ModStatusId",
                         column: x => x.ModStatusId,
-                        principalTable: "State",
+                        principalTable: "Status",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Issuelog_State_PreStatusId",
+                        name: "FK_Issuelog_Status_PreStatusId",
                         column: x => x.PreStatusId,
-                        principalTable: "State",
+                        principalTable: "Status",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -970,13 +968,13 @@ namespace Bug.Data.Migrations
                 column: "CreatorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_State_CreatorId",
-                table: "State",
+                name: "IX_Status_CreatorId",
+                table: "Status",
                 column: "CreatorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_State_TagId",
-                table: "State",
+                name: "IX_Status_TagId",
+                table: "Status",
                 column: "TagId");
 
             migrationBuilder.CreateIndex(
@@ -1072,7 +1070,7 @@ namespace Bug.Data.Migrations
                 name: "Role");
 
             migrationBuilder.DropTable(
-                name: "State");
+                name: "Status");
 
             migrationBuilder.DropTable(
                 name: "Template");

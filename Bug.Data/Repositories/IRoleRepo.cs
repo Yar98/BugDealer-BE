@@ -12,6 +12,9 @@ namespace Bug.Data.Repositories
 {
     public interface IRoleRepo : IEntityRepoBase<Role>
     {
+        Task<List<Role>> GetRolesFromMutiIdsAsync
+            (List<int> list,
+            CancellationToken cancellationToken = default);
         Task<IReadOnlyList<Role>> GetDefaultRolesNoTrackAsync
             (string creatorId = "bts",
             CancellationToken cancellationToken = default);

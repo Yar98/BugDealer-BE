@@ -34,6 +34,10 @@ namespace Bug.Data.Configuration
                 .WithMany(r => r.DefaultInProjects)
                 .HasForeignKey(p => p.DefaultStatusId);
             builder
+                .HasMany(p => p.Statuses)
+                .WithMany(p => p.Projects)
+                .UsingEntity(e => e.ToTable("ProjectStatus"));
+            builder
                 .Ignore(p => p.TotalIssues)
                 .Ignore(p => p.TotalDoneIssues)
                 .Ignore(p => p.TotalOpenIssues);

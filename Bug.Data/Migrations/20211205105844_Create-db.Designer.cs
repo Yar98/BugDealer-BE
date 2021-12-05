@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bug.Data.Migrations
 {
     [DbContext(typeof(BugContext))]
-    [Migration("20211204133732_Create-db")]
+    [Migration("20211205105844_Create-db")]
     partial class Createdb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -580,7 +580,7 @@ namespace Bug.Data.Migrations
 
                     b.HasIndex("TagId");
 
-                    b.ToTable("State");
+                    b.ToTable("Status");
                 });
 
             modelBuilder.Entity("Bug.Entities.Model.Tag", b =>

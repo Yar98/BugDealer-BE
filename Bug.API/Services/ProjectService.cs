@@ -216,7 +216,7 @@ namespace Bug.API.Services
             if(pro.DefaultAssigneeId != null)
                 result.UpdateDefaultAssigneeId(pro.DefaultAssigneeId);
             if(pro.Status != null)
-                result.UpdateStatus(pro.Status??0);
+                result.UpdateState(pro.Status??0);
             if(pro.TemplateId != null)
                 result.UpdateTemplateId(pro.TemplateId??0);
             // update db
@@ -233,15 +233,15 @@ namespace Bug.API.Services
             var project = await _unitOfWork
                 .Project
                 .GetEntityBySpecAsync(specificationResult, cancellationToken);
-            var roles = pro
-                .Roles
-                .Select(r => new Role(r.Id, r.Name, r.Description, r.CreatorId))
-                .ToList();           
+            var roles = await _unitOfWork
+                .Role
+                .GetRolesFromMutiIdsAsync(pro.Roles.Select(r=>r.Id).ToList(), cancellationToken);
             var defaultRoles = await _unitOfWork
                 .Role
                 .GetDefaultRolesAsync(cancellationToken:cancellationToken);           
             roles.AddRange(defaultRoles);
             project.UpdateRoles(roles);
+
             _unitOfWork.Project.Update(project);
             _unitOfWork.Save();
 
@@ -250,10 +250,30 @@ namespace Bug.API.Services
 
 
 
-        public async Task AddRoleToProjectAsync
-            (string projectId,
-            int roleId,
+ 
+        public async Task UpdateStatusesOfProjectAsync
+            (ProjectPutDto pro,
             CancellationToken cancellationToken = default)
+        {
+            var project = await _unitOfWork.Project.GetByIdAsync(pro.Id, cancellationToken);
+            var statuses = await _unitOfWork
+                .Status
+                .GetStatusesFromMutiIdsAsync(pro.Statuses.Select(st=>st.Id).ToList(),cancellationToken);
+            var defaultStatuses = await _unitOfWork
+                .Status
+                .GetDefaultStatusesAsync(cancellationToken: cancellationToken);
+            statuses.AddRange(defaultStatuses);
+            project.UpdateStatuses(statuses);
+            _unitOfWork.Project.Update(project);
+            _unitOfWork.Save();
+
+
+        }
+
+        public async Task AddRoleToProjectAsync
+             (string projectId,
+             int roleId,
+             CancellationToken cancellationToken = default)
         {
             var project = await _unitOfWork
                 .Project
@@ -267,23 +287,6 @@ namespace Bug.API.Services
             _unitOfWork.Save();
         }
 
-        public async Task UpdateStatusesOfProjectAsync
-            (ProjectPutDto pro,
-            CancellationToken cancellationToken = default)
-        {
-            var project = await _unitOfWork.Project.GetByIdAsync(pro.Id, cancellationToken);
-            var statuses = pro
-                .Statuses
-                .Select(r => new Status(r.Id, r.Name, r.Description, r.Progress??0, r.CreatorId, r.TagId??1))
-                .ToList();
-            var defaultStatuses = await _unitOfWork
-                .Status
-                .GetDefaultStatusesAsync(cancellationToken: cancellationToken);
-            statuses.AddRange(defaultStatuses);
-            project.UpdateStatuses(statuses);
-            _unitOfWork.Project.Update(project);
-            _unitOfWork.Save();
-        }
 
         public async Task DeleteProjectAsync
             (string projectId,

@@ -12,6 +12,9 @@ namespace Bug.Data.Repositories
 {
     public interface IStatusRepo : IEntityRepoBase<Status>
     {
+        Task<List<Status>> GetStatusesFromMutiIdsAsync
+            (List<string> list,
+            CancellationToken cancellationToken = default);
         Task<IReadOnlyList<Status>> GetDefaultStatusesNoTrackAsync
             (string creatorId = "bts",
             CancellationToken cancellationToken = default);

@@ -20,6 +20,18 @@ namespace Bug.Data.Repositories
 
         }
 
+        public async Task<List<Status>> GetStatusesFromMutiIdsAsync
+            (List<string> list,
+            CancellationToken cancellationToken = default)
+        {
+            var result = await _bugContext
+                .Statuses
+                .AsQueryable()
+                .Where(p => list.Contains(p.Id))
+                .ToListAsync(cancellationToken);
+            return result;
+        }
+
         public async Task<IReadOnlyList<Status>> GetDefaultStatusesNoTrackAsync
             (string creatorId = "bts",
             CancellationToken cancellationToken = default)

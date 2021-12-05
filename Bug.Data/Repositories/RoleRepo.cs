@@ -20,6 +20,18 @@ namespace Bug.Data.Repositories
 
         }
 
+        public async Task<List<Role>> GetRolesFromMutiIdsAsync
+            (List<int> list,
+            CancellationToken cancellationToken = default)
+        {
+            var result = await _bugContext
+                .Roles
+                .AsQueryable()
+                .Where(p => list.Contains(p.Id))
+                .ToListAsync(cancellationToken);
+            return result;
+        }
+
         public async Task<IReadOnlyList<Role>> GetDefaultRolesNoTrackAsync
             (string creatorId = "bts",
             CancellationToken cancellationToken = default)
