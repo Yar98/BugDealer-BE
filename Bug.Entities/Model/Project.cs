@@ -139,7 +139,7 @@ namespace Bug.Entities.Model
         {
             TemplateId = id;
         }
-        public void UpdateStatus(int id)
+        public void UpdateState(int id)
         {
             State = id;
         }

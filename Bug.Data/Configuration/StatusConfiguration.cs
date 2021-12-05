@@ -14,7 +14,7 @@ namespace Bug.Data.Configuration
         public void Configure(EntityTypeBuilder<Status> builder)
         {
             builder
-                .ToTable("State")
+                .ToTable("Status")
                 .Property(b => b.Name)
                 .IsRequired();
         }

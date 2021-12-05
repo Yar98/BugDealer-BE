@@ -578,7 +578,7 @@ namespace Bug.Data.Migrations
 
                     b.HasIndex("TagId");
 
-                    b.ToTable("State");
+                    b.ToTable("Status");
                 });
 
             modelBuilder.Entity("Bug.Entities.Model.Tag", b =>
