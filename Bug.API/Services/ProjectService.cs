@@ -235,7 +235,7 @@ namespace Bug.API.Services
                 .GetEntityBySpecAsync(specificationResult, cancellationToken);
             var roles = await _unitOfWork
                 .Role
-                .GetRolesFromMutiIdsAsync(pro.Roles.Select(r=>r.Id).ToList(), cancellationToken);
+                .GetRolesFromMutiIdsAsync(pro.Roles.Select(r=>r.Id).Where(r=>r!=0).ToList(), cancellationToken);
             var defaultRoles = await _unitOfWork
                 .Role
                 .GetDefaultRolesAsync(cancellationToken:cancellationToken);           
