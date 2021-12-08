@@ -15,6 +15,7 @@ namespace Bug.Data.Specifications
                 r.Projects.AsQueryable().Where(p=>p.Id==projectId).Any())
             .Any())
         {
+            AddInclude(p => p.Category);
             AddInclude(p => p.Roles);
             AddInclude("Roles.Projects");
         }

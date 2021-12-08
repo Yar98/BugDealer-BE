@@ -7,26 +7,7 @@ namespace Bug.Data.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            var sp1 = @"CREATE PROCEDURE [dbo].[UpdateAccountsHaveDumbRole]
-                    @list NVARCHAR(MAX),
-                    @pro NVARCHAR(MAX),
-					@role int
-                AS
-                BEGIN				
-				    SET NOCOUNT ON;
-					INSERT INTO [AccountProjectRole]
-					SELECT a.Id, @pro, @role FROM 
-					Account as a INNER JOIN [AccountProjectRole] as apr
-					ON a.Id = apr.AccountId
-					WHERE a.Id NOT IN (SELECT AccountId FROM 
-						[AccountProjectRole] as apr
-						INNER JOIN Account as a ON apr.AccountId = a.Id
-						WHERE apr.RoleId = 2 AND apr.ProjectId = 'project1')
-					DELETE FROM [AccountProjectRole]
-                    WHERE ProjectId = @pro AND RoleId NOT IN (SELECT VALUE FROM STRING_SPLIT(@list,','))
-                END";
-            migrationBuilder.Sql(sp1);
-
+            SetupStoredProcedures.Setup(migrationBuilder);
             migrationBuilder.CreateTable(
                 name: "Category",
                 columns: table => new
@@ -67,19 +48,6 @@ namespace Bug.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Field", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Permission",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Action = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Permission", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -124,6 +92,26 @@ namespace Bug.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Timezone", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Permission",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Action = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CategoryId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Permission", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Permission_Category_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "Category",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -411,7 +399,8 @@ namespace Bug.Data.Migrations
                     Id = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    NumberCode = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     LogDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                     CreatedDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                     DueDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
@@ -901,6 +890,11 @@ namespace Bug.Data.Migrations
                 name: "IX_Notification_IssuelogId",
                 table: "Notification",
                 column: "IssuelogId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Permission_CategoryId",
+                table: "Permission",
+                column: "CategoryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PermissionRole_RolesId",

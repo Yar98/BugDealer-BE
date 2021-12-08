@@ -32,6 +32,14 @@ namespace Bug.Data.Repositories
                 .ExecuteSqlRaw("EXECUTE dbo.UpdateAccountsHaveDumbRole @list, @pro, @role", list,pro,role);
         }
 
+        public void UpdateAprAfterDeleteRole(int roleId)
+        {
+            var role = new SqlParameter("role", roleId);
+            _bugContext
+                .Database
+                .ExecuteSqlRaw("EXECUTE dbo.UpdateAprAfterDeleteRole @role", role);
+        }
+
         public override IQueryable<AccountProjectRole> SortOrder(IQueryable<AccountProjectRole> result, string sortOrder)
         {
             throw new NotImplementedException();

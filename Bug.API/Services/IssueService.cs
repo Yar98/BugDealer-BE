@@ -8,6 +8,7 @@ using Bug.Entities.Builder;
 using Bug.Entities.Model;
 using Bug.Data.Specifications;
 using Bug.API.Dto;
+using System.Text.RegularExpressions;
 
 namespace Bug.API.Services
 {
@@ -141,8 +142,10 @@ namespace Bug.API.Services
             string projectId,
             CancellationToken cancellationToken = default)
         {
+            var regexNumber = new Regex(@"[0-9]+$");
+            var regexChar = new Regex(@"^[A-Z]+");
             var specificationResult =
-                new IssuesByCodeProjectIdSpecification(code, projectId);
+                new IssuesByProjectCodeSpecification(int.Parse(regexNumber.Match(code).Value), regexChar.Match(code).Value);
             return await _unitOfWork
                 .Issue
                 .GetAllEntitiesBySpecAsync(specificationResult, cancellationToken);
@@ -215,8 +218,12 @@ namespace Bug.API.Services
             await _unitOfWork
                 .Issue
                 .AddAsync(result, cancellationToken);
+
             _unitOfWork.Save();
-            return result;
+            
+            return await _unitOfWork
+                .Issue
+                .GetEntityBySpecAsync(new IssueSpecification(result.Id),cancellationToken);
         }
 
         public async Task UpdateIssueAsync

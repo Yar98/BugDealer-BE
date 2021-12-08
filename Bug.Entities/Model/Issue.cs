@@ -1,6 +1,7 @@
 ﻿using Bug.Entities.Integration;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -13,7 +14,9 @@ namespace Bug.Entities.Model
         public string Id { get; private set; }
         public string Title { get; private set; }
         public string Description { get; private set; }
-        public string Code { get; private set; }
+
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int NumberCode { get; private set; }
         public DateTimeOffset? LogDate { get; private set; }
         public DateTimeOffset? CreatedDate { get; private set; }
         public DateTimeOffset? DueDate { get; private set; }
@@ -63,12 +66,20 @@ namespace Bug.Entities.Model
         private List<Attachment> _attachments = new();
         public ICollection<Attachment> Attachments => _attachments.AsReadOnly();
 
+        public string Code
+        {
+            get
+            {
+                return Project?.Code + "-" + NumberCode;
+            }
+        }
+
         private Issue() { }
         //[JsonConstructor]
         public Issue
             (string id,
             string title,
-            string code,
+            int numberCode,
             string description,
             DateTimeOffset? timeLog,
             DateTimeOffset? createdDate,
@@ -86,7 +97,7 @@ namespace Bug.Entities.Model
         {
             Id = id;
             Title = title;
-            Code = code;
+            NumberCode = numberCode;
             Description = description;
             LogDate = timeLog;
             CreatedDate = createdDate;

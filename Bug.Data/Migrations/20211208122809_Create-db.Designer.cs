@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bug.Data.Migrations
 {
     [DbContext(typeof(BugContext))]
-    [Migration("20211205105844_Create-db")]
+    [Migration("20211208122809_Create-db")]
     partial class Createdb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -263,9 +263,6 @@ namespace Bug.Data.Migrations
                     b.Property<string>("AssigneeId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("Code")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTimeOffset?>("CreatedDate")
                         .HasColumnType("datetimeoffset");
 
@@ -280,6 +277,11 @@ namespace Bug.Data.Migrations
 
                     b.Property<DateTimeOffset?>("LogDate")
                         .HasColumnType("datetimeoffset");
+
+                    b.Property<int>("NumberCode")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("OriginEstimateTime")
                         .HasColumnType("nvarchar(max)");
@@ -412,7 +414,12 @@ namespace Bug.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
 
                     b.ToTable("Permission");
                 });
@@ -975,6 +982,17 @@ namespace Bug.Data.Migrations
                     b.Navigation("Account");
 
                     b.Navigation("Issuelog");
+                });
+
+            modelBuilder.Entity("Bug.Entities.Model.Permission", b =>
+                {
+                    b.HasOne("Bug.Entities.Model.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("Bug.Entities.Model.Project", b =>

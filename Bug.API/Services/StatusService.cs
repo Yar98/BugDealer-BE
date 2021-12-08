@@ -167,7 +167,12 @@ namespace Bug.API.Services
             var result = await _unitOfWork
                 .Status
                 .GetByIdAsync(statusId, cancellationToken);
+
+            _unitOfWork
+                .Issue
+                .UpdateIssuesHaveDumbStatus(new List<Status> { result });
             _unitOfWork.Status.Delete(result);
+            
             _unitOfWork.Save();
         }
     }

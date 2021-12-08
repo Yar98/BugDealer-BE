@@ -22,7 +22,8 @@ namespace Bug.Data.Configuration
                 .Property(i => i.Id)
                 .HasMaxLength(100);
             builder
-                .Ignore(i=>i.LinkedIssues);
+                .Ignore(i => i.LinkedIssues)
+                .Ignore(i => i.Code);
         }
     }
 }

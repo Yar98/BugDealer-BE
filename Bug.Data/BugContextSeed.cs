@@ -128,7 +128,7 @@ namespace Bug.Data
         {
             return new List<Issue>()
             {
-                new Issue("issue1","title1","code1","des1",DateTime.Now,DateTime.Now,DateTime.Now,DateTime.Now,null,null,"environment1","defaultStatus1",1,"project1","account1","account1",null)
+                new Issue("issue1","title1",0,"des1",DateTime.Now,DateTime.Now,DateTime.Now,DateTime.Now,null,null,"environment1","defaultStatus1",1,"project1","account1","account1",null)
             };
         }
         static IEnumerable<Tag> GetPreconfiguredTag()
@@ -150,7 +150,7 @@ namespace Bug.Data
                 new Tag(0,"Create", null, null, Bts.DefaultActionTag),
                 new Tag(0,"Edit", null, null, Bts.DefaultActionTag),
                 new Tag(0,"Comment", null, null, Bts.DefaultActionTag),
-                new Tag(0,"Worklog", null, null, Bts.DefaultActionTag)
+                new Tag(0,"Worklog", null, null, Bts.DefaultActionTag),
             };
         }
         static IEnumerable<Category> GetPreconfiguredCategory()
@@ -161,9 +161,9 @@ namespace Bug.Data
                 new Category(0,"DefaultRelationTag",null),
                 new Category(0,"DefaultActionTag",null),
                 new Category(0,"DefaultWorkLogTag",null),
-                new Category(0,"CustomLabelTag",null),
-                //new Category("DefaultProjectPermission",null),
-                //new Category("DefaultIssuePermission",null),
+                new Category(0,"DefaultProjectPermission",null),
+                new Category(0,"DefaultIssuePermission",null),
+                new Category(0,"CustomLabelTag",null)               
             };
         }
         static IEnumerable<Status> GetPreconfiguredStatus()
@@ -184,21 +184,21 @@ namespace Bug.Data
         {
             return new List<Permission>()
             {
-                new Permission(0,"Edit project details"),
-                new Permission(0,"Edit project roles"),
-                new Permission(0,"Edit project members"),
-                new Permission(0,"Edit project statuses"),
-                new Permission(0,"View issues"),
-                new Permission(0,"Create issues"),
-                new Permission(0,"Edit issues"),
-                new Permission(0,"Delete issues"),
-                new Permission(0,"Add comments"),
-                new Permission(0,"Edit own comments"),
-                new Permission(0,"Delete own comments"),
-                new Permission(0,"Delete other comments"),
-                new Permission(0,"View watcher list"),
-                new Permission(0,"Add watchers"),
-                new Permission(0,"Delete watchers")
+                new Permission(0,"Edit project details",5),
+                new Permission(0,"Edit project roles",5),
+                new Permission(0,"Edit project members",5),
+                new Permission(0,"Edit project statuses",5),
+                new Permission(0,"View issues",6),
+                new Permission(0,"Create issues",6),
+                new Permission(0,"Edit issues",6),
+                new Permission(0,"Delete issues",6),
+                new Permission(0,"Add comments",6),
+                new Permission(0,"Edit own comments",6),
+                new Permission(0,"Delete own comments",6),
+                new Permission(0,"Delete other comments",6),
+                new Permission(0,"View watcher list",6),
+                new Permission(0,"Add watchers",6),
+                new Permission(0,"Delete watchers",6)
             };
         }
         static IEnumerable<Role> GetPreconfiguredRole()
