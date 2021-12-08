@@ -140,7 +140,7 @@ namespace Bug.API.Controllers
         {
             var result = await _issueService.AddIssueAsync(issue);
             return CreatedAtAction(
-                nameof(GetDetailIssue), new { id = result.Id }, Bts.ConvertJson(result));
+                nameof(GetDetailIssue), new { id = result.Id }, Bts.ConvertJson(result,2));
         }
 
         // PUT api/Issue/5

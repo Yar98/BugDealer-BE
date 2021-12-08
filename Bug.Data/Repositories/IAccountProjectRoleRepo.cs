@@ -10,5 +10,6 @@ namespace Bug.Data.Repositories
     public interface IAccountProjectRoleRepo : IEntityRepoBase<AccountProjectRole>
     {
         void UpdateMultiByRoleIdProjectId(string projectId, List<Role> roles);
+        void UpdateAprAfterDeleteRole(int roleId);
     }
 }

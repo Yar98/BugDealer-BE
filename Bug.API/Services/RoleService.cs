@@ -178,6 +178,8 @@ namespace Bug.API.Services
             (int id,
             CancellationToken cancellationToken = default)
         {
+            _unitOfWork.AccountProjectRole.UpdateAprAfterDeleteRole(id);
+
             var defaultRoles = await _unitOfWork
                 .Role
                 .GetDefaultRolesNoTrackAsync(cancellationToken:cancellationToken);
@@ -189,6 +191,7 @@ namespace Bug.API.Services
                 .Role
                 .GetByIdAsync(id, cancellationToken);
             _unitOfWork.Role.Delete(result);
+
             _unitOfWork.Save();
         }
     }

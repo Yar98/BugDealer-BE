@@ -27,12 +27,17 @@ namespace Bug.API.Services
                 .GetByIdAsync(id, cancellationToken);
         }
 
-        public async Task<IReadOnlyList<Permission>> GetAllAsync
+        public async Task<PermissionByCategoryDto> GetAllAsync
             (CancellationToken cancellationToken = default)
         {
-            return await _unitOfWork
+            var result = await _unitOfWork
                 .Permission
                 .FindAllAsync(cancellationToken);
+            return new PermissionByCategoryDto
+            {
+                ProjectPermissions = result.Where(p => p.CategoryId == 5).ToList(),
+                IssueTrackingPermissions = result.Where(p => p.CategoryId == 6).ToList()
+            };
         }
 
         public async Task<IReadOnlyList<PermissionNormalDto>> GetPermissionsByRoleProjectAsync

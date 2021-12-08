@@ -250,9 +250,6 @@ namespace Bug.API.Services
             _unitOfWork.AccountProjectRole.UpdateMultiByRoleIdProjectId(pro.Id, roles);
         }
 
-
-
- 
         public async Task UpdateStatusesOfProjectAsync
             (ProjectPutDto pro,
             CancellationToken cancellationToken = default)
@@ -261,15 +258,17 @@ namespace Bug.API.Services
             var statuses = await _unitOfWork
                 .Status
                 .GetStatusesFromMutiIdsAsync(pro.Statuses.Select(st=>st.Id).ToList(),cancellationToken);
+            
+            _unitOfWork.Issue.UpdateIssuesHaveDumbStatus(statuses);
+            
             var defaultStatuses = await _unitOfWork
                 .Status
                 .GetDefaultStatusesAsync(cancellationToken: cancellationToken);
             statuses.AddRange(defaultStatuses);
             project.UpdateStatuses(statuses);
             _unitOfWork.Project.Update(project);
-            _unitOfWork.Save();
 
-
+            _unitOfWork.Save(); 
         }
 
         public async Task AddMemberToProjectAsync

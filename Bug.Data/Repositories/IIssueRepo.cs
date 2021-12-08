@@ -12,6 +12,6 @@ namespace Bug.Data.Repositories
 {
     public interface IIssueRepo : IEntityRepoBase<Issue>
     {
-        
+        void UpdateIssuesHaveDumbStatus(List<Status> statuses);
     }
 }

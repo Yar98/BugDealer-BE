@@ -9,6 +9,7 @@ using System.Threading;
 using Bug.Data.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Bug.Core.Utils;
+using Microsoft.Data.SqlClient;
 
 namespace Bug.Data.Repositories
 {
@@ -18,6 +19,18 @@ namespace Bug.Data.Repositories
             : base(repositoryContext)
         {
 
+        }
+
+        public void UpdateIssuesHaveDumbStatus(List<Status> statuses)
+        {
+            var statusIds = statuses
+                .Select(s => s.Id)
+                .ToList()
+                .Aggregate((x, y) => x + "," + y);
+            var list = new SqlParameter("list", statusIds);
+            _bugContext
+                .Database
+                .ExecuteSqlRaw("EXCUTE dbo.UpdateIssuesHaveDumbStatus @list", list);
         }
 
         public override IQueryable<Issue> SortOrder

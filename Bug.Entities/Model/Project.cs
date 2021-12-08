@@ -42,38 +42,46 @@ namespace Bug.Entities.Model
 
         public ICollection<AccountProjectRole> AccountProjectRoles { get; set; } = new List<AccountProjectRole>();
 
-        public int TotalIssues 
+        public int? TotalIssues 
         { 
             get
             {
-                return Issues.Count();
+                if(Issues != null)
+                    return Issues.Count();
+                return null;
             }
         }
-        public int TotalOpenIssues 
+        public int? TotalOpenIssues 
         { 
             get
             {
-                return Issues
-                    .Where(i => i.Status.TagId == 1)
-                    .Count();
+                if (Issues != null)
+                    return Issues
+                        .Where(i => i.Status?.TagId == 1)
+                        .Count();
+                return null;
             }
         }
-        public int TotalInProgressIssues
+        public int? TotalInProgressIssues
         {
             get
             {
-                return Issues
-                    .Where(i => i.Status.TagId == 2)
-                    .Count();
+                if (Issues != null)
+                    return Issues
+                        .Where(i => i.Status?.TagId == 2)
+                        .Count();
+                return null;
             }
         }
-        public int TotalDoneIssues 
+        public int? TotalDoneIssues 
         {
             get
             {
-                return Issues
-                    .Where(i => i.Status.TagId == 3)
-                    .Count();
+                if (Issues != null)
+                    return Issues
+                        .Where(i => i.Status?.TagId == 3)
+                        .Count();
+                return null;
             }
         }
 

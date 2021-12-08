@@ -17,6 +17,7 @@ namespace Bug.Data.Specifications
                     apr=>apr.AccountId == accountId).Any())
             .Any())
         {
+            AddInclude(p => p.Category);
             AddInclude(p => p.Roles);
             AddInclude("Roles.AccountProjectRoles");
         }

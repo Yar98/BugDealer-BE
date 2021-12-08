@@ -13,7 +13,7 @@ namespace Bug.API.Services
         Task<Permission> GetPermissionByIdAsync
             (int id,
             CancellationToken cancellationToken = default);
-        Task<IReadOnlyList<Permission>> GetAllAsync
+        Task<PermissionByCategoryDto> GetAllAsync
             (CancellationToken cancellationToken = default);
         Task<IReadOnlyList<PermissionNormalDto>> GetPermissionsByRoleProjectAsync
             (int roleId,
