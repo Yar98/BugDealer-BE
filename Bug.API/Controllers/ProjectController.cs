@@ -145,15 +145,6 @@ namespace Bug.API.Controllers
             return NoContent();
         }
 
-        [HttpPut("{projectId}/add/role/{roleId:int}")]
-        public async Task<IActionResult> PutAddRoleToProject
-            (string projectId,
-            int roleId)
-        {
-            await _projectService.AddRoleToProjectAsync(projectId, roleId);
-            return NoContent();
-        }
-
         [HttpPut("{projectId}/updatestatuses")]
         public async Task<IActionResult> PutUpdateStatusesOfProject
             (string projectId,
@@ -162,6 +153,25 @@ namespace Bug.API.Controllers
             if (projectId != pro.Id)
                 return BadRequest();
             await _projectService.UpdateStatusesOfProjectAsync(pro);
+            return NoContent();
+        }
+
+        [HttpPut("add/account/to/project")]
+        public async Task<IActionResult> PutAddMemberToProject
+            (string accountId,
+            string projectId,
+            [FromBody] AprPutDto apr)
+        {
+            await _projectService.AddMemberToProjectAsync(accountId, projectId);
+            return NoContent();
+        }
+
+        [HttpPut("{projectId}/add/role/{roleId:int}")]
+        public async Task<IActionResult> PutAddRoleToProject
+            (string projectId,
+            int roleId)
+        {
+            await _projectService.AddRoleToProjectAsync(projectId, roleId);
             return NoContent();
         }
 

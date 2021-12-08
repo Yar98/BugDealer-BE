@@ -34,7 +34,7 @@
       },
       "AWSSDK.CognitoIdentity/3.7.0.2": {
         "dependencies": {
-          "AWSSDK.Core": "3.7.5",
+          "AWSSDK.Core": "3.7.5.4",
           "AWSSDK.SecurityToken": "3.7.0.2"
         },
         "runtime": {
@@ -46,7 +46,7 @@
       },
       "AWSSDK.CognitoIdentityProvider/3.7.1.74": {
         "dependencies": {
-          "AWSSDK.Core": "3.7.5"
+          "AWSSDK.Core": "3.7.5.4"
         },
         "runtime": {
           "lib/netcoreapp3.1/AWSSDK.CognitoIdentityProvider.dll": {
@@ -55,22 +55,33 @@
           }
         }
       },
-      "AWSSDK.Core/3.7.5": {
+      "AWSSDK.Core/3.7.5.4": {
         "runtime": {
           "lib/netcoreapp3.1/AWSSDK.Core.dll": {
             "assemblyVersion": "3.3.0.0",
-            "fileVersion": "3.7.5.0"
+            "fileVersion": "3.7.5.4"
           }
         }
       },
       "AWSSDK.SecurityToken/3.7.0.2": {
         "dependencies": {
-          "AWSSDK.Core": "3.7.5"
+          "AWSSDK.Core": "3.7.5.4"
         },
         "runtime": {
           "lib/netcoreapp3.1/AWSSDK.SecurityToken.dll": {
             "assemblyVersion": "3.3.0.0",
             "fileVersion": "3.7.0.2"
+          }
+        }
+      },
+      "AWSSDK.SimpleEmail/3.7.0.105": {
+        "dependencies": {
+          "AWSSDK.Core": "3.7.5.4"
+        },
+        "runtime": {
+          "lib/netcoreapp3.1/AWSSDK.SimpleEmail.dll": {
+            "assemblyVersion": "3.3.0.0",
+            "fileVersion": "3.7.0.105"
           }
         }
       },
@@ -1803,6 +1814,7 @@
       "Bug.API/1.0.0": {
         "dependencies": {
           "AWSSDK.CognitoIdentityProvider": "3.7.1.74",
+          "AWSSDK.SimpleEmail": "3.7.0.105",
           "Amazon.Extensions.CognitoAuthentication": "2.2.2",
           "Bug.Data": "1.0.0",
           "Bug.Entities": "1.0.0",
@@ -1886,12 +1898,12 @@
       "path": "awssdk.cognitoidentityprovider/3.7.1.74",
       "hashPath": "awssdk.cognitoidentityprovider.3.7.1.74.nupkg.sha512"
     },
-    "AWSSDK.Core/3.7.5": {
+    "AWSSDK.Core/3.7.5.4": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-U5SvHE/frwdhQHL/sd7FL/79NvHjRstxrKUWpfAMR/BprWcYQl6FwzboatITb/D2QZOxts0YTr2AS3Ttx+Si9A==",
-      "path": "awssdk.core/3.7.5",
-      "hashPath": "awssdk.core.3.7.5.nupkg.sha512"
+      "sha512": "sha512-uuHIEDIYhJVUVKM/IoHXkyvZ3tJPUUCXIWLN4NhfkE0f2d8cGVRK2wLH28PCpaMM74tNQGcnAEFx45mr9asxjw==",
+      "path": "awssdk.core/3.7.5.4",
+      "hashPath": "awssdk.core.3.7.5.4.nupkg.sha512"
     },
     "AWSSDK.SecurityToken/3.7.0.2": {
       "type": "package",
@@ -1899,6 +1911,13 @@
       "sha512": "sha512-OFZjQ+AM4tDP/gVpqHm2MOY2Ibr/3PfWTACc7nZEm1AjrBg514/n70+Ooo9mqzBVFwOv11+QbHvKxbR/+jHv8A==",
       "path": "awssdk.securitytoken/3.7.0.2",
       "hashPath": "awssdk.securitytoken.3.7.0.2.nupkg.sha512"
+    },
+    "AWSSDK.SimpleEmail/3.7.0.105": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-0DrQ7iTpjhKiSejlKc5DH7AX2nUxA3CmJO2oRjbTW6uEvDn0iqlZuiH4t+VsdkMHXryNwjmrWru9nKPdpqGx/g==",
+      "path": "awssdk.simpleemail/3.7.0.105",
+      "hashPath": "awssdk.simpleemail.3.7.0.105.nupkg.sha512"
     },
     "Castle.Core/4.4.0": {
       "type": "package",

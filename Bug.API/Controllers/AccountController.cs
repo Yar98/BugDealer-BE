@@ -32,6 +32,16 @@ namespace Bug.API.Controllers
             return new string[] { "value1", "value2" };
         }
 
+        [HttpGet("invite/project/{projectId}/toemai/{toEmail}/fromemail/{fromEmail}")]
+        public async Task<IActionResult> SendInviteEmail
+            (string projectId,
+            string toEmail,
+            string fromEmail)
+        {
+            await _accountService.SendInviteEmail(fromEmail, toEmail, projectId);
+            return Ok();
+        }
+
         // GET api/Account/5
         [HttpGet("{id}")]
         public async Task<IActionResult> GetAccountById(string id)

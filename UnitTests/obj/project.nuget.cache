@@ -1,14 +1,15 @@
 {
   "version": 2,
-  "dgSpecHash": "SWmUZvclj+mCkuq7hQDtJT1uXgL2g5VdRkXdNLxJX33+sM08wNEXuITnR81T5QfWGjJ8DXbjMtisDZzeLljb8w==",
+  "dgSpecHash": "Dm3lo5eFgLQrNBVFunbj4lgosc+yHg/rSJoV91S0uglIfOrG/4l1tvRGjHQcQpCqjNi0NvJLfsKpGI4Np6nYFg==",
   "success": true,
   "projectFilePath": "Y:\\BugDealer-BE\\UnitTests\\UnitTests.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\tienf\\.nuget\\packages\\amazon.extensions.cognitoauthentication\\2.2.2\\amazon.extensions.cognitoauthentication.2.2.2.nupkg.sha512",
     "C:\\Users\\tienf\\.nuget\\packages\\awssdk.cognitoidentity\\3.7.0.2\\awssdk.cognitoidentity.3.7.0.2.nupkg.sha512",
     "C:\\Users\\tienf\\.nuget\\packages\\awssdk.cognitoidentityprovider\\3.7.1.74\\awssdk.cognitoidentityprovider.3.7.1.74.nupkg.sha512",
-    "C:\\Users\\tienf\\.nuget\\packages\\awssdk.core\\3.7.5\\awssdk.core.3.7.5.nupkg.sha512",
+    "C:\\Users\\tienf\\.nuget\\packages\\awssdk.core\\3.7.5.4\\awssdk.core.3.7.5.4.nupkg.sha512",
     "C:\\Users\\tienf\\.nuget\\packages\\awssdk.securitytoken\\3.7.0.2\\awssdk.securitytoken.3.7.0.2.nupkg.sha512",
+    "C:\\Users\\tienf\\.nuget\\packages\\awssdk.simpleemail\\3.7.0.105\\awssdk.simpleemail.3.7.0.105.nupkg.sha512",
     "C:\\Users\\tienf\\.nuget\\packages\\castle.core\\4.4.0\\castle.core.4.4.0.nupkg.sha512",
     "C:\\Users\\tienf\\.nuget\\packages\\coverlet.collector\\3.0.2\\coverlet.collector.3.0.2.nupkg.sha512",
     "C:\\Users\\tienf\\.nuget\\packages\\entityframework\\6.4.4\\entityframework.6.4.4.nupkg.sha512",

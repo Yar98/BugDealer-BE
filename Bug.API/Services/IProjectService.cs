@@ -53,13 +53,17 @@ namespace Bug.API.Services
             CancellationToken cancellation = default);
         Task UpdateRolesOfProjectAsync
             (ProjectPutDto pro,
+            CancellationToken cancellationToken = default);        
+        Task UpdateStatusesOfProjectAsync
+            (ProjectPutDto pro,
+            CancellationToken cancellationToken = default);
+        Task AddMemberToProjectAsync
+            (string memberId,
+            string projectId,
             CancellationToken cancellationToken = default);
         Task AddRoleToProjectAsync
             (string projectId,
             int roleId,
-            CancellationToken cancellationToken = default);
-        Task UpdateStatusesOfProjectAsync
-            (ProjectPutDto pro,
             CancellationToken cancellationToken = default);
         Task DeleteProjectAsync
             (string projectId,

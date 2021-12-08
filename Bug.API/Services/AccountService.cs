@@ -1,17 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Bug.API.Dto;
+﻿using Bug.API.Dto;
 using Bug.Data.Infrastructure;
 using Bug.API.Utils;
 using Bug.Entities.Builder;
-using System.Threading;
 using Bug.Entities.Model;
 using Bug.Data.Specifications;
+using Bug.API.BtsException;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Threading;
+using Microsoft.Extensions.Configuration;
 using Amazon;
 using Amazon.CognitoIdentityProvider.Model;
-using Bug.API.BtsException;
+using Amazon.SimpleEmail;
+using Amazon.SimpleEmail.Model;
 
 namespace Bug.API.Services
 {
@@ -19,10 +22,59 @@ namespace Bug.API.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IJwtUtils _jwtUtils;
-        public AccountService(IUnitOfWork unitOfWork, IJwtUtils jwtUtils)
+        private readonly IConfiguration _config;
+        private readonly string htmlBody = @"<html>
+<head></head>
+<body>
+  <h1>Cap Bai Trung hay vl</h1>
+  <p>{0} invite you to join his/her project. Click
+    <a href='http://localhost:4200/projects/invitation?project={1}'>HERE</a> to xem Cap Bai Trung.</p>
+</body>
+</html>";
+
+        public AccountService(IUnitOfWork unitOfWork, IJwtUtils jwtUtils, IConfiguration config)
         {
             _unitOfWork = unitOfWork;
             _jwtUtils = jwtUtils;
+            _config = config;
+        }
+
+        public async Task SendInviteEmail
+            (string fromEmail,
+            string toEmail, 
+            string projectId,
+            CancellationToken cancellationToken = default)
+        {            
+            using var client =
+                new AmazonSimpleEmailServiceClient(_config.GetSection("Cognito")["AccessKeyId"], _config.GetSection("Cognito")["AccessSecretKey"], RegionEndpoint.GetBySystemName(_config.GetSection("Cognito")["Region"]));
+            var sendRequest = new SendEmailRequest
+            {
+                Source = "tienfu97@gmail.com",
+                Destination = new Destination
+                {
+                    ToAddresses = new List<string> { toEmail }
+                },
+                Message = new Message
+                {
+                    Subject = new Content("Xem cap bai trung di"),
+                    Body = new Body
+                    {
+                        Html = new Content
+                        {
+                            Charset = "UTF-8",
+                            Data = string.Format(htmlBody, fromEmail, projectId)
+                        },
+                        Text = new Content
+                        {
+                            Charset = "UTF-8",
+                            Data = fromEmail+ "invite you to join his/her project." +
+                            "Click http://localhost:4200/projects/invitation?project=" +
+                            projectId + "to join."
+                        }
+                    }
+                }
+            };
+            await client.SendEmailAsync(sendRequest, cancellationToken);
         }
 
         public async Task<string> GenerateTokenGoogleAccountAsync
@@ -264,7 +316,8 @@ namespace Bug.API.Services
                 result.UpdateLanguage(user.Language);
             if (user.ImageUri != null)
                 result.UpdateImageUri(user.ImageUri);
-            result.UpdatePassword(user.NewPassword);
+            if (user.NewPassword != null)
+                result.UpdatePassword(user.NewPassword);
             _unitOfWork.Account.Update(result);
             _unitOfWork.Save();
             return 1;

@@ -45,7 +45,7 @@ namespace Bug.API.Services
                 CreatorId = result?.CreatorId,
                 DefaultAssigneeId = result?.DefaultAssigneeId,
                 TemplateId = result?.TemplateId,
-                Status = result?.State
+                State = result?.State
             };
         }
         
@@ -175,11 +175,10 @@ namespace Bug.API.Services
                 .AddDescription(pro.Description)
                 .AddAvatarUri(pro.AvatarUri)
                 .AddCreatorId(pro.CreatorId)
-                .AddStatus(pro.Status??1)
+                .AddStatus(pro.State??1)
                 .AddTemplateId(pro.TemplateId??1)
                 .Build();
             // add creator as member to project
-            //var acc = await _unitOfWork.Account.GetByIdAsync(pro.CreatorId, cancellationToken);
             result
                 .AccountProjectRoles
                 .Add(new AccountProjectRole(pro.CreatorId, result.Id, 1));
@@ -218,8 +217,8 @@ namespace Bug.API.Services
                 result.UpdateCreatorId(pro.CreatorId);
             if(pro.DefaultAssigneeId != null)
                 result.UpdateDefaultAssigneeId(pro.DefaultAssigneeId);
-            if(pro.Status != null)
-                result.UpdateState(pro.Status??0);
+            if(pro.State != null)
+                result.UpdateState(pro.State??0);
             if(pro.TemplateId != null)
                 result.UpdateTemplateId(pro.TemplateId??0);
             // update db
@@ -271,6 +270,18 @@ namespace Bug.API.Services
             _unitOfWork.Save();
 
 
+        }
+
+        public async Task AddMemberToProjectAsync
+            (string memberId,
+            string projectId,
+            CancellationToken cancellationToken = default)
+        {
+            var apr = new AccountProjectRole(memberId, projectId, 1);
+            await _unitOfWork
+                .AccountProjectRole
+                .AddAsync(apr,cancellationToken);
+            _unitOfWork.Save();
         }
 
         public async Task AddRoleToProjectAsync

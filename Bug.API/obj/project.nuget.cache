@@ -1,14 +1,15 @@
 {
   "version": 2,
-  "dgSpecHash": "vyohKXDKc7OCCL5gYhTu+TuYQ6c+gqpon9Br8iFB0gZ1wyqBMuHSeWiJLM7xbjOhPkEjkd4SgthOSXuivm0gHA==",
+  "dgSpecHash": "xUFUy1rde4dm29SXXmixTdAeF+9YFY5VwM+ApExH6o+U20dWzVIJloklDHeRmaYwPPEVyrqzLIP4Seksd7iZHA==",
   "success": true,
   "projectFilePath": "Y:\\BugDealer-BE\\Bug.API\\Bug.API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\tienf\\.nuget\\packages\\amazon.extensions.cognitoauthentication\\2.2.2\\amazon.extensions.cognitoauthentication.2.2.2.nupkg.sha512",
     "C:\\Users\\tienf\\.nuget\\packages\\awssdk.cognitoidentity\\3.7.0.2\\awssdk.cognitoidentity.3.7.0.2.nupkg.sha512",
     "C:\\Users\\tienf\\.nuget\\packages\\awssdk.cognitoidentityprovider\\3.7.1.74\\awssdk.cognitoidentityprovider.3.7.1.74.nupkg.sha512",
-    "C:\\Users\\tienf\\.nuget\\packages\\awssdk.core\\3.7.5\\awssdk.core.3.7.5.nupkg.sha512",
+    "C:\\Users\\tienf\\.nuget\\packages\\awssdk.core\\3.7.5.4\\awssdk.core.3.7.5.4.nupkg.sha512",
     "C:\\Users\\tienf\\.nuget\\packages\\awssdk.securitytoken\\3.7.0.2\\awssdk.securitytoken.3.7.0.2.nupkg.sha512",
+    "C:\\Users\\tienf\\.nuget\\packages\\awssdk.simpleemail\\3.7.0.105\\awssdk.simpleemail.3.7.0.105.nupkg.sha512",
     "C:\\Users\\tienf\\.nuget\\packages\\entityframework\\6.4.4\\entityframework.6.4.4.nupkg.sha512",
     "C:\\Users\\tienf\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\tienf\\.nuget\\packages\\microsoft.aspnetcore.authentication.google\\5.0.11\\microsoft.aspnetcore.authentication.google.5.0.11.nupkg.sha512",
