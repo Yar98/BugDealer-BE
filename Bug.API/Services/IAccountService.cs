@@ -10,6 +10,11 @@ namespace Bug.API.Services
 {
     public interface IAccountService
     {
+        Task SendInviteEmail
+            (string fromEmail,
+            string toEmail,
+            string projectId,
+            CancellationToken cancellationToken = default);
         Task<string> GenerateTokenGoogleAccountAsync(AccountGoogleLoginDto acc, CancellationToken cancellationToken = default);
         Task<Account> CheckPermissionsOfRolesOfAccount
             (string accountId,

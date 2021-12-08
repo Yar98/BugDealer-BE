@@ -1,18 +1,19 @@
-﻿using System;
+﻿using Bug.Core.Utils;
+using Bug.Data.Extensions;
+using Bug.Data.Specifications;
+using Bug.Entities.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Amazon;
 using Amazon.CognitoIdentityProvider;
 using Amazon.CognitoIdentityProvider.Model;
-using Bug.Core.Utils;
-using Bug.Data.Extensions;
-using Bug.Data.Specifications;
-using Bug.Entities.Model;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+
 
 namespace Bug.Data.Repositories
 {
@@ -31,6 +32,7 @@ namespace Bug.Data.Repositories
                 .Accounts
                 .FirstOrDefaultAsync(a=>a.Email.Equals(email));
         }
+
         public async Task<Account> GetAccountByUserName
             (string userName, 
             string password)

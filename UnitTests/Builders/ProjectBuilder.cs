@@ -51,7 +51,7 @@ namespace UnitTests.Builders
                 DefaultAssigneeId = TestDefaultAssigneeId,
                 CreatorId = TestCreatorId,
                 TemplateId = TestTemplateId,
-                Status = TestStatus
+                State = TestStatus
             };
         }
     }

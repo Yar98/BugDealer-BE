@@ -20,7 +20,7 @@ namespace Bug.API.Dto
         public string AvatarUri { get; set; }
         public string ProjectType { get; set; }
         public string Description { get; set; }
-        public int? Status { get; set; }
+        public int? State { get; set; }
         public int? TemplateId { get; set; }
         public string DefaultAssigneeId { get; set; }
         public string CreatorId { get; set; }
