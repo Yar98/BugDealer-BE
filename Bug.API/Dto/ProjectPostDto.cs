@@ -13,20 +13,16 @@ namespace Bug.API.Dto
         [MaxLength(64)]
         [MinLength(2)]
         public string Name { get; set; }
+        [Required]
         public string Code { get; set; }
         public DateTimeOffset? StartDate { get; set; }
         public DateTimeOffset? EndDate { get; set; }
         public DateTimeOffset? RecentDate { get; set; }
         public string AvatarUri { get; set; }
-        public string ProjectType { get; set; }
         public string Description { get; set; }
-        public int? State { get; set; }
         public int? TemplateId { get; set; }
         public string DefaultAssigneeId { get; set; }
+        [Required]
         public string CreatorId { get; set; }
-        public List<TagNormalDto> Tags { get; set; }
-        public List<AccountNormalDto> Accounts { get; set; }
-        public List<RoleNormalDto> Roles { get; set; }
-        public List<StatusNormalDto> Statuses { get; set; }
     }
 }

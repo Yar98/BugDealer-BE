@@ -33,9 +33,9 @@ namespace Bug.Entities.Builder
             return this;
         }
 
-        public IIssueBuilder AddNumberCode()
+        public IIssueBuilder AddNumberCode(int code)
         {
-            NumberCode = 0;
+            NumberCode = code;
             return this;
         }
 

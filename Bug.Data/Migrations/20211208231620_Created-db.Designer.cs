@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bug.Data.Migrations
 {
     [DbContext(typeof(BugContext))]
-    [Migration("20211208122809_Create-db")]
-    partial class Createdb
+    [Migration("20211208231620_Created-db")]
+    partial class Createddb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -279,9 +279,7 @@ namespace Bug.Data.Migrations
                         .HasColumnType("datetimeoffset");
 
                     b.Property<int>("NumberCode")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
                     b.Property<string>("OriginEstimateTime")
                         .HasColumnType("nvarchar(max)");
@@ -334,6 +332,9 @@ namespace Bug.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("IssueId")
                         .HasColumnType("nvarchar(100)");
@@ -486,6 +487,9 @@ namespace Bug.Data.Migrations
                         .HasColumnType("datetimeoffset");
 
                     b.Property<int>("State")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Temp")
                         .HasColumnType("int");
 
                     b.Property<int>("TemplateId")

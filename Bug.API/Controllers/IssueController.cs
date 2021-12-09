@@ -125,12 +125,12 @@ namespace Bug.API.Controllers
             return Ok(Bts.ConvertJson(result));
         }
 
-        [HttpGet("suggest/project/{projectId}/code/{code}")]
+        [HttpGet("suggest/account/{accountId}/code/{code}")]
         public async Task<IActionResult> GetSuggestIssuesByCode
-            (string projectId, string code)
+            (string accountId, string code)
         {
             var result = await _issueService
-                .GetSuggestIssueByCode(code, projectId);
+                .GetSuggestIssueByCode(code, accountId);
             return Ok(Bts.ConvertJson(result));
         }
 
@@ -154,6 +154,8 @@ namespace Bug.API.Controllers
             await _issueService.UpdateIssueAsync(issue);
             return NoContent();
         }
+
+
 
         [HttpPut("{id}/labels")]
         public async Task<IActionResult> PutUpdateLabelsOfIssue

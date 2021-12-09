@@ -139,13 +139,13 @@ namespace Bug.API.Services
 
         public async Task<IReadOnlyList<Issue>> GetSuggestIssueByCode
             (string code,
-            string projectId,
+            string accountId,
             CancellationToken cancellationToken = default)
         {
             var regexNumber = new Regex(@"[0-9]+$");
             var regexChar = new Regex(@"^[A-Z]+");
             var specificationResult =
-                new IssuesByProjectCodeSpecification(int.Parse(regexNumber.Match(code).Value), regexChar.Match(code).Value);
+                new IssuesByProjectCodeSpecification(int.Parse(regexNumber.Match(code).Value), regexChar.Match(code).Value, accountId);
             return await _unitOfWork
                 .Issue
                 .GetAllEntitiesBySpecAsync(specificationResult, cancellationToken);
@@ -155,9 +155,11 @@ namespace Bug.API.Services
             (IssuePostDto issue,
             CancellationToken cancellationToken = default)
         {
+            var pro = await _unitOfWork.Project.GetByIdAsync(issue.ProjectId, cancellationToken);
             var result = new IssueBuilder()
                 .AddId(Guid.NewGuid().ToString())
                 .AddDescription(issue.Description)
+                .AddNumberCode(pro.Temp)
                 .AddAssigneeId(issue.AssigneeId)
                 .AddCreatedDate(issue.CreatedDate)
                 .AddDueDate(issue.DueDate)
@@ -172,7 +174,7 @@ namespace Bug.API.Services
                 .AddLogDate(issue.LogDate)
                 .AddTitle(issue.Title)
                 .Build();
-
+            pro.Temp += 1;
             var customLabelTags = issue
                 .Tags
                 .Select(l => 
@@ -230,7 +232,9 @@ namespace Bug.API.Services
             (IssuePostDto issue,
             CancellationToken cancellationToken = default)
         {
-            var result = await _unitOfWork.Issue.GetByIdAsync(issue.Id, cancellationToken);
+            var result = await _unitOfWork
+                .Issue
+                .GetByIdAsync(issue.Id, cancellationToken);
             if(issue.AssigneeId != null)
                 result.UpdateAssigneeId(issue.AssigneeId);           
             if(issue.Description != null)
@@ -247,10 +251,8 @@ namespace Bug.API.Services
                 result.UpdateWorklogDate(issue.WorklogDate);
             if (issue.OriginEstimateTime != null)
                 result.UpdateOriginalEstimateTime(issue.OriginEstimateTime);
-            if(issue.PriorityId != 0)
+            if(issue.PriorityId != 0 && issue.PriorityId != null)
                 result.UpdatePriorityId(issue.PriorityId);
-            if(issue.ProjectId != null)
-                result.UpdateProjectId(issue.ProjectId);
             if(issue.RemainEstimateTime != null)
                 result.UpdateRemainEstimateTime(issue.RemainEstimateTime);
             if(issue.ReporterId != null)
@@ -259,21 +261,22 @@ namespace Bug.API.Services
                 result.UpdateStatusId(issue.StatusId);
             if(issue.Title != null)
                 result.UpdateTitle(issue.Title);
-            _unitOfWork.Issue.Update(result);
+            
             _unitOfWork.Save();
-        }
+        }       
 
         public async Task UpdateTagsOfIssue
             (IssuePostDto issue,
             CancellationToken cancellationToken = default)
         {
-            var result = await _unitOfWork.Issue.GetByIdAsync(issue.Id, cancellationToken);
+            var result = await _unitOfWork
+                .Issue.GetByIdAsync(issue.Id, cancellationToken);
             var customLabelTags = issue
                 .Tags
                 .Select(l => new Tag(l.Id, l.Name, l.Description, l.Color, l.CategoryId))
                 .ToList();
             result.UpdateTags(customLabelTags);
-            _unitOfWork.Issue.Update(result);
+            
             _unitOfWork.Save();
         }
 
@@ -287,7 +290,7 @@ namespace Bug.API.Services
                 .Select(r => new Relation(r.Id, r.Description, r.TagId, result.Id, r.ToIssueId))
                 .ToList();
             result.UpdateFromRelations(fromRelations);
-            _unitOfWork.Issue.Update(result);
+            
             _unitOfWork.Save();
         }
 
@@ -295,13 +298,15 @@ namespace Bug.API.Services
             (IssuePostDto issue,
             CancellationToken cancellationToken = default)
         {
-            var result = await _unitOfWork.Issue.GetByIdAsync(issue.Id, cancellationToken);
+            var result = await _unitOfWork
+                .Issue
+                .GetByIdAsync(issue.Id, cancellationToken);
             var attachments = issue
                 .Attachments
                 .Select(a => new Attachment(a.Id, a.Uri, a.IssueId))
                 .ToList();
             result.UpdateAttachments(attachments);
-            _unitOfWork.Issue.Update(result);
+            
             _unitOfWork.Save();
         }
 

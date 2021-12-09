@@ -34,15 +34,6 @@ namespace Bug.API.Controllers
             return "Ok";
         }
 
-        // GET: api/Project/5
-        [HttpGet("{projectId}")]
-        public async Task<IActionResult> GetProject(string projectId)
-        {
-            var result = await _projectService
-                .GetNormalProjectAsync(projectId);
-            return Ok(Bts.ConvertJson(result));
-        }
-
         // GET api/Project/detail/5
         [HttpGet("detail/{id}")]
         public async Task<IActionResult> GetDetailProject(string id)
@@ -113,6 +104,8 @@ namespace Bug.API.Controllers
 
         // POST api/Project
         [HttpPost]
+        [ModelFilter]
+        [ProjectFilter]
         public async Task<IActionResult> PostAddProject
             ([FromBody] ProjectPostDto pro)
         {

@@ -22,9 +22,9 @@ namespace Bug.Entities.Builder
         public int Status { get; private set; }
         public int TemplateId { get; private set; }
 
-        public IProjectBuilder AddStatus(int id)
+        public IProjectBuilder AddStatus()
         {
-            Status = id;
+            Status = 1;
             return this;
         }
         public IProjectBuilder AddTemplateId(int id)

@@ -14,8 +14,9 @@ namespace Bug.API.Services
         Task<Project> GetDetailProjectAsync
             (string id,
             CancellationToken cancellationToken = default);
-        Task<ProjectPostDto> GetNormalProjectAsync
-            (string projectId,
+        Task<Project> GetProjectsByCodeCreatorId
+            (string creatorId,
+            string code,
             CancellationToken cancellationToken = default);
         Task<PaginatedListDto<Project>> GetPaginatedByCreatorIdStatusAsync
             (string creatorId,

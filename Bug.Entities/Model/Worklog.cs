@@ -28,5 +28,25 @@ namespace Bug.Entities.Model
             LogDate = logDate;
             LoggerId = loggerId;
         }
+
+        public void UpdateSpentTime(string s)
+        {
+            SpentTime = s;
+        }
+
+        public void UpdateRemainTime(string s)
+        {
+            RemainTime = s;
+        }
+
+        public void UpdateLogDate(DateTimeOffset d)
+        {
+            LogDate = d;
+        }
+
+        public void UpdateLoggerId(string id)
+        {
+            LoggerId = id;
+        }
     }
 }

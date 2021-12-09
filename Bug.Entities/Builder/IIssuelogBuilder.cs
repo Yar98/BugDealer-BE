@@ -10,7 +10,8 @@ namespace Bug.Entities.Builder
     public interface IIssuelogBuilder
     {
         IIssuelogBuilder AddId();
-        IIssuelogBuilder AddLogDate(DateTimeOffset d);
+        IIssuelogBuilder AddLogDate();
+        IIssuelogBuilder AddDescription(string des);
         IIssuelogBuilder AddIssueId(string issueId);
         IIssuelogBuilder AddModifierId(string accountId);
         IIssuelogBuilder AddPreStatusId(string statusId);

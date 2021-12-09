@@ -47,6 +47,7 @@ namespace Bug.API.Configuration
             services.AddScoped<IIssuelogService, IssuelogService>();
             services.AddScoped<ICommentService, CommentService>();
             services.AddScoped<INotificationService, NotificationService>();
+            services.AddScoped<IWorklogService, WorklogService>();
 
             services.AddScoped<IProjectBuilder, ProjectBuilder>();
             services.AddScoped<IIssueBuilder, IssueBuilder>();
