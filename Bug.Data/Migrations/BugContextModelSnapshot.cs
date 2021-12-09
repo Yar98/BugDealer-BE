@@ -282,7 +282,7 @@ namespace Bug.Data.Migrations
                     b.Property<string>("OriginEstimateTime")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PriorityId")
+                    b.Property<int?>("PriorityId")
                         .HasColumnType("int");
 
                     b.Property<string>("ProjectId")
@@ -293,6 +293,9 @@ namespace Bug.Data.Migrations
 
                     b.Property<string>("ReporterId")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<int?>("SeverityId")
+                        .HasColumnType("int");
 
                     b.Property<string>("StatusId")
                         .HasColumnType("nvarchar(450)");
@@ -316,6 +319,8 @@ namespace Bug.Data.Migrations
                     b.HasIndex("ProjectId");
 
                     b.HasIndex("ReporterId");
+
+                    b.HasIndex("SeverityId");
 
                     b.HasIndex("StatusId");
 
@@ -560,6 +565,27 @@ namespace Bug.Data.Migrations
                     b.HasIndex("CreatorId");
 
                     b.ToTable("Role");
+                });
+
+            modelBuilder.Entity("Bug.Entities.Model.Severity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Icon")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Severity");
                 });
 
             modelBuilder.Entity("Bug.Entities.Model.Status", b =>
@@ -891,9 +917,7 @@ namespace Bug.Data.Migrations
 
                     b.HasOne("Bug.Entities.Model.Priority", "Priority")
                         .WithMany()
-                        .HasForeignKey("PriorityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PriorityId");
 
                     b.HasOne("Bug.Entities.Model.Project", "Project")
                         .WithMany("Issues")
@@ -902,6 +926,10 @@ namespace Bug.Data.Migrations
                     b.HasOne("Bug.Entities.Model.Account", "Reporter")
                         .WithMany("ReportIssues")
                         .HasForeignKey("ReporterId");
+
+                    b.HasOne("Bug.Entities.Model.Severity", "Severity")
+                        .WithMany()
+                        .HasForeignKey("SeverityId");
 
                     b.HasOne("Bug.Entities.Model.Status", "Status")
                         .WithMany()
@@ -918,6 +946,8 @@ namespace Bug.Data.Migrations
                     b.Navigation("Project");
 
                     b.Navigation("Reporter");
+
+                    b.Navigation("Severity");
 
                     b.Navigation("Status");
 
