@@ -34,6 +34,7 @@ namespace Bug.API.Configuration
             services.AddScoped<IFieldRepo, FieldRepo>();
             services.AddScoped<ICustomtypeRepo, CustomtypeRepo>();
             services.AddScoped<IAttachmentRepo, AttachmentRepo>();
+            services.AddScoped<ISeverityRepo, SeverityRepo>();
 
             services.AddScoped<IProjectService, ProjectService>();
             services.AddScoped<IIssueService, IssueService>();
@@ -48,6 +49,7 @@ namespace Bug.API.Configuration
             services.AddScoped<ICommentService, CommentService>();
             services.AddScoped<INotificationService, NotificationService>();
             services.AddScoped<IWorklogService, WorklogService>();
+            services.AddScoped<ISeverityService, SeverityService>();
 
             services.AddScoped<IProjectBuilder, ProjectBuilder>();
             services.AddScoped<IIssueBuilder, IssueBuilder>();

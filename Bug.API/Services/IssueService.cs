@@ -168,6 +168,7 @@ namespace Bug.API.Services
                 .AddEnvironment(issue.Environment)
                 .AddOriginEstimateTime(issue.OriginEstimateTime)
                 .AddPriorityId(issue.PriorityId)
+                .AddSeverityId(issue.SeverityId)
                 .AddProjectId(issue.ProjectId)
                 .AddRemainEstimateTime(issue.RemainEstimateTime)
                 .AddReporterId(issue.ReporterId)
@@ -254,7 +255,9 @@ namespace Bug.API.Services
                 result.UpdateOriginalEstimateTime(issue.OriginEstimateTime);
             if(issue.PriorityId != 0 && issue.PriorityId != null)
                 result.UpdatePriorityId(issue.PriorityId);
-            if(issue.RemainEstimateTime != null)
+            if (issue.SeverityId != 0 && issue.SeverityId != null)
+                result.UpdateSeverityId(issue.SeverityId);
+            if (issue.RemainEstimateTime != null)
                 result.UpdateRemainEstimateTime(issue.RemainEstimateTime);
             if(issue.ReporterId != null)
                 result.UpdateReporterId(issue.ReporterId);

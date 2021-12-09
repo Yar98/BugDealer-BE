@@ -21,13 +21,20 @@ namespace Bug.Entities.Builder
         public string RemainEstimateTime { get; private set; }
         public string Environment { get; private set; }
         public string StatusId { get; private set; }
-        public int PriorityId { get; private set; }
+        public int? PriorityId { get; private set; }
         public string ProjectId { get; private set; }
         public string ReporterId { get; private set; }
         public string AssigneeId { get; private set; }
         public int? WorklogId { get; private set; }
+        public int? SeverityId { get; private set; }
 
-        public IIssueBuilder AddWorklogId(int w)
+        public IIssueBuilder AddSeverityId(int? i)
+        {
+            SeverityId = i;
+            return this;
+        }
+
+        public IIssueBuilder AddWorklogId(int? w)
         {
             WorklogId = w;
             return this;
@@ -87,7 +94,7 @@ namespace Bug.Entities.Builder
             return this;
         }
 
-        public IIssueBuilder AddPriorityId(int p)
+        public IIssueBuilder AddPriorityId(int? p)
         {
             PriorityId = p;
             return this;
@@ -145,6 +152,7 @@ namespace Bug.Entities.Builder
                 Environment,
                 StatusId,
                 PriorityId,
+                SeverityId,
                 ProjectId,
                 ReporterId,
                 AssigneeId,

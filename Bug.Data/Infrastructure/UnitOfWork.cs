@@ -31,12 +31,25 @@ namespace Bug.Data.Infrastructure
         private IAttachmentRepo _attachment;
         private ITemplateRepo _template;
         private INotificationRepo _notification;
+        private ISeverityRepo _severity;
         private IAccountProjectRoleRepo _accountProjectRole;
 
         public UnitOfWork(BugContext bugContext, IConfiguration config)
         {
             _bugContext = bugContext;
             _config = config;
+        }
+
+        public ISeverityRepo Severity
+        {
+            get
+            {
+                if (_severity == null)
+                {
+                    _severity = new SeverityRepo(_bugContext);
+                }
+                return _severity;
+            }
         }
 
         public IAccountProjectRoleRepo AccountProjectRole

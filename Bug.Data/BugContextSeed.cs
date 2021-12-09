@@ -128,7 +128,7 @@ namespace Bug.Data
         {
             return new List<Issue>()
             {
-                new Issue("issue1","title1",0,"des1",DateTime.Now,DateTime.Now,DateTime.Now,DateTime.Now,null,null,"environment1","defaultStatus1",1,"project1","account1","account1",null)
+                new Issue("issue1","title1",0,"des1",DateTime.Now,DateTime.Now,DateTime.Now,DateTime.Now,null,null,"environment1","defaultStatus1",1,null,"project1","account1","account1",null)
             };
         }
         static IEnumerable<Tag> GetPreconfiguredTag()
@@ -214,11 +214,11 @@ namespace Bug.Data
         {
             return new List<Priority>()
             {
-                new Priority(0,"Highest","des1","keyboard_double_arrow_up"),
-                new Priority(0,"High","des1","keyboard_arrow_up"),
-                new Priority(0,"Medium","des1","drag_handle"),
+                new Priority(0,"Lowest","des1","keyboard_double_arrow_down"),
                 new Priority(0,"Low","des1","keyboard_arrow_down"),
-                new Priority(0,"Lowest","des1","keyboard_double_arrow_down")
+                new Priority(0,"Medium","des1","drag_handle"),
+                new Priority(0,"High","des1","keyboard_arrow_up"),
+                new Priority(0,"Highest","des1","keyboard_double_arrow_up")          
             };
         }
         static IEnumerable<Field> GetPreconfiguredField()

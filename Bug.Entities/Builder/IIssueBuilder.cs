@@ -21,11 +21,12 @@ namespace Bug.Entities.Builder
         IIssueBuilder AddRemainEstimateTime(string ret);
         IIssueBuilder AddEnvironment(string e);
         IIssueBuilder AddStatusId(string s);
-        IIssueBuilder AddPriorityId(int p);
+        IIssueBuilder AddPriorityId(int? p);
         IIssueBuilder AddProjectId(string s);
         IIssueBuilder AddReporterId(string s);
         IIssueBuilder AddAssigneeId(string s);
-        IIssueBuilder AddWorklogId(int i);
+        IIssueBuilder AddWorklogId(int? i);
+        IIssueBuilder AddSeverityId(int? i);
         Issue Build();
     }
 }
