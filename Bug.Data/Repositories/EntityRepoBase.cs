@@ -50,12 +50,14 @@ namespace Bug.Data.Repositories
 
         public async Task<IReadOnlyList<T>> GetAllEntitiesBySpecAsync
             (ISpecification<T> specificationResult,
+            string sortOrder,
             CancellationToken cancellationToken = default)
         {
-            return await _bugContext
+            var result = _bugContext
                 .Set<T>()
-                .Specify(specificationResult)
-                .ToListAsync(cancellationToken);
+                .Specify(specificationResult);
+            result = SortOrder(result, sortOrder);
+            return await result.ToListAsync(cancellationToken);
         }
 
         public async Task<PaginatedList<T>> GetPaginatedNoTrackBySpecAsync

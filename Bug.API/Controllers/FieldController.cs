@@ -36,12 +36,14 @@ namespace Bug.API.Controllers
             return Ok(Bts.ConvertJson(result));
         }
 
-        [HttpGet("account/{accountId}/customtype/{customtypeId}")]
+        [HttpGet("account/{accountId}/customtype/{customtypeId}/{sortOrder}")]
         public async Task<IActionResult> GetFieldsByAccount
             (string accountId,
-            int customtypeId)
+            int customtypeId,
+            string sortOrder)
         {
-            var result = await _fieldService.GetFieldsByAccountCustomtypeAsync(accountId, customtypeId);
+            var result = await _fieldService
+                .GetFieldsByAccountCustomtypeAsync(accountId, customtypeId, sortOrder);
             return Ok(Bts.ConvertJson(result));
         }
 

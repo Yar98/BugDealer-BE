@@ -15,14 +15,17 @@ namespace Bug.API.Services
             CancellationToken cancellationToken = default);
         Task<IReadOnlyList<Issuelog>> GetIssuelogsByIssueIdAsync
             (string issueId,
+            string sortOrder,
             CancellationToken cancellationToken = default);
         Task<IReadOnlyList<Issuelog>> GetIssuelogsByIssueIdTagIdAsync
             (string issueId,
             int tagId,
+            string sortOrder,
             CancellationToken cancellationToken = default);
         Task<IReadOnlyList<Issuelog>> GetIssuelogsByIssueIdCategoryIdAsync
             (string issueId,
             int categoryId,
+            string sortOrder,
             CancellationToken cancellationToken = default);
         Task<Issuelog> AddIssuelogAsync
             (IssuelogNormalDto ilog,

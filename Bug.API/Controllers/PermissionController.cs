@@ -34,23 +34,25 @@ namespace Bug.API.Controllers
             return Ok(result);
         }
 
-        [HttpGet("project/{projectId}/account/{memberId}")]
+        [HttpGet("project/{projectId}/account/{memberId}/{sortOrder}")]
         public async Task<IActionResult> GetPermissionsByProjectAccount
             (string projectId,
-            string memberId)
+            string memberId,
+            string sortOrder)
         {
             var result = await _permissionService
-                .GetPermissionsByAccountProjectAsync(memberId, projectId);
+                .GetPermissionsByAccountProjectAsync(memberId, projectId, sortOrder);
             return Ok(result);
         }
 
-        [HttpGet("project/{projectId}/role/{roleId}")]
+        [HttpGet("project/{projectId}/role/{roleId}/{sortOrder}")]
         public async Task<IActionResult> GetPermissionsByProjectRole
             (string projectId,
-            int roleId)
+            int roleId,
+            string sortOrder)
         {
             var result = await _permissionService
-                .GetPermissionsByRoleProjectAsync(roleId, projectId);
+                .GetPermissionsByRoleProjectAsync(roleId, projectId, sortOrder);
             return Ok(result);
         }
 

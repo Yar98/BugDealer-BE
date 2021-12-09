@@ -20,6 +20,7 @@ namespace Bug.Data.Repositories
             CancellationToken cancelltionToken = default);
         Task<IReadOnlyList<T>> GetAllEntitiesBySpecAsync
             (ISpecification<T> specificationResult,
+            string sortOrder,
             CancellationToken cancellationToken = default);
         Task<PaginatedList<T>> GetPaginatedNoTrackBySpecAsync
             (int pageIndex,

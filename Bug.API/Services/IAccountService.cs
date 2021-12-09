@@ -29,6 +29,10 @@ namespace Bug.API.Services
         Task<Account> GetDetailAccountByUserNameAsync
             (string username,
             CancellationToken cancellationToken = default);
+        Task<IReadOnlyList<Account>> GetAllByProjectIdAsync
+            (string projectId,
+            string sortOrder,
+            CancellationToken cancellationToken = default);
         Task<PaginatedListDto<Account>> GetPaginatedByProjectIdAsync
             (string projectId,
             int pageIndex,

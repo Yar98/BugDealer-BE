@@ -43,13 +43,14 @@ namespace Bug.API.Services
         public async Task<IReadOnlyList<PermissionNormalDto>> GetPermissionsByRoleProjectAsync
             (int roleId,
             string projectId,
+            string sortOrder,
             CancellationToken cancellationToken = default)
         {
             var specificationResult =
                 new PermissionsByRoleProjectSpecification(roleId, projectId);
             var activePermissions = await _unitOfWork
                 .Permission
-                .GetAllEntitiesBySpecAsync(specificationResult,cancellationToken);
+                .GetAllEntitiesBySpecAsync(specificationResult, sortOrder, cancellationToken);
             var permissions = await _unitOfWork
                 .Permission
                 .FindAllAsync(cancellationToken);
@@ -65,13 +66,14 @@ namespace Bug.API.Services
         public async Task<IReadOnlyList<PermissionNormalDto>> GetPermissionsByAccountProjectAsync
             (string accountId,
             string projectId,
+            string sortOrder,
             CancellationToken cancellationToken = default)
         {
             var specificationResult =
                 new PermissionsByAccountProjectSpecification(accountId, projectId);
             var activePermissions = await _unitOfWork
                 .Permission
-                .GetAllEntitiesBySpecAsync(specificationResult, cancellationToken);
+                .GetAllEntitiesBySpecAsync(specificationResult, sortOrder, cancellationToken);
             var permissions = await _unitOfWork
                 .Permission
                 .FindAllAsync(cancellationToken);

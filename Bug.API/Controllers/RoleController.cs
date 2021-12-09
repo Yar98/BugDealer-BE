@@ -36,30 +36,33 @@ namespace Bug.API.Controllers
             return Ok(Bts.ConvertJson(result));
         }
 
-        [HttpGet("project/{projectId}")]
-        public async Task<IActionResult> GetDetailRolesByProject(string projectId)
+        [HttpGet("project/{projectId}/{sortOrder}")]
+        public async Task<IActionResult> GetDetailRolesByProject
+            (string projectId, string sortOrder)
         {
             var result = await _roleService
-                .GetRolesByProjectIdAsync(projectId);
+                .GetRolesByProjectIdAsync(projectId, sortOrder);
             return Ok(Bts.ConvertJson(result));
         }
 
-        [HttpGet("creator/{creatorId}")]
+        [HttpGet("creator/{creatorId}/{sortOrder}")]
         public async Task<IActionResult> GetDetailRolesByCreator
-            (string creatorId)
+            (string creatorId,
+            string sortOrder)
         {
             var result = await _roleService
-                .GetRolesByCreatorIdAsync(creatorId);
+                .GetRolesByCreatorIdAsync(creatorId, sortOrder);
             return Ok(Bts.ConvertJson(result));
         }
 
-        [HttpGet("member/{memberId}/project/{projectId}")]
+        [HttpGet("member/{memberId}/project/{projectId}/{sortOrder}")]
         public async Task<IActionResult> GetDetailRolesByMember
             (string projectId,
-            string memberId)
+            string memberId,
+            string sortOrder)
         {
             var result = await _roleService
-                .GetRolesWhichMemberIdOnAsync(projectId, memberId);
+                .GetRolesWhichMemberIdOnAsync(projectId, memberId, sortOrder);
             return Ok(Bts.ConvertJson(result));
         }
         [HttpGet("paging/project/{projectId}/member/{memberId}/{pageIndex:int}/{pageSize:int}/{sortOrder}")]

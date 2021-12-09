@@ -41,9 +41,11 @@ namespace Bug.API.Services
             CancellationToken cancellationToken = default);
         Task<IReadOnlyList<Status>> GetStatusesByCreatorIdAsync
            (string creatorId,
+            string sortOrder,
            CancellationToken cancellationToken = default);
         Task<IReadOnlyList<Status>> GetStatusesByProjectIdAsync
             (string projectId,
+            string sortOrder,
             CancellationToken cancellationToken = default);
         Task<Status> AddStatusAsync
             (StatusNormalDto status,

@@ -35,19 +35,21 @@ namespace Bug.API.Controllers
             return Ok(Bts.ConvertJson(result));
         }
 
-        [HttpGet("category/{categoryId:int}")]
-        public async Task<IActionResult> GetTagsByCategory(int id)
+        [HttpGet("category/{categoryId:int}/{sortOrder}")]
+        public async Task<IActionResult> GetTagsByCategory(int id, string sortOrder)
         {
-            var result = await _tagService.GetTagsByCategoryIdAsync(id);
+            var result = await _tagService.GetTagsByCategoryIdAsync(id, sortOrder);
             return Ok(Bts.ConvertJson(result));
         }
 
-        [HttpGet("project/{projectId}/category/{categoryId:int}")]
+        [HttpGet("project/{projectId}/category/{categoryId:int}/{sortOrder}")]
         public async Task<IActionResult> GetTagsByCategoryIdProjectId
             (string projectId,
-            int categoryId)
+            int categoryId,
+            string sortOrder)
         {
-            var result = await _tagService.GetTagsByCategoryIdProjectIdAsync(projectId, categoryId);
+            var result = await _tagService
+                .GetTagsByCategoryIdProjectIdAsync(projectId, categoryId, sortOrder);
             return Ok(Bts.ConvertJson(result));
         }
 

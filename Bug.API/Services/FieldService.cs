@@ -38,13 +38,14 @@ namespace Bug.API.Services
         public async Task<IReadOnlyList<FieldNormalDto>> GetFieldsByAccountCustomtypeAsync
             (string accountId,
             int customtypeId,
+            string sortOrder,
             CancellationToken cancellationToken = default)
         {
             var specificationResult =
                 new FieldsByAccountSpecification(accountId, customtypeId);
             var activeFields = await _unitOfWork
                 .Field
-                .GetAllEntitiesBySpecAsync(specificationResult, cancellationToken);
+                .GetAllEntitiesBySpecAsync(specificationResult, sortOrder, cancellationToken);
             var fields = await _unitOfWork
                 .Field
                 .FindAllAsync(cancellationToken);

@@ -180,6 +180,18 @@ namespace Bug.API.Services
             return result;
         }
 
+        public async Task<IReadOnlyList<Account>> GetAllByProjectIdAsync
+            (string projectId,
+            string sortOrder,
+            CancellationToken cancellationToken = default)
+        {
+            var specificationResult =
+                new AccountsByProjectIdSpecification(projectId);
+            return await _unitOfWork
+                .Account
+                .GetAllEntitiesBySpecAsync(specificationResult, sortOrder, cancellationToken);
+        }
+
         public async Task<PaginatedListDto<Account>> GetPaginatedByProjectIdAsync
             (string projectId,
             int pageIndex,
