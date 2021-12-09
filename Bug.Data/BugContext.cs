@@ -30,6 +30,7 @@ namespace Bug.Data
         public DbSet<Template> Templates { get; set; }
         public DbSet<Notification> Notifications { get; set; }
         public DbSet<AccountProjectRole> AccountProjectRoles { get; set; }
+        public DbSet<Severity> Severities { get; set; }
 
         public BugContext(DbContextOptions options)
             : base(options)
@@ -54,6 +55,7 @@ namespace Bug.Data
                 .ApplyConfigurationsFromAssembly(typeof(FieldConfiguration).Assembly)
                 .ApplyConfigurationsFromAssembly(typeof(CustomtypeConfiguration).Assembly)
                 .ApplyConfigurationsFromAssembly(typeof(TemplateConfiguration).Assembly)
+                .ApplyConfigurationsFromAssembly(typeof(SeverityConfiguration).Assembly)
                 .ApplyConfigurationsFromAssembly(typeof(NotificationConfiguration).Assembly)
                 .ApplyConfigurationsFromAssembly(typeof(AccountProjectRoleConfiguration).Assembly)
                 .ApplyConfigurationsFromAssembly(typeof(TimezoneConfiguration).Assembly);

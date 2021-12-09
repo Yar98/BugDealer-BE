@@ -28,7 +28,7 @@ namespace Bug.API.Services
 <body>
   <h1>Cap Bai Trung hay vl</h1>
   <p>{0} invite you to join his/her project. Click
-    <a href='http://localhost:4200/projects/invitation?project={1}'>HERE</a> to xem Cap Bai Trung.</p>
+    <a href='http://localhost:4200/projects/invitation-info?project={1}'>HERE</a> to xem Cap Bai Trung.</p>
 </body>
 </html>";
 
@@ -42,7 +42,7 @@ namespace Bug.API.Services
         public async Task SendInviteEmail
             (string fromEmail,
             string toEmail, 
-            string projectId,
+            string code,
             CancellationToken cancellationToken = default)
         {            
             using var client =
@@ -62,14 +62,14 @@ namespace Bug.API.Services
                         Html = new Content
                         {
                             Charset = "UTF-8",
-                            Data = string.Format(htmlBody, fromEmail, projectId)
+                            Data = string.Format(htmlBody, fromEmail, code)
                         },
                         Text = new Content
                         {
                             Charset = "UTF-8",
-                            Data = fromEmail+ "invite you to join his/her project." +
-                            "Click http://localhost:4200/projects/invitation?project=" +
-                            projectId + "to join."
+                            Data = fromEmail + " invite you to join his/her project." +
+                            "Click http://localhost:4200/projects/invitation-info?project=" +
+                            code + "to join."
                         }
                     }
                 }

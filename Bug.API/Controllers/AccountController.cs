@@ -32,13 +32,13 @@ namespace Bug.API.Controllers
             return new string[] { "value1", "value2" };
         }
 
-        [HttpGet("invite/project/{projectId}/toemai/{toEmail}/fromemail/{fromEmail}")]
+        [HttpGet("invite/code/{code}/toemail/{toEmail}/fromemail/{fromEmail}")]
         public async Task<IActionResult> SendInviteEmail
-            (string projectId,
+            (string code,
             string toEmail,
             string fromEmail)
         {
-            await _accountService.SendInviteEmail(fromEmail, toEmail, projectId);
+            await _accountService.SendInviteEmail(fromEmail, toEmail, code);
             return Ok();
         }
 

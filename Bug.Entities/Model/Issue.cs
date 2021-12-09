@@ -24,7 +24,9 @@ namespace Bug.Entities.Model
         public string Environment { get; private set; }
         public string StatusId { get; private set; }
         public Status Status { get; private set; }
-        public int PriorityId { get; private set; }
+        public int? SeverityId { get; private set; }
+        public Severity Severity { get; private set; }
+        public int? PriorityId { get; private set; }
         public Priority Priority { get; private set; }
         public string ProjectId { get; private set; }
         public Project Project { get; private set; }
@@ -87,7 +89,8 @@ namespace Bug.Entities.Model
             string remainEstimateTime,
             string environment,
             string statusId,
-            int priorityId,
+            int? priorityId,
+            int? severityId,
             string projectId,
             string reporterId,
             string assigneeId,
@@ -106,6 +109,7 @@ namespace Bug.Entities.Model
             Environment = environment;
             StatusId = statusId;
             PriorityId = priorityId;
+            SeverityId = severityId;
             ProjectId = projectId;
             ReporterId = reporterId;
             AssigneeId = assigneeId;
@@ -133,7 +137,7 @@ namespace Bug.Entities.Model
         {
             ReporterId = id;
         }
-        public void UpdatePriorityId(int i)
+        public void UpdatePriorityId(int? i)
         {
             PriorityId = i;
         }
@@ -173,8 +177,11 @@ namespace Bug.Entities.Model
         {
             WorklogDate = dt;
         }
+        public void UpdateSeverityId(int? id)
+        {
+            SeverityId = id;
+        }
         
-
         public void AddWorklog(string spentTime, string remainTime, DateTimeOffset logDate, string loggerId)
         {
             Worklog = new(0, spentTime, remainTime, logDate, loggerId);
