@@ -14,7 +14,7 @@ using System.Threading;
 
 namespace Bug.API.Services
 {
-    public class ProjectService : IProjectService, IProjectIntegrationService
+    public class ProjectService : IProjectService
     {
         private readonly IUnitOfWork _unitOfWork;
         public ProjectService(IUnitOfWork uow)
@@ -22,31 +22,17 @@ namespace Bug.API.Services
             _unitOfWork = uow;
         }
 
-        public async Task<ProjectPostDto> GetNormalProjectAsync
-            (string projectId,
+        public async Task<Project> GetProjectsByCodeCreatorId
+            (string creatorId,
+            string code,
             CancellationToken cancellationToken = default)
         {
-            
             var specificationResult =
-                new ProjectSpecification(projectId);
+                new ProjectsByCodeCreatorIdSpecification(creatorId, code);
             var result = await _unitOfWork
                 .Project
                 .GetEntityBySpecAsync(specificationResult, cancellationToken);
-            return new ProjectPostDto
-            {
-                Id = result?.Id,
-                Name = result?.Name,
-                Code = result?.Code,
-                StartDate = result?.StartDate,
-                EndDate = result?.EndDate,
-                RecentDate = result?.RecentDate,
-                Description = result?.Description,
-                AvatarUri = result?.AvatarUri,
-                CreatorId = result?.CreatorId,
-                DefaultAssigneeId = result?.DefaultAssigneeId,
-                TemplateId = result?.TemplateId,
-                State = result?.State
-            };
+            return result;
         }
         
         public async Task<Project> GetDetailProjectAsync
@@ -175,7 +161,7 @@ namespace Bug.API.Services
                 .AddDescription(pro.Description)
                 .AddAvatarUri(pro.AvatarUri)
                 .AddCreatorId(pro.CreatorId)
-                .AddStatus(pro.State??1)
+                .AddStatus()
                 .AddTemplateId(pro.TemplateId??1)
                 .Build();
             // add creator as member to project

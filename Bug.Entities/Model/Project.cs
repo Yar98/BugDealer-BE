@@ -11,6 +11,7 @@ namespace Bug.Entities.Model
         public string Id { get; private set; }
         public string Name { get; private set; }
         public string Code { get; private set; }
+        public int Temp { get; set; } = 0;
         public DateTimeOffset? StartDate { get; private set; }
         public DateTimeOffset? EndDate { get; private set; }
         public DateTimeOffset? RecentDate { get; private set; }

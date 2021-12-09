@@ -55,7 +55,7 @@ namespace Bug.API.Services
             CancellationToken cancellationToken = default);
         Task<IReadOnlyList<Issue>> GetSuggestIssueByCode
             (string code,
-            string projectId,
+            string accountId,
             CancellationToken cancellationToken = default);
         Task<Issue> AddIssueAsync
             (IssuePostDto issue,

@@ -10,6 +10,7 @@ namespace Bug.Entities.Model
     {
         public int Id { get; private set; }
         public DateTimeOffset LogDate { get; private set; }
+        public string Description { get; private set; }
         public string IssueId { get; private set; }
         public Issue Issue { get; private set; }
         public string ModifierId { get; private set; }
@@ -34,6 +35,7 @@ namespace Bug.Entities.Model
         public Issuelog
             (int id,
             DateTimeOffset timeLog,
+            string des,
             string issueId,
             string modifierId,
             string preStatusId,
@@ -44,6 +46,7 @@ namespace Bug.Entities.Model
         {
             Id = id;
             LogDate = timeLog;
+            Description = des;
             IssueId = issueId;
             ModifierId = modifierId;
             PreStatusId = preStatusId;

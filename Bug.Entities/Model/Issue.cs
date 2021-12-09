@@ -14,8 +14,6 @@ namespace Bug.Entities.Model
         public string Id { get; private set; }
         public string Title { get; private set; }
         public string Description { get; private set; }
-
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int NumberCode { get; private set; }
         public DateTimeOffset? LogDate { get; private set; }
         public DateTimeOffset? CreatedDate { get; private set; }
@@ -174,6 +172,12 @@ namespace Bug.Entities.Model
         public void UpdateWorklogDate(DateTimeOffset? dt)
         {
             WorklogDate = dt;
+        }
+        
+
+        public void AddWorklog(string spentTime, string remainTime, DateTimeOffset logDate, string loggerId)
+        {
+            Worklog = new(0, spentTime, remainTime, logDate, loggerId);
         }
 
         public void UpdateAttachments(List<Attachment> result)

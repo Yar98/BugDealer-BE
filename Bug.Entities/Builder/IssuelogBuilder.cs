@@ -11,6 +11,7 @@ namespace Bug.Entities.Builder
     {
         public int Id { get; private set; }
         public DateTimeOffset LogDate { get; private set; }
+        public string Description { get; private set; }
         public string IssueId { get; private set; }
         public string ModifierId { get; private set; }
         public string PreStatusId { get; private set; }
@@ -18,6 +19,12 @@ namespace Bug.Entities.Builder
         public int PrePriorityId { get; private set; }
         public int ModPriorityId { get; private set; }
         public int TagId { get; set; }
+
+        public IIssuelogBuilder AddDescription(string des)
+        {
+            Description = des;
+            return this;
+        }
 
         public IIssuelogBuilder AddId()
         {
@@ -31,9 +38,9 @@ namespace Bug.Entities.Builder
             return this;
         }
 
-        public IIssuelogBuilder AddLogDate(DateTimeOffset d)
+        public IIssuelogBuilder AddLogDate()
         {
-            LogDate = d;
+            LogDate = DateTimeOffset.Now;
             return this;
         }
 
@@ -75,7 +82,7 @@ namespace Bug.Entities.Builder
 
         public Issuelog Build()
         {
-            return new Issuelog(Id, LogDate, IssueId, ModifierId, PreStatusId, ModStatusId, PrePriorityId, ModPriorityId, TagId);
+            return new Issuelog(Id, LogDate, Description, IssueId, ModifierId, PreStatusId, ModStatusId, PrePriorityId, ModPriorityId, TagId);
         }
     }
 }
