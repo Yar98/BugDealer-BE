@@ -66,6 +66,21 @@ namespace Bug.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Severity",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Icon = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Severity", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Template",
                 columns: table => new
                 {
@@ -409,7 +424,8 @@ namespace Bug.Data.Migrations
                     RemainEstimateTime = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Environment = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     StatusId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    PriorityId = table.Column<int>(type: "int", nullable: false),
+                    SeverityId = table.Column<int>(type: "int", nullable: true),
+                    PriorityId = table.Column<int>(type: "int", nullable: true),
                     ProjectId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     ReporterId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     AssigneeId = table.Column<string>(type: "nvarchar(450)", nullable: true),
@@ -435,11 +451,17 @@ namespace Bug.Data.Migrations
                         column: x => x.PriorityId,
                         principalTable: "Priority",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Issue_Project_ProjectId",
                         column: x => x.ProjectId,
                         principalTable: "Project",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Issue_Severity_SeverityId",
+                        column: x => x.SeverityId,
+                        principalTable: "Severity",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -833,6 +855,11 @@ namespace Bug.Data.Migrations
                 column: "ReporterId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Issue_SeverityId",
+                table: "Issue",
+                column: "SeverityId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Issue_StatusId",
                 table: "Issue",
                 column: "StatusId");
@@ -1057,6 +1084,9 @@ namespace Bug.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Project");
+
+            migrationBuilder.DropTable(
+                name: "Severity");
 
             migrationBuilder.DropTable(
                 name: "Worklog");
