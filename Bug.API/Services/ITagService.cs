@@ -17,10 +17,12 @@ namespace Bug.API.Services
             CancellationToken cancellationToken = default);
         Task<IReadOnlyList<Tag>> GetTagsByCategoryIdAsync
             (int id,
+            string sortOrder,
             CancellationToken cancellationToken = default);
         Task<IReadOnlyList<Tag>> GetTagsByCategoryIdProjectIdAsync
             (string projectId,
             int id,
+            string sortOrder,
             CancellationToken cancellationToken = default);
     }
 }

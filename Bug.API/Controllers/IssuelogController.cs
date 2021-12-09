@@ -38,31 +38,33 @@ namespace Bug.API.Controllers
             return Ok(Bts.ConvertJson(result));
         }
 
-        [HttpGet("issue/{issueId}")]
-        public async Task<IActionResult> GetIssuelogsByIssueId(string issueId)
+        [HttpGet("issue/{issueId}/{sortOrder}")]
+        public async Task<IActionResult> GetIssuelogsByIssueId(string issueId, string sortOrder)
         {
             var result = await _issuelogService
-                .GetIssuelogsByIssueIdAsync(issueId);
+                .GetIssuelogsByIssueIdAsync(issueId, sortOrder);
             return Ok(Bts.ConvertJson(result));
         }
 
-        [HttpGet("issue/{issueId}/tag/{tagId:int}")]
+        [HttpGet("issue/{issueId}/tag/{tagId:int}/{sortOrder}")]
         public async Task<IActionResult> GetIssuelogsByIssueIdTagId
             (string issueId,
-            int tagId)
+            int tagId,
+            string sortOrder)
         {
             var result = await _issuelogService
-                .GetIssuelogsByIssueIdTagIdAsync(issueId, tagId);
+                .GetIssuelogsByIssueIdTagIdAsync(issueId, tagId, sortOrder);
             return Ok(Bts.ConvertJson(result));
         }
 
-        [HttpGet("issue/{issueId}/category/{categoryId:int}")]
+        [HttpGet("issue/{issueId}/category/{categoryId:int}/{sortOrder}")]
         public async Task<IActionResult> GetIssuelogsByIssueIdCategoryId
             (string issueId,
-            int categoryId)
+            int categoryId,
+            string sortOrder)
         {
             var result = await _issuelogService
-                .GetIssuelogsByIssueIdCategoryIdAsync(issueId, categoryId);
+                .GetIssuelogsByIssueIdCategoryIdAsync(issueId, categoryId, sortOrder);
             return Ok(Bts.ConvertJson(result));
         }
 

@@ -31,13 +31,14 @@ namespace Bug.API.Services
 
         public async Task<IReadOnlyList<Comment>> GetCommentsByIssueIdAsync
             (string issueId,
+            string sortOrder,
             CancellationToken cancellationToken = default)
         {
             var specificationResult =
                 new CommentsByIssueIdSpecification(issueId);
             return await _unitOfWork
                 .Comment
-                .GetAllEntitiesBySpecAsync(specificationResult, cancellationToken);
+                .GetAllEntitiesBySpecAsync(specificationResult, sortOrder, cancellationToken);
         }
 
         public async Task<Comment> AddCommentAsync

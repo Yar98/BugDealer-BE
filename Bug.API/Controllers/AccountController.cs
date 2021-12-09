@@ -50,6 +50,15 @@ namespace Bug.API.Controllers
             return Ok(result);
         }
 
+        [HttpGet("all/project/{projectId}/{sortOrder}")]
+        public async Task <IActionResult> GetAllByProjectId
+            (string projectId,
+            string sortOrder)
+        {
+            var result = await _accountService.GetAllByProjectIdAsync(projectId, sortOrder);
+            return Ok(Bts.ConvertJson(result));
+        }
+
         [HttpGet("paging/project/{projectId}/{pageIndex:int}/{pageSize:int}/{sortOrder}")]
         public async Task<IActionResult> GetPaginatedByProjectId
            (string projectId,

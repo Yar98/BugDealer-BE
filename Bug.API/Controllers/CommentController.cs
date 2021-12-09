@@ -35,10 +35,10 @@ namespace Bug.API.Controllers
             return Ok(Bts.ConvertJson(result));
         }
 
-        [HttpGet("issue/{issueId}")]
-        public async Task<IActionResult> GetCommentsByIssueId(string issueId)
+        [HttpGet("issue/{issueId}/{sortOrder}")]
+        public async Task<IActionResult> GetCommentsByIssueId(string issueId, string sortOrder)
         {
-            var result = await _commentService.GetCommentsByIssueIdAsync(issueId);
+            var result = await _commentService.GetCommentsByIssueIdAsync(issueId, sortOrder);
             return Ok(Bts.ConvertJson(result));
         }
 

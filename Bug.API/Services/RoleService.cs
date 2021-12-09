@@ -30,37 +30,40 @@ namespace Bug.API.Services
         }
 
         public async Task<IReadOnlyList<Role>> GetRolesByProjectIdAsync
-            (string projectId,            
+            (string projectId,     
+            string sortOrder,
             CancellationToken cancellationToken = default)
         {
             var specificationResult =
                 new RoleByProjectSpecification(projectId);
             return await _unitOfWork
                 .Role
-                .GetAllEntitiesBySpecAsync(specificationResult, cancellationToken);
+                .GetAllEntitiesBySpecAsync(specificationResult, sortOrder, cancellationToken);
         }
 
         public async Task<IReadOnlyList<Role>> GetRolesByCreatorIdAsync
             (string creatorId,
+            string sortOrder,
             CancellationToken cancellationToken = default)
         {
             var specificationResult =
                 new RoleByCreatorIdSpecification(creatorId);
             return await _unitOfWork
                 .Role
-                .GetAllEntitiesBySpecAsync(specificationResult, cancellationToken);
+                .GetAllEntitiesBySpecAsync(specificationResult, sortOrder, cancellationToken);
         }
 
         public async Task<IReadOnlyList<Role>> GetRolesWhichMemberIdOnAsync
             (string projectId,
             string memberId,
+            string sortOrder,
             CancellationToken cancellationToken = default)
         {
             var specificationResult =
                 new RolesWhichMemberOnSpecification(projectId, memberId);
             return await _unitOfWork
                 .Role
-                .GetAllEntitiesBySpecAsync(specificationResult, cancellationToken);
+                .GetAllEntitiesBySpecAsync(specificationResult, sortOrder, cancellationToken);
         }
 
         public async Task<PaginatedListDto<Role>> GetPaginatedWhichMemberIdOnAsync

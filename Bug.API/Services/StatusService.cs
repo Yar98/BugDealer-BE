@@ -102,24 +102,26 @@ namespace Bug.API.Services
 
         public async Task<IReadOnlyList<Status>> GetStatusesByCreatorIdAsync
             (string creatorId,
+            string sortOrder,
             CancellationToken cancellationToken = default)
         {
             var specificationResult =
                 new StatusByCreatorIdSpecification(creatorId);
             return await _unitOfWork
                 .Status
-                .GetAllEntitiesBySpecAsync(specificationResult, cancellationToken);
+                .GetAllEntitiesBySpecAsync(specificationResult, sortOrder, cancellationToken);
         }
 
         public async Task<IReadOnlyList<Status>> GetStatusesByProjectIdAsync
             (string projectId,
+            string sortOrder,
             CancellationToken cancellationToken = default)
         {
             var specificationResult =
                 new StatusByProjectIdSpecification(projectId);
             return await _unitOfWork
                 .Status
-                .GetAllEntitiesBySpecAsync(specificationResult, cancellationToken);
+                .GetAllEntitiesBySpecAsync(specificationResult, sortOrder, cancellationToken);
         }
 
         public async Task<Status> AddStatusAsync

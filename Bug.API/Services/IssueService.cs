@@ -140,6 +140,7 @@ namespace Bug.API.Services
         public async Task<IReadOnlyList<Issue>> GetSuggestIssueByCode
             (string code,
             string accountId,
+            string sortOrder,
             CancellationToken cancellationToken = default)
         {
             var regexNumber = new Regex(@"[0-9]+$");
@@ -148,7 +149,7 @@ namespace Bug.API.Services
                 new IssuesByProjectCodeSpecification(int.Parse(regexNumber.Match(code).Value), regexChar.Match(code).Value, accountId);
             return await _unitOfWork
                 .Issue
-                .GetAllEntitiesBySpecAsync(specificationResult, cancellationToken);
+                .GetAllEntitiesBySpecAsync(specificationResult, sortOrder, cancellationToken);
         }
 
         public async Task<Issue> AddIssueAsync

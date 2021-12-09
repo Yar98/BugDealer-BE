@@ -18,10 +18,12 @@ namespace Bug.API.Services
         Task<IReadOnlyList<PermissionNormalDto>> GetPermissionsByRoleProjectAsync
             (int roleId,
             string projectId,
+            string sortOrder,
             CancellationToken cancellationToken = default);
         Task<IReadOnlyList<PermissionNormalDto>> GetPermissionsByAccountProjectAsync
             (string accountId,
             string projectId,
+            string sortOrder,
             CancellationToken cancellationToken = default);
     }
 }

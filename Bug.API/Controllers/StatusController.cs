@@ -85,19 +85,19 @@ namespace Bug.API.Controllers
             return Ok(Bts.ConvertJson(result));
         }
 
-        [HttpGet("creator/{creatorId}")]
-        public async Task<IActionResult> GetStatusesByCreatorId(string creatorId)
+        [HttpGet("creator/{creatorId}/{sortOrder}")]
+        public async Task<IActionResult> GetStatusesByCreatorId(string creatorId, string sortOrder)
         {
             var result = await _statusService
-                .GetStatusesByCreatorIdAsync(creatorId);
+                .GetStatusesByCreatorIdAsync(creatorId, sortOrder);
             return Ok(Bts.ConvertJson(result));
         }
 
-        [HttpGet("project/{projectId}")]
-        public async Task<IActionResult> GetStatusesByProjectId(string projectId)
+        [HttpGet("project/{projectId}/{sortOrder}")]
+        public async Task<IActionResult> GetStatusesByProjectId(string projectId, string sortOrder)
         {
             var result = await _statusService
-                .GetStatusesByProjectIdAsync(projectId);
+                .GetStatusesByProjectIdAsync(projectId, sortOrder);
             return Ok(Bts.ConvertJson(result));
         }
 

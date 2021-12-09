@@ -38,25 +38,27 @@ namespace Bug.API.Services
 
         public async Task<IReadOnlyList<Tag>> GetTagsByCategoryIdAsync
             (int id,
+            string sortOrder,
             CancellationToken cancellationToken = default)
         {
             var specificationResult =
                 new TagsByCategoryIdSpecification(id);
             return await _unitOfWork
                 .Tag
-                .GetAllEntitiesBySpecAsync(specificationResult, cancellationToken);
+                .GetAllEntitiesBySpecAsync(specificationResult, sortOrder, cancellationToken);
         }
 
         public async Task<IReadOnlyList<Tag>> GetTagsByCategoryIdProjectIdAsync
             (string projectId,
             int id,
+            string sortOrder,
             CancellationToken cancellationToken = default)
         {
             var specificationResult =
                 new TagsByCategoryIdProjectIdSpecification(projectId, id);
             return await _unitOfWork
                 .Tag
-                .GetAllEntitiesBySpecAsync(specificationResult, cancellationToken);
+                .GetAllEntitiesBySpecAsync(specificationResult, sortOrder, cancellationToken);
         }
     }
 }

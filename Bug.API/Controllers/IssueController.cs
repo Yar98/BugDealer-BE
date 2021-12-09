@@ -125,12 +125,14 @@ namespace Bug.API.Controllers
             return Ok(Bts.ConvertJson(result));
         }
 
-        [HttpGet("suggest/account/{accountId}/code/{code}")]
+        [HttpGet("suggest/account/{accountId}/code/{code}/{sortOrder}")]
         public async Task<IActionResult> GetSuggestIssuesByCode
-            (string accountId, string code)
+            (string accountId, 
+            string code,
+            string sortOrder)
         {
             var result = await _issueService
-                .GetSuggestIssueByCode(code, accountId);
+                .GetSuggestIssueByCode(code, accountId,sortOrder);
             return Ok(Bts.ConvertJson(result));
         }
 

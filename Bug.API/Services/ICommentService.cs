@@ -15,6 +15,7 @@ namespace Bug.API.Services
             CancellationToken cancellationToken = default);
         Task<IReadOnlyList<Comment>> GetCommentsByIssueIdAsync
             (string issueId,
+            string sortOrder,
             CancellationToken cancellationToken = default);
         Task<Comment> AddCommentAsync
             (CommentNormalDto cmt,

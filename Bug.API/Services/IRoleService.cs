@@ -15,13 +15,16 @@ namespace Bug.API.Services
             CancellationToken cancellationToken = default);
         Task<IReadOnlyList<Role>> GetRolesByProjectIdAsync
             (string projectId,
+            string sortOrder,
             CancellationToken cancellationToken = default);
         Task<IReadOnlyList<Role>> GetRolesByCreatorIdAsync
             (string creatorId,
+            string sortOrder,
             CancellationToken cancellationToken = default);
         Task<IReadOnlyList<Role>> GetRolesWhichMemberIdOnAsync
             (string projectId,
             string memberId,
+            string sortOrder,
             CancellationToken cancellationToken = default);
         Task<PaginatedListDto<Role>> GetPaginatedWhichMemberIdOnAsync
             (string projectId,
