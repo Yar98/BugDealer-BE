@@ -35,27 +35,27 @@ namespace Bug.API.Controllers
             return Ok(Bts.ConvertJson(result));
         }
 
-        [HttpGet("search/paging/project/{projectId}/{search}/{pageIndex}/{pageSize}/{sortOrder}")]
+        [HttpGet("search/paging/project/{projectId}/{pageIndex}/{pageSize}/{sortOrder}")]
         public async Task<IActionResult> GetPaginatedByProjectIdSearch
             (string projectId,
-            string search,
             int pageIndex,
             int pageSize,
             string sortOrder)
         {
+            string search = Request.Query["searchText"].ToString() ?? "";
             var result = await _statusService
                 .GetPaginatedByProjectIdSearch(projectId, search, pageIndex, pageSize, sortOrder);
             return Ok(Bts.ConvertJson(result));
         }
 
-        [HttpGet("search/paging/creator/{creatorId}/{search}/{pageIndex:int}/{pageSize:int}/{sortOrder}")]
+        [HttpGet("search/paging/creator/{creatorId}/{pageIndex:int}/{pageSize:int}/{sortOrder}")]
         public async Task<IActionResult> GetPaginatedStatusesByCreatorId
             (string creatorId,
-            string search,
             int pageIndex,
             int pageSize,
             string sortOrder)
         {
+            string search = Request.Query["searchText"].ToString() ?? "";
             var result = await _statusService
                 .GetPaginatedByCreatorIdSearch(creatorId, search, pageIndex, pageSize, sortOrder);
             return Ok(Bts.ConvertJson(result));
