@@ -40,7 +40,8 @@ namespace Bug.Entities.Model
         public ICollection<AccountProjectRole> AccountProjectRoles { get; set; } = new List<AccountProjectRole>();
 
         private Account() { }
-        public Account(string id,
+        public Account
+            (string id,
             string userName,
             string password,
             string firstName,
@@ -95,5 +96,9 @@ namespace Bug.Entities.Model
             VerifyEmail = i;
         }
 
+        public void UpdateTimezoneId(string timezoneId)
+        {
+            TimezoneId = timezoneId;
+        }
     }
 }

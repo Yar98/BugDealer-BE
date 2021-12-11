@@ -26,5 +26,15 @@ namespace Bug.Data.Repositories
             string clientId,
             string code,
             CancellationToken cancellationToken = default);
+        Task ForgotPassword
+            (string email,
+            CancellationToken cancellationToken = default);
+        Task ConfirmForgotPassword
+            (string email,
+            string code,
+            CancellationToken cancellationToken = default);
+        Task DeleteEmailAfterChangeEmail
+            (string email,
+            CancellationToken cancellationToken = default);
     }
 }

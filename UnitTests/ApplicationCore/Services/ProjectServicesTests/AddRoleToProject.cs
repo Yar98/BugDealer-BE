@@ -28,7 +28,7 @@ namespace UnitTests.ApplicationCore.Services.ProjectServicesTests
         [Fact]
         public async Task InvokeSaveOnlyOnce()
         {
-            var project = new ProjectBuilder().Build();
+            var project = new TestProjectBuilder().Build();
             var role = new Role(_testRoleId, _testName, _testDescription, _testCreatorId);
             _mockRepo
                 .Setup(mock => mock.Project.GetByIdAsync(It.IsAny<string>(), default))

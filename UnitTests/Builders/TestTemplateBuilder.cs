@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace UnitTests.Builders
 {
-    public class TemplateBuilder
+    public class TestTemplateBuilder
     {
         private readonly Template _template;
         public int TestId = 1;
         public string TestName = "webapp";
         public string TestDescription = "test description";
 
-        public TemplateBuilder()
+        public TestTemplateBuilder()
         {
             _template = new Template(0, TestName, TestDescription);
         }

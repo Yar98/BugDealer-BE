@@ -192,6 +192,39 @@ namespace Bug.API.Services
                 .GetAllEntitiesBySpecAsync(specificationResult, sortOrder, cancellationToken);
         }
 
+        public async Task<PaginatedListDto<AccountNormalDto>> GetPaginatedByProjectIdSearch
+            (string projectId,
+            string search,
+            int pageIndex,
+            int pageSize,
+            string sortOrder,
+            CancellationToken cancellationToken = default)
+        {
+            var specificationResult =
+                new AccountsByProjectIdSearchSpecification(projectId, search);
+            var result = await _unitOfWork
+                .Account
+                .GetPaginatedNoTrackBySpecAsync(pageIndex, pageSize, sortOrder, specificationResult, cancellationToken);
+
+            return new PaginatedListDto<AccountNormalDto>
+            {
+                Length = result.Length,
+                Items = result.Select(a => new AccountNormalDto
+                {
+                    CreatedDate = a.CreatedDate,
+                    Email = a.Email,
+                    FirstName = a.FirstName,
+                    Id = a.Id,
+                    ImageUri = a.ImageUri,
+                    Language = a.Language,
+                    LastName = a.LastName,
+                    TimezoneId = a.TimezoneId,
+                    UserName = a.UserName,
+                    VerifyEmail = a.VerifyEmail 
+                }).ToList()
+            };
+        }
+
         public async Task<PaginatedListDto<Account>> GetPaginatedByProjectIdAsync
             (string projectId,
             int pageIndex,
@@ -201,7 +234,9 @@ namespace Bug.API.Services
         {
             var specificationResult =
                 new AccountsByProjectIdSpecification(projectId);
-            var result = await _unitOfWork.Account.GetPaginatedNoTrackBySpecAsync(pageIndex, pageSize, sortOrder, specificationResult, cancellationToken);
+            var result = await _unitOfWork
+                .Account
+                .GetPaginatedNoTrackBySpecAsync(pageIndex, pageSize, sortOrder, specificationResult, cancellationToken);
             return new PaginatedListDto<Account>
             {
                 Length = result.Length,
@@ -237,8 +272,36 @@ namespace Bug.API.Services
                 await _unitOfWork
                     .Account
                     .ResendVerifyCognito(email, cancellationToken);
-            }
-            
+            }            
+        }
+
+        public async Task ForgotPassword
+            (string email,
+            CancellationToken cancellationToken = default)
+        {
+            await _unitOfWork
+               .Account
+               .ForgotPassword(email, cancellationToken);
+        }
+
+        public async Task ConfirmForgotPassword
+            (ForgotPasswordDto item,
+            CancellationToken cancellationToken = default)
+        {
+            await _unitOfWork
+                .Account
+                .ConfirmForgotPassword(item.Email, item.Code, cancellationToken);
+            var specificationResult =
+                new AccountByEmailSpecification(item.Email);
+            var result = await _unitOfWork
+                .Account
+                .GetEntityBySpecAsync(specificationResult, cancellationToken);
+            if (result == null)
+                return;
+            result.UpdatePassword(item.NewPassword);
+            _unitOfWork.Account.Update(result);
+
+            _unitOfWork.Save();
         }
 
         public async Task ConfirmEmailBts
@@ -247,16 +310,20 @@ namespace Bug.API.Services
             string code,
             CancellationToken cancellationToken = default)
         {
-            await _unitOfWork
-                .Account
-                .ConfirmSignUp(email, clientId, code, cancellationToken);
             var specificationResult =
                 new AccountByEmailSpecification(email);
             var result = await _unitOfWork
                 .Account
                 .GetEntityBySpecAsync(specificationResult, cancellationToken);
+            if (result == null)
+                return;
+            await _unitOfWork
+                .Account
+                .ConfirmSignUp(email, clientId, code, cancellationToken);
+
             result.UpdateVerifyEmail(true);
             _unitOfWork.Account.Update(result);
+
             _unitOfWork.Save();
         }
 
@@ -271,6 +338,7 @@ namespace Bug.API.Services
                 .AddFirstName(user.FirstName)
                 .AddLastName(user.LastName)
                 .AddEmail(user.Email)
+                .AddLanguage(user.Language)
                 .Build();
             await _unitOfWork.Account.AddAsync(result, cancellationToken);
             _unitOfWork.Save();
@@ -288,20 +356,23 @@ namespace Bug.API.Services
             (AccountNormalDto user,
             CancellationToken cancellationToken = default)
         {
-            var result = await _unitOfWork.Account.GetByIdAsync(user.Id, cancellationToken);
+            var result = await _unitOfWork
+                .Account
+                .GetByIdAsync(user.Id, cancellationToken);
             if (user.UserName != null)
                 result.UpdateUserName(user.UserName);
             if (user.LastName != null)
                 result.UpdateLastName(user.LastName);
             if (user.FirstName != null)
                 result.UpdateFirstName(user.FirstName);
-            if (user.Email != null)
-                result.UpdateEmail(user.Email);
             if (user.Language != null)
                 result.UpdateLanguage(user.Language);
             if (user.ImageUri != null)
                 result.UpdateImageUri(user.ImageUri);
+            if (user.TimezoneId != null)
+                result.UpdateTimezoneId(user.TimezoneId);
             _unitOfWork.Account.Update(result);
+
             _unitOfWork.Save();
         }
 
@@ -323,7 +394,13 @@ namespace Bug.API.Services
             if (user.FirstName != null)
                 result.UpdateFirstName(user.FirstName);
             if (user.Email != null)
+            {
+                await _unitOfWork
+                    .Account
+                    .DeleteEmailAfterChangeEmail(result.Email, cancellationToken);
                 result.UpdateEmail(user.Email);
+                result.UpdateVerifyEmail(false);
+            }
             if (user.Language != null)
                 result.UpdateLanguage(user.Language);
             if (user.ImageUri != null)

@@ -150,12 +150,10 @@ namespace Bug.API.Controllers
         }
 
         [HttpPut("add/account/to/project")]
-        public async Task<IActionResult> PutAddMemberToProject
-            (string accountId,
-            string projectId,
-            [FromBody] AprPutDto apr)
+        public async Task<IActionResult> PutAddMemberToProject([FromBody] AprPutDto apr)
         {
-            await _projectService.AddMemberToProjectAsync(accountId, projectId);
+            await _projectService
+                .AddMemberToProjectAsync(apr.AccountId, apr.ProjectId);
             return NoContent();
         }
 

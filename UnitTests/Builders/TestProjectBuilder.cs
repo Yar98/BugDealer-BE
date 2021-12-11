@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace UnitTests.Builders
 {
-    public class ProjectBuilder
+    public class TestProjectBuilder
     {
         private readonly Project _project;
         public string TestId = "project1";
@@ -23,8 +23,7 @@ namespace UnitTests.Builders
         public string TestCreatorId = "account1";
         public int TestTemplateId = 1;
         public int TestStatus = 1;
-
-        public ProjectBuilder()
+        public TestProjectBuilder()
         {
             _project = new Project(TestId,TestName,TestCode,TestStartDate,TestEndDate,
                 TestRecentDate,TestDescription,TestUri,TestDefaultAssigneeId,
@@ -36,7 +35,7 @@ namespace UnitTests.Builders
             return _project;
         }
 
-        public ProjectPostDto BuildDto()
+        public ProjectPostDto BuildPostDto()
         {
             return new ProjectPostDto
             {
@@ -51,6 +50,25 @@ namespace UnitTests.Builders
                 DefaultAssigneeId = TestDefaultAssigneeId,
                 CreatorId = TestCreatorId,
                 TemplateId = TestTemplateId,
+            };
+        }
+
+        public ProjectPutDto BuildPutDto()
+        {
+            return new ProjectPutDto
+            {
+                Id = TestId,
+                Name = TestName,
+                Code = TestCode,
+                StartDate = TestStartDate,
+                EndDate = TestEndDate,
+                RecentDate = TestRecentDate,
+                Description = TestDescription,
+                AvatarUri = TestUri,
+                DefaultAssigneeId = TestDefaultAssigneeId,
+                CreatorId = TestCreatorId,
+                TemplateId = TestTemplateId,
+                Statuses = new List<StatusNormalDto>()
             };
         }
     }

@@ -20,6 +20,8 @@ namespace Bug.Data.Repositories
 
         public void UpdateMultiByRoleIdProjectId(string projectId, List<Role> roles)
         {
+            if (roles == null)
+                return;
             var listRoleId = roles
                 .Select(r => r.Id.ToString())
                 .ToList()

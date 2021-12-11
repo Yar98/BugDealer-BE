@@ -34,18 +34,18 @@ namespace IntegrationTests.Repositories.ProjectRepoTests
         public async Task AddRole()
         {
             // seed data
-            await _unitOfWork.Account.AddAsync(new AccountBuilder().Build());
-            await _unitOfWork.Template.AddAsync(new TemplateBuilder().Build());
+            await _unitOfWork.Account.AddAsync(new TestAccountBuilder().Build());
+            await _unitOfWork.Template.AddAsync(new TestTemplateBuilder().Build());
 
             // start test
-            var role = new RoleBuilder().Build();
+            var role = new TestRoleBuilder().Build();
             await _unitOfWork.Role.AddAsync(role);
             _output.WriteLine($"RoleId: {role.Id}");
             _unitOfWork.Save();
 
             var projectService = new ProjectService(_unitOfWork);
             var project = await projectService
-                .AddProjectAsync(new ProjectBuilder().BuildDto());
+                .AddProjectAsync(new TestProjectBuilder().BuildPostDto());
             
             await projectService.AddRoleToProjectAsync(project.Id, role.Id);
             var resultProject = await projectService.GetDetailProjectAsync(project.Id);

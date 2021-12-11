@@ -23,11 +23,51 @@ namespace Bug.API.Services
             (string id,
             CancellationToken cancellationToken = default)
         {
-            StatusSpecification specificationResult =
-                new(id);
+            var specificationResult =
+                new StatusSpecification(id);
             return await _unitOfWork
                 .Status
                 .GetEntityBySpecAsync(specificationResult, cancellationToken);
+        }
+
+        public async Task<PaginatedListDto<Status>> GetPaginatedByProjectIdSearch
+            (string projectId,
+            string search,
+            int pageIndex,
+            int pageSize,
+            string sortOrder,
+            CancellationToken cancellationToken = default)
+        {
+            var specificationResult =
+                new StatusesByProjectIdSearchSpecification(projectId, search);
+            var result = await _unitOfWork
+                .Status
+                .GetPaginatedNoTrackBySpecAsync(pageIndex, pageSize, sortOrder, specificationResult, cancellationToken);
+            return new PaginatedListDto<Status>
+            {
+                Length = result.Length,
+                Items = result
+            };
+        }
+
+        public async Task<PaginatedListDto<Status>> GetPaginatedByCreatorIdSearch
+            (string creatorId,
+            string search,
+            int pageIndex,
+            int pageSize,
+            string sortOrder,
+            CancellationToken cancellationToken = default)
+        {
+            var specificationResult =
+                new StatusesByCreatorIdSearchSpecification(creatorId, search);
+            var result = await _unitOfWork
+                .Status
+                .GetPaginatedNoTrackBySpecAsync(pageIndex, pageSize, sortOrder, specificationResult, cancellationToken);
+            return new PaginatedListDto<Status>
+            {
+                Length = result.Length,
+                Items = result
+            };
         }
 
         public async Task<PaginatedListDto<Status>> GetPaginatedDetailByCreatorIdProjectIdAsync
@@ -39,7 +79,7 @@ namespace Bug.API.Services
             CancellationToken cancellationToken = default)
         {
             var specificationResult =
-                new StatusByCreatorIdProjectIdSpecification(projectId, creatorId);
+                new StatusByProjectIdSpecification(projectId);
             var result = await _unitOfWork
                 .Status
                 .GetPaginatedNoTrackBySpecAsync(pageIndex, pageSize, sortOrder, specificationResult, cancellationToken);
@@ -59,7 +99,7 @@ namespace Bug.API.Services
             CancellationToken cancellationToken = default)
         {
             var specificationResult =
-                new StatusByCreatorIdProjectIdSpecification(projectId, creatorId);
+                new StatusByProjectIdSpecification(projectId);
             var result = await _unitOfWork
                 .Status
                 .GetNextByOffsetNoTrackBySpecAsync(offset, next, sortOrder, specificationResult, cancellationToken);

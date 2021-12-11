@@ -40,7 +40,9 @@ namespace Bug.Data
 
                     UPDATE i 
                     SET StatusId = 
-                        (SELECT p.DefaultStatusId FROM Project AS p WHERE p.Id = i.ProjectId)
+                        (SELECT p.DefaultStatusId 
+                        FROM Project AS p 
+                        WHERE p.Id = i.ProjectId)
 					FROM Issue as i
                     WHERE Id IN 
                         (SELECT i.Id FROM Issue AS i WHERE i.StatusId IN 

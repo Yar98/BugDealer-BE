@@ -10,6 +10,12 @@ namespace Bug.API.Services
 {
     public interface IAccountService
     {
+        Task ForgotPassword
+            (string email,
+            CancellationToken cancellationToken = default);
+        Task ConfirmForgotPassword
+            (ForgotPasswordDto item,
+            CancellationToken cancellationToken = default);
         Task SendInviteEmail
             (string fromEmail,
             string toEmail,
@@ -31,6 +37,13 @@ namespace Bug.API.Services
             CancellationToken cancellationToken = default);
         Task<IReadOnlyList<Account>> GetAllByProjectIdAsync
             (string projectId,
+            string sortOrder,
+            CancellationToken cancellationToken = default);
+        Task<PaginatedListDto<AccountNormalDto>> GetPaginatedByProjectIdSearch
+            (string projectId,
+            string search,
+            int pageIndex,
+            int pageSize,
             string sortOrder,
             CancellationToken cancellationToken = default);
         Task<PaginatedListDto<Account>> GetPaginatedByProjectIdAsync

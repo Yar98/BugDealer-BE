@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace UnitTests.Builders
 {
-    public class AccountBuilder
+    public class TestAccountBuilder
     {
         private readonly Account _account;
         public string TestId = "account1";
@@ -21,7 +21,7 @@ namespace UnitTests.Builders
         public string TestImageUri = "uri.uri";
         public string TestTimezone = null;
 
-        public AccountBuilder()
+        public TestAccountBuilder()
         {
             _account = new Account(TestId, TestUserName, TestPassword, TestFirstName, TestLastName, TestEmail, TestCreatedDate, TestLanguage, TestImageUri, TestTimezone);
 
