@@ -359,12 +359,6 @@ namespace Bug.API.Services
             var result = await _unitOfWork
                 .Account
                 .GetByIdAsync(user.Id, cancellationToken);
-            if (user.UserName != null)
-                result.UpdateUserName(user.UserName);
-            if (user.LastName != null)
-                result.UpdateLastName(user.LastName);
-            if (user.FirstName != null)
-                result.UpdateFirstName(user.FirstName);
             if (user.Language != null)
                 result.UpdateLanguage(user.Language);
             if (user.ImageUri != null)
@@ -385,7 +379,9 @@ namespace Bug.API.Services
             var result = await _unitOfWork
                 .Account
                 .GetEntityBySpecAsync(specificationResult, cancellationToken);
-            if (string.Compare(result.Password, user.OldPassWord) != 0)
+            if (string.Compare(result.Password, user.OldPassWord) != 0 &&
+                !string.IsNullOrEmpty(result.Password) && 
+                !string.IsNullOrEmpty(user.OldPassWord))
                 throw new OldPasswordWrong("Old password is false");
             if (user.UserName != null)
                 result.UpdateUserName(user.UserName);
@@ -401,10 +397,6 @@ namespace Bug.API.Services
                 result.UpdateEmail(user.Email);
                 result.UpdateVerifyEmail(false);
             }
-            if (user.Language != null)
-                result.UpdateLanguage(user.Language);
-            if (user.ImageUri != null)
-                result.UpdateImageUri(user.ImageUri);
             if (user.NewPassword != null)
                 result.UpdatePassword(user.NewPassword);
             _unitOfWork.Account.Update(result);

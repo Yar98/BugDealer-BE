@@ -63,6 +63,13 @@ namespace Bug.API.Controllers
             return Ok();
         }
 
+        [HttpGet("verify-email/{email}")]
+        public async Task<IActionResult> VerifyEmailBts(string email)
+        {
+            await _accountService.VerifyEmailAsync(email);
+            return NoContent();
+        }
+
         // GET api/Account/5
         [HttpGet("{id}")]
         public async Task<IActionResult> GetAccountById(string id)
@@ -140,14 +147,7 @@ namespace Bug.API.Controllers
                 nameof(GetAccountById), new { id = result.Id }, result);
         }
 
-        [HttpPut("verify-email")]
-        public async Task<IActionResult> VerifyEmailBts([FromBody] string email)
-        {
-            await _accountService.VerifyEmailAsync(email);
-            return NoContent();
-        }
-
-        [HttpGet("confirm-email")]
+        [HttpPut("confirm-email")]
         public async Task<IActionResult> ConfirmEmailBts()
         {
             var email = Request.Query["email"].ToString();
