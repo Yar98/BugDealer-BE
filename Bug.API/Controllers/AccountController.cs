@@ -32,14 +32,14 @@ namespace Bug.API.Controllers
             return new string[] { "value1", "value2" };
         }
 
-        [HttpGet("search/project/{projectId}/{search}/{pageIndex}/{pageSize}/{sortOrder}")]
+        [HttpGet("search/paging/project/{projectId}/{pageIndex}/{pageSize}/{sortOrder}")]
         public async Task<IActionResult> GetMembersOfProjectBySearchName
             (string projectId,
-            string search,
             int pageIndex,
             int pageSize,
             string sortOrder)
         {
+            string search = Request.Query["searchText"].ToString() ?? "";
             var result = await _accountService
                 .GetPaginatedByProjectIdSearch(projectId, search, pageIndex, pageSize, sortOrder);
             return Ok(Bts.ConvertJson(result));

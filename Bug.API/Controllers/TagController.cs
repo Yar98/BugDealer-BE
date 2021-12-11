@@ -31,14 +31,16 @@ namespace Bug.API.Controllers
         [HttpGet("{id}/detail")]
         public async Task<IActionResult> GetDetailTagById(int id)
         {
-            var result = await _tagService.GetDetailTagByIdAsync(id);
+            var result = await _tagService
+                .GetDetailTagByIdAsync(id);
             return Ok(Bts.ConvertJson(result));
         }
 
         [HttpGet("category/{categoryId:int}/{sortOrder}")]
-        public async Task<IActionResult> GetTagsByCategory(int id, string sortOrder)
+        public async Task<IActionResult> GetTagsByCategory(int categoryId, string sortOrder)
         {
-            var result = await _tagService.GetTagsByCategoryIdAsync(id, sortOrder);
+            var result = await _tagService
+                .GetTagsByCategoryIdAsync(categoryId, sortOrder);
             return Ok(Bts.ConvertJson(result));
         }
 
