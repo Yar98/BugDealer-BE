@@ -185,13 +185,22 @@ namespace Bug.API.Services
             (StatusNormalDto status,
             CancellationToken cancellationToken = default)
         {
-            var result = await _unitOfWork.Status.GetByIdAsync(status.Id, cancellationToken);
-            result.UpdateName(status.Name);
-            result.UpdateDescription(status.Description);
-            result.UpdateProgress(status.Progress??0);
-            result.UpdateCreatorId(status.CreatorId);
-            result.UpdateTagId(status.TagId??1);
+            var result = await _unitOfWork
+                .Status
+                .GetByIdAsync(status.Id, cancellationToken);
+            if(status.Name != null)
+                result.UpdateName(status.Name);
+            if(status.Description != null)
+                result.UpdateDescription(status.Description);
+            if(status.Progress != null)
+                result.UpdateProgress(status.Progress??0);
+            if(status.CreatorId != null)
+                result.UpdateCreatorId(status.CreatorId);
+            if(status.TagId != null)
+                result.UpdateTagId(status.TagId??1);
+
             _unitOfWork.Status.Update(result);
+
             _unitOfWork.Save();
         }
 
