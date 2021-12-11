@@ -21,9 +21,23 @@ namespace Bug.API.Services
             (string creatorId,
             string sortOrder,
             CancellationToken cancellationToken = default);
-        Task<IReadOnlyList<Role>> GetRolesWhichMemberIdOnAsync
+        Task<IReadOnlyList<Role>> GetRolesWhichMemberIdProjectIdOnAsync
             (string projectId,
             string memberId,
+            string sortOrder,
+            CancellationToken cancellationToken = default);
+        Task<PaginatedListDto<Role>> GetPaginatedByProjectIdSearch
+            (string projectId,
+            string search,
+            int pageIndex,
+            int pageSize,
+            string sortOrder,
+            CancellationToken cancellationToken = default);
+        Task<PaginatedListDto<Role>> GetPaginatedByCreatorIdSearch
+            (string creatorId,
+            string search,
+            int pageIndex,
+            int pageSize,
             string sortOrder,
             CancellationToken cancellationToken = default);
         Task<PaginatedListDto<Role>> GetPaginatedWhichMemberIdOnAsync

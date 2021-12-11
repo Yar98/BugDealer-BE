@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace UnitTests.Builders
 {
-    public class RoleBuilder
+    public class TestRoleBuilder
     {
         private readonly Role _role;
         public int TestId = 1;
@@ -15,7 +15,7 @@ namespace UnitTests.Builders
         public string TestDescription = "test description";
         public string TestCreatorId = "account1";
 
-        public RoleBuilder()
+        public TestRoleBuilder()
         {
             _role = new Role(0, TestName, TestDescription, TestCreatorId);
         }

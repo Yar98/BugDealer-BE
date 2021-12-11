@@ -169,15 +169,20 @@ namespace Bug.API.Services
                 .AccountProjectRoles
                 .Add(new AccountProjectRole(pro.CreatorId, result.Id, 1));
             // add default roles to project
-            var defaultRoles = await _unitOfWork.Role.GetDefaultRolesAsync(cancellationToken:cancellationToken);
+            var defaultRoles = await _unitOfWork
+                .Role
+                .GetDefaultRolesAsync(cancellationToken:cancellationToken);
             result.AddDefaultRoles(defaultRoles);
             // add default statuses to project
-            var defaultStatuses = await _unitOfWork.Status.GetDefaultStatusesAsync(cancellationToken: cancellationToken);
+            var defaultStatuses = await _unitOfWork
+                .Status
+                .GetDefaultStatusesAsync(cancellationToken: cancellationToken);
             result.AddDefaultStatuses(defaultStatuses);
             
             await _unitOfWork
                 .Project
                 .AddAsync(result, cancellationToken);
+
             _unitOfWork.Save();
             return result;
         }
@@ -186,7 +191,11 @@ namespace Bug.API.Services
             (ProjectPutDto pro,
             CancellationToken cancellationToken = default)
         {
-            var result = await _unitOfWork.Project.GetByIdAsync(pro.Id,cancellationToken);
+            var result = await _unitOfWork
+                .Project
+                .GetByIdAsync(pro.Id,cancellationToken);
+            if (result == null)
+                return;
             if(pro.Name != null)
                 result.UpdateName(pro.Name);
             if(pro.AvatarUri != null)
@@ -223,12 +232,12 @@ namespace Bug.API.Services
                 .GetEntityBySpecAsync(specificationResult, cancellationToken);
             var roles = await _unitOfWork
                 .Role
-                .GetRolesFromMutiIdsAsync(pro.Roles.Select(r=>r.Id).Where(r=>r!=0).ToList(), cancellationToken);
+                .GetRolesFromMutiIdsAsync(pro.Roles?.Select(r=>r.Id).Where(r=>r!=0).ToList(), cancellationToken);
             var defaultRoles = await _unitOfWork
                 .Role
                 .GetDefaultRolesAsync(cancellationToken:cancellationToken);           
-            roles.AddRange(defaultRoles);
-            project.UpdateRoles(roles);
+            roles?.AddRange(defaultRoles);
+            project?.UpdateRoles(roles);
 
             _unitOfWork.Project.Update(project);
             _unitOfWork.Save();
@@ -240,7 +249,9 @@ namespace Bug.API.Services
             (ProjectPutDto pro,
             CancellationToken cancellationToken = default)
         {
-            var project = await _unitOfWork.Project.GetByIdAsync(pro.Id, cancellationToken);
+            var project = await _unitOfWork
+                .Project
+                .GetByIdAsync(pro.Id, cancellationToken);
             var statuses = await _unitOfWork
                 .Status
                 .GetStatusesFromMutiIdsAsync(pro.Statuses.Select(st=>st.Id).ToList(),cancellationToken);
@@ -250,8 +261,8 @@ namespace Bug.API.Services
             var defaultStatuses = await _unitOfWork
                 .Status
                 .GetDefaultStatusesAsync(cancellationToken: cancellationToken);
-            statuses.AddRange(defaultStatuses);
-            project.UpdateStatuses(statuses);
+            statuses?.AddRange(defaultStatuses);
+            project?.UpdateStatuses(statuses);
             _unitOfWork.Project.Update(project);
 
             _unitOfWork.Save(); 

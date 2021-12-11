@@ -35,6 +35,32 @@ namespace Bug.API.Controllers
             return Ok(Bts.ConvertJson(result));
         }
 
+        [HttpGet("search/paging/project/{projectId}/{search}/{pageIndex}/{pageSize}/{sortOrder}")]
+        public async Task<IActionResult> GetPaginatedByProjectIdSearch
+            (string projectId,
+            string search,
+            int pageIndex,
+            int pageSize,
+            string sortOrder)
+        {
+            var result = await _statusService
+                .GetPaginatedByProjectIdSearch(projectId, search, pageIndex, pageSize, sortOrder);
+            return Ok(Bts.ConvertJson(result));
+        }
+
+        [HttpGet("search/paging/creator/{creatorId}/{search}/{pageIndex:int}/{pageSize:int}/{sortOrder}")]
+        public async Task<IActionResult> GetPaginatedStatusesByCreatorId
+            (string creatorId,
+            string search,
+            int pageIndex,
+            int pageSize,
+            string sortOrder)
+        {
+            var result = await _statusService
+                .GetPaginatedByCreatorIdSearch(creatorId, search, pageIndex, pageSize, sortOrder);
+            return Ok(Bts.ConvertJson(result));
+        }
+
         [HttpGet("paging/creator/{creatorId}/{pageIndex:int}/{pageSize:int}/{sortOrder}")]
         public async Task<IActionResult> GetPaginatedStatusesByCreator
             (string creatorId,
@@ -59,8 +85,8 @@ namespace Bug.API.Controllers
             return Ok(Bts.ConvertJson(result));
         }
 
-        [HttpGet("paging/project/{projectId}/creator/{creatorId}/{pageIndex:int}/{pageSize:int}/{sortOrder}")]
-        public async Task<IActionResult> GetPaginatedStatusesByCreatorIdProjectId
+        [HttpGet("paging/project/{projectId}/{pageIndex:int}/{pageSize:int}/{sortOrder}")]
+        public async Task<IActionResult> GetPaginatedStatusesByProjectId
             (string projectId,
             string creatorId,
             int pageIndex,
@@ -72,8 +98,8 @@ namespace Bug.API.Controllers
             return Ok(Bts.ConvertJson(result));
         }
 
-        [HttpGet("offset/project/{projectId}/creator/{creatorId}/{offset:int}/{next:int}/{sortOrder}")]
-        public async Task<IActionResult> GetNextByOffsetStatusesByCreatorIdProjectId
+        [HttpGet("offset/project/{projectId}/{offset:int}/{next:int}/{sortOrder}")]
+        public async Task<IActionResult> GetNextByOffsetStatusesByProjectId
             (string projectId,
             string creatorId,
             int offset,

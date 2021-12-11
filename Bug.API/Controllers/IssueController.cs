@@ -21,23 +21,10 @@ namespace Bug.API.Controllers
     public class IssueController : ControllerBase
     {
         private readonly IIssueService _issueService;
-        private readonly IHubContext<ChatHub, IChatClient> _strongChatHubContext;
         public IssueController
-            (IIssueService issueService, 
-            IHubContext<ChatHub, IChatClient> chatHubContext)
+            (IIssueService issueService)
         {
             _issueService = issueService;
-            _strongChatHubContext = chatHubContext;
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> Get()
-        {
-            await _strongChatHubContext
-                .Clients
-                .All
-                .ReceiveMessage("", "");
-            return Ok();
         }
 
         // GET api/Issue/5

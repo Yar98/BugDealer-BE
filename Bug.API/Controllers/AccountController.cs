@@ -32,6 +32,19 @@ namespace Bug.API.Controllers
             return new string[] { "value1", "value2" };
         }
 
+        [HttpGet("search/project/{projectId}/{search}/{pageIndex}/{pageSize}/{sortOrder}")]
+        public async Task<IActionResult> GetMembersOfProjectBySearchName
+            (string projectId,
+            string search,
+            int pageIndex,
+            int pageSize,
+            string sortOrder)
+        {
+            var result = await _accountService
+                .GetPaginatedByProjectIdSearch(projectId, search, pageIndex, pageSize, sortOrder);
+            return Ok(Bts.ConvertJson(result));
+        }
+
         [HttpGet("invite/code/{code}/toemail/{toEmail}/fromemail/{fromEmail}")]
         public async Task<IActionResult> SendInviteEmail
             (string code,
@@ -39,6 +52,14 @@ namespace Bug.API.Controllers
             string fromEmail)
         {
             await _accountService.SendInviteEmail(fromEmail, toEmail, code);
+            return Ok();
+        }
+
+        [HttpGet("forgot/email/{email}")]
+        public async Task<IActionResult> SendForgotPassEmail(string email)
+        {
+            await _accountService
+                .ForgotPassword(email);
             return Ok();
         }
 
@@ -134,6 +155,15 @@ namespace Bug.API.Controllers
             var code = Request.Query["code"].ToString();
             await _accountService.ConfirmEmailBts(email, clientId, code);
             return Ok();
+        }
+
+        [HttpPut("confirm-password")]
+        public async Task<IActionResult> ConfirmForgotPassword
+            ([FromBody] ForgotPasswordDto item)
+        {
+            await _accountService
+                .ConfirmForgotPassword(item);
+            return NoContent();
         }
 
         // PUT api/Account/5

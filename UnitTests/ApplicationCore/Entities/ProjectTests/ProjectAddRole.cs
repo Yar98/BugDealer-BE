@@ -20,7 +20,7 @@ namespace UnitTests.ApplicationCore.Entities.ProjectTests
         [Fact]
         public void AddRoleIfNotExist()
         {
-            var project = new ProjectBuilder().Build();
+            var project = new TestProjectBuilder().Build();
             var role = new Role(1, _testName, _testDescription, _testCreatorId);
             project.AddExistRole(role);
 

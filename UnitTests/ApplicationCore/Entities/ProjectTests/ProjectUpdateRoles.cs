@@ -22,11 +22,11 @@ namespace UnitTests.ApplicationCore.Entities.ProjectTests
         [Fact]
         public void UpdateAllRoles()
         {
-            var project = new ProjectBuilder().Build();
+            var project = new TestProjectBuilder().Build();
             Assert.Equal(0, project.Roles.Count);
 
-            TestRoles.Add(new RoleBuilder().Build());
-            TestRoles.Add(new RoleBuilder().Build());
+            TestRoles.Add(new TestRoleBuilder().Build());
+            TestRoles.Add(new TestRoleBuilder().Build());
             project.UpdateRoles(TestRoles);
 
             Assert.Equal(2, project.Roles.Count);
@@ -36,8 +36,8 @@ namespace UnitTests.ApplicationCore.Entities.ProjectTests
         [Fact]
         public void AddDefaultOnlyIfEmpty()
         {
-            var project = new ProjectBuilder().Build();
-            TestRoles.Add(new RoleBuilder().Build());
+            var project = new TestProjectBuilder().Build();
+            TestRoles.Add(new TestRoleBuilder().Build());
             project.UpdateRoles(TestRoles);
             Assert.Equal(1, project.Roles.Count);
 

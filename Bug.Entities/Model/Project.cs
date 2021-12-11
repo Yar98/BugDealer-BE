@@ -177,6 +177,8 @@ namespace Bug.Entities.Model
         }
         public void UpdateStatuses(List<Status> r)
         {
+            if (r == null)
+                return;
             _statuses = r;
         }
         public void AddDefaultStatuses(IReadOnlyList<Status> statuses)

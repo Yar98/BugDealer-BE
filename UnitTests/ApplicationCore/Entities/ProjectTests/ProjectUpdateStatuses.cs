@@ -19,11 +19,11 @@ namespace UnitTests.ApplicationCore.Entities.ProjectTests
         [Fact]
         public void UpdateAllStatuses()
         {
-            var project = new ProjectBuilder().Build();
+            var project = new TestProjectBuilder().Build();
             Assert.Equal(0, project.Statuses.Count);
 
-            TestStatuses.Add(new StatusBuilder().Build());
-            TestStatuses.Add(new StatusBuilder().Build());
+            TestStatuses.Add(new TestStatusBuilder().Build());
+            TestStatuses.Add(new TestStatusBuilder().Build());
             project.UpdateStatuses(TestStatuses);
 
             Assert.Equal(2, project.Statuses.Count);
@@ -33,8 +33,8 @@ namespace UnitTests.ApplicationCore.Entities.ProjectTests
         [Fact]
         public void AddDefaultOnlyIfEmpty()
         {
-            var project = new ProjectBuilder().Build();
-            TestStatuses.Add(new StatusBuilder().Build());
+            var project = new TestProjectBuilder().Build();
+            TestStatuses.Add(new TestStatusBuilder().Build());
             project.UpdateStatuses(TestStatuses);
             Assert.Equal(1, project.Statuses.Count);
 

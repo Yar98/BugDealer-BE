@@ -23,6 +23,8 @@ namespace Bug.Data.Repositories
 
         public void UpdateIssuesHaveDumbStatus(List<Status> statuses)
         {
+            if (statuses == null)
+                return;
             var statusIds = statuses
                 .Select(s => s.Id)
                 .ToList()
@@ -30,7 +32,7 @@ namespace Bug.Data.Repositories
             var list = new SqlParameter("list", statusIds);
             _bugContext
                 .Database
-                .ExecuteSqlRaw("EXCUTE dbo.UpdateIssuesHaveDumbStatus @list", list);
+                .ExecuteSqlRaw("EXECUTE dbo.UpdateIssuesHaveDumbStatus @list", list);
         }
 
         public override IQueryable<Issue> SortOrder

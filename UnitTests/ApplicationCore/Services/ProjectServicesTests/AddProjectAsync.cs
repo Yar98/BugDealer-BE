@@ -11,8 +11,8 @@ using UnitTests.Builders;
 using Xunit;
 using Bug.Entities.Builder;
 using CoreProjectBuilder = Bug.Entities.Builder.ProjectBuilder;
-using TestProjectBuilder = UnitTests.Builders.ProjectBuilder;
-using TestAccountBuilder = UnitTests.Builders.AccountBuilder;
+using TestProjectBuilder = UnitTests.Builders.TestProjectBuilder;
+using TestAccountBuilder = UnitTests.Builders.TestAccountBuilder;
 
 namespace UnitTests.ApplicationCore.Services.ProjectServicesTests
 {
@@ -32,7 +32,7 @@ namespace UnitTests.ApplicationCore.Services.ProjectServicesTests
         {
             var acc = new TestAccountBuilder().Build();
             
-            var proDto = new TestProjectBuilder().BuildDto();
+            var proDto = new TestProjectBuilder().BuildPostDto();
             _mockRepo
                 .Setup(mock => mock.Account.GetByIdAsync(It.IsAny<string>(), default))
                 .ReturnsAsync(acc);
@@ -57,7 +57,7 @@ namespace UnitTests.ApplicationCore.Services.ProjectServicesTests
         {
             var acc = new TestAccountBuilder().Build();
 
-            var proDto = new TestProjectBuilder().BuildDto();
+            var proDto = new TestProjectBuilder().BuildPostDto();
             _mockRepo
                 .Setup(mock => mock.Account.GetByIdAsync(It.IsAny<string>(), default))
                 .ReturnsAsync(acc);
@@ -82,7 +82,7 @@ namespace UnitTests.ApplicationCore.Services.ProjectServicesTests
         {
             var acc = new TestAccountBuilder().Build();
 
-            var proDto = new TestProjectBuilder().BuildDto();
+            var proDto = new TestProjectBuilder().BuildPostDto();
             _mockRepo
                 .Setup(mock => mock.Account.GetByIdAsync(It.IsAny<string>(), default))
                 .ReturnsAsync(acc);
@@ -107,7 +107,7 @@ namespace UnitTests.ApplicationCore.Services.ProjectServicesTests
         {
             var acc = new TestAccountBuilder().Build();
 
-            var proDto = new TestProjectBuilder().BuildDto();
+            var proDto = new TestProjectBuilder().BuildPostDto();
             _mockRepo
                 .Setup(mock => mock.Account.GetByIdAsync(It.IsAny<string>(), default))
                 .ReturnsAsync(acc);

@@ -102,6 +102,57 @@ namespace Bug.Data.Repositories
             await provider.ConfirmSignUpAsync(confirmSignUpRequest, cancellationToken);
         }
 
+        public async Task ForgotPassword
+            (string email,
+            CancellationToken cancellationToken = default)
+        {
+            var provider = new AmazonCognitoIdentityProviderClient(
+                _config.GetSection("Cognito")["AccessKeyId"],
+                _config.GetSection("Cognito")["AccessSecretKey"],
+                RegionEndpoint.GetBySystemName(_config.GetSection("Cognito")["Region"]));
+            var forgotPasswordRequest = new ForgotPasswordRequest
+            {
+                ClientId = _config.GetSection("Cognito").GetSection("ClientId").Value,
+                Username = email
+            };
+            await provider.ForgotPasswordAsync(forgotPasswordRequest, cancellationToken);
+        }
+
+        public async Task ConfirmForgotPassword
+            (string email,
+            string code,
+            CancellationToken cancellationToken = default)
+        {
+            var provider = new AmazonCognitoIdentityProviderClient(
+                _config.GetSection("Cognito")["AccessKeyId"],
+                _config.GetSection("Cognito")["AccessSecretKey"],
+                RegionEndpoint.GetBySystemName(_config.GetSection("Cognito")["Region"]));
+            var confirmForgotPassRequest = new ConfirmForgotPasswordRequest
+            {
+                ClientId = _config.GetSection("Cognito").GetSection("ClientId").Value,
+                Username = email,
+                ConfirmationCode = code,
+                Password = "Pass@word123"
+            };
+            await provider.ConfirmForgotPasswordAsync(confirmForgotPassRequest, cancellationToken);
+        }
+
+        public async Task DeleteEmailAfterChangeEmail
+            (string email,
+            CancellationToken cancellationToken = default)
+        {
+            var provider = new AmazonCognitoIdentityProviderClient(
+                _config.GetSection("Cognito")["AccessKeyId"],
+                _config.GetSection("Cognito")["AccessSecretKey"],
+                RegionEndpoint.GetBySystemName(_config.GetSection("Cognito")["Region"]));
+            var deleteUserRequest = new AdminDeleteUserRequest
+            {
+                Username = email,
+                UserPoolId = _config.GetSection("Cognito")["PoolId"]
+            };
+            await provider.AdminDeleteUserAsync(deleteUserRequest, cancellationToken);
+        }
+
         public override IQueryable<Account> SortOrder
             (IQueryable<Account> result,
             string sortOrder)

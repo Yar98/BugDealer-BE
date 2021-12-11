@@ -53,7 +53,7 @@ namespace Bug.API.Services
                 .GetAllEntitiesBySpecAsync(specificationResult, sortOrder, cancellationToken);
         }
 
-        public async Task<IReadOnlyList<Role>> GetRolesWhichMemberIdOnAsync
+        public async Task<IReadOnlyList<Role>> GetRolesWhichMemberIdProjectIdOnAsync
             (string projectId,
             string memberId,
             string sortOrder,
@@ -64,6 +64,46 @@ namespace Bug.API.Services
             return await _unitOfWork
                 .Role
                 .GetAllEntitiesBySpecAsync(specificationResult, sortOrder, cancellationToken);
+        }
+
+        public async Task<PaginatedListDto<Role>> GetPaginatedByProjectIdSearch
+            (string projectId,
+            string search,
+            int pageIndex,
+            int pageSize,
+            string sortOrder,
+            CancellationToken cancellationToken = default)
+        {
+            var specificationResult =
+                new RolesByProjectIdSearchSpecification(projectId, search);
+            var result = await _unitOfWork
+                .Role
+                .GetPaginatedNoTrackBySpecAsync(pageIndex, pageSize, sortOrder, specificationResult, cancellationToken);
+            return new PaginatedListDto<Role>
+            {
+                Length = result.Length,
+                Items = result
+            };
+        }
+
+        public async Task<PaginatedListDto<Role>> GetPaginatedByCreatorIdSearch
+            (string creatorId,
+            string search,
+            int pageIndex,
+            int pageSize,
+            string sortOrder,
+            CancellationToken cancellationToken = default)
+        {
+            var specificationResult =
+                new RolesByCreatorIdSearchSpecification(creatorId, search);
+            var result = await _unitOfWork
+                .Role
+                .GetPaginatedNoTrackBySpecAsync(pageIndex, pageSize, sortOrder, specificationResult, cancellationToken);
+            return new PaginatedListDto<Role>
+            {
+                Length = result.Length,
+                Items = result
+            };
         }
 
         public async Task<PaginatedListDto<Role>> GetPaginatedWhichMemberIdOnAsync

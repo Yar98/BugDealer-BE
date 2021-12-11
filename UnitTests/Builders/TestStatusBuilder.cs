@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace UnitTests.Builders
 {
-    public class StatusBuilder
+    public class TestStatusBuilder
     {
         private readonly Status _status;
         public string TestName = "testname";
@@ -17,7 +17,7 @@ namespace UnitTests.Builders
         public string TestCreatorId = "account1";
         public int TestTagId = 1;
 
-        public StatusBuilder()
+        public TestStatusBuilder()
         {
             var id = Guid.NewGuid().ToString();
             _status = new Status(id, TestName, TestDescription, TestProgress, TestCreatorId, TestTagId);
