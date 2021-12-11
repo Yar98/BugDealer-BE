@@ -184,11 +184,10 @@ namespace Bug.Data
         {
             return new List<Permission>()
             {
-                new Permission(0,"Edit project details",5),
-                new Permission(0,"Edit project roles",5),
-                new Permission(0,"Edit project members",5),
-                new Permission(0,"Edit project statuses",5),
-                new Permission(0,"View issues",6),
+                new Permission(0,"Edit details",5),
+                new Permission(0,"Manage roles",5),
+                new Permission(0,"Manage members",5),
+                new Permission(0,"Manage statuses",5),
                 new Permission(0,"Create issues",6),
                 new Permission(0,"Edit issues",6),
                 new Permission(0,"Delete issues",6),
@@ -196,7 +195,6 @@ namespace Bug.Data
                 new Permission(0,"Edit own comments",6),
                 new Permission(0,"Delete own comments",6),
                 new Permission(0,"Delete other comments",6),
-                new Permission(0,"View watcher list",6),
                 new Permission(0,"Add watchers",6),
                 new Permission(0,"Delete watchers",6)
             };
