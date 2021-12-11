@@ -60,9 +60,10 @@ namespace Bug.API.Controllers
                 var token = await _accountService.GenerateTokenGoogleAccountAsync(user);
                 Response.Headers.Add("token", token);
                 //return StatusCode(200, Json(claims));
-                return string.IsNullOrEmpty(token)?
-                    BadRequest("Error in creating token for google account") :
-                    StatusCode(200, token);
+                //return string.IsNullOrEmpty(token)?
+                    //BadRequest("Error in creating token for google account") :
+                    //StatusCode(200, token);
+                return new RedirectResult($"{returnUrl}?token={token}");
             }
             else
             {
