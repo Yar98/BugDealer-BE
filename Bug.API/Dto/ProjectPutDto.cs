@@ -24,5 +24,8 @@ namespace Bug.API.Dto
         public List<AccountNormalDto> Accounts { get; set; }
         public List<RoleNormalDto> Roles { get; set; }
         public List<StatusNormalDto> Statuses { get; set; }
+
+        // accountId for delete member from project case
+        public string AccountId { get; set; }
     }
 }

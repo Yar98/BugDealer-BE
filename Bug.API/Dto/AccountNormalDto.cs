@@ -15,5 +15,6 @@ namespace Bug.API.Dto
         public string ImageUri { get; set; }
         public string TimezoneId { get; set; }
         public bool VerifyEmail { get; set; }
+        
     }
 }

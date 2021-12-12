@@ -40,6 +40,12 @@ namespace Bug.API.Services
             int pageSize,
             string sortOrder,
             CancellationToken cancellationToken = default);
+        Task<PaginatedListDto<Role>> GetPaginatedProjectIdAsync
+            (string projectId,
+            int pageIndex,
+            int pageSize,
+            string sortOrder,
+            CancellationToken cancellationToken = default);
         Task<PaginatedListDto<Role>> GetPaginatedWhichMemberIdOnAsync
             (string projectId,
             string memberId,

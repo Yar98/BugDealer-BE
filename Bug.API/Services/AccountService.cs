@@ -404,6 +404,25 @@ namespace Bug.API.Services
             return 1;
         }
 
+        public async Task UpdateRoleOfAccountInProjectAsync
+            (AccountSetRolesDto asr,
+            CancellationToken cancellationToken = default)
+        {
+            var specificationResult =
+                new AccountSetRolesSpecification(asr.AccountId, asr.ProjectId);
+            var result = await _unitOfWork
+                .Account
+                .GetEntityBySpecAsync(specificationResult, cancellationToken);
+            if (result == null) return;
+            var newAprs = asr
+                .Roles
+                .Select(r => new AccountProjectRole(asr.AccountId, asr.ProjectId, r.Id))
+                .ToList();
+            result.AccountProjectRoles = newAprs;
+
+            _unitOfWork.Save();
+        }
+
         public async Task DeleteAccountAsync
             (string id,
             CancellationToken cancellationToken = default)

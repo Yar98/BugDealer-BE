@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Data.SqlClient;
+using System.Threading;
 //using System.Data.SqlClient;
 
 namespace Bug.Data.Repositories
@@ -40,6 +41,18 @@ namespace Bug.Data.Repositories
             _bugContext
                 .Database
                 .ExecuteSqlRaw("EXECUTE dbo.UpdateAprAfterDeleteRole @role", role);
+        }
+
+        public async Task DeleteMemberFromProjectAsync
+            (string projectId, 
+            string accountId,
+            CancellationToken cancellationToken = default)
+        {
+            var project = new SqlParameter("project", projectId);
+            var user = new SqlParameter("user", accountId);
+            await _bugContext
+                .Database
+                .ExecuteSqlRawAsync("EXECUTE dbo.DeleteMemberFromProject @project, @user", project, user, cancellationToken);
         }
 
         public override IQueryable<AccountProjectRole> SortOrder(IQueryable<AccountProjectRole> result, string sortOrder)
