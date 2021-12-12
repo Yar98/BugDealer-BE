@@ -10,6 +10,9 @@ namespace Bug.API.Services
 {
     public interface IIssueService
     {
+        Task<Issue> GetNormalIssueAsync
+            (string id,
+            CancellationToken cancellationToken = default);
         Task<Issue> GetDetailIssueAsync
             (string id,
             CancellationToken cancelltionToken = default);

@@ -1,6 +1,8 @@
 ﻿using Bug.API.Services;
 using Bug.Core.Common;
+using Bug.Infrastructure.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,16 +17,19 @@ namespace Bug.API.Controllers
     public class SeverityController : ControllerBase
     {
         private readonly ISeverityService _severityService;
-        public SeverityController(ISeverityService severityService)
+        private readonly IConfiguration _config;
+        public SeverityController(ISeverityService severityService, IConfiguration config)
         {
             _severityService = severityService;
+            _config = config;
         }
 
         // GET: api/<SeverityController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IActionResult Get()
         {
-            return new string[] { "value1", "value2" };
+            var test = new AmazonS3Bts(_config).GeneratePreSignedURL(1);
+            return Ok(test);
         }
 
         // GET api/<SeverityController>/5
