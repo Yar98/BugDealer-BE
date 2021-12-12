@@ -66,8 +66,8 @@ namespace Bug.API.Controllers
             string sortOrder)
         {
             var result = 
-                await _projectService.GetPaginatedByCreatorIdStatusAsync(
-                    accountId, pageIndex, pageSize, status, sortOrder);
+                await _projectService
+                .GetPaginatedByCreatorIdStatusAsync(accountId, pageIndex, pageSize, status, sortOrder);
             return Ok(Bts.ConvertJson(result));
         }
 

@@ -45,11 +45,12 @@ namespace UnitTests.ApplicationCore.Services.ProjectServicesTests
             _mockRepo
                 .Setup(mock => mock.Project.AddAsync(It.IsAny<Project>(), default))
                 .ReturnsAsync(It.IsAny<Project>());
+
             var projectService = new ProjectService(_mockRepo.Object);
             await projectService.AddProjectAsync(proDto);
 
             _mockRepo
-                .Verify(mock => mock.Account.GetByIdAsync(acc.Id, default), Times.Once);
+                .Verify(mock => mock.Account.GetByIdAsync(acc.Id, default), Times.Never);
         }
 
         [Fact]

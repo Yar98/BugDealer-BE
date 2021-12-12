@@ -28,7 +28,7 @@ namespace Bug.Infrastructure.Services
             {
                 BucketName = "bugdealer",
                 Key = "Screenshot (3).png",
-                Verb = HttpVerb.PUT,
+                //Verb = HttpVerb.PUT,
                 Expires = DateTime.UtcNow.AddHours(duration)
             };
 
