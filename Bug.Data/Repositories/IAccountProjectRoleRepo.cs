@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Bug.Data.Repositories
@@ -11,5 +12,9 @@ namespace Bug.Data.Repositories
     {
         void UpdateMultiByRoleIdProjectId(string projectId, List<Role> roles);
         void UpdateAprAfterDeleteRole(int roleId);
+        Task DeleteMemberFromProjectAsync
+            (string projectId, 
+            string accountId,
+            CancellationToken cancellationToken = default);
     }
 }

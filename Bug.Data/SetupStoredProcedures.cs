@@ -59,9 +59,20 @@ namespace Bug.Data
                     FROM [AccountProjectRole] as apr
                     WHERE apr.RoleId = @role
                 END";
+            var sp4 = @"CREATE PROCEDURE [dbo].[DeleteMemberFromProject]
+                    @project NVARCHAR(MAX),
+                    @user NVARCHAR(MAX)
+                AS
+                BEGIN
+                    SET NOCOUNT ON;
+                    
+                    DELETE FROM [AccountProjectRole]
+                    WHERE ProjectId = @project AND AccountId = @user
+                END";
             migrationBuilder.Sql(sp1);
             migrationBuilder.Sql(sp2);
             migrationBuilder.Sql(sp3);
+            migrationBuilder.Sql(sp4);
         }
     }
 }

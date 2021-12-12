@@ -47,6 +47,26 @@ namespace Bug.API.Services
             return result;
         }
 
+        public async Task<PaginatedListDto<Project>> GetPaginatedByMemberIdSearchAsync
+            (string accountId,
+            string search,
+            int pageIndex,
+            int pageSize,
+            string sortOrder,
+            CancellationToken cancellationToken = default)
+        {
+            var specificationResult =
+                new ProjectsBySearchWhichMemberIdJoin(accountId, search);
+            var result = await _unitOfWork
+                .Project
+                .GetPaginatedNoTrackBySpecAsync(pageIndex, pageSize, sortOrder, specificationResult, cancellationToken);
+            return new PaginatedListDto<Project>
+            {
+                Length = result.Length,
+                Items = result
+            };
+        }
+
         // filter by tags, return not contain tags
         public async Task<PaginatedListDto<Project>> GetPaginatedByCreatorIdStatusAsync
             (string accountId,
@@ -297,6 +317,20 @@ namespace Bug.API.Services
             _unitOfWork.Save();
         }
 
+        public async Task DeleteMemberFromProjectAsync
+            (string projectId,
+            string accountId,
+            CancellationToken cancellationToken = default)
+        {
+            var project = await _unitOfWork
+                .Project
+                .GetByIdAsync(projectId, cancellationToken);
+            if (project.CreatorId == projectId)
+                return;
+            await _unitOfWork
+                .AccountProjectRole
+                .DeleteMemberFromProjectAsync(projectId, accountId, cancellationToken);
+        }
 
         public async Task DeleteProjectAsync
             (string projectId,

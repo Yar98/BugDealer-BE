@@ -92,6 +92,18 @@ namespace Bug.API.Controllers
             return Ok(Bts.ConvertJson(result));
         }
 
+        [HttpGet("paging/project/{projectId}/{pageIndex:int}/{pageSize:int}/{sortOrder}")]
+        public async Task<IActionResult> GetPaginatedByProjectId
+            (string projectId,
+            int pageIndex,
+            int pageSize,
+            string sortOrder)
+        {
+            var result = await _roleService
+                .GetPaginatedProjectIdAsync(projectId, pageIndex, pageSize, sortOrder);
+            return Ok(Bts.ConvertJson(result));
+        }
+
         [HttpGet("paging/project/{projectId}/member/{memberId}/{pageIndex:int}/{pageSize:int}/{sortOrder}")]
         public async Task<IActionResult> GetPaginatedWhichMemberIdOn
             (string projectId,

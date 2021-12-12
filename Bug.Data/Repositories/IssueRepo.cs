@@ -10,15 +10,19 @@ using Bug.Data.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Bug.Core.Utils;
 using Microsoft.Data.SqlClient;
+using Amazon.S3.Model;
+using Amazon.S3;
+using Microsoft.Extensions.Configuration;
+using Amazon;
 
 namespace Bug.Data.Repositories
 {
     public class IssueRepo : EntityRepoBase<Issue>, IIssueRepo
     {
+        private readonly IConfiguration _config;
         public IssueRepo(BugContext repositoryContext)
             : base(repositoryContext)
         {
-
         }
 
         public void UpdateIssuesHaveDumbStatus(List<Status> statuses)
@@ -33,6 +37,24 @@ namespace Bug.Data.Repositories
             _bugContext
                 .Database
                 .ExecuteSqlRaw("EXECUTE dbo.UpdateIssuesHaveDumbStatus @list", list);
+        }
+
+        public string GeneratePreSignedURL(double duration)
+        {
+            var s3Client = new AmazonS3Client
+                (_config.GetSection("Cognito")["AccessKeyId"],
+                _config.GetSection("Cognito")["AccessSecretKey"], 
+                RegionEndpoint.GetBySystemName(_config.GetSection("Cognito")["Region"]));
+            var request = new GetPreSignedUrlRequest
+            {
+                BucketName = "bugdealer",
+                Key = "",
+                Verb = HttpVerb.PUT,
+                Expires = DateTime.UtcNow.AddHours(duration)
+            };
+
+            string url = s3Client.GetPreSignedURL(request);
+            return url;
         }
 
         public override IQueryable<Issue> SortOrder

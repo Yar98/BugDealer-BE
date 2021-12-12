@@ -18,6 +18,13 @@ namespace Bug.API.Services
             (string creatorId,
             string code,
             CancellationToken cancellationToken = default);
+        Task<PaginatedListDto<Project>> GetPaginatedByMemberIdSearchAsync
+            (string accountId,
+            string search,
+            int pageIndex,
+            int pageSize,
+            string sortOrder,
+            CancellationToken cancellationToken = default);
         Task<PaginatedListDto<Project>> GetPaginatedByCreatorIdStatusAsync
             (string creatorId,
             int pageIndex, 
@@ -65,6 +72,10 @@ namespace Bug.API.Services
         Task AddRoleToProjectAsync
             (string projectId,
             int roleId,
+            CancellationToken cancellationToken = default);
+        Task DeleteMemberFromProjectAsync
+            (string projectId,
+            string accountId,
             CancellationToken cancellationToken = default);
         Task DeleteProjectAsync
             (string projectId,

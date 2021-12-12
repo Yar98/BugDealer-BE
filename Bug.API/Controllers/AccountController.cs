@@ -190,6 +190,15 @@ namespace Bug.API.Controllers
             return NoContent();
         }
 
+        [HttpPut("setroles")]
+        public async Task<IActionResult> PutUpdateAccountWithCheckPass
+            ([FromBody] AccountSetRolesDto user)
+        {
+            await _accountService
+                .UpdateRoleOfAccountInProjectAsync(user);
+            return NoContent();
+        }
+
         // DELETE api/Account/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAccount(string id)

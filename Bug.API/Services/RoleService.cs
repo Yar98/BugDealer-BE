@@ -106,6 +106,25 @@ namespace Bug.API.Services
             };
         }
 
+        public async Task<PaginatedListDto<Role>> GetPaginatedProjectIdAsync
+            (string projectId,
+            int pageIndex,
+            int pageSize,
+            string sortOrder,
+            CancellationToken cancellationToken = default)
+        {
+            var specificationResult =
+                new RoleByProjectSpecification(projectId);
+            var result = await _unitOfWork
+                .Role
+                .GetPaginatedNoTrackBySpecAsync(pageIndex, pageSize, sortOrder, specificationResult, cancellationToken);
+            return new PaginatedListDto<Role>
+            {
+                Length = result.Length,
+                Items = result
+            };
+        }
+
         public async Task<PaginatedListDto<Role>> GetPaginatedWhichMemberIdOnAsync
             (string projectId,
             string memberId,

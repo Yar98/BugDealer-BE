@@ -43,6 +43,19 @@ namespace Bug.API.Controllers
             return Ok(Bts.ConvertJson(result));
         }
 
+        [HttpGet("search/paging/member/{memberId}/{pageIndex:int}/{pageSize:int}/{sortOrder}")]
+        public async Task<IActionResult> GetPaginatedByMemberIdSearch
+            (string memberId,
+            string search,
+            int pageIndex,
+            int pageSize,
+            string sortOrder)
+        {
+            var result = await _projectService
+                .GetPaginatedByMemberIdSearchAsync(memberId, search, pageIndex, pageSize, sortOrder);
+            return Ok(Bts.ConvertJson(result));
+        }
+
         // GET: api/Project/paging/1/account1/1/1/3/id
         [HttpGet("paging/creator/{accountId}/{status:int}/{pageIndex:int}/{pageSize:int}/{sortOrder}")]
         public async Task<IActionResult> GetPaginatedProjectsByCreatorIdTagId
@@ -163,6 +176,16 @@ namespace Bug.API.Controllers
             int roleId)
         {
             await _projectService.AddRoleToProjectAsync(projectId, roleId);
+            return NoContent();
+        }
+
+        [HttpPut("delete/member")]
+        public async Task<IActionResult> PutDeleteMemberFromProject
+            ([FromBody] ProjectPutDto acc)
+        {
+            
+            await _projectService
+                .DeleteMemberFromProjectAsync(acc.Id, acc.AccountId);
             return NoContent();
         }
 

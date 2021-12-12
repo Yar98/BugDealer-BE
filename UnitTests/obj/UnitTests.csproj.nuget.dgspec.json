@@ -146,6 +146,14 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "dependencies": {
+            "AWSSDK.S3": {
+              "target": "Package",
+              "version": "[3.7.7.2, )"
+            },
+            "Microsoft.Extensions.Configuration.Abstractions": {
+              "target": "Package",
+              "version": "[6.0.0, )"
+            },
             "Newtonsoft.Json": {
               "target": "Package",
               "version": "[13.0.1, )"
@@ -216,6 +224,10 @@
             "AWSSDK.CognitoIdentityProvider": {
               "target": "Package",
               "version": "[3.7.1.74, )"
+            },
+            "AWSSDK.S3": {
+              "target": "Package",
+              "version": "[3.7.7.2, )"
             },
             "EntityFramework": {
               "target": "Package",

@@ -71,6 +71,9 @@ namespace Bug.API.Services
         Task<int> UpdateAccountWithCheckPasswordAsync
             (AccountPutWithCheckDto user,
             CancellationToken cancellationToken = default);
+        Task UpdateRoleOfAccountInProjectAsync
+            (AccountSetRolesDto asr,
+            CancellationToken cancellationToken = default);
         Task DeleteAccountAsync(string id, CancellationToken cancellationToken = default);
     }
 }
