@@ -11,6 +11,9 @@ namespace Bug.API.Services
 {
     public interface IProjectService
     {
+        Task<Project> GetNormalProjectAsync
+            (string projectId,
+            CancellationToken cancellationToken = default);
         Task<Project> GetDetailProjectAsync
             (string id,
             CancellationToken cancellationToken = default);

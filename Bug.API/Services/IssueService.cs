@@ -20,6 +20,15 @@ namespace Bug.API.Services
             _unitOfWork = uow;
         }
 
+        public async Task<Issue> GetNormalIssueAsync
+            (string id,
+            CancellationToken cancellationToken = default)
+        {
+            return await _unitOfWork
+                .Issue
+                .GetByIdAsync(id, cancellationToken);
+        }
+
         public async Task<Issue> GetDetailIssueAsync
             (string id,
             CancellationToken cancellationToken = default)

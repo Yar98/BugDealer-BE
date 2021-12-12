@@ -27,6 +27,8 @@ namespace Bug.API.ActionFilter
             var sv = context.HttpContext.RequestServices;
             var jwtUtils = sv.GetService<IJwtUtils>();
             var accountService = sv.GetService<IAccountService>();
+            var issueService = sv.GetService<IIssueService>();
+            var projectService = sv.GetService<IProjectService>();
             if (string.IsNullOrEmpty(param))
             {
                 context.Result = new BadRequestObjectResult("Token not found");
@@ -42,20 +44,34 @@ namespace Bug.API.ActionFilter
                 }
                 else // success login
                 {
-                    var user = await accountService
+                    var user1 = await accountService
                         .CheckPermissionsOfRolesOfAccount(result.Id, Permission, ProjectId);
-                    switch (Permission)
+                    if(user1 == null)
                     {
-                        case Bts.GetDetailProject:
-                            if (user == null)
-                            {
+                        switch (Permission)
+                        {
+                            case Bts.GetDetailProject:                    
                                 context.Result = new BadRequestObjectResult("Permission not allow");
                                 return;
-                            }
-                            break;
-                        default:
-                            break;
+                            case 2://edit issue
+                                var issueId = context.ActionArguments["id"].ToString();
+                                var issue = await issueService
+                                    .GetNormalIssueAsync(issueId);
+                                var project = await projectService
+                                    .GetNormalProjectAsync(ProjectId);
+                                if (issue.ReporterId != result.Id &&
+                                    issue.AssigneeId != result.Id &&
+                                    project.CreatorId != result.Id)
+                                {
+                                    context.Result = new BadRequestObjectResult("Permission not allow");
+                                    return;
+                                }
+                                break;
+                            default:
+                                break;
+                        }
                     }
+                    
                 }
             }
 

@@ -22,6 +22,15 @@ namespace Bug.API.Services
             _unitOfWork = uow;
         }
 
+        public async Task<Project> GetNormalProjectAsync
+            (string projectId,
+            CancellationToken cancellationToken = default)
+        {
+            return await _unitOfWork
+                .Project
+                .GetByIdAsync(projectId, cancellationToken);
+        }
+
         public async Task<Project> GetProjectsByCodeCreatorId
             (string creatorId,
             string code,
