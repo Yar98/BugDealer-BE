@@ -29,7 +29,7 @@ namespace Bug.API.Controllers
         public IActionResult Get()
         {
             var test = new AmazonS3Bts(_config).GeneratePreSignedURL(1);
-            return Ok(test);
+            return Ok(Bts.ConvertJson(test));
         }
 
         // GET api/<SeverityController>/5
