@@ -29,7 +29,7 @@ namespace Bug.Data.Repositories
                 .AsQueryable()
                 .Where(p => list.Contains(p.Id))
                 .ToListAsync(cancellationToken);
-            return result;
+            return result??new List<Status>();
         }
 
         public async Task<IReadOnlyList<Status>> GetDefaultStatusesNoTrackAsync

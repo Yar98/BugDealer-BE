@@ -144,11 +144,13 @@ namespace Bug.Entities.Model
         }
         public void UpdateCreatorId(string id)
         {
-            CreatorId = id;
+            if (!string.IsNullOrEmpty(id))
+                CreatorId = id;
         }
         public void UpdateDefaultAssigneeId(string id)
         {
-            DefaultAssigneeId = id;
+            if (!string.IsNullOrEmpty(id))
+                DefaultAssigneeId = id;
         }
         public void UpdateTemplateId(int id)
         {
@@ -156,7 +158,8 @@ namespace Bug.Entities.Model
         }
         public void UpdateDefaultStatusId(string id)
         {
-            DefaultStatusId = id;
+            if(!string.IsNullOrEmpty(id))
+                DefaultStatusId = id;
         }
         public void UpdateDefaultRoleId(int id)
         {
