@@ -19,6 +19,8 @@ namespace Bug.API.Dto
         public int? State { get; set; }
         public int? TemplateId { get; set; }
         public string DefaultAssigneeId { get; set; }
+        public string DefaultStatusId { get; set; }
+        public int? DefaultRoleId { get; set; }
         public string CreatorId { get; set; }
         public List<TagNormalDto> Tags { get; set; }
         public List<AccountNormalDto> Accounts { get; set; }

@@ -248,6 +248,10 @@ namespace Bug.API.Services
                 result.UpdateState(pro.State??0);
             if(pro.TemplateId != null)
                 result.UpdateTemplateId(pro.TemplateId??0);
+            if (pro.DefaultRoleId != null)
+                result.UpdateDefaultRoleId(pro.DefaultRoleId ?? 1);
+            if (pro.DefaultStatusId != null)
+                result.UpdateDefaultStatusId(pro.DefaultStatusId);
 
             // update db
             _unitOfWork.Save();
