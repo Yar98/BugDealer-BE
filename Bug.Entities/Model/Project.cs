@@ -26,7 +26,7 @@ namespace Bug.Entities.Model
         public Status DefaultStatus { get; private set; }
         public string CreatorId { get; private set; }
         public Account Creator { get; private set; }
-        public int TemplateId { get; private set; }
+        public int? TemplateId { get; private set; }
         public Template Template { get; private set; }
 
         
@@ -97,9 +97,9 @@ namespace Bug.Entities.Model
             string uri,
             string defaultAssigneeId,
             string defaultStatusId,
-            int defaultRoleId,
+            int? defaultRoleId,
             string creatorId,
-            int templateId,
+            int? templateId,
             int tagId)
         {
             Id = id;
