@@ -210,5 +210,10 @@ namespace Bug.Entities.Model
             if (result != null && result.Any())
                 _toRelations = result;
         }
+
+        public void UpdateStatus(Status st)
+        {
+            Status = st;
+        }
     }
 }

@@ -9,11 +9,6 @@ namespace Bug.Data.Specifications
 {
     public class ProjectsByStateCreatorIdSpecification : BaseSpecification<Project>
     {
-        public ProjectsByStateCreatorIdSpecification(string accountId)
-            : base(p=>p.CreatorId == accountId)
-        {
-            AddInclude(p => p.Issues.SelectMany(i => i.Tags));
-        }
         public ProjectsByStateCreatorIdSpecification
             (string accountId,
             int state)
@@ -23,12 +18,12 @@ namespace Bug.Data.Specifications
             AddInclude(p => p.Creator);
             AddInclude(p => p.Template);
             AddInclude(p => p.DefaultAssignee);
-            AddInclude(p => p.Roles);
-            AddInclude(p => p.Issues);
-            AddInclude(p => p.Statuses);
-            AddInclude(a => a.AccountProjectRoles);
-            AddInclude("Issues.Tags");
-            AddInclude("Issues.Status");
+            //AddInclude(p => p.Roles);
+            //AddInclude(p => p.Issues);
+            //AddInclude(p => p.Statuses);
+            //AddInclude(a => a.AccountProjectRoles);
+            //AddInclude("Issues.Tags");
+            //AddInclude("Issues.Status");
         }
     }
 }

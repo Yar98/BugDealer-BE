@@ -25,7 +25,8 @@ namespace UnitTests.Builders
         public int TestStatus = 1;
         public TestProjectBuilder()
         {
-            _project = new Project(TestId,TestName,TestCode,TestStartDate,TestEndDate,
+            var id = Guid.NewGuid().ToString();
+            _project = new Project(id,TestName,TestCode,TestStartDate,TestEndDate,
                 TestRecentDate,TestDescription,TestUri,TestDefaultAssigneeId,
                 TestCreatorId,TestTemplateId,TestStatus);
         }

@@ -31,6 +31,17 @@ namespace UnitTests.ApplicationCore.Entities.ProjectTests
             Assert.Equal(_testCreatorId, result.CreatorId);
         }
 
-        
+        [Fact]
+        public void NotAddRoleIfExist()
+        {
+            var project = new TestProjectBuilder().Build();
+            var role = new Role(1, _testName, _testDescription, _testCreatorId);
+            project.AddExistRole(role);
+            project.AddExistRole(role);
+
+            Assert.Equal(1, project.Roles.Count);
+        }
+
+
     }
 }

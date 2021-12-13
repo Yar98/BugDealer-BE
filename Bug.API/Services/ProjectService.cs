@@ -65,7 +65,7 @@ namespace Bug.API.Services
             CancellationToken cancellationToken = default)
         {
             var specificationResult =
-                new ProjectsBySearchWhichMemberIdJoin(accountId, search);
+                new ProjectsBySearchWhichMemberIdJoinSpecification(accountId, search);
             var result = await _unitOfWork
                 .Project
                 .GetPaginatedNoTrackBySpecAsync(pageIndex, pageSize, sortOrder, specificationResult, cancellationToken);
