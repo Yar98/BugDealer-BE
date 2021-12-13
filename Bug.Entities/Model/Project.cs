@@ -160,6 +160,11 @@ namespace Bug.Entities.Model
             _roles = r;
         }
 
+        public void UpdateTemplate(Template t)
+        {
+            Template = t;
+        }
+
         public void AddExistRole(Role r)
         {
             if(!Roles.Any(i=>i.Id == r.Id))
@@ -187,6 +192,12 @@ namespace Bug.Entities.Model
             {
                 _statuses.AddRange(statuses);
             }
+        }
+
+        public void UpdateIssues(List<Issue> li)
+        {
+            _issues.Clear();
+            _issues.AddRange(li);
         }
 
     }

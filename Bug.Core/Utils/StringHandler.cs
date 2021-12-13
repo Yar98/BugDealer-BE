@@ -23,6 +23,7 @@ namespace Bug.Core.Utils
             return regex.IsMatch(username);
         }
 
+        //valid last name and first name
         public static bool ValidName(string name)
         {
             var regex =

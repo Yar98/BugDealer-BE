@@ -12,19 +12,18 @@ namespace Bug.Data.Specifications
         public ProjectsByStateWhichMemberIdJoinSpecification
             (string memberId,
             int state)
-            : base(p => p.Id != null && 
-            p.AccountProjectRoles.AsQueryable().Any(apr=>apr.AccountId == memberId) &&
-            p.State == state)
+            : base(p => p.State == state && 
+            p.AccountProjectRoles.AsQueryable().Any(apr=>apr.AccountId == memberId))
         {
             AddInclude(p => p.Creator);
             AddInclude(p => p.DefaultAssignee);
             AddInclude(p => p.Template);
-            AddInclude(p => p.Roles);
-            AddInclude(p => p.Statuses);
-            AddInclude(p => p.Issues);
-            AddInclude(p => p.AccountProjectRoles);
-            AddInclude("Issues.Tags");
-            AddInclude("Issues.Status");            
+            //AddInclude(p => p.Roles);
+            //AddInclude(p => p.Statuses);
+            //AddInclude(p => p.Issues);
+            //AddInclude(p => p.AccountProjectRoles);
+            //AddInclude("Issues.Tags");
+            //AddInclude("Issues.Status");            
         }
     }
     
