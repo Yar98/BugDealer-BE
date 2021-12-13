@@ -9,8 +9,9 @@ namespace Bug.Data.Specifications
 {
     public class ProjectsBySearchWhichMemberIdJoinSpecification : BaseSpecification<Project>
     {
-        public ProjectsBySearchWhichMemberIdJoinSpecification(string memberId, string search)
+        public ProjectsBySearchWhichMemberIdJoinSpecification(string memberId, int state, string search)
             :base(p=>p.AccountProjectRoles.AsQueryable().Any(apr=>apr.AccountId == memberId) &&
+            p.State == state &&
             (p.Name.Contains(search) || p.Description.Contains(search) || p.Code.Contains(search) || p.Template.Name.Contains(search)))
         {
             AddInclude(p => p.Creator);

@@ -23,6 +23,7 @@ namespace Bug.API.Services
             CancellationToken cancellationToken = default);
         Task<PaginatedListDto<Project>> GetPaginatedByMemberIdSearchAsync
             (string accountId,
+            int state,
             string search,
             int pageIndex,
             int pageSize,
