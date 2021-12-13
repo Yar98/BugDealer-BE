@@ -58,6 +58,7 @@ namespace Bug.API.Services
 
         public async Task<PaginatedListDto<Project>> GetPaginatedByMemberIdSearchAsync
             (string accountId,
+            int state,
             string search,
             int pageIndex,
             int pageSize,
@@ -65,7 +66,7 @@ namespace Bug.API.Services
             CancellationToken cancellationToken = default)
         {
             var specificationResult =
-                new ProjectsBySearchWhichMemberIdJoinSpecification(accountId, search);
+                new ProjectsBySearchWhichMemberIdJoinSpecification(accountId, state, search);
             var result = await _unitOfWork
                 .Project
                 .GetPaginatedNoTrackBySpecAsync(pageIndex, pageSize, sortOrder, specificationResult, cancellationToken);

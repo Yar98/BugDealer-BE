@@ -43,16 +43,17 @@ namespace Bug.API.Controllers
             return Ok(Bts.ConvertJson(result));
         }
 
-        [HttpGet("search/paging/member/{memberId}/{pageIndex:int}/{pageSize:int}/{sortOrder}")]
+        [HttpGet("search/paging/member/{memberId}/{state:int}/{pageIndex:int}/{pageSize:int}/{sortOrder}")]
         public async Task<IActionResult> GetPaginatedByMemberIdSearch
             (string memberId,
+            int state,
             string search,
             int pageIndex,
             int pageSize,
             string sortOrder)
         {
             var result = await _projectService
-                .GetPaginatedByMemberIdSearchAsync(memberId, search, pageIndex, pageSize, sortOrder);
+                .GetPaginatedByMemberIdSearchAsync(memberId, state, search, pageIndex, pageSize, sortOrder);
             return Ok(Bts.ConvertJson(result));
         }
 

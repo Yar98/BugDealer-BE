@@ -20,12 +20,13 @@ namespace UnitTests.ApplicationCore.Specifications
         public string TestTemplateName = "template-test";
         public string TestBadAccountId = "hahaha";
         public string TestBadSearch = "#@!@*#(*#)$";
+        public int TestState = 1;
 
         [Fact]
         public void NotMatchIfAccountIdNotExist()
         {
             var spec =
-                new ProjectsBySearchWhichMemberIdJoinSpecification(TestBadAccountId, "t");
+                new ProjectsBySearchWhichMemberIdJoinSpecification(TestBadAccountId, TestState, "t");
             var result = GetTestListProjects()
                 .AsQueryable()
                 .Specify(spec)
@@ -38,7 +39,7 @@ namespace UnitTests.ApplicationCore.Specifications
         public void NotMatchIfAccountIdAndCodeNotExist()
         {
             var spec =
-                new ProjectsBySearchWhichMemberIdJoinSpecification(TestBadAccountId, TestBadSearch);
+                new ProjectsBySearchWhichMemberIdJoinSpecification(TestBadAccountId, TestState, TestBadSearch);
             var result = GetTestListProjects()
                 .AsQueryable()
                 .Specify(spec)
@@ -51,7 +52,7 @@ namespace UnitTests.ApplicationCore.Specifications
         public void NotMatchIfCodeNotExist()
         {
             var spec =
-                new ProjectsBySearchWhichMemberIdJoinSpecification(TestAccountId, TestBadSearch);
+                new ProjectsBySearchWhichMemberIdJoinSpecification(TestAccountId, TestState, TestBadSearch);
             var result = GetTestListProjects()
                 .AsQueryable()
                 .Specify(spec)
@@ -64,7 +65,7 @@ namespace UnitTests.ApplicationCore.Specifications
         public void MatchIfAccountIdAndTemplateSearchExist()
         {
             var spec =
-                new ProjectsBySearchWhichMemberIdJoinSpecification(TestAccountId, "template-");
+                new ProjectsBySearchWhichMemberIdJoinSpecification(TestAccountId, TestState, "template-");
             var result = GetTestListProjects()
                 .AsQueryable()
                 .Specify(spec)
@@ -77,7 +78,7 @@ namespace UnitTests.ApplicationCore.Specifications
         public void MatchIfAccountIdAndNameSearchExist()
         {
             var spec =
-                new ProjectsBySearchWhichMemberIdJoinSpecification(TestAccountId, "name-");
+                new ProjectsBySearchWhichMemberIdJoinSpecification(TestAccountId, TestState, "name-");
             var result = GetTestListProjects()
                 .AsQueryable()
                 .Specify(spec)
@@ -90,7 +91,7 @@ namespace UnitTests.ApplicationCore.Specifications
         public void MatchIfAccountIdAndCodeSearchExist()
         {
             var spec =
-                new ProjectsBySearchWhichMemberIdJoinSpecification(TestAccountId, "code-");
+                new ProjectsBySearchWhichMemberIdJoinSpecification(TestAccountId, TestState, "code-");
             var result = GetTestListProjects()
                 .AsQueryable()
                 .Specify(spec)
@@ -103,7 +104,7 @@ namespace UnitTests.ApplicationCore.Specifications
         public void MatchIfAccountIdAndDescriptionSearchExist()
         {
             var spec =
-                new ProjectsBySearchWhichMemberIdJoinSpecification(TestAccountId, "description-");
+                new ProjectsBySearchWhichMemberIdJoinSpecification(TestAccountId, TestState, "description-");
             var result = GetTestListProjects()
                 .AsQueryable()
                 .Specify(spec)
@@ -116,7 +117,7 @@ namespace UnitTests.ApplicationCore.Specifications
         public void MatchIfAccountIdAndSearchExist()
         {
             var spec =
-                new ProjectsBySearchWhichMemberIdJoinSpecification(TestAccountId, "test");
+                new ProjectsBySearchWhichMemberIdJoinSpecification(TestAccountId, TestState, "test");
             var result = GetTestListProjects()
                 .AsQueryable()
                 .Specify(spec)
