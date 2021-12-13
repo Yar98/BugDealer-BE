@@ -298,17 +298,20 @@ namespace Bug.API.Services
             var defaultStatuses = await _unitOfWork
                 .Status
                 .GetDefaultStatusesAsync(cancellationToken: cancellationToken);
-            statuses?.AddRange(defaultStatuses);
+            statuses.AddRange(defaultStatuses);
 
             project?.UpdateDefaultStatusId(pro.DefaultStatusId);
             project?.UpdateStatuses(statuses);
 
-            Parallel.ForEach(pro.OldStatuses, st =>
+            if(pro.OldStatuses != null)
             {
-                var i = _unitOfWork.Issue.GetByIdAsync(st.FromId).Result;
-                i.UpdateStatusId(st.ToId);
-            });
-
+                Parallel.ForEach(pro.OldStatuses, st =>
+                {
+                    var i = _unitOfWork.Issue.GetByIdAsync(st.FromId).Result;
+                    i.UpdateStatusId(st.ToId);
+                });
+            }
+            
             _unitOfWork.Save(); 
         }
 
