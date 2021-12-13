@@ -57,7 +57,7 @@ namespace Bug.API.Services
            (string creatorId,
             string sortOrder,
            CancellationToken cancellationToken = default);
-        Task<IReadOnlyList<Status>> GetStatusesByProjectIdAsync
+        Task<IReadOnlyList<Status>> GetStatusesExceptBtsByProjectIdAsync
             (string projectId,
             string sortOrder,
             CancellationToken cancellationToken = default);

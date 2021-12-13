@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bug.Data.Migrations
 {
     [DbContext(typeof(BugContext))]
-    [Migration("20211212222530_Created-db")]
+    [Migration("20211213172514_Created-db")]
     partial class Createddb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -41,12 +41,12 @@ namespace Bug.Data.Migrations
                     b.Property<string>("WatchIssuesId")
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("WatcherId")
+                    b.Property<string>("WatchersId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("WatchIssuesId", "WatcherId");
+                    b.HasKey("WatchIssuesId", "WatchersId");
 
-                    b.HasIndex("WatcherId");
+                    b.HasIndex("WatchersId");
 
                     b.ToTable("WatcherIssue");
                 });
@@ -56,12 +56,12 @@ namespace Bug.Data.Migrations
                     b.Property<string>("VoteIssuesId")
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("VoterId")
+                    b.Property<string>("VotersId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("VoteIssuesId", "VoterId");
+                    b.HasKey("VoteIssuesId", "VotersId");
 
-                    b.HasIndex("VoterId");
+                    b.HasIndex("VotersId");
 
                     b.ToTable("VoterIssue");
                 });
@@ -309,9 +309,6 @@ namespace Bug.Data.Migrations
                     b.Property<DateTimeOffset?>("WorklogDate")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<int?>("WorklogId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("AssigneeId");
@@ -325,8 +322,6 @@ namespace Bug.Data.Migrations
                     b.HasIndex("SeverityId");
 
                     b.HasIndex("StatusId");
-
-                    b.HasIndex("WorklogId");
 
                     b.ToTable("Issue");
                 });
@@ -696,6 +691,9 @@ namespace Bug.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("IssueId")
+                        .HasColumnType("nvarchar(100)");
+
                     b.Property<DateTimeOffset>("LogDate")
                         .HasColumnType("datetimeoffset");
 
@@ -710,6 +708,8 @@ namespace Bug.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("IssueId");
 
                     b.HasIndex("LoggerId");
 
@@ -816,7 +816,7 @@ namespace Bug.Data.Migrations
 
                     b.HasOne("Bug.Entities.Model.Account", null)
                         .WithMany()
-                        .HasForeignKey("WatcherId")
+                        .HasForeignKey("WatchersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -831,7 +831,7 @@ namespace Bug.Data.Migrations
 
                     b.HasOne("Bug.Entities.Model.Account", null)
                         .WithMany()
-                        .HasForeignKey("VoterId")
+                        .HasForeignKey("VotersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -937,10 +937,6 @@ namespace Bug.Data.Migrations
                         .WithMany()
                         .HasForeignKey("StatusId");
 
-                    b.HasOne("Bug.Entities.Model.Worklog", "Worklog")
-                        .WithMany()
-                        .HasForeignKey("WorklogId");
-
                     b.Navigation("Assignee");
 
                     b.Navigation("Priority");
@@ -952,8 +948,6 @@ namespace Bug.Data.Migrations
                     b.Navigation("Severity");
 
                     b.Navigation("Status");
-
-                    b.Navigation("Worklog");
                 });
 
             modelBuilder.Entity("Bug.Entities.Model.Issuelog", b =>
@@ -1126,9 +1120,15 @@ namespace Bug.Data.Migrations
 
             modelBuilder.Entity("Bug.Entities.Model.Worklog", b =>
                 {
+                    b.HasOne("Bug.Entities.Model.Issue", "Issue")
+                        .WithMany()
+                        .HasForeignKey("IssueId");
+
                     b.HasOne("Bug.Entities.Model.Account", "Logger")
                         .WithMany()
                         .HasForeignKey("LoggerId");
+
+                    b.Navigation("Issue");
 
                     b.Navigation("Logger");
                 });

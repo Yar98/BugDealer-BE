@@ -109,9 +109,9 @@ namespace Bug.Data
         {
             return new List<Project>()
             {
-                new Project("project1","name1","code1",DateTime.Now,DateTime.Now,DateTime.Now,"des1",null,null,"account1",1,1),
-                new Project("project2","name2","code2",DateTime.Now,DateTime.Now,DateTime.Now,"des2",null,null,"account2",1,1),
-                new Project("project3","name3","code3",DateTime.Now,DateTime.Now,DateTime.Now,"des3",null,null,"account3",1,1)
+                new Project("project1","name1","code1",DateTime.Now,DateTime.Now,DateTime.Now,"des1",null,null,"defaultStatus1",1,"account1",1,1),
+                new Project("project2","name2","code2",DateTime.Now,DateTime.Now,DateTime.Now,"des2",null,null,"defaultStatus1",1,"account2",1,1),
+                new Project("project3","name3","code3",DateTime.Now,DateTime.Now,DateTime.Now,"des3",null,null,"defaultStatus1",1,"account3",1,1)
             };
         }
         static IEnumerable<Account> GetPreconfiguredAccount()
@@ -128,7 +128,7 @@ namespace Bug.Data
         {
             return new List<Issue>()
             {
-                new Issue("issue1","title1",0,"des1",DateTime.Now,DateTime.Now,DateTime.Now,DateTime.Now,null,null,"environment1","defaultStatus1",1,null,"project1","account1","account1",null)
+                new Issue("issue1","title1",0,"des1",DateTime.Now,DateTime.Now,DateTime.Now,DateTime.Now,null,null,"environment1","defaultStatus1",1,null,"project1","account1","account1")
             };
         }
         static IEnumerable<Tag> GetPreconfiguredTag()

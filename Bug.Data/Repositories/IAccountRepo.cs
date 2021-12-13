@@ -26,7 +26,7 @@ namespace Bug.Data.Repositories
             string clientId,
             string code,
             CancellationToken cancellationToken = default);
-        Task ForgotPassword
+        Task ForgotPasswordAsync
             (string email,
             CancellationToken cancellationToken = default);
         Task ConfirmForgotPassword

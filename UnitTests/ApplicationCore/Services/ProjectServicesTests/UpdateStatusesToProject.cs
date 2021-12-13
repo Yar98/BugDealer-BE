@@ -39,7 +39,7 @@ namespace UnitTests.ApplicationCore.Services.ProjectServicesTests
                 .Setup(mock => mock.Project.Update(It.IsAny<Project>()));
             
             var projectService = new ProjectService(_mockRepo.Object);
-            await projectService.UpdateStatusesOfProjectAsync(new TestProjectBuilder().BuildPutDto(), default);
+            await projectService.UpdateStatusesOfProjectAsync(It.IsAny<ProjectPutStatusesDto>(), default);
 
             _mockRepo.Verify(mock => mock.Save(), Times.Once);
         }

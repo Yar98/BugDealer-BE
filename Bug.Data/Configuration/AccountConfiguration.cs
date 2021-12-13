@@ -19,11 +19,11 @@ namespace Bug.Data.Configuration
                 .IsRequired();
             builder
                 .HasMany(a => a.WatchIssues)
-                .WithMany(i => i.Watcher)              
+                .WithMany(i => i.Watchers)              
                 .UsingEntity(w => w.ToTable("WatcherIssue"));
             builder
                 .HasMany(a => a.VoteIssues)
-                .WithMany(i => i.Voter)
+                .WithMany(i => i.Voters)
                 .UsingEntity(v => v.ToTable("VoterIssue"));
             builder
                 .HasMany(a => a.RelateProjects)

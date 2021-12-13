@@ -21,7 +21,7 @@ namespace Bug.Data.Specifications
             //AddInclude(a => a.AccountProjectRoles);
             //AddInclude("AccountProjectRoles.Project");
             //AddInclude("Issues.Tags");
-            //AddInclude("Issues.Status");
+            //AddInclude("Issues.State");
         }
     }
 }

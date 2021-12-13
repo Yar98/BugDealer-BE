@@ -59,7 +59,7 @@ namespace Bug.API.Controllers
         public async Task<IActionResult> SendForgotPassEmail(string email)
         {
             await _accountService
-                .ForgotPassword(email);
+                .ForgotPasswordAsync(email);
             return Ok();
         }
 

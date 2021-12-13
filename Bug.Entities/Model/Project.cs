@@ -96,6 +96,8 @@ namespace Bug.Entities.Model
             string description,
             string uri,
             string defaultAssigneeId,
+            string defaultStatusId,
+            int defaultRoleId,
             string creatorId,
             int templateId,
             int tagId)
@@ -112,6 +114,8 @@ namespace Bug.Entities.Model
             CreatorId = creatorId;
             TemplateId = templateId;
             State = tagId;
+            DefaultStatusId = defaultStatusId;
+            DefaultRoleId = defaultRoleId;
         }
 
         public void UpdateName(string name)
@@ -149,6 +153,14 @@ namespace Bug.Entities.Model
         public void UpdateTemplateId(int id)
         {
             TemplateId = id;
+        }
+        public void UpdateDefaultStatusId(string id)
+        {
+            DefaultStatusId = id;
+        }
+        public void UpdateDefaultRoleId(int id)
+        {
+            DefaultRoleId = id;
         }
         public void UpdateState(int id)
         {

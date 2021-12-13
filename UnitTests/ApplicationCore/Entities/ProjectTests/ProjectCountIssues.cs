@@ -64,10 +64,10 @@ namespace UnitTests.ApplicationCore.Entities.ProjectTests
 
         private List<Issue> GetTestListIssues()
         {
-            var issue1 = new Issue("issue1", "title1", 0, "des1", DateTime.Now, DateTime.Now, DateTime.Now, DateTime.Now, null, null, "environment1", "defaultStatus1", 1, null, "project1", "account1", "account1", null);
-            var issue2 = new Issue("issue2", "title1", 0, "des1", DateTime.Now, DateTime.Now, DateTime.Now, DateTime.Now, null, null, "environment1", "defaultStatus1", 1, null, "project1", "account1", "account1", null);
-            var issue3 = new Issue("issue3", "title1", 0, "des1", DateTime.Now, DateTime.Now, DateTime.Now, DateTime.Now, null, null, "environment1", "defaultStatus1", 1, null, "project1", "account1", "account1", null);
-            var issue4 = new Issue("issue4", "title1", 0, "des1", DateTime.Now, DateTime.Now, DateTime.Now, DateTime.Now, null, null, "environment1", "defaultStatus1", 1, null, "project1", "account1", "account1", null);
+            var issue1 = new Issue("issue1", "title1", 0, "des1", DateTime.Now, DateTime.Now, DateTime.Now, DateTime.Now, null, null, "environment1", "defaultStatus1", 1, null, "project1", "account1", "account1");
+            var issue2 = new Issue("issue2", "title1", 0, "des1", DateTime.Now, DateTime.Now, DateTime.Now, DateTime.Now, null, null, "environment1", "defaultStatus1", 1, null, "project1", "account1", "account1");
+            var issue3 = new Issue("issue3", "title1", 0, "des1", DateTime.Now, DateTime.Now, DateTime.Now, DateTime.Now, null, null, "environment1", "defaultStatus1", 1, null, "project1", "account1", "account1");
+            var issue4 = new Issue("issue4", "title1", 0, "des1", DateTime.Now, DateTime.Now, DateTime.Now, DateTime.Now, null, null, "environment1", "defaultStatus1", 1, null, "project1", "account1", "account1");
 
             issue1.UpdateStatus(new Status(null, null, null, 0, null, TestOpenTagId));
             issue2.UpdateStatus(new Status(null, null, null, 0, null, TestInProgressTagId));

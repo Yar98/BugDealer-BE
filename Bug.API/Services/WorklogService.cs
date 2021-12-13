@@ -32,16 +32,10 @@ namespace Bug.API.Services
             WorklogPostDto worklog,
             CancellationToken cancellationToken = default)
         {
-            var specificationResult =
-                new IssueSpecification(issueId);
-            var result = await _unitOfWork
-                .Issue
-                .GetEntityBySpecAsync(specificationResult, cancellationToken);
-            result.AddWorklog(worklog.SpentTime, worklog.RemainTime, worklog.LogDate, worklog.LoggerId);
-
-            _unitOfWork.Save();
-
-            return result.Worklog;
+            var result = new Worklog(0, worklog.SpentTime, worklog.RemainTime, worklog.LogDate, issueId, worklog.LoggerId);
+            return await _unitOfWork
+                .Worklog
+                .AddAsync(result, cancellationToken);
         }
 
         public async Task UpdateWorklogAsync

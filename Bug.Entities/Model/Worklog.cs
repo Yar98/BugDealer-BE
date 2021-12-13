@@ -12,6 +12,8 @@ namespace Bug.Entities.Model
         public string SpentTime { get; private set; }
         public string RemainTime { get; private set; }
         public DateTimeOffset LogDate { get; private set; }
+        public string IssueId { get; private set; }
+        public Issue Issue { get; private set; }
         public string LoggerId { get; private set; }
         public Account Logger { get; private set; }
         private Worklog() { }
@@ -20,12 +22,14 @@ namespace Bug.Entities.Model
             string spentTime,
             string remainTime,
             DateTimeOffset logDate,
+            string issueId,
             string loggerId)
         {
             Id = id;
             SpentTime = spentTime;
             RemainTime = remainTime;
             LogDate = logDate;
+            IssueId = issueId;
             LoggerId = loggerId;
         }
 

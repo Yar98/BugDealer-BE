@@ -277,28 +277,6 @@ namespace Bug.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Worklog",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    SpentTime = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    RemainTime = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LogDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    LoggerId = table.Column<string>(type: "nvarchar(450)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Worklog", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Worklog_Account_LoggerId",
-                        column: x => x.LoggerId,
-                        principalTable: "Account",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "PermissionRole",
                 columns: table => new
                 {
@@ -428,8 +406,7 @@ namespace Bug.Data.Migrations
                     PriorityId = table.Column<int>(type: "int", nullable: true),
                     ProjectId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     ReporterId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    AssigneeId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    WorklogId = table.Column<int>(type: "int", nullable: true)
+                    AssigneeId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -468,12 +445,6 @@ namespace Bug.Data.Migrations
                         name: "FK_Issue_Status_StatusId",
                         column: x => x.StatusId,
                         principalTable: "Status",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Issue_Worklog_WorklogId",
-                        column: x => x.WorklogId,
-                        principalTable: "Worklog",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -724,14 +695,14 @@ namespace Bug.Data.Migrations
                 columns: table => new
                 {
                     VoteIssuesId = table.Column<string>(type: "nvarchar(100)", nullable: false),
-                    VoterId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    VotersId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_VoterIssue", x => new { x.VoteIssuesId, x.VoterId });
+                    table.PrimaryKey("PK_VoterIssue", x => new { x.VoteIssuesId, x.VotersId });
                     table.ForeignKey(
-                        name: "FK_VoterIssue_Account_VoterId",
-                        column: x => x.VoterId,
+                        name: "FK_VoterIssue_Account_VotersId",
+                        column: x => x.VotersId,
                         principalTable: "Account",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -748,14 +719,14 @@ namespace Bug.Data.Migrations
                 columns: table => new
                 {
                     WatchIssuesId = table.Column<string>(type: "nvarchar(100)", nullable: false),
-                    WatcherId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    WatchersId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_WatcherIssue", x => new { x.WatchIssuesId, x.WatcherId });
+                    table.PrimaryKey("PK_WatcherIssue", x => new { x.WatchIssuesId, x.WatchersId });
                     table.ForeignKey(
-                        name: "FK_WatcherIssue_Account_WatcherId",
-                        column: x => x.WatcherId,
+                        name: "FK_WatcherIssue_Account_WatchersId",
+                        column: x => x.WatchersId,
                         principalTable: "Account",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -765,6 +736,35 @@ namespace Bug.Data.Migrations
                         principalTable: "Issue",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Worklog",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SpentTime = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    RemainTime = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LogDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    IssueId = table.Column<string>(type: "nvarchar(100)", nullable: true),
+                    LoggerId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Worklog", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Worklog_Account_LoggerId",
+                        column: x => x.LoggerId,
+                        principalTable: "Account",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Worklog_Issue_IssueId",
+                        column: x => x.IssueId,
+                        principalTable: "Issue",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -863,11 +863,6 @@ namespace Bug.Data.Migrations
                 name: "IX_Issue_StatusId",
                 table: "Issue",
                 column: "StatusId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Issue_WorklogId",
-                table: "Issue",
-                column: "WorklogId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Issuelog_IssueId",
@@ -1005,14 +1000,19 @@ namespace Bug.Data.Migrations
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_VoterIssue_VoterId",
+                name: "IX_VoterIssue_VotersId",
                 table: "VoterIssue",
-                column: "VoterId");
+                column: "VotersId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_WatcherIssue_WatcherId",
+                name: "IX_WatcherIssue_WatchersId",
                 table: "WatcherIssue",
-                column: "WatcherId");
+                column: "WatchersId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Worklog_IssueId",
+                table: "Worklog",
+                column: "IssueId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Worklog_LoggerId",
@@ -1065,6 +1065,9 @@ namespace Bug.Data.Migrations
                 name: "WatcherIssue");
 
             migrationBuilder.DropTable(
+                name: "Worklog");
+
+            migrationBuilder.DropTable(
                 name: "Customtype");
 
             migrationBuilder.DropTable(
@@ -1087,9 +1090,6 @@ namespace Bug.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Severity");
-
-            migrationBuilder.DropTable(
-                name: "Worklog");
 
             migrationBuilder.DropTable(
                 name: "Role");

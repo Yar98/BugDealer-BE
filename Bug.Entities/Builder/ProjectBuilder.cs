@@ -19,12 +19,26 @@ namespace Bug.Entities.Builder
         public string AvatarUri { get; private set; }
         public string DefaultAssigneeId { get; private set; }
         public string CreatorId { get; private set; }
-        public int Status { get; private set; }
+        public int State { get; private set; }
         public int TemplateId { get; private set; }
+        public string DefaultStatusId { get; private set; }
+        public int DefaultRoleId { get; private set; }
 
-        public IProjectBuilder AddStatus()
+        public IProjectBuilder AddDefaultRoleId(int id)
         {
-            Status = 1;
+            DefaultRoleId = id;
+            return this;
+        }
+
+        public IProjectBuilder AddDefaultStatusId(string id)
+        {
+            DefaultStatusId = id;
+            return this;
+        }
+
+        public IProjectBuilder AddState()
+        {
+            State = 1;
             return this;
         }
         public IProjectBuilder AddTemplateId(int id)
@@ -94,7 +108,7 @@ namespace Bug.Entities.Builder
 
         public Project Build()
         {
-            return new Project(Id, Name, Code, StartDate, EndDate, RecentDate, Description, AvatarUri, DefaultAssigneeId, CreatorId, TemplateId, Status);
+            return new Project(Id, Name, Code, StartDate, EndDate, RecentDate, Description, AvatarUri, DefaultAssigneeId, DefaultStatusId, DefaultRoleId, CreatorId, TemplateId, State);
         }
     }
 }
