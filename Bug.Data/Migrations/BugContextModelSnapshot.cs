@@ -490,7 +490,7 @@ namespace Bug.Data.Migrations
                     b.Property<int>("Temp")
                         .HasColumnType("int");
 
-                    b.Property<int>("TemplateId")
+                    b.Property<int?>("TemplateId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -1041,9 +1041,7 @@ namespace Bug.Data.Migrations
 
                     b.HasOne("Bug.Entities.Model.Template", "Template")
                         .WithMany()
-                        .HasForeignKey("TemplateId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("TemplateId");
 
                     b.Navigation("Creator");
 

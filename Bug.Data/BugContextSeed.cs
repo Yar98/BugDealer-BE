@@ -109,9 +109,9 @@ namespace Bug.Data
         {
             return new List<Project>()
             {
-                new Project("project1","name1","code1",DateTime.Now,DateTime.Now,DateTime.Now,"des1",null,null,"defaultStatus1",1,"account1",1,1),
-                new Project("project2","name2","code2",DateTime.Now,DateTime.Now,DateTime.Now,"des2",null,null,"defaultStatus1",1,"account2",1,1),
-                new Project("project3","name3","code3",DateTime.Now,DateTime.Now,DateTime.Now,"des3",null,null,"defaultStatus1",1,"account3",1,1)
+                new Project("project1","name1","code1",DateTime.Now,DateTime.Now,DateTime.Now,"des1",null,null,null,null,"account1",null,1),
+                new Project("project2","name2","code2",DateTime.Now,DateTime.Now,DateTime.Now,"des2",null,null,null,null,"account2",null,1),
+                new Project("project3","name3","code3",DateTime.Now,DateTime.Now,DateTime.Now,"des3",null,null,null,null,"account3",null,1)
             };
         }
         static IEnumerable<Account> GetPreconfiguredAccount()

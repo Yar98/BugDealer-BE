@@ -318,7 +318,7 @@ namespace Bug.Data.Migrations
                     DefaultRoleId = table.Column<int>(type: "int", nullable: true),
                     DefaultStatusId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     CreatorId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    TemplateId = table.Column<int>(type: "int", nullable: false)
+                    TemplateId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -352,7 +352,7 @@ namespace Bug.Data.Migrations
                         column: x => x.TemplateId,
                         principalTable: "Template",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
