@@ -23,17 +23,19 @@ namespace UnitTests.ApplicationCore.Validation
 
             var result = new JwtUtils().ValidateToken(token);
 
-            Assert.True(result is AccountBtsJwtDto);
+            Assert.True(result != null);
         }
 
         [Fact]
-        public void NotValidToken()
+        public void ShowRightDescirption()
         {
             var token = new JwtUtils().GenerateToken(TestId, TestName, TestEmail);
 
             var result = new JwtUtils().ValidateToken(token);
 
-            Assert.False(result is AccountBtsJwtDto);
+            Assert.Equal(TestId, result.Id);
+            Assert.Equal(TestName, result.Name);
+            Assert.Equal(TestEmail, result.Email);
         }
     }
 }

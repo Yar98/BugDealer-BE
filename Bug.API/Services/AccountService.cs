@@ -275,13 +275,13 @@ namespace Bug.API.Services
             }            
         }
 
-        public async Task ForgotPassword
+        public async Task ForgotPasswordAsync
             (string email,
             CancellationToken cancellationToken = default)
         {
             await _unitOfWork
                .Account
-               .ForgotPassword(email, cancellationToken);
+               .ForgotPasswordAsync(email, cancellationToken);
         }
 
         public async Task ConfirmForgotPassword

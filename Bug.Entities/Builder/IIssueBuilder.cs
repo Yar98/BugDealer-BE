@@ -25,7 +25,6 @@ namespace Bug.Entities.Builder
         IIssueBuilder AddProjectId(string s);
         IIssueBuilder AddReporterId(string s);
         IIssueBuilder AddAssigneeId(string s);
-        IIssueBuilder AddWorklogId(int? i);
         IIssueBuilder AddSeverityId(int? i);
         Issue Build();
     }

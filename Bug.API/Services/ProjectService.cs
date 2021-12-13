@@ -190,8 +190,10 @@ namespace Bug.API.Services
                 .AddDescription(pro.Description)
                 .AddAvatarUri(pro.AvatarUri)
                 .AddCreatorId(pro.CreatorId)
-                .AddStatus()
+                .AddState()
                 .AddTemplateId(pro.TemplateId??1)
+                .AddDefaultRoleId(1)
+                .AddDefaultStatusId("defaultStatus1")
                 .Build();
             // add creator as member to project
             result
@@ -245,8 +247,8 @@ namespace Bug.API.Services
                 result.UpdateState(pro.State??0);
             if(pro.TemplateId != null)
                 result.UpdateTemplateId(pro.TemplateId??0);
+
             // update db
-            _unitOfWork.Project.Update(result);
             _unitOfWork.Save();
         }
 
@@ -266,8 +268,9 @@ namespace Bug.API.Services
                 .Role
                 .GetDefaultRolesAsync(cancellationToken:cancellationToken);           
             roles?.AddRange(defaultRoles);
-            project?.UpdateRoles(roles);
 
+            project?.UpdateDefaultRoleId(pro.DefaultRole.Id);
+            project?.UpdateRoles(roles);
             _unitOfWork.Project.Update(project);
             _unitOfWork.Save();
 
@@ -275,7 +278,7 @@ namespace Bug.API.Services
         }
 
         public async Task UpdateStatusesOfProjectAsync
-            (ProjectPutDto pro,
+            (ProjectPutStatusesDto pro,
             CancellationToken cancellationToken = default)
         {
             var project = await _unitOfWork
@@ -291,8 +294,15 @@ namespace Bug.API.Services
                 .Status
                 .GetDefaultStatusesAsync(cancellationToken: cancellationToken);
             statuses?.AddRange(defaultStatuses);
+
+            project?.UpdateDefaultStatusId(pro.DefaultStatusId);
             project?.UpdateStatuses(statuses);
-            _unitOfWork.Project.Update(project);
+
+            Parallel.ForEach(pro.OldStatuses, st =>
+            {
+                var i = _unitOfWork.Issue.GetByIdAsync(st.FromId).Result;
+                i.UpdateStatusId(st.ToId);
+            });
 
             _unitOfWork.Save(); 
         }

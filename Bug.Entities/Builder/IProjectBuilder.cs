@@ -19,8 +19,10 @@ namespace Bug.Entities.Builder
         IProjectBuilder AddAvatarUri(string url);
         IProjectBuilder AddDefaultAssigneeId(string id);
         IProjectBuilder AddCreatorId(string id);
-        IProjectBuilder AddStatus();
+        IProjectBuilder AddState();
         IProjectBuilder AddTemplateId(int id);
+        IProjectBuilder AddDefaultStatusId(string id);
+        IProjectBuilder AddDefaultRoleId(int id);
         Project Build();
     }
 }

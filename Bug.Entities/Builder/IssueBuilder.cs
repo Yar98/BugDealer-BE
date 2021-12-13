@@ -25,18 +25,11 @@ namespace Bug.Entities.Builder
         public string ProjectId { get; private set; }
         public string ReporterId { get; private set; }
         public string AssigneeId { get; private set; }
-        public int? WorklogId { get; private set; }
         public int? SeverityId { get; private set; }
 
         public IIssueBuilder AddSeverityId(int? i)
         {
             SeverityId = i;
-            return this;
-        }
-
-        public IIssueBuilder AddWorklogId(int? w)
-        {
-            WorklogId = w;
             return this;
         }
 
@@ -155,8 +148,7 @@ namespace Bug.Entities.Builder
                 SeverityId,
                 ProjectId,
                 ReporterId,
-                AssigneeId,
-                WorklogId);
+                AssigneeId);
         }
     }
 }

@@ -66,7 +66,7 @@ namespace Bug.API.Services
             (ProjectPutDto pro,
             CancellationToken cancellationToken = default);        
         Task UpdateStatusesOfProjectAsync
-            (ProjectPutDto pro,
+            (ProjectPutStatusesDto pro,
             CancellationToken cancellationToken = default);
         Task AddMemberToProjectAsync
             (string memberId,

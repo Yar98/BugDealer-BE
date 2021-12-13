@@ -40,6 +40,40 @@ namespace Bug.API.Services
                 .GetEntityBySpecAsync(specificationResult, cancellationToken);
         }
 
+        public async Task<PaginatedListDto<Issue>> GetPaginatedByRelateUserAsync
+            (string accountId,
+            int pageIndex,
+            int pageSize,
+            string sortOrder,
+            CancellationToken cancellationToken = default)
+        {
+            var specificationResult =
+                new IssuesByRelateUserSpecification(accountId);
+            var result = await _unitOfWork
+                .Issue
+                .GetPaginatedBySpecAsync(pageIndex, pageSize, sortOrder, specificationResult, cancellationToken);
+            return new PaginatedListDto<Issue>
+            {
+                Length = result.Length,
+                Items = result
+            };
+        }
+
+        public async Task<IReadOnlyList<Issue>> GetNextByOffsetByRelateUserAsync
+            (string accountId,
+            int offset,
+            int next,
+            string sortOrder,
+            CancellationToken cancellationToken = default)
+        {
+            var specificationResult =
+                new IssuesByRelateUserSpecification(accountId);
+            var result = await _unitOfWork
+                .Issue
+                .GetNextByOffsetBySpecAsync(offset, next, sortOrder, specificationResult, cancellationToken);
+            return result;
+        }
+
         public async Task<PaginatedListDto<Issue>> GetPaginatedDetailByProjectIdAsync
             (string projectId,
             int pageIndex,

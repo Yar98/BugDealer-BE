@@ -36,6 +36,30 @@ namespace Bug.API.Controllers
             return Ok(Bts.ConvertJson(result));
         }
 
+        [HttpGet("paging/relate-user/{accountId}/{pageIndex:int}/{pageSize:int}/{sortOrder}")]
+        public async Task<IActionResult> GetPaginatedIssuesByRelateUser
+            (string accountId,
+            int pageIndex,
+            int pageSize,
+            string sortOrder)
+        {
+            var result = await _issueService
+                .GetPaginatedByRelateUserAsync(accountId, pageIndex, pageSize, sortOrder);
+            return Ok(Bts.ConvertJson(result));
+        }
+
+        [HttpGet("offset/relate-user/{accountId}/{offset:int}/{next:int}/{sortOrder}")]
+        public async Task<IActionResult> GetNextByOffsetIssuesByRelateUser
+            (string accountId,
+            int offset,
+            int next,
+            string sortOrder)
+        {
+            var result = await _issueService
+                .GetNextByOffsetByRelateUserAsync(accountId, offset, next, sortOrder);
+            return Ok(Bts.ConvertJson(result));
+        }
+
         [HttpGet("paging/project/{projectId}/{pageIndex:int}/{pageSize:int}/{sortOrder}")]
         public async Task<IActionResult> GetPaginatedIssuesByProject
             (string projectId,

@@ -10,7 +10,7 @@ namespace Bug.API.Services
 {
     public interface IAccountService
     {
-        Task ForgotPassword
+        Task ForgotPasswordAsync
             (string email,
             CancellationToken cancellationToken = default);
         Task ConfirmForgotPassword

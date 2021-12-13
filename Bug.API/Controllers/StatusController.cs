@@ -119,11 +119,11 @@ namespace Bug.API.Controllers
             return Ok(Bts.ConvertJson(result));
         }
 
-        [HttpGet("project/{projectId}/{sortOrder}")]
+        [HttpGet("except-bts/project/{projectId}/{sortOrder}")]
         public async Task<IActionResult> GetStatusesByProjectId(string projectId, string sortOrder)
         {
             var result = await _statusService
-                .GetStatusesByProjectIdAsync(projectId, sortOrder);
+                .GetStatusesExceptBtsByProjectIdAsync(projectId, sortOrder);
             return Ok(Bts.ConvertJson(result));
         }
 

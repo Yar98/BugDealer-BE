@@ -102,7 +102,7 @@ namespace Bug.Data.Repositories
             await provider.ConfirmSignUpAsync(confirmSignUpRequest, cancellationToken);
         }
 
-        public async Task ForgotPassword
+        public async Task ForgotPasswordAsync
             (string email,
             CancellationToken cancellationToken = default)
         {

@@ -34,11 +34,9 @@ namespace Bug.Entities.Model
         public Account Reporter { get; private set; }
         public string AssigneeId { get; private set; }
         public Account Assignee { get; private set; }
-        public int? WorklogId { get; private set; }
-        public Worklog Worklog { get; private set; }
 
-        public ICollection<Account> Watcher { get; private set; }
-        public ICollection<Account> Voter { get; private set; }
+        public ICollection<Account> Watchers { get; private set; }
+        public ICollection<Account> Voters { get; private set; }
 
         private List<Relation> _fromRelations = new();
         public ICollection<Relation> FromRelations => _fromRelations.AsReadOnly();
@@ -93,8 +91,7 @@ namespace Bug.Entities.Model
             int? severityId,
             string projectId,
             string reporterId,
-            string assigneeId,
-            int? worklogId)
+            string assigneeId)
         {
             Id = id;
             Title = title;
@@ -113,12 +110,6 @@ namespace Bug.Entities.Model
             ProjectId = projectId;
             ReporterId = reporterId;
             AssigneeId = assigneeId;
-            WorklogId = worklogId;
-        }
-
-        public void UpdateWorklogId(int i)
-        {
-            WorklogId = i;
         }
 
         public void UpdateProjectId(string id)
@@ -180,11 +171,6 @@ namespace Bug.Entities.Model
         public void UpdateSeverityId(int? id)
         {
             SeverityId = id;
-        }
-        
-        public void AddWorklog(string spentTime, string remainTime, DateTimeOffset logDate, string loggerId)
-        {
-            Worklog = new(0, spentTime, remainTime, logDate, loggerId);
         }
 
         public void UpdateAttachments(List<Attachment> result)

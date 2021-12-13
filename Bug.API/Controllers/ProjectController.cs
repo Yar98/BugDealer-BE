@@ -71,20 +71,6 @@ namespace Bug.API.Controllers
             return Ok(Bts.ConvertJson(result));
         }
 
-        [HttpGet("paging/member/{accountId}/{tagId:int}/{pageIndex:int}/{pageSize:int}/{sortOrder}")]
-        public async Task<IActionResult> GetPaginatedProjectsByMemberIdTagId
-            (string accountId,
-            int pageIndex,
-            int pageSize,
-            int tagId,
-            string sortOrder)
-        {
-            var result =
-                await _projectService.GetPaginatedByMemberIdTagIdAsync(
-                    accountId, pageIndex, pageSize, tagId, sortOrder);
-            return Ok(Bts.ConvertJson(result));
-        }
-
         // GET: api/Project/offset/1/account1/1/1/3/id
         [HttpGet("offset/creator/{accountId}/{tagId:int}/{offset:int}/{next:int}/{sortOrder}")]
         public async Task<IActionResult> GetNextProjectsByOffsetByCreatorIdTagId
@@ -97,6 +83,20 @@ namespace Bug.API.Controllers
             var result =
                 await _projectService.GetNextByOffsetByCreatorIdTagIdAsync(
                     accountId, offset, next, tagId, sortOrder);
+            return Ok(Bts.ConvertJson(result));
+        }
+
+        [HttpGet("paging/member/{accountId}/{tagId:int}/{pageIndex:int}/{pageSize:int}/{sortOrder}")]
+        public async Task<IActionResult> GetPaginatedProjectsByMemberIdTagId
+            (string accountId,
+            int pageIndex,
+            int pageSize,
+            int tagId,
+            string sortOrder)
+        {
+            var result =
+                await _projectService.GetPaginatedByMemberIdTagIdAsync(
+                    accountId, pageIndex, pageSize, tagId, sortOrder);
             return Ok(Bts.ConvertJson(result));
         }
 
@@ -154,7 +154,7 @@ namespace Bug.API.Controllers
         [HttpPut("{projectId}/updatestatuses")]
         public async Task<IActionResult> PutUpdateStatusesOfProject
             (string projectId,
-            [FromBody] ProjectPutDto pro)
+            [FromBody] ProjectPutStatusesDto pro)
         {
             if (projectId != pro.Id)
                 return BadRequest();

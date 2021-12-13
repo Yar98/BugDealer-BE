@@ -47,7 +47,7 @@ namespace UnitTests.ApplicationCore.Specifications
         private List<Project> GetTestListProjects()
         {
             var projectTest =
-                new Project(TestProjectId, "name1", "code1", DateTime.Now, DateTime.Now, DateTime.Now, "des1", null, null, "account1", 1, 1);
+                new Project(TestProjectId, "name1", "code1", DateTime.Now, DateTime.Now, DateTime.Now, "des1", null, null, "defaultStatus1", 1, "account1", 1, 1);
 
             var project1 = new TestProjectBuilder().Build();
             var project2 = new TestProjectBuilder().Build();
