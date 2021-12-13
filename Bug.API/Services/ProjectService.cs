@@ -292,9 +292,7 @@ namespace Bug.API.Services
             var statuses = await _unitOfWork
                 .Status
                 .GetStatusesFromMutiIdsAsync(pro.Statuses.Select(st=>st.Id).ToList(),cancellationToken);
-            
-            _unitOfWork.Issue.UpdateIssuesHaveDumbStatus(statuses);
-            
+                        
             var defaultStatuses = await _unitOfWork
                 .Status
                 .GetDefaultStatusesAsync(cancellationToken: cancellationToken);
@@ -340,7 +338,7 @@ namespace Bug.API.Services
                 .GetByIdAsync(roleId, cancellationToken);
 
             project.AddExistRole(role);
-            _unitOfWork.Project.Update(project);
+            
             _unitOfWork.Save();
         }
 
