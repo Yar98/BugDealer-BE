@@ -7,9 +7,9 @@ using Bug.Entities.Model;
 
 namespace Bug.Data.Specifications
 {
-    public class StatusByCreatorIdSpecification : BaseSpecification<Status>
+    public class StatusesByCreatorIdSpecification : BaseSpecification<Status>
     {
-        public StatusByCreatorIdSpecification(string creatorId)
+        public StatusesByCreatorIdSpecification(string creatorId)
             : base(st=>st.Creator.Id == creatorId)
         {
             AddInclude(st => st.Creator);

@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Bug.Data.Specifications
 {
-    public class StatusByProjectIdSpecification : BaseSpecification<Status>
+    public class StatusesByProjectIdSpecification : BaseSpecification<Status>
     {
-        public StatusByProjectIdSpecification(string projectId)
+        public StatusesByProjectIdSpecification(string projectId)
             : base(st => st.Projects.AsQueryable().Any(p=>p.Id == projectId))
         {
             AddInclude(st => st.Creator);

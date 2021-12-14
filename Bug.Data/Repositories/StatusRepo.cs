@@ -38,7 +38,7 @@ namespace Bug.Data.Repositories
             CancellationToken cancellationToken = default)
         {
             var specificationResult =
-                new StatusByCreatorIdSpecification(creatorId);
+                new StatusesByCreatorIdSpecification(creatorId);
             return await GetAllEntitiesNoTrackBySpecAsync
                 (specificationResult, sortOrder, cancellationToken);
         }
@@ -49,7 +49,7 @@ namespace Bug.Data.Repositories
             CancellationToken cancellationToken = default)
         {
             var specificationResult =
-                new StatusByCreatorIdSpecification(creatorId);
+                new StatusesByCreatorIdSpecification(creatorId);
             return await GetAllEntitiesBySpecAsync
                 (specificationResult, sortOrder, cancellationToken);
         }

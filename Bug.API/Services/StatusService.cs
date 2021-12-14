@@ -30,6 +30,18 @@ namespace Bug.API.Services
                 .GetEntityBySpecAsync(specificationResult, cancellationToken);
         }
 
+        public async Task<IReadOnlyList<Status>> GetAllByProjectId
+           (string projectId,
+            string sortOrder,
+           CancellationToken cancellationToken = default)
+        {
+            var specificationResult =
+                new StatusesByProjectIdSpecification(projectId);
+            return await _unitOfWork
+                .Status
+                .GetAllEntitiesNoTrackBySpecAsync(specificationResult, sortOrder, cancellationToken);
+        }
+
         public async Task<IReadOnlyList<Status>> GetAllBtsStatuses
             (string sortOrder,
             CancellationToken cancellationToken = default)
@@ -88,7 +100,7 @@ namespace Bug.API.Services
             CancellationToken cancellationToken = default)
         {
             var specificationResult =
-                new StatusByProjectIdSpecification(projectId);
+                new StatusesByProjectIdSpecification(projectId);
             var result = await _unitOfWork
                 .Status
                 .GetPaginatedNoTrackBySpecAsync(pageIndex, pageSize, sortOrder, specificationResult, cancellationToken);
@@ -108,7 +120,7 @@ namespace Bug.API.Services
             CancellationToken cancellationToken = default)
         {
             var specificationResult =
-                new StatusByProjectIdSpecification(projectId);
+                new StatusesByProjectIdSpecification(projectId);
             var result = await _unitOfWork
                 .Status
                 .GetNextByOffsetNoTrackBySpecAsync(offset, next, sortOrder, specificationResult, cancellationToken);
@@ -123,7 +135,7 @@ namespace Bug.API.Services
             CancellationToken cancellationToken = default)
         {
             var specificationResult =
-                new StatusByCreatorIdSpecification(creatorId);
+                new StatusesByCreatorIdSpecification(creatorId);
             var result = await _unitOfWork
                 .Status
                 .GetPaginatedNoTrackBySpecAsync(pageIndex, pageSize, sortOrder, specificationResult,cancellationToken);
@@ -142,7 +154,7 @@ namespace Bug.API.Services
             CancellationToken cancellationToken = default)
         {
             var specificationResult =
-                new StatusByCreatorIdSpecification(creatorId);
+                new StatusesByCreatorIdSpecification(creatorId);
             var result = await _unitOfWork
                 .Status
                 .GetNextByOffsetNoTrackBySpecAsync(offset, next, sortOrder, specificationResult, cancellationToken);
@@ -155,7 +167,7 @@ namespace Bug.API.Services
             CancellationToken cancellationToken = default)
         {
             var specificationResult =
-                new StatusByCreatorIdSpecification(creatorId);
+                new StatusesByCreatorIdSpecification(creatorId);
             return await _unitOfWork
                 .Status
                 .GetAllEntitiesBySpecAsync(specificationResult, sortOrder, cancellationToken);
@@ -167,7 +179,7 @@ namespace Bug.API.Services
             CancellationToken cancellationToken = default)
         {
             var specificationResult =
-                new StatusByProjectIdSpecification(projectId);
+                new StatusesByProjectIdSpecification(projectId);
             var result = await _unitOfWork
                 .Status
                 .GetAllEntitiesBySpecAsync(specificationResult, sortOrder, cancellationToken);
