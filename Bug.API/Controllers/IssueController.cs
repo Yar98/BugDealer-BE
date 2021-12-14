@@ -31,6 +31,8 @@ namespace Bug.API.Controllers
         [HttpGet("export/{issueId}")]
         public async Task<IActionResult> GetExportIssue(string issueId)
         {
+            var result = await _issueService
+                .GetDetailIssueAsync(issueId);
             var stream = await _issueService
                 .ExportIssueExcelFile(issueId);
             // Tạo buffer memory stream để hứng file excel
@@ -40,7 +42,7 @@ namespace Bug.API.Controllers
             // Lưu file excel của chúng ta như 1 mảng byte để trả về response
             return File(buffer.ToArray(),
                 "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                "excell.xlsx");
+                result.Code+".xlsx");
         }
 
         // GET api/Issue/5
@@ -152,14 +154,28 @@ namespace Bug.API.Controllers
             return Ok(Bts.ConvertJson(result));
         }
 
-        [HttpGet("suggest/account/{accountId}/code/{code}/{sortOrder}")]
+        [HttpGet("suggest/project/{projectId}/{sortOrder}")]
         public async Task<IActionResult> GetSuggestIssuesByCode
             (string accountId, 
             string code,
             string sortOrder)
         {
+            var search = Request.Query["searchText"].ToString();
             var result = await _issueService
-                .GetSuggestIssueByCode(code, accountId,sortOrder);
+                .GetSuggestIssueByCode(search, accountId,sortOrder);
+            return Ok(Bts.ConvertJson(result));
+        }
+
+        [HttpGet("search/paging/project/{projectId}/{pageIndex}/{pageSize}/{sortOrder}")]
+        public async Task<IActionResult> GetIssuesByProjectIdSearch
+            (string projectId,
+            int pageIndex,
+            int pageSize,
+            string sortOrder)
+        {
+            var search = Request.Query["searchText"].ToString();
+            var result = await _issueService
+                .GetPaginatedByProjectIdSearchAsync(search,projectId,pageIndex,pageSize,sortOrder);
             return Ok(Bts.ConvertJson(result));
         }
 

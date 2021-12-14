@@ -8,18 +8,15 @@ namespace Bug.Entities.Model
 {
     public class Timezone : IEntityBase
     {
-        public int Id { get; private set; }
         public string GmtOffset { get; private set; }
         public string CountryCode { get; private set; }
         public string CountryName { get; private set; }
         private Timezone() { }
         public Timezone
-            (int id,
-            string gmtOffset,
+            (string gmtOffset,
             string countryCode,
             string countryName)
         {
-            Id = id;
             GmtOffset = gmtOffset;
             CountryCode = countryCode;
             CountryName = countryName;

@@ -56,6 +56,26 @@ namespace Bug.API.Services
                 .GetEntityBySpecAsync(specificationResult, cancellationToken);
         }
 
+        public async Task<PaginatedListDto<Issue>> GetPaginatedByProjectIdSearchAsync
+            (string search,
+            string projectId,
+            int pageIndex,
+            int pageSize,
+            string sortOrder,
+            CancellationToken cancellationToken = default)
+        {
+            var specificationResult =
+                new IssuesByProjectIdSearchSpecification(projectId, search);
+            var result = await _unitOfWork
+                .Issue
+                .GetPaginatedNoTrackBySpecAsync(pageIndex, pageSize, sortOrder, specificationResult, cancellationToken);
+            return new PaginatedListDto<Issue>
+            {
+                Length = result.Length,
+                Items = result
+            };
+        }
+
         public async Task<PaginatedListDto<Issue>> GetPaginatedByRelateUserAsync
             (string accountId,
             int pageIndex,
@@ -197,19 +217,21 @@ namespace Bug.API.Services
         }
 
         public async Task<IReadOnlyList<Issue>> GetSuggestIssueByCode
-            (string code,
-            string accountId,
+            (string search,
+            string projectId,
             string sortOrder,
             CancellationToken cancellationToken = default)
         {
             var regexNumber = new Regex(@"[0-9]+$");
             var regexChar = new Regex(@"^[A-Z]+");
             var specificationResult =
-                new IssuesByProjectCodeSpecification(int.Parse(regexNumber.Match(code).Value), regexChar.Match(code).Value, accountId);
+                new IssuesByProjectCodeSpecification(int.Parse(regexNumber.Match(search).Value), regexChar.Match(search).Value, projectId);
             return await _unitOfWork
                 .Issue
                 .GetAllEntitiesBySpecAsync(specificationResult, sortOrder, cancellationToken);
         }
+
+
 
         public async Task<Issue> AddIssueAsync
             (IssuePostDto issue,

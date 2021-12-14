@@ -10,9 +10,9 @@ namespace Bug.Data.Specifications
     public class IssuesByProjectCodeSpecification : BaseSpecification<Issue>
     {
         public IssuesByProjectCodeSpecification(int code, string projectCode, string accountId)
-            : base(i=>i.NumberCode == code &&
+            : base(i=>i.NumberCode.ToString().Contains(code.ToString()) &&
             i.Project.Code.Contains(projectCode) && 
-            i.Project.AccountProjectRoles.AsQueryable().Any(apr=>apr.AccountId==accountId))
+            (i.Reporter.Id == accountId || i.Assignee.Id == accountId))
         {
             AddInclude(i => i.Severity);
             AddInclude(i => i.Status);

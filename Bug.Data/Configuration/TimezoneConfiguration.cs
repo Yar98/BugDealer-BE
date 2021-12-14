@@ -15,6 +15,8 @@ namespace Bug.Data.Configuration
         {
             builder
                 .ToTable("Timezone")
+                .HasKey(t=>t.CountryCode);
+            builder
                 .Property(b => b.GmtOffset)
                 .IsRequired();
             builder

@@ -10,10 +10,9 @@ namespace Bug.Data.Specifications
     public class FieldsByAccountSpecification : BaseSpecification<Field>
     {
         public FieldsByAccountSpecification(string accountId, int customtypeId)
-            : base(f=>f.Customtypes.AsQueryable().Where(
-                ct=>ct.Id==customtypeId && 
-                ct.Accounts.AsQueryable().Where(a=>a.Id==accountId).Any())
-            .Any())
+            : base(f => f.Customtypes.AsQueryable().Any(
+                ct => ct.Id == customtypeId && 
+                ct.Accounts.AsQueryable().Any(a=>a.Id==accountId)))
         {
             AddInclude(f => f.Customtypes);
             AddInclude("Customtypes.Accounts");
