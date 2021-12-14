@@ -55,9 +55,11 @@ namespace Bug.Data.Repositories
         {
             var result = _bugContext
                 .Set<T>()
-                .Specify(specificationResult);
-            result = SortOrder(result, sortOrder).AsNoTracking();
-            return await result.ToListAsync(cancellationToken);
+                .Specify(specificationResult);            
+            result = SortOrder(result, sortOrder);
+            if (result == null)
+                return null;
+            return await result.AsNoTracking().ToListAsync(cancellationToken);
         }
 
         public async Task<IReadOnlyList<T>> GetAllEntitiesBySpecAsync
@@ -69,6 +71,8 @@ namespace Bug.Data.Repositories
                 .Set<T>()
                 .Specify(specificationResult);
             result = SortOrder(result, sortOrder);
+            if (result == null)
+                return null;
             return await result.ToListAsync(cancellationToken);
         }
 

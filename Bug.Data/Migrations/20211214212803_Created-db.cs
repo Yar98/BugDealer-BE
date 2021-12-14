@@ -98,15 +98,13 @@ namespace Bug.Data.Migrations
                 name: "Timezone",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CountryCode = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     GmtOffset = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CountryCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CountryName = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Timezone", x => x.Id);
+                    table.PrimaryKey("PK_Timezone", x => x.CountryCode);
                 });
 
             migrationBuilder.CreateTable(
@@ -189,17 +187,16 @@ namespace Bug.Data.Migrations
                     CreatedDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     ImageUri = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     VerifyEmail = table.Column<bool>(type: "bit", nullable: false),
-                    TimezoneId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    TimezoneId1 = table.Column<int>(type: "int", nullable: true)
+                    TimezoneId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Account", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Account_Timezone_TimezoneId1",
-                        column: x => x.TimezoneId1,
+                        name: "FK_Account_Timezone_TimezoneId",
+                        column: x => x.TimezoneId,
                         principalTable: "Timezone",
-                        principalColumn: "Id",
+                        principalColumn: "CountryCode",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -566,7 +563,7 @@ namespace Bug.Data.Migrations
                         column: x => x.IssueId,
                         principalTable: "Issue",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -593,13 +590,13 @@ namespace Bug.Data.Migrations
                         column: x => x.ModifierId,
                         principalTable: "Account",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Issuelog_Issue_IssueId",
                         column: x => x.IssueId,
                         principalTable: "Issue",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Issuelog_Tag_TagId",
                         column: x => x.TagId,
@@ -655,7 +652,7 @@ namespace Bug.Data.Migrations
                         column: x => x.ToIssueId,
                         principalTable: "Issue",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Relation_Tag_TagId",
                         column: x => x.TagId,
@@ -732,13 +729,13 @@ namespace Bug.Data.Migrations
                         column: x => x.LoggerId,
                         principalTable: "Account",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Worklog_Issue_IssueId",
                         column: x => x.IssueId,
                         principalTable: "Issue",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -769,9 +766,9 @@ namespace Bug.Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Account_TimezoneId1",
+                name: "IX_Account_TimezoneId",
                 table: "Account",
-                column: "TimezoneId1");
+                column: "TimezoneId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AccountCustomtype_CustomtypeId",

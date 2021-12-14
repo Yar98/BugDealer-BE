@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bug.Data.Migrations
 {
     [DbContext(typeof(BugContext))]
-    [Migration("20211214014208_Created-db")]
+    [Migration("20211214212803_Created-db")]
     partial class Createddb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -108,10 +108,7 @@ namespace Bug.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TimezoneId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("TimezoneId1")
-                        .HasColumnType("int");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("UserName")
                         .IsRequired()
@@ -122,7 +119,7 @@ namespace Bug.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TimezoneId1");
+                    b.HasIndex("TimezoneId");
 
                     b.ToTable("Account");
                 });
@@ -647,14 +644,8 @@ namespace Bug.Data.Migrations
 
             modelBuilder.Entity("Bug.Entities.Model.Timezone", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
                     b.Property<string>("CountryCode")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("CountryName")
                         .IsRequired()
@@ -664,7 +655,7 @@ namespace Bug.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("CountryCode");
 
                     b.ToTable("Timezone");
                 });
@@ -840,7 +831,7 @@ namespace Bug.Data.Migrations
                 {
                     b.HasOne("Bug.Entities.Model.Timezone", "Timezone")
                         .WithMany()
-                        .HasForeignKey("TimezoneId1");
+                        .HasForeignKey("TimezoneId");
 
                     b.Navigation("Timezone");
                 });
