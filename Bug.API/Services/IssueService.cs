@@ -9,6 +9,10 @@ using Bug.Entities.Model;
 using Bug.Data.Specifications;
 using Bug.API.Dto;
 using System.Text.RegularExpressions;
+using System.IO;
+using OfficeOpenXml;
+using OfficeOpenXml.Table;
+using Bug.API.Utils;
 
 namespace Bug.API.Services
 {
@@ -18,6 +22,18 @@ namespace Bug.API.Services
         public IssueService(IUnitOfWork uow)
         {
             _unitOfWork = uow;
+        }
+
+        public async Task<Stream> ExportIssueExcelFile
+            (string issueId, 
+            Stream stream = null,
+            CancellationToken cancellationToken = default)
+        {
+            var issue = await _unitOfWork
+                .Issue
+                .GetEntityBySpecAsync(new IssueSpecification(issueId), cancellationToken);
+            return await new ExcelUtils()
+                .CreateExcelFile(issue, stream);
         }
 
         public async Task<Issue> GetNormalIssueAsync

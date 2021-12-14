@@ -2,6 +2,7 @@
 using Bug.Entities.Model;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,6 +11,10 @@ namespace Bug.API.Services
 {
     public interface IIssueService
     {
+        Task<Stream> ExportIssueExcelFile
+            (string issueId,
+            Stream stream = null,
+            CancellationToken cancellationToken = default);
         Task<Issue> GetNormalIssueAsync
             (string id,
             CancellationToken cancellationToken = default);

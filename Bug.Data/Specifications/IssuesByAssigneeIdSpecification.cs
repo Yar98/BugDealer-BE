@@ -12,6 +12,7 @@ namespace Bug.Data.Specifications
         public IssuesByAssigneeIdSpecification(string assigneeId)
             :base(i=>i.AssigneeId == assigneeId )
         {
+            AddInclude(i => i.Severity);
             AddInclude(i => i.Status);
             AddInclude(i => i.Priority);
             AddInclude(i => i.Project);
