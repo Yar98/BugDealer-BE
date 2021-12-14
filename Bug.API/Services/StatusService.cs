@@ -30,6 +30,15 @@ namespace Bug.API.Services
                 .GetEntityBySpecAsync(specificationResult, cancellationToken);
         }
 
+        public async Task<IReadOnlyList<Status>> GetAllBtsStatuses
+            (string sortOrder,
+            CancellationToken cancellationToken = default)
+        {
+            return await _unitOfWork
+                .Status
+                .GetDefaultStatusesNoTrackAsync(sortOrder, "bts", cancellationToken);
+        }
+
         public async Task<PaginatedListDto<Status>> GetPaginatedByProjectIdSearch
             (string projectId,
             string search,

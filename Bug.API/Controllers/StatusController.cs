@@ -21,10 +21,12 @@ namespace Bug.API.Controllers
             _statusService = statusService;
         }
         // GET: api/<StatusController>
-        [HttpGet]
-        public IEnumerable<string> Get()
+        [HttpGet("bts/{sortOrder}")]
+        public async Task<IActionResult> Get(string sortOrder)
         {
-            return new string[] { "value1", "value2" };
+            var result = await _statusService
+                .GetAllBtsStatuses(sortOrder);
+            return Ok(Bts.ConvertJson(result));
         }
 
         // GET api/<StatusController>/5
