@@ -16,6 +16,10 @@ namespace Bug.API.Services
         Task<IReadOnlyList<Status>> GetAllBtsStatuses
             (string sortOrder,
             CancellationToken cancellationToken = default);
+        Task<IReadOnlyList<Status>> GetAllByProjectId
+           (string projectId, 
+            string sortOrder,
+           CancellationToken cancellationToken = default);
         Task<PaginatedListDto<Status>> GetPaginatedByProjectIdSearch
             (string projectId,
             string search,

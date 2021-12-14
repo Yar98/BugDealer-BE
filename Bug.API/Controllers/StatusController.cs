@@ -20,6 +20,16 @@ namespace Bug.API.Controllers
         {
             _statusService = statusService;
         }
+
+
+        // GET api/<StatusController>/5
+        [HttpGet("detail/{id}")]
+        public async Task<IActionResult> GetDetailStatusById(string id)
+        {
+            var result = await _statusService.GetDetailStatusByIdAsync(id);
+            return Ok(Bts.ConvertJson(result));
+        }
+
         // GET: api/<StatusController>
         [HttpGet("bts/{sortOrder}")]
         public async Task<IActionResult> Get(string sortOrder)
@@ -29,11 +39,11 @@ namespace Bug.API.Controllers
             return Ok(Bts.ConvertJson(result));
         }
 
-        // GET api/<StatusController>/5
-        [HttpGet("detail/{id}")]
-        public async Task<IActionResult> GetDetailStatusById(string id)
+        [HttpGet("project/{projectId}/{sortOrder}")]
+        public async Task<IActionResult> GetAllByProject(string projectId, string sortOrder)
         {
-            var result = await _statusService.GetDetailStatusByIdAsync(id);
+            var result = await _statusService
+                .GetAllByProjectId(projectId, sortOrder);
             return Ok(Bts.ConvertJson(result));
         }
 

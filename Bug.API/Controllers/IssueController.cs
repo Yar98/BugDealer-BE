@@ -27,6 +27,12 @@ namespace Bug.API.Controllers
             _issueService = issueService;
         }
 
+        [HttpGet("export/{issueId}")]
+        public async Task<IActionResult> GetExportIssue(string issueId)
+        {
+            return Ok();
+        }
+
         // GET api/Issue/5
         //[ActionName(nameof(GetDetailIssue))]
         [HttpGet("detail/{id}")]
