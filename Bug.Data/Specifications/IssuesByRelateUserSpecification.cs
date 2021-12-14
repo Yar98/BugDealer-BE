@@ -14,6 +14,7 @@ namespace Bug.Data.Specifications
             i.AssigneeId == accountId &&
             i.Watchers.AsQueryable().Any(a => a.Id == accountId))
         {
+            AddInclude(i => i.Severity);
             AddInclude(i => i.Status);
             AddInclude(i => i.Priority);
             AddInclude(i => i.Project);

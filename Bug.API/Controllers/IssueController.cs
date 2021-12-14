@@ -11,6 +11,7 @@ using Bug.Entities.Model;
 using Bug.API.Dto;
 using Microsoft.AspNetCore.SignalR;
 using Bug.API.SignalR;
+using System.IO;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -30,7 +31,16 @@ namespace Bug.API.Controllers
         [HttpGet("export/{issueId}")]
         public async Task<IActionResult> GetExportIssue(string issueId)
         {
-            return Ok();
+            var stream = await _issueService
+                .ExportIssueExcelFile(issueId);
+            // Tạo buffer memory stream để hứng file excel
+            var buffer = stream as MemoryStream;
+            // chạy trên firefox hay IE thì dòng này sẽ hiện Save As dialog cho người dùng chọn thư mục để lưu
+            Response.Headers.Add("Content-Disposition", "attachment; filename=ExcelDemo.xlsx");
+            // Lưu file excel của chúng ta như 1 mảng byte để trả về response
+            return File(buffer.ToArray(),
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                "excell.xlsx");
         }
 
         // GET api/Issue/5

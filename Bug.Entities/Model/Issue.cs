@@ -15,10 +15,10 @@ namespace Bug.Entities.Model
         public string Title { get; private set; }
         public string Description { get; private set; }
         public int NumberCode { get; private set; }
-        public DateTimeOffset? LogDate { get; private set; }
+        public DateTimeOffset? LogDate { get; private set; } //ko can
         public DateTimeOffset? CreatedDate { get; private set; }
         public DateTimeOffset? DueDate { get; private set; }
-        public DateTimeOffset? WorklogDate { get; private set; }
+        public DateTimeOffset? WorklogDate { get; private set; } //ko can
         public string OriginEstimateTime { get; private set; }
         public string RemainEstimateTime { get; private set; }
         public string Environment { get; private set; }

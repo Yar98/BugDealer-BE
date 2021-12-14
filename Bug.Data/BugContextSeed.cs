@@ -239,17 +239,17 @@ namespace Bug.Data
         {
             return new List<Field>()
             {
-                new Field(0,"Description", null),
-                new Field(0,"Reporter", null),
-                new Field(0,"Priority", null),
-                new Field(0,"Labels", null),
-                new Field(0,"Time tracking", null),
-                new Field(0,"Attachment", null),
-                new Field(0,"Due date", null),
-                new Field(0,"Linked issues", null),
-                new Field(0,"Assignee", null),
-                new Field(0,"Environment", null),
-                new Field(0,"Severity", null)
+                new Field(0,"C-016", null),
+                new Field(0,"C-017", null),
+                new Field(0,"C-018", null),
+                new Field(0,"C-019", null),
+                new Field(0,"C-020", null),
+                new Field(0,"C-021", null),
+                new Field(0,"C-022", null),
+                new Field(0,"C-023", null),
+                new Field(0,"C-024", null),
+                new Field(0,"C-025", null),
+                new Field(0,"C-026", null)
             };
         }
         static IEnumerable<Customtype> GetPreconfiguredCustomtype()

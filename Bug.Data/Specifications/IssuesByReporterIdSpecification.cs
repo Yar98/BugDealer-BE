@@ -12,6 +12,7 @@ namespace Bug.Data.Specifications
         public IssuesByReporterIdSpecification(string reporterId)
             : base(i=>i.ReporterId == reporterId)
         {
+            AddInclude(i => i.Severity);
             AddInclude(i => i.Status);
             AddInclude(i => i.Priority);
             AddInclude(i => i.Project);

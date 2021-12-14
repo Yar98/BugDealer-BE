@@ -14,6 +14,7 @@ namespace Bug.Data.Specifications
             i.Project.Code.Contains(projectCode) && 
             i.Project.AccountProjectRoles.AsQueryable().Any(apr=>apr.AccountId==accountId))
         {
+            AddInclude(i => i.Severity);
             AddInclude(i => i.Status);
             AddInclude(i => i.Priority);
             AddInclude(i => i.Project);
