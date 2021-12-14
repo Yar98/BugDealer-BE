@@ -32,7 +32,7 @@ namespace UnitTests.ApplicationCore.Services.ProjectServicesTests
                 .Setup(mock => mock.Role.GetRolesFromMutiIdsAsync(It.IsAny<List<int>>(), default))
                 .ReturnsAsync(It.IsAny<List<Role>>());
             _mockRepo
-                .Setup(mock => mock.Role.GetDefaultRolesAsync(It.IsAny<string>(), default))
+                .Setup(mock => mock.Role.GetDefaultRolesAsync(It.IsAny<string>(), It.IsAny<string>(), default))
                 .ReturnsAsync(It.IsAny<List<Role>>());
             _mockRepo
                 .Setup(mock => mock.AccountProjectRole.UpdateMultiByRoleIdProjectId(It.IsAny<string>(), It.IsAny<List<Role>>()));

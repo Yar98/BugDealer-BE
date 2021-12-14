@@ -94,6 +94,11 @@ namespace Bug.Data
                     await bugContext.Customtypes.AddRangeAsync(
                         GetPreconfiguredCustomtype());
                 }
+                if (!await bugContext.Severities.AnyAsync())
+                {
+                    await bugContext.Severities.AddRangeAsync(
+                        GetPreconfiguredSeverities());
+                }
 
                 await bugContext.SaveChangesAsync();
             }
@@ -103,6 +108,16 @@ namespace Bug.Data
                 log.LogError(ex.Message);
                 throw;
             }
+        }
+
+        static IEnumerable<Severity> GetPreconfiguredSeverities()
+        {
+            return new List<Severity>()
+            {
+                new Severity(0,"hihi","hsh","ss"),
+                new Severity(0,"hsdf","hsh","null"),
+                new Severity(0,"aaaa",null,"ss")
+            };
         }
 
         static IEnumerable<Project> GetPreconfiguredProjects()
@@ -128,7 +143,8 @@ namespace Bug.Data
         {
             return new List<Issue>()
             {
-                new Issue("issue1","title1",0,"des1",DateTime.Now,DateTime.Now,DateTime.Now,DateTime.Now,null,null,"environment1","defaultStatus1",1,null,"project1","account1","account1")
+                new Issue("issue1","title1",0,"des1",DateTime.Now,DateTime.Now,DateTime.Now,DateTime.Now,null,null,"environment1","defaultStatus1",1,null,"project1","account1","account1"),
+                new Issue("issue2","title1",0,"des1",DateTime.Now,DateTime.Now,DateTime.Now,DateTime.Now,null,null,"environment1","defaultStatus1",1,null,"project1","account1","account1")
             };
         }
         static IEnumerable<Tag> GetPreconfiguredTag()

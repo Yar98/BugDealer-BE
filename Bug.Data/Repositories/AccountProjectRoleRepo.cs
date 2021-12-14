@@ -52,7 +52,7 @@ namespace Bug.Data.Repositories
             var user = new SqlParameter("user", accountId);
             await _bugContext
                 .Database
-                .ExecuteSqlRawAsync("EXECUTE dbo.DeleteMemberFromProject @project, @user", project, user, cancellationToken);
+                .ExecuteSqlRawAsync("EXECUTE dbo.DeleteMemberFromProject @project, @user", project, user);
         }
 
         public override IQueryable<AccountProjectRole> SortOrder(IQueryable<AccountProjectRole> result, string sortOrder)

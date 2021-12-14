@@ -214,7 +214,7 @@ namespace Bug.API.Services
         {
             var defaultStatuses = await _unitOfWork
                 .Status
-                .GetDefaultStatusesNoTrackAsync(cancellationToken: cancellationToken);
+                .GetDefaultStatusesNoTrackAsync("",cancellationToken: cancellationToken);
             if (defaultStatuses.Any(r => r.Id == statusId))
             {
                 throw new CannotDeleteDefault();

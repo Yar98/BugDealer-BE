@@ -161,9 +161,10 @@ namespace Bug.Entities.Model
             if(!string.IsNullOrEmpty(id))
                 DefaultStatusId = id;
         }
-        public void UpdateDefaultRoleId(int id)
+        public void UpdateDefaultRoleId(int? id)
         {
-            DefaultRoleId = id;
+            if(id != null)
+                DefaultRoleId = id;
         }
         public void UpdateState(int id)
         {
@@ -172,7 +173,8 @@ namespace Bug.Entities.Model
 
         public void UpdateRoles(List<Role> r)
         {
-            _roles = r;
+            if(r != null)
+                _roles = r;
         }
 
         public void UpdateTemplate(Template t)

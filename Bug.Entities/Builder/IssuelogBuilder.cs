@@ -14,10 +14,10 @@ namespace Bug.Entities.Builder
         public string Description { get; private set; }
         public string IssueId { get; private set; }
         public string ModifierId { get; private set; }
-        public string PreStatusId { get; private set; }
-        public string ModStatusId { get; private set; }
-        public int PrePriorityId { get; private set; }
-        public int ModPriorityId { get; private set; }
+        public string PreStatus { get; private set; }
+        public string ModStatus { get; private set; }
+        public string PrePriority { get; private set; }
+        public string ModPriority { get; private set; }
         public int TagId { get; set; }
 
         public IIssuelogBuilder AddDescription(string des)
@@ -50,27 +50,27 @@ namespace Bug.Entities.Builder
             return this;
         }
 
-        public IIssuelogBuilder AddModPriorityId(int priorityId)
+        public IIssuelogBuilder AddModPriority(string priority)
         {
-            ModPriorityId = priorityId;
+            ModPriority = priority;
             return this;
         }
 
-        public IIssuelogBuilder AddModStatusId(string statusId)
+        public IIssuelogBuilder AddModStatus(string status)
         {
-            ModStatusId = statusId;
+            ModStatus = status;
             return this;
         }
 
-        public IIssuelogBuilder AddPrePriorityId(int priorityId)
+        public IIssuelogBuilder AddPrePriority(string priority)
         {
-            PrePriorityId = priorityId;
+            PrePriority = priority;
             return this;
         }
 
-        public IIssuelogBuilder AddPreStatusId(string statusId)
+        public IIssuelogBuilder AddPreStatus(string status)
         {
-            PreStatusId = statusId;
+            PreStatus = status;
             return this;
         }
 
@@ -82,7 +82,7 @@ namespace Bug.Entities.Builder
 
         public Issuelog Build()
         {
-            return new Issuelog(Id, LogDate, Description, IssueId, ModifierId, PreStatusId, ModStatusId, PrePriorityId, ModPriorityId, TagId);
+            return new Issuelog(Id, LogDate, Description, IssueId, ModifierId, PreStatus, ModStatus, PrePriority, ModPriority, TagId);
         }
     }
 }

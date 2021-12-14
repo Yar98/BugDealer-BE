@@ -14,7 +14,6 @@ namespace Bug.API.Dto
         public DateTimeOffset? EndDate { get; set; }
         public DateTimeOffset? RecentDate { get; set; }
         public string AvatarUri { get; set; }
-        public string ProjectType { get; set; }
         public string Description { get; set; }
         public int? State { get; set; }
         public int? TemplateId { get; set; }
@@ -22,14 +21,11 @@ namespace Bug.API.Dto
         public string DefaultStatusId { get; set; }
         public int? DefaultRoleId { get; set; }
         public string CreatorId { get; set; }
-        public List<TagNormalDto> Tags { get; set; }
-        public List<AccountNormalDto> Accounts { get; set; }
         public List<RoleNormalDto> Roles { get; set; }
         public List<StatusNormalDto> Statuses { get; set; }
 
         // accountId for delete member from project case
         public string AccountId { get; set; }
 
-        public RoleNormalDto DefaultRole { get; set; }
     }
 }

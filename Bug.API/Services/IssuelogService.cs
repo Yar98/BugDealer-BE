@@ -78,14 +78,13 @@ namespace Bug.API.Services
                 .AddLogDate()
                 .AddDescription(ilog.Description)
                 .AddModifierId(ilog.ModifierId)
-                .AddModPriorityId(ilog.ModPriorityId)
-                .AddModStatusId(ilog.ModStatusId)
-                .AddPrePriorityId(ilog.PrePriorityId)
-                .AddPreStatusId(ilog.PreStatusId)
+                .AddModPriority(ilog.ModPriority)
+                .AddModStatus(ilog.ModStatus)
+                .AddPrePriority(ilog.PrePriority)
+                .AddPreStatus(ilog.PreStatus)
                 .AddTagId(ilog.TagId)
                 .Build();
-            var modifier = await _unitOfWork.Account.GetByIdAsync(ilog.ModifierId, cancellationToken);
-            result.UpdateModifier(modifier);
+            
             await _unitOfWork.Issuelog.AddAsync(result, cancellationToken);
             _unitOfWork.Save();
             return result;

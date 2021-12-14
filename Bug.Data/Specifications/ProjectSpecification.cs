@@ -15,9 +15,9 @@ namespace Bug.Data.Specifications
             AddInclude(p => p.Creator);
             AddInclude(p => p.DefaultAssignee);
             AddInclude(p => p.Template);
-            //AddInclude(p => p.Roles);
+            AddInclude(p => p.Roles);
             //AddInclude(p => p.Issues);
-            //AddInclude(p => p.Statuses);
+            AddInclude(p => p.Statuses);
             //AddInclude(a => a.AccountProjectRoles);
             //AddInclude("Issues.Tags");
             //AddInclude("Issues.State");

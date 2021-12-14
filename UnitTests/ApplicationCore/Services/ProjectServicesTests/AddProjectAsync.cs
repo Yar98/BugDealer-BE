@@ -37,10 +37,10 @@ namespace UnitTests.ApplicationCore.Services.ProjectServicesTests
                 .Setup(mock => mock.Account.GetByIdAsync(It.IsAny<string>(), default))
                 .ReturnsAsync(acc);
             _mockRepo
-                .Setup(mock => mock.Role.GetDefaultRolesAsync(It.IsAny<string>(), default))
+                .Setup(mock => mock.Role.GetDefaultRolesAsync(It.IsAny<string>(), It.IsAny<string>(), default))
                 .ReturnsAsync(TestRoles);
             _mockRepo
-                .Setup(mock => mock.Status.GetDefaultStatusesAsync(It.IsAny<string>(), default))
+                .Setup(mock => mock.Status.GetDefaultStatusesAsync(It.IsAny<string>(),It.IsAny<string>(), default))
                 .ReturnsAsync(TestStatuses);
             _mockRepo
                 .Setup(mock => mock.Project.AddAsync(It.IsAny<Project>(), default))
@@ -63,10 +63,10 @@ namespace UnitTests.ApplicationCore.Services.ProjectServicesTests
                 .Setup(mock => mock.Account.GetByIdAsync(It.IsAny<string>(), default))
                 .ReturnsAsync(acc);
             _mockRepo
-                .Setup(mock => mock.Role.GetDefaultRolesAsync(It.IsAny<string>(), default))
+                .Setup(mock => mock.Role.GetDefaultRolesAsync(It.IsAny<string>(), It.IsAny<string>(), default))
                 .ReturnsAsync(TestRoles);
             _mockRepo
-                .Setup(mock => mock.Status.GetDefaultStatusesAsync(It.IsAny<string>(), default))
+                .Setup(mock => mock.Status.GetDefaultStatusesAsync(It.IsAny<string>(), It.IsAny<string>(), default))
                 .ReturnsAsync(TestStatuses);
             _mockRepo
                 .Setup(mock => mock.Project.AddAsync(It.IsAny<Project>(), default))
@@ -75,7 +75,7 @@ namespace UnitTests.ApplicationCore.Services.ProjectServicesTests
             await projectService.AddProjectAsync(proDto);
 
             _mockRepo
-                .Verify(mock => mock.Role.GetDefaultRolesAsync("bts", default), Times.Once);
+                .Verify(mock => mock.Role.GetDefaultRolesAsync(It.IsAny<string>(), "bts", default), Times.Once);
         }
 
         [Fact]
@@ -88,10 +88,10 @@ namespace UnitTests.ApplicationCore.Services.ProjectServicesTests
                 .Setup(mock => mock.Account.GetByIdAsync(It.IsAny<string>(), default))
                 .ReturnsAsync(acc);
             _mockRepo
-                .Setup(mock => mock.Role.GetDefaultRolesAsync(It.IsAny<string>(), default))
+                .Setup(mock => mock.Role.GetDefaultRolesAsync(It.IsAny<string>(), It.IsAny<string>(), default))
                 .ReturnsAsync(TestRoles);
             _mockRepo
-                .Setup(mock => mock.Status.GetDefaultStatusesAsync(It.IsAny<string>(), default))
+                .Setup(mock => mock.Status.GetDefaultStatusesAsync(It.IsAny<string>(), It.IsAny<string>(), default))
                 .ReturnsAsync(TestStatuses);
             _mockRepo
                 .Setup(mock => mock.Project.AddAsync(It.IsAny<Project>(), default))
@@ -100,7 +100,7 @@ namespace UnitTests.ApplicationCore.Services.ProjectServicesTests
             await projectService.AddProjectAsync(proDto);
 
             _mockRepo
-                .Verify(mock => mock.Status.GetDefaultStatusesAsync("bts", default), Times.Once);
+                .Verify(mock => mock.Status.GetDefaultStatusesAsync(It.IsAny<string>(), "bts", default), Times.Once);
         }
 
         [Fact]
@@ -113,10 +113,10 @@ namespace UnitTests.ApplicationCore.Services.ProjectServicesTests
                 .Setup(mock => mock.Account.GetByIdAsync(It.IsAny<string>(), default))
                 .ReturnsAsync(acc);
             _mockRepo
-                .Setup(mock => mock.Role.GetDefaultRolesAsync(It.IsAny<string>(), default))
+                .Setup(mock => mock.Role.GetDefaultRolesAsync(It.IsAny<string>(), It.IsAny<string>(), default))
                 .ReturnsAsync(TestRoles);
             _mockRepo
-                .Setup(mock => mock.Status.GetDefaultStatusesAsync(It.IsAny<string>(), default))
+                .Setup(mock => mock.Status.GetDefaultStatusesAsync(It.IsAny<string>(), It.IsAny<string>(), default))
                 .ReturnsAsync(TestStatuses);
             _mockRepo
                 .Setup(mock => mock.Project.AddAsync(It.IsAny<Project>(), default))

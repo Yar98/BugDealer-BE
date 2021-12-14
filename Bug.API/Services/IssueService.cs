@@ -199,7 +199,9 @@ namespace Bug.API.Services
             (IssuePostDto issue,
             CancellationToken cancellationToken = default)
         {
-            var pro = await _unitOfWork.Project.GetByIdAsync(issue.ProjectId, cancellationToken);
+            var pro = await _unitOfWork
+                .Project
+                .GetByIdAsync(issue.ProjectId, cancellationToken);
             var result = new IssueBuilder()
                 .AddId(Guid.NewGuid().ToString())
                 .AddDescription(issue.Description)
@@ -252,11 +254,7 @@ namespace Bug.API.Services
                 .FromRelations
                 .Select(r => 
                 { 
-                    var item = new Relation(r.Id, r.Description, r.TagId, result.Id, r.ToIssueId);
-                    if (item.Id == 0)
-                        _unitOfWork.Relation.Add(item);
-                    else
-                        _unitOfWork.Relation.Attach(item);
+                    var item = new Relation(r.Description, r.TagId, result.Id, r.ToIssueId);
                     return item;
                 })
                 .ToList();
@@ -267,10 +265,8 @@ namespace Bug.API.Services
                 .AddAsync(result, cancellationToken);
 
             _unitOfWork.Save();
-            
-            return await _unitOfWork
-                .Issue
-                .GetEntityBySpecAsync(new IssueSpecification(result.Id),cancellationToken);
+
+            return result;
         }
 
         public async Task UpdateIssueAsync
@@ -316,11 +312,22 @@ namespace Bug.API.Services
             (IssuePostDto issue,
             CancellationToken cancellationToken = default)
         {
+            var specificationResult =
+                new IssueSpecification(issue.Id);
             var result = await _unitOfWork
-                .Issue.GetByIdAsync(issue.Id, cancellationToken);
+                .Issue
+                .GetEntityBySpecAsync(specificationResult,cancellationToken);
             var customLabelTags = issue
                 .Tags
-                .Select(l => new Tag(l.Id, l.Name, l.Description, l.Color, l.CategoryId))
+                .Select(l =>
+                {
+                    var item = new Tag(l.Id, l.Name, l.Description, l.Color, l.CategoryId);
+                    if (item.Id == 0)
+                        _unitOfWork.Tag.Add(item);
+                    else
+                        _unitOfWork.Tag.Attach(item);
+                    return item;
+                })
                 .ToList();
             result.UpdateTags(customLabelTags);
             
@@ -331,10 +338,14 @@ namespace Bug.API.Services
             (IssuePostDto issue,
             CancellationToken cancellationToken = default)
         {
-            var result = await _unitOfWork.Issue.GetByIdAsync(issue.Id, cancellationToken);
+            var specificationResult =
+                new IssueSpecification(issue.Id);
+            var result = await _unitOfWork
+                .Issue
+                .GetEntityBySpecAsync(specificationResult, cancellationToken);
             var fromRelations = issue
                 .FromRelations
-                .Select(r => new Relation(r.Id, r.Description, r.TagId, result.Id, r.ToIssueId))
+                .Select(r => new Relation(r.Description, r.TagId, result.Id, r.ToIssueId))
                 .ToList();
             result.UpdateFromRelations(fromRelations);
             
@@ -345,12 +356,33 @@ namespace Bug.API.Services
             (IssuePostDto issue,
             CancellationToken cancellationToken = default)
         {
+            var specificationResult =
+                new IssueSpecification(issue.Id);
             var result = await _unitOfWork
                 .Issue
-                .GetByIdAsync(issue.Id, cancellationToken);
+                .GetEntityBySpecAsync(specificationResult, cancellationToken);
+            var delAttach = result
+                .Attachments
+                .Where(at => !issue.Attachments.Any(a => a.Id == at.Id))
+                .ToList();
+            if (delAttach != null)
+            {
+                Parallel.ForEach(delAttach, d =>
+                {
+                    _unitOfWork.Attachment.Delete(d);
+                });
+            }
             var attachments = issue
                 .Attachments
-                .Select(a => new Attachment(a.Id, a.Uri, a.IssueId))
+                .Select(a =>
+                {
+                    var item = new Attachment(a.Id, a.Uri, a.IssueId);
+                    if (item.Id == 0)
+                        _unitOfWork.Attachment.Add(item);
+                    else
+                        _unitOfWork.Attachment.Attach(item);
+                    return item;
+                })
                 .ToList();
             result.UpdateAttachments(attachments);
             
@@ -361,8 +393,14 @@ namespace Bug.API.Services
             (string id, 
             CancellationToken cancellationToken = default)
         {
-            var result = await _unitOfWork.Issue.GetByIdAsync(id, cancellationToken);
+            await _unitOfWork
+                .Relation
+                .DeleteRelationByIssueAsync(id);
+            var result = _unitOfWork
+                .Issue
+                .GetByIdAsync(id, cancellationToken).Result;
             _unitOfWork.Issue.Delete(result);
+
             _unitOfWork.Save();
         }
     }

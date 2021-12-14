@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Bug.Entities.Model;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 
 namespace Bug.Data.Repositories
 {
@@ -13,6 +16,14 @@ namespace Bug.Data.Repositories
              : base(repositoryContext)
         {
 
+        }
+
+        public async Task DeleteRelationByIssueAsync(string issueId)
+        {
+            var issue = new SqlParameter("issue", issueId);
+            await _bugContext
+                .Database
+                .ExecuteSqlRawAsync("EXECUTE dbo.DeleteRelationByIssue @issue", issue);
         }
 
         public override IQueryable<Relation> SortOrder
@@ -43,7 +54,7 @@ namespace Bug.Data.Repositories
                     //result = result.OrderByDescending(p => p.RecentDate);
                     break;
                 default:
-                    result = result.OrderBy(p => p.Id);
+                    result = result.OrderBy(p => p.FromIssueId);
                     break;
             }
             return result;

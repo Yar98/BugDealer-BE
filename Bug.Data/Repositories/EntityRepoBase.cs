@@ -48,6 +48,18 @@ namespace Bug.Data.Repositories
                 .FirstOrDefaultAsync(cancelltionToken);
         }
 
+        public async Task<IReadOnlyList<T>> GetAllEntitiesNoTrackBySpecAsync
+            (ISpecification<T> specificationResult,
+            string sortOrder,
+            CancellationToken cancellationToken = default)
+        {
+            var result = _bugContext
+                .Set<T>()
+                .Specify(specificationResult);
+            result = SortOrder(result, sortOrder).AsNoTracking();
+            return await result.ToListAsync(cancellationToken);
+        }
+
         public async Task<IReadOnlyList<T>> GetAllEntitiesBySpecAsync
             (ISpecification<T> specificationResult,
             string sortOrder,
@@ -146,7 +158,6 @@ namespace Bug.Data.Repositories
         public void Update(T entity)
         {
             _bugContext.Entry(entity).State = EntityState.Modified;
-            //await _bugContext.SaveChangesAsync(cancelltionToken);
         }
 
         public void Attach(T entity)
