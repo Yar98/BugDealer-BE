@@ -20,6 +20,7 @@ namespace Bug.Data.Specifications
             AddInclude(i => i.Tags);
             AddInclude(i => i.FromRelations);
             AddInclude(i => i.ToRelations);
+            AddInclude(i => i.Attachments);
             AddInclude("FromRelations.Tag");
             AddInclude("FromRelations.FromIssue");
             AddInclude("FromRelations.ToIssue");

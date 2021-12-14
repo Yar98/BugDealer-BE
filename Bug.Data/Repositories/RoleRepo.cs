@@ -28,29 +28,32 @@ namespace Bug.Data.Repositories
                 .Roles
                 .AsQueryable()
                 .Where(p => list.Contains(p.Id))
+                .AsTracking()
                 .ToListAsync(cancellationToken);
-            return result;
+            return result??new List<Role>();
         }
 
         public async Task<IReadOnlyList<Role>> GetDefaultRolesNoTrackAsync
-            (string creatorId = "bts",
+            (string sortOrder,
+            string creatorId = "bts",
             CancellationToken cancellationToken = default)
         {
             var specificationResult =
                 new RoleByCreatorIdSpecification(creatorId);
-            return await GetNextByOffsetNoTrackBySpecAsync
-                (0, 10, null, specificationResult, cancellationToken);
+            return await GetAllEntitiesNoTrackBySpecAsync
+                (specificationResult, sortOrder, cancellationToken);
 
         }
 
         public async Task<IReadOnlyList<Role>> GetDefaultRolesAsync
-            (string creatorId = "bts",
+            (string sortOrder, 
+            string creatorId = "bts",
             CancellationToken cancellationToken = default)
         {
             var specificationResult =
                 new RoleByCreatorIdSpecification(creatorId);
-            return await GetNextByOffsetBySpecAsync
-                (0, 10, null, specificationResult, cancellationToken);
+            return await GetAllEntitiesBySpecAsync
+                (specificationResult, sortOrder, cancellationToken);
 
         }
 

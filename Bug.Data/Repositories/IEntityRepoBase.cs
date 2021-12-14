@@ -18,6 +18,10 @@ namespace Bug.Data.Repositories
         Task<T> GetEntityBySpecAsync
             (ISpecification<T> specificationResult,
             CancellationToken cancelltionToken = default);
+        Task<IReadOnlyList<T>> GetAllEntitiesNoTrackBySpecAsync
+            (ISpecification<T> specificationResult,
+            string sortOrder,
+            CancellationToken cancellationToken = default);
         Task<IReadOnlyList<T>> GetAllEntitiesBySpecAsync
             (ISpecification<T> specificationResult,
             string sortOrder,

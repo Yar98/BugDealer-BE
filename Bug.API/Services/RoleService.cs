@@ -244,7 +244,7 @@ namespace Bug.API.Services
 
             var defaultRoles = await _unitOfWork
                 .Role
-                .GetDefaultRolesNoTrackAsync(cancellationToken:cancellationToken);
+                .GetDefaultRolesNoTrackAsync(null,cancellationToken:cancellationToken);
             if(defaultRoles.Any(r=>r.Id == id))
             {
                 throw new CannotDeleteDefault();

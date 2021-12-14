@@ -175,13 +175,13 @@ namespace Bug.Entities.Model
 
         public void UpdateAttachments(List<Attachment> result)
         {
-            if(result != null && result.Any())
+            if(result != null)
                 _attachments = result;
         }
 
         public void UpdateTags(List<Tag> result)
         {
-            if (result != null && result.Any())
+            if (result != null)
                 _tags = result;            
         }
 

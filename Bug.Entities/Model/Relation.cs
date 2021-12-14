@@ -9,7 +9,7 @@ namespace Bug.Entities.Model
 {
     public class Relation : IEntityBase
     {
-        public int Id { get; private set; }
+        //public int Id { get; private set; }
         public string Description { get; private set; }
         public int TagId { get; private set; }
         public Tag Tag { get; private set; }
@@ -20,13 +20,11 @@ namespace Bug.Entities.Model
 
         private Relation() { }
         public Relation
-            (int id,
-            string description,
+            (string description,
             int tagId,
             string fromIssueId,
             string toIssueId)
         {
-            Id = id;
             Description = description;
             TagId = tagId;
             FromIssueId = fromIssueId;

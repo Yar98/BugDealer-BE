@@ -14,7 +14,12 @@ namespace Bug.Data.Configuration
         public void Configure(EntityTypeBuilder<Relation> builder)
         {
             builder
-                .ToTable("Relation");
+                .ToTable("Relation")
+                .HasKey(a => new
+                {
+                    a.FromIssueId,
+                    a.ToIssueId
+                });
             builder
                 .HasOne(i => i.FromIssue)
                 .WithMany(r => r.FromRelations)

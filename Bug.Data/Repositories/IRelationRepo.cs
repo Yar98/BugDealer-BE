@@ -9,5 +9,6 @@ namespace Bug.Data.Repositories
 {
     public interface IRelationRepo : IEntityRepoBase<Relation>
     {
+        Task DeleteRelationByIssueAsync(string issueId);
     }
 }

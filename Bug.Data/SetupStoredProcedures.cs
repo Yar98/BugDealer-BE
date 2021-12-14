@@ -69,10 +69,20 @@ namespace Bug.Data
                     DELETE FROM [AccountProjectRole]
                     WHERE ProjectId = @project AND AccountId = @user
                 END";
+            var sp5 = @"CREATE PROCEDURE [dbo].[DeleteRelationByIssue]
+                    @issue NVARCHAR(MAX)
+                AS
+                BEGIN
+                    SET NOCOUNT ON;
+                    
+                    DELETE FROM [Relation]
+                    WHERE ToIssueId = @issue OR FromIssueId = @issue
+                END";
             migrationBuilder.Sql(sp1);
             migrationBuilder.Sql(sp2);
             migrationBuilder.Sql(sp3);
             migrationBuilder.Sql(sp4);
+            migrationBuilder.Sql(sp5);
         }
     }
 }

@@ -33,23 +33,25 @@ namespace Bug.Data.Repositories
         }
 
         public async Task<IReadOnlyList<Status>> GetDefaultStatusesNoTrackAsync
-            (string creatorId = "bts",
+            (string sortOrder,
+            string creatorId = "bts",     
             CancellationToken cancellationToken = default)
         {
             var specificationResult =
                 new StatusByCreatorIdSpecification(creatorId);
-            return await GetNextByOffsetNoTrackBySpecAsync
-                (0, 10, null, specificationResult, cancellationToken);
+            return await GetAllEntitiesNoTrackBySpecAsync
+                (specificationResult, sortOrder, cancellationToken);
         }
 
         public async Task<IReadOnlyList<Status>> GetDefaultStatusesAsync
-            (string creatorId = "bts",
+            (string sortOrder,
+            string creatorId = "bts",
             CancellationToken cancellationToken = default)
         {
             var specificationResult =
                 new StatusByCreatorIdSpecification(creatorId);
-            return await GetNextByOffsetBySpecAsync
-                (0, 10, null, specificationResult, cancellationToken);
+            return await GetAllEntitiesBySpecAsync
+                (specificationResult, sortOrder, cancellationToken);
         }
 
         public override IQueryable<Status> SortOrder

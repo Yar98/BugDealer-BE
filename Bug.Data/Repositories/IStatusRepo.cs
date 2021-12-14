@@ -16,10 +16,12 @@ namespace Bug.Data.Repositories
             (List<string> list,
             CancellationToken cancellationToken = default);
         Task<IReadOnlyList<Status>> GetDefaultStatusesNoTrackAsync
-            (string creatorId = "bts",
+            (string sortOrder,
+            string creatorId = "bts",
             CancellationToken cancellationToken = default);
         Task<IReadOnlyList<Status>> GetDefaultStatusesAsync
-            (string creatorId = "bts",
+            (string sortOrder,
+            string creatorId = "bts",
             CancellationToken cancellationToken = default);
     }
 }

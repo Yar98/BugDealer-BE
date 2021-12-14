@@ -38,6 +38,10 @@ namespace Bug.Data.Configuration
                 .WithMany(p => p.Projects)
                 .UsingEntity(e => e.ToTable("ProjectStatus"));
             builder
+                .HasMany(p => p.Roles)
+                .WithMany(p => p.Projects)
+                .UsingEntity(e => e.ToTable("ProjectRole"));
+            builder
                 .Ignore(p => p.TotalIssues)
                 .Ignore(p => p.TotalDoneIssues)
                 .Ignore(p => p.TotalOpenIssues);

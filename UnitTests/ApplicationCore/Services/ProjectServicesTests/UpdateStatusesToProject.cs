@@ -33,7 +33,7 @@ namespace UnitTests.ApplicationCore.Services.ProjectServicesTests
             _mockRepo
                 .Setup(mock => mock.Issue.UpdateIssuesHaveDumbStatus(It.IsAny<List<Status>>()));
             _mockRepo
-                .Setup(mock => mock.Status.GetDefaultStatusesAsync(It.IsAny<string>(), default))
+                .Setup(mock => mock.Status.GetDefaultStatusesAsync(It.IsAny<string>(), It.IsAny<string>(), default))
                 .ReturnsAsync(It.IsAny<List<Status>>());
             _mockRepo
                 .Setup(mock => mock.Project.Update(It.IsAny<Project>()));
