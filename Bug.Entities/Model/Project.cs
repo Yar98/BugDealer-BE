@@ -14,7 +14,7 @@ namespace Bug.Entities.Model
         public int Temp { get; set; } = 0;
         public DateTimeOffset? StartDate { get; private set; }
         public DateTimeOffset? EndDate { get; private set; }
-        public DateTimeOffset? RecentDate { get; private set; }
+        public DateTimeOffset? RecentDate { get; private set; } // ko can
         public string Description { get; private set; }
         public string AvatarUri { get; private set; }
         public int State { get; private set; }
@@ -134,13 +134,19 @@ namespace Bug.Entities.Model
         {
             Description = des;
         }
-        public void UpdateStartDate(DateTimeOffset? d)
+        public void UpdateStartDate(string d)
         {
-            StartDate = d;
+            if (d == "")
+                StartDate = null;
+            else if(d != null)
+                StartDate = DateTimeOffset.Parse(d);
         }
-        public void UpdateEndDate(DateTimeOffset? d)
+        public void UpdateEndDate(string d)
         {
-            EndDate = d;
+            if (d == "")
+                EndDate = null;
+            else if(d != null)
+                EndDate = DateTimeOffset.Parse(d);
         }
         public void UpdateCreatorId(string id)
         {
@@ -152,9 +158,9 @@ namespace Bug.Entities.Model
             if (!string.IsNullOrEmpty(id))
                 DefaultAssigneeId = id;
         }
-        public void UpdateTemplateId(int id)
+        public void UpdateTemplateId(int? id)
         {
-            TemplateId = id;
+            TemplateId = id?? TemplateId;
         }
         public void UpdateDefaultStatusId(string id)
         {
@@ -163,12 +169,11 @@ namespace Bug.Entities.Model
         }
         public void UpdateDefaultRoleId(int? id)
         {
-            if(id != null)
-                DefaultRoleId = id;
+            DefaultRoleId = id?? DefaultRoleId;
         }
-        public void UpdateState(int id)
+        public void UpdateState(int? id)
         {
-            State = id;
+            State = id??State;
         }
 
         public void UpdateRoles(List<Role> r)

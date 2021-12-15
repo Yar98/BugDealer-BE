@@ -24,9 +24,9 @@ namespace Bug.Entities.Builder
         public string DefaultStatusId { get; private set; }
         public int DefaultRoleId { get; private set; }
 
-        public IProjectBuilder AddDefaultRoleId(int id)
+        public IProjectBuilder AddDefaultRoleId(string id)
         {
-            DefaultRoleId = id;
+            DefaultRoleId = int.Parse(id);
             return this;
         }
 
@@ -41,9 +41,9 @@ namespace Bug.Entities.Builder
             State = 1;
             return this;
         }
-        public IProjectBuilder AddTemplateId(int id)
+        public IProjectBuilder AddTemplateId(string id)
         {
-            TemplateId = id;
+            TemplateId = int.Parse(id);
             return this;
         }
         public IProjectBuilder AddCreatorId(string id)
@@ -64,9 +64,12 @@ namespace Bug.Entities.Builder
             return this;
         }
 
-        public IProjectBuilder AddEndDate(DateTimeOffset? date)
+        public IProjectBuilder AddEndDate(string date)
         {
-            EndDate = date;
+            if (date == "")
+                EndDate = null;
+            else if (date != null)
+                EndDate = DateTimeOffset.Parse(date);
             return this;
         }
 
@@ -82,17 +85,14 @@ namespace Bug.Entities.Builder
             return this;
         }
 
-        public IProjectBuilder AddStartDate(DateTimeOffset? date)
+        public IProjectBuilder AddStartDate(string date)
         {
-            StartDate = date;
+            if (date == "")
+                StartDate = null;
+            else if (date != null)
+                StartDate = DateTimeOffset.Parse(date);
             return this;
-        }
-        
-        public IProjectBuilder AddRecentDate(DateTimeOffset? date)
-        {
-            RecentDate = date;
-            return this;
-        }
+        }       
 
         public IProjectBuilder AddDefaultAssigneeId(string id)
         {

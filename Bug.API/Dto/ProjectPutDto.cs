@@ -10,9 +10,9 @@ namespace Bug.API.Dto
         public string Id { get; set; }
         public string Name { get; set; }
         public string Code { get; set; }
-        public DateTimeOffset? StartDate { get; set; }
-        public DateTimeOffset? EndDate { get; set; }
-        public DateTimeOffset? RecentDate { get; set; }
+        public string StartDate { get; set; }
+        public string EndDate { get; set; }
+        public string RecentDate { get; set; }
         public string AvatarUri { get; set; }
         public string Description { get; set; }
         public int? State { get; set; }

@@ -128,9 +128,15 @@ namespace Bug.Entities.Model
         {
             ReporterId = id;
         }
-        public void UpdatePriorityId(int? i)
+        public void UpdatePriorityId(string i)
         {
-            PriorityId = i;
+            if(i == "")
+            {
+                PriorityId = null;
+            }else if(i != null)
+            {
+                PriorityId = int.Parse(i);
+            }          
         }
         public void UpdateOriginalEstimateTime(string s)
         {
@@ -140,21 +146,29 @@ namespace Bug.Entities.Model
         {
             RemainEstimateTime = s;
         }
-        public void UpdateDueDate(DateTimeOffset? dt)
+        public void UpdateDueDate(string dt)
         {
-            DueDate = dt;
+            if (dt == "")
+            {
+                DueDate = null;
+            }else if(dt != null)
+            {
+                DueDate = DateTimeOffset.Parse(dt);
+            }          
         }
         public void UpdateAssigneeId(string id)
         {
             AssigneeId = id;
         }
-        public void UpdateLogDate(DateTimeOffset? logDate)
+        public void UpdateCreatedDate(string dt)
         {
-            LogDate = logDate;
-        }
-        public void UpdateCreatedDate(DateTimeOffset? dt)
-        {
-            CreatedDate = dt;
+            if(dt == "")
+            {
+                CreatedDate = null;
+            }else if(dt != null)
+            {
+                CreatedDate = DateTimeOffset.Parse(dt);
+            }           
         }
         public void UpdateEnvironment(string e)
         {
@@ -164,13 +178,15 @@ namespace Bug.Entities.Model
         {
             StatusId = st;
         }
-        public void UpdateWorklogDate(DateTimeOffset? dt)
+        public void UpdateSeverityId(string id)
         {
-            WorklogDate = dt;
-        }
-        public void UpdateSeverityId(int? id)
-        {
-            SeverityId = id;
+            if (id == "")
+            {
+                SeverityId = null;
+            }else if(id != null)
+            {
+                SeverityId = int.Parse(id);
+            }
         }
 
         public void UpdateAttachments(List<Attachment> result)

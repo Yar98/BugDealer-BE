@@ -44,6 +44,7 @@ namespace Bug.API.ActionFilter
                 }
                 else // success login
                 {
+                    //var projectId = context.RouteData.Values["projectId"].ToString();
                     var user1 = await accountService
                         .CheckPermissionsOfRolesOfAccount(result.Id, Permission, ProjectId);
                     if(user1 == null)

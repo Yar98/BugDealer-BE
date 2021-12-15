@@ -1,6 +1,7 @@
 ﻿using Bug.API.Dto;
 using Bug.API.Services;
 using Bug.Data.Infrastructure;
+using Bug.Data.Specifications;
 using Bug.Entities.Model;
 using Moq;
 using System;
@@ -25,11 +26,12 @@ namespace UnitTests.ApplicationCore.Services.ProjectServicesTests
         public async Task InvokeSaveOnce()
         {
             _mockRepo
-                .Setup(mock => mock.Project.GetByIdAsync(It.IsAny<string>(), default))
+                .Setup(mock => mock.Project.GetEntityBySpecAsync(It.IsAny<ProjectSpecification>(), default))
                 .ReturnsAsync(It.IsAny<Project>());
             _mockRepo
                 .Setup(mock => mock.Status.GetStatusesFromMutiIdsAsync(It.IsAny<List<string>>(), default))
                 .ReturnsAsync(It.IsAny<List<Status>>());
+            Assert.Equal(1, 1);
             _mockRepo
                 .Setup(mock => mock.Issue.UpdateIssuesHaveDumbStatus(It.IsAny<List<Status>>()));
             _mockRepo

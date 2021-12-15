@@ -1,5 +1,6 @@
 ﻿using Bug.API.Dto;
 using Bug.API.Services;
+using Bug.Core.Utils;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System;
 using System.Collections.Generic;
@@ -26,6 +27,11 @@ namespace Bug.API.ActionFilter
                 if (await projectService.GetProjectsByCodeCreatorId(pro.CreatorId,pro.Code) != null)
                 {
                     context.Result = new BadRequestObjectResult("Code is exist");
+                    return;
+                }
+                if (!StringHandler.ValidCode(pro.Code))
+                {
+                    context.Result = new BadRequestObjectResult("Bad project code");
                     return;
                 }
             }

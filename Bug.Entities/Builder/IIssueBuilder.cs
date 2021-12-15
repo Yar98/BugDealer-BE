@@ -13,19 +13,17 @@ namespace Bug.Entities.Builder
         IIssueBuilder AddTitle(string title);
         IIssueBuilder AddDescription(string des);
         IIssueBuilder AddNumberCode(int code);
-        IIssueBuilder AddLogDate(DateTimeOffset? tl);
-        IIssueBuilder AddCreatedDate(DateTimeOffset? cd);
-        IIssueBuilder AddDueDate(DateTimeOffset? dd);
-        IIssueBuilder AddWorklogDate(DateTimeOffset? dd);
+        IIssueBuilder AddCreatedDate(string cd);
+        IIssueBuilder AddDueDate(string dd);
         IIssueBuilder AddOriginEstimateTime(string oet);
         IIssueBuilder AddRemainEstimateTime(string ret);
         IIssueBuilder AddEnvironment(string e);
         IIssueBuilder AddStatusId(string s);
-        IIssueBuilder AddPriorityId(int? p);
+        IIssueBuilder AddPriorityId(string p);
         IIssueBuilder AddProjectId(string s);
         IIssueBuilder AddReporterId(string s);
         IIssueBuilder AddAssigneeId(string s);
-        IIssueBuilder AddSeverityId(int? i);
+        IIssueBuilder AddSeverityId(string i);
         Issue Build();
     }
 }

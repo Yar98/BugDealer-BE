@@ -19,9 +19,9 @@ namespace Bug.Data.Repositories
 
         }
 
-        public void UpdateMultiByRoleIdProjectId(string projectId, List<Role> roles)
+        public void UpdateMultiByRoleIdProjectId(string projectId, List<Role> roles, int? roleId)
         {
-            if (roles == null)
+            if (roles == null || roleId == null)
                 return;
             var listRoleId = roles
                 .Select(r => r.Id.ToString())
@@ -29,7 +29,7 @@ namespace Bug.Data.Repositories
                 .Aggregate((x, y) => x + "," + y);
             var list = new SqlParameter("list", listRoleId);
             var pro = new SqlParameter("pro", projectId);
-            var role = new SqlParameter("role", 1);
+            var role = new SqlParameter("role", roleId);
             _bugContext
                 .Database
                 .ExecuteSqlRaw("EXECUTE dbo.UpdateAccountsHaveDumbRole @list, @pro, @role", list,pro,role);
