@@ -26,7 +26,6 @@ namespace Bug.Data
         public DbSet<Timezone> Timezones { get; set; }
         public DbSet<Status> Statuses { get; set; }
         public DbSet<Field> Fields { get; set; }
-        public DbSet<Customtype> Customtypes { get; set; }
         public DbSet<Template> Templates { get; set; }
         public DbSet<Notification> Notifications { get; set; }
         public DbSet<AccountProjectRole> AccountProjectRoles { get; set; }
@@ -53,7 +52,6 @@ namespace Bug.Data
                 .ApplyConfigurationsFromAssembly(typeof(IssuelogConfiguration).Assembly)
                 .ApplyConfigurationsFromAssembly(typeof(WorklogConfiguration).Assembly)
                 .ApplyConfigurationsFromAssembly(typeof(FieldConfiguration).Assembly)
-                .ApplyConfigurationsFromAssembly(typeof(CustomtypeConfiguration).Assembly)
                 .ApplyConfigurationsFromAssembly(typeof(TemplateConfiguration).Assembly)
                 .ApplyConfigurationsFromAssembly(typeof(SeverityConfiguration).Assembly)
                 .ApplyConfigurationsFromAssembly(typeof(NotificationConfiguration).Assembly)

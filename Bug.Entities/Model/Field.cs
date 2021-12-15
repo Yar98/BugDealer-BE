@@ -11,7 +11,7 @@ namespace Bug.Entities.Model
         public int Id { get; private set; }
         public string Name { get; private set; }
         public string Description { get; private set; }
-        public ICollection<Customtype> Customtypes { get; private set; }
+        public ICollection<Account> Accounts { get; private set; }
 
         private Field() { }
         

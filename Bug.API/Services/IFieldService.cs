@@ -17,7 +17,6 @@ namespace Bug.API.Services
             (CancellationToken cancellationToken = default);
         Task<IReadOnlyList<FieldNormalDto>> GetFieldsByAccountCustomtypeAsync
             (string accountId,
-            int customtypeId,
             string sortOrder,
             CancellationToken cancellationToken = default);
     }

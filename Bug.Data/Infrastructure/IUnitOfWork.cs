@@ -24,7 +24,6 @@ namespace Bug.Data.Infrastructure
         ITagRepo Tag { get; }
         IWorklogRepo Worklog { get; }
         IFieldRepo Field { get; }
-        ICustomtypeRepo Customtype { get; }
         IAttachmentRepo Attachment { get; }
         ITemplateRepo Template { get; }
         INotificationRepo Notification { get; }

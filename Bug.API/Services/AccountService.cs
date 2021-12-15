@@ -340,7 +340,14 @@ namespace Bug.API.Services
                 .AddEmail(user.Email)
                 .AddLanguage(user.Language)
                 .Build();
+            var fields = await _unitOfWork
+                .Field
+                .FindAllAsync(cancellationToken);
+
+            result.UpdateFields(fields);
+
             await _unitOfWork.Account.AddAsync(result, cancellationToken);
+
             _unitOfWork.Save();
             return new AccountNormalDto
             {
@@ -405,7 +412,7 @@ namespace Bug.API.Services
         }
 
         public async Task UpdateRoleOfAccountInProjectAsync
-            (AccountSetRolesDto asr,
+            (AccountSetListDto asr,
             CancellationToken cancellationToken = default)
         {
             var specificationResult =
@@ -419,6 +426,25 @@ namespace Bug.API.Services
                 .Select(r => new AccountProjectRole(asr.AccountId, asr.ProjectId, r.Id))
                 .ToList();
             result.AccountProjectRoles = newAprs;
+
+            _unitOfWork.Save();
+        }
+
+        public async Task UpdateFieldsOfAccountAsync
+            (AccountSetListDto asr,
+            CancellationToken cancellationToken = default)
+        {
+            var specificationResult =
+                new AccountSpecification(asr.AccountId);
+            var result = await _unitOfWork
+                .Account
+                .GetEntityBySpecAsync(specificationResult, cancellationToken);
+            if (result == null) return;
+            var newFields = await _unitOfWork
+                .Field
+                .FindAllAsync(cancellationToken);
+
+            result.UpdateFields(newFields.Where(f => asr.Fields.Any(a => a.Id == f.Id)).ToList());
 
             _unitOfWork.Save();
         }

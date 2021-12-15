@@ -7,12 +7,11 @@ using System.Threading.Tasks;
 
 namespace Bug.Data.Specifications
 {
-    public class IssuesByProjectCodeSpecification : BaseSpecification<Issue>
+    public class IssuesBySuggestSpecification : BaseSpecification<Issue>
     {
-        public IssuesByProjectCodeSpecification(int code, string projectCode, string accountId)
-            : base(i=>i.NumberCode.ToString().Contains(code.ToString()) &&
-            i.Project.Code.Contains(projectCode) && 
-            (i.Reporter.Id == accountId || i.Assignee.Id == accountId))
+        public IssuesBySuggestSpecification(string search, string projectId)
+            : base(i=>(i.Project.Code + "-" + i.Code).Contains(search) &&
+            i.Project.Id == projectId)
         {
             AddInclude(i => i.Severity);
             AddInclude(i => i.Status);

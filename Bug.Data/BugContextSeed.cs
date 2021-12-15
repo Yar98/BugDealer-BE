@@ -89,11 +89,6 @@ namespace Bug.Data
                     await bugContext.Fields.AddRangeAsync(
                         GetPreconfiguredField());
                 }
-                if (!await bugContext.Customtypes.AnyAsync())
-                {
-                    await bugContext.Customtypes.AddRangeAsync(
-                        GetPreconfiguredCustomtype());
-                }
                 if (!await bugContext.Severities.AnyAsync())
                 {
                     await bugContext.Severities.AddRangeAsync(
@@ -250,13 +245,6 @@ namespace Bug.Data
                 new Field(0,"C-024", null),
                 new Field(0,"C-025", null),
                 new Field(0,"C-026", null)
-            };
-        }
-        static IEnumerable<Customtype> GetPreconfiguredCustomtype()
-        {
-            return new List<Customtype>()
-            {
-                new Customtype(0, "IssueField",null)
             };
         }
         static IEnumerable<Template> GetPreconfiguredTemplate()

@@ -36,7 +36,10 @@ namespace Bug.Entities.Model
         public ICollection<Issue> ReportIssues { get; private set; }
         public ICollection<Issue> AssignIssues { get; private set; }
         public ICollection<Project> RelateProjects { get; private set; }
-        public ICollection<Customtype> Customtype { get; private set; }
+
+        private List<Field> _fields = new();
+        public ICollection<Field> Fields => _fields.AsReadOnly();
+
         public ICollection<AccountProjectRole> AccountProjectRoles { get; set; } = new List<AccountProjectRole>();
 
         private Account() { }
@@ -99,6 +102,14 @@ namespace Bug.Entities.Model
         public void UpdateTimezoneId(string timezoneId)
         {
             TimezoneId = timezoneId;
+        }
+
+        public void UpdateFields(IReadOnlyList<Field> l)
+        {
+            if (l == null)
+                return;
+            _fields.Clear();
+            _fields.AddRange(l);
         }
     }
 }

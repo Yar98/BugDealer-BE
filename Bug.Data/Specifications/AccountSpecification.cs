@@ -15,6 +15,7 @@ namespace Bug.Data.Specifications
             AddInclude(a => a.Timezone);
             AddInclude(a => a.VoteIssues);
             AddInclude(a => a.WatchIssues);
+            AddInclude(a => a.Fields);
         }
     }
 }

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bug.Data.Migrations
 {
     [DbContext(typeof(BugContext))]
-    [Migration("20211214212803_Created-db")]
+    [Migration("20211214223743_Created-db")]
     partial class Createddb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -21,19 +21,19 @@ namespace Bug.Data.Migrations
                 .HasAnnotation("ProductVersion", "5.0.11")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("AccountCustomtype", b =>
+            modelBuilder.Entity("AccountField", b =>
                 {
                     b.Property<string>("AccountsId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("CustomtypeId")
+                    b.Property<int>("FieldsId")
                         .HasColumnType("int");
 
-                    b.HasKey("AccountsId", "CustomtypeId");
+                    b.HasKey("AccountsId", "FieldsId");
 
-                    b.HasIndex("CustomtypeId");
+                    b.HasIndex("FieldsId");
 
-                    b.ToTable("AccountCustomtype");
+                    b.ToTable("AccountField");
                 });
 
             modelBuilder.Entity("AccountIssue", b =>
@@ -211,25 +211,6 @@ namespace Bug.Data.Migrations
                     b.HasIndex("IssueId");
 
                     b.ToTable("Comment");
-                });
-
-            modelBuilder.Entity("Bug.Entities.Model.Customtype", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Customtype");
                 });
 
             modelBuilder.Entity("Bug.Entities.Model.Field", b =>
@@ -692,21 +673,6 @@ namespace Bug.Data.Migrations
                     b.ToTable("Worklog");
                 });
 
-            modelBuilder.Entity("CustomtypeField", b =>
-                {
-                    b.Property<int>("CustomtypesId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("FieldsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("CustomtypesId", "FieldsId");
-
-                    b.HasIndex("FieldsId");
-
-                    b.ToTable("CustomtypeField");
-                });
-
             modelBuilder.Entity("IssueTag", b =>
                 {
                     b.Property<string>("IssuesId")
@@ -767,7 +733,7 @@ namespace Bug.Data.Migrations
                     b.ToTable("ProjectStatus");
                 });
 
-            modelBuilder.Entity("AccountCustomtype", b =>
+            modelBuilder.Entity("AccountField", b =>
                 {
                     b.HasOne("Bug.Entities.Model.Account", null)
                         .WithMany()
@@ -775,9 +741,9 @@ namespace Bug.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Bug.Entities.Model.Customtype", null)
+                    b.HasOne("Bug.Entities.Model.Field", null)
                         .WithMany()
-                        .HasForeignKey("CustomtypeId")
+                        .HasForeignKey("FieldsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -1085,21 +1051,6 @@ namespace Bug.Data.Migrations
                     b.Navigation("Issue");
 
                     b.Navigation("Logger");
-                });
-
-            modelBuilder.Entity("CustomtypeField", b =>
-                {
-                    b.HasOne("Bug.Entities.Model.Customtype", null)
-                        .WithMany()
-                        .HasForeignKey("CustomtypesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Bug.Entities.Model.Field", null)
-                        .WithMany()
-                        .HasForeignKey("FieldsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("IssueTag", b =>

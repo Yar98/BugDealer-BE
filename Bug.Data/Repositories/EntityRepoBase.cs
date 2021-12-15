@@ -55,8 +55,9 @@ namespace Bug.Data.Repositories
         {
             var result = _bugContext
                 .Set<T>()
-                .Specify(specificationResult);            
-            result = SortOrder(result, sortOrder);
+                .Specify(specificationResult);
+            var tem = result.ToQueryString();
+            result = SortOrder(result, sortOrder);            
             if (result == null)
                 return null;
             return await result.AsNoTracking().ToListAsync(cancellationToken);
