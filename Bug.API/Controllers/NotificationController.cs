@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Bug.Core.Common;
+using Bug.API.Dto;
 
 namespace Bug.API.Controllers
 {
@@ -67,6 +68,17 @@ namespace Bug.API.Controllers
             var result = await _notificationService
                 .GetNextByOffsetByAccountIdSeenAsync(accountId, seen, offset, next, sortOrder);
             return Ok(Bts.ConvertJson(result));
+        }
+
+        [HttpPut("{notificationId}")]
+        public async Task<IActionResult> PutUpdateNotification
+            (int notificationId,
+            [FromBody] NotificationNormalDto noti)
+        {
+            if (noti.Id != notificationId)
+                return BadRequest();
+            await _notificationService.UpdateNotificationByIdAsync(noti);
+            return NoContent();
         }
     }
 }

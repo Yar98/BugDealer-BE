@@ -242,8 +242,9 @@ namespace Bug.API.Services
             }
             var result = await _unitOfWork
                 .Status
-                .GetByIdAsync(statusId, cancellationToken);
-
+                .GetEntityBySpecAsync(new StatusSpecification(statusId), cancellationToken);
+            if (result.Projects == null)
+                return;
             _unitOfWork
                 .Issue
                 .UpdateIssuesHaveDumbStatus(new List<Status> { result });

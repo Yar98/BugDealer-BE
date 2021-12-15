@@ -88,5 +88,17 @@ namespace Bug.API.Services
                 .GetNextByOffsetNoTrackBySpecAsync(offset, next, sortOrder, specificationResult, cancellationToken);
             return result;
         }
+
+        public async Task UpdateNotificationByIdAsync
+            (NotificationNormalDto noti, 
+            CancellationToken cancellationToken = default)
+        {
+            var result = await _unitOfWork
+                .Notification
+                .GetByIdAsync(noti.Id,cancellationToken);
+            result.UpdateSeen(noti.Seen);
+
+            _unitOfWork.Save();
+        }
     }
 }

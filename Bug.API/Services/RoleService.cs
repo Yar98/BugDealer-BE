@@ -218,7 +218,9 @@ namespace Bug.API.Services
             (RoleNormalDto role,
             CancellationToken cancellationToken = default)
         {
-            var result = await _unitOfWork.Role.GetByIdAsync(role.Id,cancellationToken);
+            var result = await _unitOfWork
+                .Role
+                .GetByIdAsync(role.Id,cancellationToken);
             if(role.CreatorId != null)
                 result.UpdateCreatorId(role.CreatorId);
             if(role.Description != null)
@@ -251,7 +253,9 @@ namespace Bug.API.Services
             }
             var result = await _unitOfWork
                 .Role
-                .GetByIdAsync(id, cancellationToken);
+                .GetEntityBySpecAsync(new RoleSpecification(id), cancellationToken);
+            if (result.Projects == null)
+                return;
             _unitOfWork.Role.Delete(result);
 
             _unitOfWork.Save();

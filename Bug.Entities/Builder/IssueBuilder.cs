@@ -13,10 +13,10 @@ namespace Bug.Entities.Builder
         public string Title { get; private set; }
         public int NumberCode { get; private set; }
         public string Description { get; private set; }
-        public DateTimeOffset? Timelog { get; private set; }
+        public DateTimeOffset? Timelog { get; private set; } // ko can
         public DateTimeOffset? CreatedDate { get; private set; }
         public DateTimeOffset? DueDate { get; private set; }
-        public DateTimeOffset? WorklogDate { get; private set; }
+        public DateTimeOffset? WorklogDate { get; private set; } //ko can
         public string OriginEstimateTime { get; private set; }
         public string RemainEstimateTime { get; private set; }
         public string Environment { get; private set; }
@@ -27,9 +27,15 @@ namespace Bug.Entities.Builder
         public string AssigneeId { get; private set; }
         public int? SeverityId { get; private set; }
 
-        public IIssueBuilder AddSeverityId(int? i)
+        public IIssueBuilder AddSeverityId(string i)
         {
-            SeverityId = i;
+            if (i == "")
+            {
+                SeverityId = null;
+            }else if(i != null)
+            {
+                SeverityId = int.Parse(i);
+            }
             return this;
         }
 
@@ -39,21 +45,21 @@ namespace Bug.Entities.Builder
             return this;
         }
 
-        public IIssueBuilder AddWorklogDate(DateTimeOffset? dd)
-        {
-            WorklogDate = dd;
-            return this;
-        }
-
         public IIssueBuilder AddAssigneeId(string s)
         {
             AssigneeId = s;
             return this;
         }
 
-        public IIssueBuilder AddCreatedDate(DateTimeOffset? cd)
+        public IIssueBuilder AddCreatedDate(string cd)
         {
-            CreatedDate = cd;
+            if(cd == "")
+            {
+                CreatedDate = null;
+            }else if(cd != null)
+            {
+                CreatedDate = DateTimeOffset.Parse(cd);
+            }
             return this;
         }
 
@@ -63,9 +69,15 @@ namespace Bug.Entities.Builder
             return this;
         }
 
-        public IIssueBuilder AddDueDate(DateTimeOffset? dd)
+        public IIssueBuilder AddDueDate(string dd)
         {
-            DueDate = dd;
+            if (dd == "")
+            {
+                DueDate = null;
+            }else if( dd == null)
+            {
+                DueDate = DateTimeOffset.Parse(dd);
+            }
             return this;
         }
 
@@ -87,9 +99,15 @@ namespace Bug.Entities.Builder
             return this;
         }
 
-        public IIssueBuilder AddPriorityId(int? p)
+        public IIssueBuilder AddPriorityId(string p)
         {
-            PriorityId = p;
+            if(p == "")
+            {
+                PriorityId = null;
+            }else if(p == null)
+            {
+                PriorityId = int.Parse(p);
+            }
             return this;
         }
 
@@ -114,12 +132,6 @@ namespace Bug.Entities.Builder
         public IIssueBuilder AddStatusId(string s)
         {
             StatusId = s;
-            return this;
-        }
-
-        public IIssueBuilder AddLogDate(DateTimeOffset? tl)
-        {
-            Timelog = tl;
             return this;
         }
 

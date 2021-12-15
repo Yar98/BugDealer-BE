@@ -27,7 +27,7 @@ namespace Bug.API.Controllers
         }
 
         [HttpGet]
-        [JwtFilter(Permission = 1, ProjectId = "project1")]
+        [JwtFilter(Permission = 1)]
         public string Get()
         {
             Response.Headers.Add("yarito", "gaming");
@@ -35,11 +35,11 @@ namespace Bug.API.Controllers
         }
 
         // GET api/Project/detail/5
-        [HttpGet("detail/{id}")]
-        public async Task<IActionResult> GetDetailProject(string id)
+        [HttpGet("detail/{projectId}")]
+        public async Task<IActionResult> GetDetailProject(string projectId)
         {
             var result = await _projectService
-                .GetDetailProjectAsync(id);
+                .GetDetailProjectAsync(projectId);
             return Ok(Bts.ConvertJson(result));
         }
 
@@ -58,84 +58,84 @@ namespace Bug.API.Controllers
         }
 
         // GET: api/Project/paging/1/account1/1/1/3/id
-        [HttpGet("paging/creator/{accountId}/{status:int}/{pageIndex:int}/{pageSize:int}/{sortOrder}")]
+        [HttpGet("paging/creator/{accountId}/{state:int}/{pageIndex:int}/{pageSize:int}/{sortOrder}")]
         public async Task<IActionResult> GetPaginatedProjectsByCreatorIdTagId
             (string accountId,
             int pageIndex, 
             int pageSize,
-            int status,
+            int state,
             string sortOrder)
         {
             var result = 
                 await _projectService
-                .GetPaginatedByCreatorIdStatusAsync(accountId, pageIndex, pageSize, status, sortOrder);
+                .GetPaginatedByCreatorIdStatusAsync(accountId, pageIndex, pageSize, state, sortOrder);
             return Ok(Bts.ConvertJson(result));
         }
 
         // GET: api/Project/offset/1/account1/1/1/3/id
-        [HttpGet("offset/creator/{accountId}/{tagId:int}/{offset:int}/{next:int}/{sortOrder}")]
+        [HttpGet("offset/creator/{accountId}/{state:int}/{offset:int}/{next:int}/{sortOrder}")]
         public async Task<IActionResult> GetNextProjectsByOffsetByCreatorIdTagId
             (string accountId,
             int offset,
             int next,
-            int tagId,
+            int state,
             string sortOrder)
         {
             var result =
                 await _projectService.GetNextByOffsetByCreatorIdTagIdAsync(
-                    accountId, offset, next, tagId, sortOrder);
+                    accountId, offset, next, state, sortOrder);
             return Ok(Bts.ConvertJson(result));
         }
 
-        [HttpGet("paging/member/{accountId}/{tagId:int}/{pageIndex:int}/{pageSize:int}/{sortOrder}")]
+        [HttpGet("paging/member/{accountId}/{state:int}/{pageIndex:int}/{pageSize:int}/{sortOrder}")]
         public async Task<IActionResult> GetPaginatedProjectsByMemberIdTagId
             (string accountId,
             int pageIndex,
             int pageSize,
-            int tagId,
+            int state,
             string sortOrder)
         {
             var result =
                 await _projectService.GetPaginatedByMemberIdTagIdAsync(
-                    accountId, pageIndex, pageSize, tagId, sortOrder);
+                    accountId, pageIndex, pageSize, state, sortOrder);
             return Ok(Bts.ConvertJson(result));
         }
 
         // GET: api/Project/offset/1/account1/Open/1/3/id
-        [HttpGet("offset/member/{accountId}/{tagId:int}/{offset:int}/{next:int}/{sortOrder}")]
+        [HttpGet("offset/member/{accountId}/{state:int}/{offset:int}/{next:int}/{sortOrder}")]
         public async Task<IActionResult> GetNextProjectsByOffsetByMemberIdTagId
             (string accountId,
             int offset,
             int next,
-            int tagId,
+            int state,
             string sortOrder)
         {
             var result =
                 await _projectService.GetNextByOffsetByMemberIdTagIdAsync(
-                    accountId, offset, next, tagId, sortOrder);
+                    accountId, offset, next, state, sortOrder);
             return Ok(Bts.ConvertJson(result));
         }
 
-        // POST api/Project
-        [HttpPost]
+        // POST api/Project       
         [ModelFilter]
         [ProjectFilter]
+        [HttpPost]
         public async Task<IActionResult> PostAddProject
             ([FromBody] ProjectPostDto pro)
         {
             var result = await _projectService.AddProjectAsync(pro);
 
             return CreatedAtAction(
-                nameof(GetDetailProject), new { id = result.Id }, Bts.ConvertJson(result,4));
+                nameof(GetDetailProject), new { projectId = result.Id }, Bts.ConvertJson(result,4));
         }
 
         // PUT api/Project/detail/5
-        [HttpPut("{id}")]
+        [HttpPut("{projectId}")]
         public async Task<IActionResult> PutUpdateBasicProject
-            (string id, 
+            (string projectId, 
             [FromBody] ProjectPutDto pro)
         {
-            if (id != pro.Id)
+            if (projectId != pro.Id)
                 return BadRequest();
             await _projectService.UpdateBasicProjectAsync(pro);
             return NoContent();

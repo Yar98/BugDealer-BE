@@ -9,7 +9,6 @@ namespace Bug.Entities.Model
 {
     public class Relation : IEntityBase
     {
-        //public int Id { get; private set; }
         public string Description { get; private set; }
         public int TagId { get; private set; }
         public Tag Tag { get; private set; }

@@ -243,7 +243,6 @@ namespace Bug.API.Services
                 .AddAssigneeId(issue.AssigneeId)
                 .AddCreatedDate(issue.CreatedDate)
                 .AddDueDate(issue.DueDate)
-                .AddWorklogDate(issue.WorklogDate)
                 .AddEnvironment(issue.Environment)
                 .AddOriginEstimateTime(issue.OriginEstimateTime)
                 .AddPriorityId(issue.PriorityId)
@@ -252,7 +251,6 @@ namespace Bug.API.Services
                 .AddRemainEstimateTime(issue.RemainEstimateTime)
                 .AddReporterId(issue.ReporterId)
                 .AddStatusId(issue.StatusId)
-                .AddLogDate(issue.LogDate)
                 .AddTitle(issue.Title)
                 .Build();
             pro.Temp += 1;
@@ -316,19 +314,15 @@ namespace Bug.API.Services
                 result.UpdateDescription(issue.Description);
             if(issue.Environment != null)
                 result.UpdateEnvironment(issue.Environment);
-            if(issue.LogDate != null)
-                result.UpdateLogDate(issue.LogDate);
             if(issue.CreatedDate != null)
                 result.UpdateCreatedDate(issue.CreatedDate);
             if(issue.DueDate != null)
                 result.UpdateDueDate(issue.DueDate);
-            if(issue.WorklogDate != null)
-                result.UpdateWorklogDate(issue.WorklogDate);
             if (issue.OriginEstimateTime != null)
                 result.UpdateOriginalEstimateTime(issue.OriginEstimateTime);
-            if(issue.PriorityId != 0 && issue.PriorityId != null)
+            if(issue.PriorityId != null)
                 result.UpdatePriorityId(issue.PriorityId);
-            if (issue.SeverityId != 0 && issue.SeverityId != null)
+            if (issue.SeverityId != null)
                 result.UpdateSeverityId(issue.SeverityId);
             if (issue.RemainEstimateTime != null)
                 result.UpdateRemainEstimateTime(issue.RemainEstimateTime);

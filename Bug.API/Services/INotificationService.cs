@@ -36,5 +36,8 @@ namespace Bug.API.Services
             int next,
             string sortOrder,
             CancellationToken cancellationToken = default);
+        Task UpdateNotificationByIdAsync
+            (NotificationNormalDto noti,
+            CancellationToken cancellationToken = default);
     }
 }

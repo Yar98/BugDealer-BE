@@ -19,7 +19,7 @@ namespace Bug.Core.Utils
         public static bool ValidUserName(string username)
         {
             var regex =
-                new Regex(@"^[^\^\$\*.\[\]\{\}\(\)\?\-\x22\!\@#%&/\\,<>':;|_~`+=]+$");
+                new Regex(@"^[aAàÀảẢãÃáÁạẠăĂằẰẳẲẵẴắẮặẶâÂầẦẩẨẫẪấẤậẬbBcCdDđĐeEèÈẻẺẽẼéÉẹẸêÊềỀểỂễỄếẾệỆfFgGhHiIìÌỉỈĩĨíÍịỊjJkKlLmMnNoOòÒỏỎõÕóÓọỌôÔồỒổỔỗỖốỐộỘơƠờỜởỞỡỠớỚợỢpPqQrRsStTuUùÙủỦũŨúÚụỤưƯừỪửỬữỮứỨựỰvVwWxXyYỳỲỷỶỹỸýÝỵỴzZ\s\d]{1,255}$");
             return regex.IsMatch(username);
         }
 
@@ -36,6 +36,20 @@ namespace Bug.Core.Utils
             var regex =
                 new Regex(@"^[a-zA-Z0-9]+\@([a-z]+\.[a-z]+)+$");
             return regex.IsMatch(email);
+        }
+
+        public static bool ValidCode(string code)
+        {
+            var regex =
+                new Regex(@"^[A-Z\d]{2,10}$");
+            return regex.IsMatch(code);
+        }
+
+        public static bool ValidTimeTracking(string tiime)
+        {
+            var regex =
+                new Regex(@"^(?!.*([wdhm]).*\1)(?!.*m.*d.*h)(?!.*m.*h.*d)(?!.*h.*d.*m)(?!.*h.*m.*d)(?!.*d.*m.*h)(?!.*m.*d)(?!.*m.*h)(?!.*h.*d)\d*\.?\d+[wdhm](?: \d*\.?\d+[dhm])*$");
+            return regex.IsMatch(tiime);
         }
     }
 }
