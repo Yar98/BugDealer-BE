@@ -191,11 +191,20 @@ namespace Bug.API.Controllers
         }
 
         [HttpPut("setroles")]
-        public async Task<IActionResult> PutUpdateAccountWithCheckPass
-            ([FromBody] AccountSetRolesDto user)
+        public async Task<IActionResult> PutUpdateRolesOfAccount
+            ([FromBody] AccountSetListDto user)
         {
             await _accountService
                 .UpdateRoleOfAccountInProjectAsync(user);
+            return NoContent();
+        }
+
+        [HttpPut("setfields")]
+        public async Task<IActionResult> PutUpdateFieldsOfAccount
+            ([FromBody] AccountSetListDto user)
+        {
+            await _accountService
+                .UpdateFieldsOfAccountAsync(user);
             return NoContent();
         }
 

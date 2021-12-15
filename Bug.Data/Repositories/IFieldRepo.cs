@@ -9,5 +9,6 @@ namespace Bug.Data.Repositories
 {
     public interface IFieldRepo : IEntityRepoBase<Field>
     {
+        Task<IReadOnlyList<Field>> GetActiveFieldsByAccountIdAsync(string accountId);
     }
 }

@@ -23,20 +23,6 @@ namespace Bug.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Customtype",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Customtype", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Field",
                 columns: table => new
                 {
@@ -150,30 +136,6 @@ namespace Bug.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CustomtypeField",
-                columns: table => new
-                {
-                    CustomtypesId = table.Column<int>(type: "int", nullable: false),
-                    FieldsId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CustomtypeField", x => new { x.CustomtypesId, x.FieldsId });
-                    table.ForeignKey(
-                        name: "FK_CustomtypeField_Customtype_CustomtypesId",
-                        column: x => x.CustomtypesId,
-                        principalTable: "Customtype",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_CustomtypeField_Field_FieldsId",
-                        column: x => x.FieldsId,
-                        principalTable: "Field",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Account",
                 columns: table => new
                 {
@@ -201,25 +163,25 @@ namespace Bug.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AccountCustomtype",
+                name: "AccountField",
                 columns: table => new
                 {
                     AccountsId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    CustomtypeId = table.Column<int>(type: "int", nullable: false)
+                    FieldsId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AccountCustomtype", x => new { x.AccountsId, x.CustomtypeId });
+                    table.PrimaryKey("PK_AccountField", x => new { x.AccountsId, x.FieldsId });
                     table.ForeignKey(
-                        name: "FK_AccountCustomtype_Account_AccountsId",
+                        name: "FK_AccountField_Account_AccountsId",
                         column: x => x.AccountsId,
                         principalTable: "Account",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_AccountCustomtype_Customtype_CustomtypeId",
-                        column: x => x.CustomtypeId,
-                        principalTable: "Customtype",
+                        name: "FK_AccountField_Field_FieldsId",
+                        column: x => x.FieldsId,
+                        principalTable: "Field",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -771,9 +733,9 @@ namespace Bug.Data.Migrations
                 column: "TimezoneId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AccountCustomtype_CustomtypeId",
-                table: "AccountCustomtype",
-                column: "CustomtypeId");
+                name: "IX_AccountField_FieldsId",
+                table: "AccountField",
+                column: "FieldsId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AccountProjectRole_ProjectId",
@@ -799,11 +761,6 @@ namespace Bug.Data.Migrations
                 name: "IX_Comment_IssueId",
                 table: "Comment",
                 column: "IssueId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_CustomtypeField_FieldsId",
-                table: "CustomtypeField",
-                column: "FieldsId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Issue_AssigneeId",
@@ -969,7 +926,7 @@ namespace Bug.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "AccountCustomtype");
+                name: "AccountField");
 
             migrationBuilder.DropTable(
                 name: "AccountProjectRole");
@@ -979,9 +936,6 @@ namespace Bug.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Comment");
-
-            migrationBuilder.DropTable(
-                name: "CustomtypeField");
 
             migrationBuilder.DropTable(
                 name: "IssueTag");
@@ -1012,9 +966,6 @@ namespace Bug.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Worklog");
-
-            migrationBuilder.DropTable(
-                name: "Customtype");
 
             migrationBuilder.DropTable(
                 name: "Field");

@@ -78,11 +78,23 @@ namespace Bug.Data
                     DELETE FROM [Relation]
                     WHERE ToIssueId = @issue OR FromIssueId = @issue
                 END";
+            var sp6 = @"CREATE PROCEDURE [dbo].[GetActiveFieldsByAccountId]
+                    @account NVARCHAR(MAX)
+                AS
+                BEGIN
+                    SET NOCOUNT ON;
+
+                    SELECT * FROM [Field] as f
+					JOIN [AccountField] as af
+					ON f.Id = af.FieldsId
+					WHERE af.AccountsId = @account
+                END";
             migrationBuilder.Sql(sp1);
             migrationBuilder.Sql(sp2);
             migrationBuilder.Sql(sp3);
             migrationBuilder.Sql(sp4);
             migrationBuilder.Sql(sp5);
+            migrationBuilder.Sql(sp6);
         }
     }
 }

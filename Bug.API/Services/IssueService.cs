@@ -222,16 +222,12 @@ namespace Bug.API.Services
             string sortOrder,
             CancellationToken cancellationToken = default)
         {
-            var regexNumber = new Regex(@"[0-9]+$");
-            var regexChar = new Regex(@"^[A-Z]+");
             var specificationResult =
-                new IssuesByProjectCodeSpecification(int.Parse(regexNumber.Match(search).Value), regexChar.Match(search).Value, projectId);
+                new IssuesBySuggestSpecification(search,projectId);
             return await _unitOfWork
                 .Issue
                 .GetAllEntitiesBySpecAsync(specificationResult, sortOrder, cancellationToken);
         }
-
-
 
         public async Task<Issue> AddIssueAsync
             (IssuePostDto issue,

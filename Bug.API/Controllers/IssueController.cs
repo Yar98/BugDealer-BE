@@ -156,13 +156,12 @@ namespace Bug.API.Controllers
 
         [HttpGet("suggest/project/{projectId}/{sortOrder}")]
         public async Task<IActionResult> GetSuggestIssuesByCode
-            (string accountId, 
-            string code,
+            (string projectId, 
             string sortOrder)
         {
             var search = Request.Query["searchText"].ToString();
             var result = await _issueService
-                .GetSuggestIssueByCode(search, accountId,sortOrder);
+                .GetSuggestIssueByCode(search, projectId, sortOrder);
             return Ok(Bts.ConvertJson(result));
         }
 

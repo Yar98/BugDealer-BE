@@ -27,7 +27,6 @@ namespace Bug.Data.Infrastructure
         private ITagRepo _tag;
         private IWorklogRepo _worklog;
         private IFieldRepo _field;
-        private ICustomtypeRepo _customtype;
         private IAttachmentRepo _attachment;
         private ITemplateRepo _template;
         private INotificationRepo _notification;
@@ -109,17 +108,7 @@ namespace Bug.Data.Infrastructure
                 return _field;
             }
         }
-        public ICustomtypeRepo Customtype
-        {
-            get
-            {
-                if (_customtype == null)
-                {
-                    _customtype = new CustomtypeRepo(_bugContext);
-                }
-                return _customtype;
-            }
-        }
+
         public IAccountRepo Account
         {
             get

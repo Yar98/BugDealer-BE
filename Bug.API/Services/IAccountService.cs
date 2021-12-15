@@ -72,7 +72,10 @@ namespace Bug.API.Services
             (AccountPutWithCheckDto user,
             CancellationToken cancellationToken = default);
         Task UpdateRoleOfAccountInProjectAsync
-            (AccountSetRolesDto asr,
+            (AccountSetListDto asr,
+            CancellationToken cancellationToken = default);
+        Task UpdateFieldsOfAccountAsync
+            (AccountSetListDto asr,
             CancellationToken cancellationToken = default);
         Task DeleteAccountAsync(string id, CancellationToken cancellationToken = default);
     }

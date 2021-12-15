@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace Bug.API.Dto
 {
-    public class AccountSetRolesDto
+    public class AccountSetListDto
     {
         public string AccountId { get; set; }
         public string ProjectId { get; set; }
-        public List<Role> Roles { get; set; }
+        public List<RoleNormalDto> Roles { get; set; }
+        public List<FieldNormalDto> Fields { get; set; }
     }
 }
