@@ -83,6 +83,7 @@ namespace Bug.API.Services
         Task<IReadOnlyList<Issue>> GetSuggestIssueByCode
             (string code,
             string accountId,
+            string issueId,
             string sortOrder,
             CancellationToken cancellationToken = default);
         Task<Issue> AddIssueAsync

@@ -219,14 +219,15 @@ namespace Bug.API.Services
         public async Task<IReadOnlyList<Issue>> GetSuggestIssueByCode
             (string search,
             string projectId,
+            string issueId,
             string sortOrder,
             CancellationToken cancellationToken = default)
         {
-            var specificationResult =
-                new IssuesBySuggestSpecification(search,projectId);
-            return await _unitOfWork
+            var result =  await _unitOfWork
                 .Issue
-                .GetAllEntitiesBySpecAsync(specificationResult, sortOrder, cancellationToken);
+                .GetSuggestIssuesAsync(projectId, search, sortOrder, cancellationToken);
+            result.Remove(result.FirstOrDefault(i => i.Id == issueId));
+            return result;
         }
 
         public async Task<Issue> AddIssueAsync

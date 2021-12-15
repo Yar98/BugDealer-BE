@@ -266,7 +266,8 @@ namespace Bug.API.Services
                 .Project
                 .GetEntityBySpecAsync(specificationResult, cancellationToken);
             //role set default cannot be deleted
-            if (pro.Roles.Any(p => p.Id == project.DefaultRoleId))
+            if (pro.Roles == null || 
+                pro.Roles.Any(p => p.Id == project.DefaultRoleId))
                 return;
             var roles = await _unitOfWork
                 .Role
@@ -276,7 +277,7 @@ namespace Bug.API.Services
                 .GetDefaultRolesAsync("null",cancellationToken:cancellationToken);           
             roles?.AddRange(defaultRoles);
 
-            project?.UpdateDefaultRoleId(pro.DefaultRoleId);
+            project?.UpdateDefaultRoleId(pro.DefaultRoleId??project?.DefaultRoleId);
             project?.UpdateRoles(roles);
 
             _unitOfWork.Save();

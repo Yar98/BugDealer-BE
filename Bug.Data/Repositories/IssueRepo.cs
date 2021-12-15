@@ -19,10 +19,24 @@ namespace Bug.Data.Repositories
 {
     public class IssueRepo : EntityRepoBase<Issue>, IIssueRepo
     {
-        private readonly IConfiguration _config;
         public IssueRepo(BugContext repositoryContext)
             : base(repositoryContext)
         {
+        }
+
+        public async Task<List<Issue>> GetSuggestIssuesAsync
+            (string projectId, 
+            string search,
+            string sortOrder,
+            CancellationToken cancellationToken = default)
+        {
+            var s = new SqlParameter("search", "%" + search + "%");
+            var project = new SqlParameter("project", projectId);
+            var order = new SqlParameter("order", sortOrder);
+            return await _bugContext
+                .Issues
+                .FromSqlRaw("EXECUTE dbo.GetSuggestIssues @project, @search, @order", project, s, order)
+                .ToListAsync(cancellationToken);
         }
 
         public void UpdateIssuesHaveDumbStatus(List<Status> statuses)
@@ -37,24 +51,6 @@ namespace Bug.Data.Repositories
             _bugContext
                 .Database
                 .ExecuteSqlRaw("EXECUTE dbo.UpdateIssuesHaveDumbStatus @list", list);
-        }
-
-        public string GeneratePreSignedURL(double duration)
-        {
-            var s3Client = new AmazonS3Client
-                (_config.GetSection("Cognito")["AccessKeyId"],
-                _config.GetSection("Cognito")["AccessSecretKey"], 
-                RegionEndpoint.GetBySystemName(_config.GetSection("Cognito")["Region"]));
-            var request = new GetPreSignedUrlRequest
-            {
-                BucketName = "bugdealer",
-                Key = "",
-                Verb = HttpVerb.PUT,
-                Expires = DateTime.UtcNow.AddHours(duration)
-            };
-
-            string url = s3Client.GetPreSignedURL(request);
-            return url;
         }
 
         public override IQueryable<Issue> SortOrder
