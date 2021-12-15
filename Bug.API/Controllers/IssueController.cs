@@ -160,8 +160,9 @@ namespace Bug.API.Controllers
             string sortOrder)
         {
             var search = Request.Query["searchText"].ToString();
+            var issueId = Request.Query["exceptIssueId"].ToString();
             var result = await _issueService
-                .GetSuggestIssueByCode(search, projectId, sortOrder);
+                .GetSuggestIssueByCode(search, projectId , issueId, sortOrder);
             return Ok(Bts.ConvertJson(result));
         }
 

@@ -13,5 +13,10 @@ namespace Bug.Data.Repositories
     public interface IIssueRepo : IEntityRepoBase<Issue>
     {
         void UpdateIssuesHaveDumbStatus(List<Status> statuses);
+        Task<List<Issue>> GetSuggestIssuesAsync
+            (string projectId,
+            string search,
+            string sortOrder,
+            CancellationToken cancellationToken = default);
     }
 }

@@ -35,12 +35,12 @@ namespace UnitTests.ApplicationCore.Services.ProjectServicesTests
                 .Setup(mock => mock.Role.GetDefaultRolesAsync(It.IsAny<string>(), It.IsAny<string>(), default))
                 .ReturnsAsync(It.IsAny<List<Role>>());
             _mockRepo
-                .Setup(mock => mock.AccountProjectRole.UpdateMultiByRoleIdProjectId(It.IsAny<string>(), It.IsAny<List<Role>>()));
+                .Setup(mock => mock.AccountProjectRole.UpdateMultiByRoleIdProjectId(It.IsAny<string>(), It.IsAny<List<Role>>(), It.IsAny<int>()));
 
             var projectService = new ProjectService(_mockRepo.Object);
             await projectService.UpdateRolesOfProjectAsync(new TestProjectBuilder().BuildPutDto(), default);
 
-            _mockRepo.Verify(mock => mock.Save(), Times.Once);
+            _mockRepo.Verify(mock => mock.Save(), Times.Never);
         }
     }
 }

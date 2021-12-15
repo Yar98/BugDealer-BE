@@ -21,13 +21,15 @@ namespace Bug.Data
 
 					INSERT INTO [AccountProjectRole]
 					SELECT a.Id, @pro, @role 
-                    FROM Account as a INNER JOIN [AccountProjectRole] as apr
-					ON a.Id = apr.AccountId
+                    FROM Account as a JOIN [AccountProjectRole] as apr
+					ON a.Id = apr.AccountId AND apr.ProjectId = @pro
 					WHERE a.Id NOT IN 
                         (SELECT AccountId 
                         FROM [AccountProjectRole] as apr
 						INNER JOIN Account as a ON apr.AccountId = a.Id
-						WHERE apr.RoleId = @role AND apr.ProjectId = @pro)
+						WHERE apr.ProjectId = @pro AND 
+							(apr.RoleId IN (SELECT VALUE FROM STRING_SPLIT(@list,',')) OR 
+							apr.RoleId = @role))
 					DELETE FROM [AccountProjectRole]
                     WHERE ProjectId = @pro AND RoleId NOT IN 
                         (SELECT VALUE FROM STRING_SPLIT(@list,','))
@@ -89,12 +91,29 @@ namespace Bug.Data
 					ON f.Id = af.FieldsId
 					WHERE af.AccountsId = @account
                 END";
+            var sp7 = @"CREATE PROCEDURE [dbo].[GetSuggestIssues]
+                    @project NVARCHAR(MAX),
+                    @search NVARCHAR(MAX),
+                    @order NVARCHAR(MAX)
+                AS
+                BEGIN
+                    SET NOCOUNT ON;
+
+                    SELECT * FROM [Issue] as i
+                    JOIN [Project] as p ON i.ProjectId = p.Id AND p.Id = @project
+                    WHERE p.Code + CAST(i.NumberCode AS NVARCHAR) LIKE @search
+                    ORDER BY 
+						CASE @order WHEN 'id' THEN i.Id END,
+						CASE @order WHEN 'code' THEN i.NumberCode END,
+						CASE @order WHEN 'code_desc' THEN i.NumberCode END DESC
+                END";
             migrationBuilder.Sql(sp1);
             migrationBuilder.Sql(sp2);
             migrationBuilder.Sql(sp3);
             migrationBuilder.Sql(sp4);
             migrationBuilder.Sql(sp5);
             migrationBuilder.Sql(sp6);
+            migrationBuilder.Sql(sp7);
         }
     }
 }
