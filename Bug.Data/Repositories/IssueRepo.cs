@@ -30,12 +30,15 @@ namespace Bug.Data.Repositories
             string sortOrder,
             CancellationToken cancellationToken = default)
         {
-            var s = new SqlParameter("search", "%" + search + "%");
-            var project = new SqlParameter("project", projectId);
+            var s = new SqlParameter("@search", "%" + search + "%");
+            var s1 = new SqlParameter("@search1", "%" + search + "%");
+            var project = new SqlParameter("@project", projectId);
             var order = new SqlParameter("order", sortOrder);
+
             return await _bugContext
                 .Issues
-                .FromSqlRaw("EXECUTE dbo.GetSuggestIssues @project, @search, @order", project, s, order)
+                .FromSqlInterpolated($"SELECT i.* FROM [Issue] as i JOIN [Project] as p ON i.ProjectId = p.Id AND p.Id = {project} WHERE p.Code + CAST(i.NumberCode AS NVARCHAR) LIKE {s} OR i.Title Like {s1}")
+                .Include(i=>i.Project)
                 .ToListAsync(cancellationToken);
         }
 

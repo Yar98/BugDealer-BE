@@ -47,7 +47,12 @@ namespace Bug.Entities.Builder
 
         public IIssueBuilder AddAssigneeId(string s)
         {
-            AssigneeId = s;
+            if (s == "")
+            {
+                AssigneeId = null;
+                return this;
+            }
+            AssigneeId = s ?? AssigneeId;
             return this;
         }
 
@@ -95,7 +100,10 @@ namespace Bug.Entities.Builder
 
         public IIssueBuilder AddOriginEstimateTime(string oet)
         {
-            OriginEstimateTime = oet;
+            if (oet == "")
+                OriginEstimateTime = null;
+            else if(oet != null)
+                OriginEstimateTime = oet;
             return this;
         }
 
@@ -119,7 +127,10 @@ namespace Bug.Entities.Builder
 
         public IIssueBuilder AddRemainEstimateTime(string ret)
         {
-            RemainEstimateTime = ret;
+            if (ret == "")
+                RemainEstimateTime = null;
+            else if (ret != null)
+                RemainEstimateTime = ret;
             return this;
         }
 

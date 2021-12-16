@@ -23,7 +23,7 @@ namespace Bug.API.Dto
         public string LastName { get; set; }
         [Required]
         public string Email { get; set; }
-        public int TimeZoneId { get; set; }
+        public string TimeZoneId { get; set; }
         public string Language { get; set; }
     }
 }

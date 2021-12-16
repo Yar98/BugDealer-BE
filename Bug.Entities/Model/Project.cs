@@ -63,6 +63,12 @@ namespace Bug.Entities.Model
                 return null;
             }
         }
+
+        public void UpdateCreatorId(string testAccountId)
+        {
+            CreatorId = testAccountId;
+        }
+
         public int? TotalInProgressIssues
         {
             get
@@ -122,25 +128,29 @@ namespace Bug.Entities.Model
         {
             if (name == "")
                 Name = null;
-            Name = name ?? Name;
+            else if(name != null)
+                Name = name;
         }
         public void UpdateAvatarUri(string uri)
         {
             if (uri == "")
                 AvatarUri = null;
-            AvatarUri = uri ?? AvatarUri;
+            else if(uri != null)
+                AvatarUri = uri;
         }
         public void UpdateCode(string code)
         {
             if (code == "")
                 Code = null;
-            Code = code ?? Code;
+            else if (code != null)
+                Code = code;
         }
         public void UpdateDescription(string des)
         {
             if (des == "")
                 Description = null;
-            Description = des ?? Description;
+            else if(des != null)
+                Description = des;
         }
         public void UpdateStartDate(string d)
         {
@@ -160,7 +170,8 @@ namespace Bug.Entities.Model
         {
             if (id == "")
                 DefaultAssigneeId = null;
-            DefaultAssigneeId = id ?? DefaultAssigneeId;
+            else if(id != null)
+                DefaultAssigneeId = id;
         }
         public void UpdateTemplateId(int? id)
         {
@@ -170,7 +181,8 @@ namespace Bug.Entities.Model
         {
             if (id == "")
                 DefaultStatusId = null;
-            DefaultStatusId = id ?? DefaultStatusId;
+            else if (id != null)
+                DefaultStatusId = id;
         }
         public void UpdateDefaultRoleId(int? id)
         {
