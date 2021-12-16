@@ -120,19 +120,27 @@ namespace Bug.Entities.Model
 
         public void UpdateName(string name)
         {
-            Name = name;
+            if (name == "")
+                Name = null;
+            Name = name ?? Name;
         }
         public void UpdateAvatarUri(string uri)
         {
-            AvatarUri = uri;
+            if (uri == "")
+                AvatarUri = null;
+            AvatarUri = uri ?? AvatarUri;
         }
         public void UpdateCode(string code)
         {
-            Code = code;
+            if (code == "")
+                Code = null;
+            Code = code ?? Code;
         }
         public void UpdateDescription(string des)
         {
-            Description = des;
+            if (des == "")
+                Description = null;
+            Description = des ?? Description;
         }
         public void UpdateStartDate(string d)
         {
@@ -148,15 +156,11 @@ namespace Bug.Entities.Model
             else if(d != null)
                 EndDate = DateTimeOffset.Parse(d);
         }
-        public void UpdateCreatorId(string id)
-        {
-            if (!string.IsNullOrEmpty(id))
-                CreatorId = id;
-        }
         public void UpdateDefaultAssigneeId(string id)
         {
-            if (!string.IsNullOrEmpty(id))
-                DefaultAssigneeId = id;
+            if (id == "")
+                DefaultAssigneeId = null;
+            DefaultAssigneeId = id ?? DefaultAssigneeId;
         }
         public void UpdateTemplateId(int? id)
         {
@@ -164,8 +168,9 @@ namespace Bug.Entities.Model
         }
         public void UpdateDefaultStatusId(string id)
         {
-            if(!string.IsNullOrEmpty(id))
-                DefaultStatusId = id;
+            if (id == "")
+                DefaultStatusId = null;
+            DefaultStatusId = id ?? DefaultStatusId;
         }
         public void UpdateDefaultRoleId(int? id)
         {

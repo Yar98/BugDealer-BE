@@ -251,9 +251,10 @@ namespace Bug.API.Services
                 .AddProjectId(issue.ProjectId)
                 .AddRemainEstimateTime(issue.RemainEstimateTime)
                 .AddReporterId(issue.ReporterId)
-                .AddStatusId(issue.StatusId)
+                .AddStatusId(issue.StatusId??pro.DefaultStatusId)
                 .AddTitle(issue.Title)
                 .Build();
+            //increase after create new issue to generate code of issue
             pro.Temp += 1;
             var customLabelTags = issue
                 .Tags
@@ -309,30 +310,18 @@ namespace Bug.API.Services
             var result = await _unitOfWork
                 .Issue
                 .GetByIdAsync(issue.Id, cancellationToken);
-            if(issue.AssigneeId != null)
-                result.UpdateAssigneeId(issue.AssigneeId);           
-            if(issue.Description != null)
-                result.UpdateDescription(issue.Description);
-            if(issue.Environment != null)
-                result.UpdateEnvironment(issue.Environment);
-            if(issue.CreatedDate != null)
-                result.UpdateCreatedDate(issue.CreatedDate);
-            if(issue.DueDate != null)
-                result.UpdateDueDate(issue.DueDate);
-            if (issue.OriginEstimateTime != null)
-                result.UpdateOriginalEstimateTime(issue.OriginEstimateTime);
-            if(issue.PriorityId != null)
-                result.UpdatePriorityId(issue.PriorityId);
-            if (issue.SeverityId != null)
-                result.UpdateSeverityId(issue.SeverityId);
-            if (issue.RemainEstimateTime != null)
-                result.UpdateRemainEstimateTime(issue.RemainEstimateTime);
-            if(issue.ReporterId != null)
-                result.UpdateReporterId(issue.ReporterId);
-            if(issue.StatusId != null)
-                result.UpdateStatusId(issue.StatusId);
-            if(issue.Title != null)
-                result.UpdateTitle(issue.Title);
+            result.UpdateAssigneeId(issue.AssigneeId);           
+            result.UpdateDescription(issue.Description);
+            result.UpdateEnvironment(issue.Environment);
+            result.UpdateCreatedDate(issue.CreatedDate);
+            result.UpdateDueDate(issue.DueDate);
+            result.UpdateOriginalEstimateTime(issue.OriginEstimateTime);
+            result.UpdatePriorityId(issue.PriorityId);
+            result.UpdateSeverityId(issue.SeverityId);           
+            result.UpdateRemainEstimateTime(issue.RemainEstimateTime);
+            result.UpdateReporterId(issue.ReporterId);
+            result.UpdateStatusId(issue.StatusId);
+            result.UpdateTitle(issue.Title);
             
             _unitOfWork.Save();
         }       
