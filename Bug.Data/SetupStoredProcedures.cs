@@ -99,9 +99,9 @@ namespace Bug.Data
                 BEGIN
                     SET NOCOUNT ON;
 
-                    SELECT * FROM [Issue] as i
+                    SELECT i.* FROM [Issue] as i
                     JOIN [Project] as p ON i.ProjectId = p.Id AND p.Id = @project
-                    WHERE p.Code + CAST(i.NumberCode AS NVARCHAR) LIKE @search
+                    WHERE p.Code + CAST(i.NumberCode AS NVARCHAR) LIKE @search OR i.Title Like @search
                     ORDER BY 
 						CASE @order WHEN 'id' THEN i.Id END,
 						CASE @order WHEN 'code' THEN i.NumberCode END,

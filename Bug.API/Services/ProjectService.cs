@@ -43,7 +43,7 @@ namespace Bug.API.Services
                 .GetEntityBySpecAsync(specificationResult, cancellationToken);
             return result;
         }
-        
+
         public async Task<Project> GetDetailProjectAsync
             (string projectId,
             CancellationToken cancellationToken = default)
@@ -52,7 +52,7 @@ namespace Bug.API.Services
                 new ProjectSpecification(projectId);
             var result = await _unitOfWork
                 .Project
-                .GetEntityBySpecAsync(specificationResult,cancellationToken);
+                .GetEntityBySpecAsync(specificationResult, cancellationToken);
             return result;
         }
 
@@ -96,14 +96,14 @@ namespace Bug.API.Services
                 sortOrder,
                 specificationResult,
                 cancellationToken);
-            
+
             return new PaginatedListDto<Project>
             {
                 Items = result,
                 Length = result.Length
             };
         }
-        
+
         // filter by tags, return not contain tags
         public async Task<IReadOnlyList<Project>> GetNextByOffsetByCreatorIdTagIdAsync
             (string accountId,
@@ -202,14 +202,14 @@ namespace Bug.API.Services
             // add default roles to project
             var defaultRoles = await _unitOfWork
                 .Role
-                .GetDefaultRolesAsync(null,cancellationToken:cancellationToken);
+                .GetDefaultRolesAsync(null, cancellationToken: cancellationToken);
             result.AddDefaultRoles(defaultRoles);
             // add default statuses to project
             var defaultStatuses = await _unitOfWork
                 .Status
-                .GetDefaultStatusesAsync("",cancellationToken: cancellationToken);
+                .GetDefaultStatusesAsync("id", cancellationToken: cancellationToken);
             result.AddDefaultStatuses(defaultStatuses);
-            
+
             await _unitOfWork
                 .Project
                 .AddAsync(result, cancellationToken);
@@ -224,33 +224,20 @@ namespace Bug.API.Services
         {
             var result = await _unitOfWork
                 .Project
-                .GetByIdAsync(pro.Id,cancellationToken);
+                .GetByIdAsync(pro.Id, cancellationToken);
             if (result == null)
                 return;
-            if(pro.Name != null)
-                result.UpdateName(pro.Name);
-            if(pro.AvatarUri != null)
-                result.UpdateAvatarUri(pro.AvatarUri);
-            if(pro.Code != null)
-                result.UpdateCode(pro.Code);
-            if(pro.Description != null)
-                result.UpdateDescription(pro.Description);
-            if(pro.EndDate != null)
-                result.UpdateEndDate(pro.EndDate);
-            if(pro.StartDate != null)
-                result.UpdateStartDate(pro.StartDate);
-            if(pro.CreatorId != null)
-                result.UpdateCreatorId(pro.CreatorId);
-            if(pro.DefaultAssigneeId != null)
-                result.UpdateDefaultAssigneeId(pro.DefaultAssigneeId);
-            if(pro.State != null)
-                result.UpdateState(pro.State??0);
-            if(pro.TemplateId != null)
-                result.UpdateTemplateId(pro.TemplateId??0);
-            if (pro.DefaultRoleId != null)
-                result.UpdateDefaultRoleId(pro.DefaultRoleId);
-            if (pro.DefaultStatusId != null)
-                result.UpdateDefaultStatusId(pro.DefaultStatusId);
+            result.UpdateName(pro.Name);
+            result.UpdateAvatarUri(pro.AvatarUri);
+            result.UpdateCode(pro.Code);
+            result.UpdateDescription(pro.Description);
+            result.UpdateEndDate(pro.EndDate);
+            result.UpdateStartDate(pro.StartDate);
+            result.UpdateDefaultAssigneeId(pro.DefaultAssigneeId);
+            result.UpdateState(pro.State ?? 0);
+            result.UpdateTemplateId(pro.TemplateId ?? 0);
+            result.UpdateDefaultRoleId(pro.DefaultRoleId);
+            result.UpdateDefaultStatusId(pro.DefaultStatusId);
 
             // update db
             _unitOfWork.Save();
@@ -266,18 +253,18 @@ namespace Bug.API.Services
                 .Project
                 .GetEntityBySpecAsync(specificationResult, cancellationToken);
             //role set default cannot be deleted
-            if (pro.Roles == null || 
+            if (pro.Roles == null ||
                 pro.Roles.Any(p => p.Id == project.DefaultRoleId))
                 return;
             var roles = await _unitOfWork
                 .Role
-                .GetRolesFromMutiIdsAsync(pro.Roles?.Select(r=>r.Id).Where(r=>r!=0).ToList(), cancellationToken);
+                .GetRolesFromMutiIdsAsync(pro.Roles?.Select(r => r.Id).Where(r => r != 0).ToList(), cancellationToken);
             var defaultRoles = await _unitOfWork
                 .Role
-                .GetDefaultRolesAsync("null",cancellationToken:cancellationToken);           
+                .GetDefaultRolesAsync("null", cancellationToken: cancellationToken);
             roles?.AddRange(defaultRoles);
 
-            project?.UpdateDefaultRoleId(pro.DefaultRoleId??project?.DefaultRoleId);
+            project?.UpdateDefaultRoleId(pro.DefaultRoleId ?? project?.DefaultRoleId);
             project?.UpdateRoles(roles);
 
             _unitOfWork.Save();
@@ -296,34 +283,34 @@ namespace Bug.API.Services
                 .GetEntityBySpecAsync(specificationResult, cancellationToken);
             var statuses = await _unitOfWork
                 .Status
-                .GetStatusesFromMutiIdsAsync(pro?.Statuses.Select(st=>st.Id).ToList(),cancellationToken);
-                        
+                .GetStatusesFromMutiIdsAsync(pro?.Statuses.Select(st => st.Id).ToList(), cancellationToken);
+
             var defaultStatuses = await _unitOfWork
                 .Status
-                .GetDefaultStatusesAsync("",cancellationToken: cancellationToken);
+                .GetDefaultStatusesAsync("", cancellationToken: cancellationToken);
             statuses?.AddRange(defaultStatuses);
 
             project?.UpdateDefaultStatusId(pro.DefaultStatusId);
             project?.UpdateStatuses(statuses);
 
-            if(pro?.OldStatuses != null)
+            if (pro?.OldStatuses != null)
             {
-                foreach(var st in pro.OldStatuses)
+                foreach (var st in pro.OldStatuses)
                 {
                     var issueSpec =
                         new IssuesByStatusIdSpecification(st.FromId);
                     var issues = await _unitOfWork
                         .Issue
-                        .GetAllEntitiesBySpecAsync(issueSpec,null,cancellationToken);
-                    
+                        .GetAllEntitiesBySpecAsync(issueSpec, null, cancellationToken);
+
                     Parallel.ForEach(issues, i =>
                     {
                         i.UpdateStatusId(st.ToId);
                     });
                 };
             }
-            
-            _unitOfWork.Save(); 
+
+            _unitOfWork.Save();
         }
 
         public async Task AddMemberToProjectAsync
@@ -334,7 +321,7 @@ namespace Bug.API.Services
             var apr = new AccountProjectRole(memberId, projectId, 1);
             await _unitOfWork
                 .AccountProjectRole
-                .AddAsync(apr,cancellationToken);
+                .AddAsync(apr, cancellationToken);
             _unitOfWork.Save();
         }
 
@@ -351,7 +338,7 @@ namespace Bug.API.Services
                 .GetByIdAsync(roleId, cancellationToken);
 
             project.AddExistRole(role);
-            
+
             _unitOfWork.Save();
         }
 
@@ -374,7 +361,7 @@ namespace Bug.API.Services
             (string projectId,
             CancellationToken cancellationToken = default)
         {
-            var result = await _unitOfWork.Project.GetByIdAsync(projectId,cancellationToken);
+            var result = await _unitOfWork.Project.GetByIdAsync(projectId, cancellationToken);
             _unitOfWork.Project.Delete(result);
             _unitOfWork.Save();
         }

@@ -22,7 +22,7 @@ namespace Bug.Entities.Model
         public string OriginEstimateTime { get; private set; }
         public string RemainEstimateTime { get; private set; }
         public string Environment { get; private set; }
-        public string StatusId { get; private set; }
+        public string? StatusId { get; private set; }
         public Status Status { get; private set; }
         public int? SeverityId { get; private set; }
         public Severity Severity { get; private set; }
@@ -32,7 +32,7 @@ namespace Bug.Entities.Model
         public Project Project { get; private set; }
         public string ReporterId { get; private set; }
         public Account Reporter { get; private set; }
-        public string AssigneeId { get; private set; }
+        public string? AssigneeId { get; private set; }
         public Account Assignee { get; private set; }
 
         public ICollection<Account> Watchers { get; private set; }
@@ -112,39 +112,43 @@ namespace Bug.Entities.Model
             AssigneeId = assigneeId;
         }
 
-        public void UpdateProjectId(string id)
-        {
-            ProjectId = id;
-        }
         public void UpdateTitle(string title)
         {
-            Title = title;
+            if(title == "")
+                Title = null;
+            Title = title ?? Title;
         }
         public void UpdateDescription(string des)
         {
-            Description = des;
+            if (des == "")
+                Description = null;
+            Description = des??Description;
         }
         public void UpdateReporterId(string id)
         {
-            ReporterId = id;
+            if(id == "")
+                ReporterId = null;
+            ReporterId = id ?? ReporterId;
         }
         public void UpdatePriorityId(string i)
         {
-            if(i == "")
-            {
+            if(i == "")            
                 PriorityId = null;
-            }else if(i != null)
-            {
+            else if(i != null)            
                 PriorityId = int.Parse(i);
-            }          
+                     
         }
         public void UpdateOriginalEstimateTime(string s)
         {
-            OriginEstimateTime = s;
+            if (s == "")
+                OriginEstimateTime = null;
+            OriginEstimateTime = s??OriginEstimateTime;
         }
         public void UpdateRemainEstimateTime(string s)
         {
-            RemainEstimateTime = s;
+            if (s == "")
+                RemainEstimateTime = null;
+            RemainEstimateTime = s?? RemainEstimateTime;
         }
         public void UpdateDueDate(string dt)
         {
@@ -158,7 +162,10 @@ namespace Bug.Entities.Model
         }
         public void UpdateAssigneeId(string id)
         {
-            AssigneeId = id;
+            if (id == "")
+                AssigneeId = null;
+            else if (id != null)
+                AssigneeId = id;
         }
         public void UpdateCreatedDate(string dt)
         {
@@ -172,7 +179,9 @@ namespace Bug.Entities.Model
         }
         public void UpdateEnvironment(string e)
         {
-            Environment = e;
+            if (e == "")
+                Environment = null;
+            Environment = e ?? Environment;
         }
         public void UpdateStatusId(string st)
         {
