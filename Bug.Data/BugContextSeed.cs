@@ -234,17 +234,17 @@ namespace Bug.Data
         {
             return new List<Field>()
             {
-                new Field(0,"C-016", null),
-                new Field(0,"C-017", null),
-                new Field(0,"C-018", null),
-                new Field(0,"C-019", null),
-                new Field(0,"C-020", null),
-                new Field(0,"C-021", null),
-                new Field(0,"C-022", null),
-                new Field(0,"C-023", null),
-                new Field(0,"C-024", null),
+                new Field(0,"C-026", null),
                 new Field(0,"C-025", null),
-                new Field(0,"C-026", null)
+                new Field(0,"C-024", null),
+                new Field(0,"C-023", null),
+                new Field(0,"C-022", null),
+                new Field(0,"C-021", null),
+                new Field(0,"C-020", null),
+                new Field(0,"C-019", null),
+                new Field(0,"C-018", null),
+                new Field(0,"C-017", null),
+                new Field(0,"C-016", null)
             };
         }
         static IEnumerable<Template> GetPreconfiguredTemplate()

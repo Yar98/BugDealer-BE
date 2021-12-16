@@ -339,6 +339,7 @@ namespace Bug.API.Services
                 .AddLastName(user.LastName)
                 .AddEmail(user.Email)
                 .AddLanguage(user.Language)
+                .AddTimezoneId(user.TimeZoneId)
                 .Build();
             var fields = await _unitOfWork
                 .Field

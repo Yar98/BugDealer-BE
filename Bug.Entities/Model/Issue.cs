@@ -116,19 +116,22 @@ namespace Bug.Entities.Model
         {
             if(title == "")
                 Title = null;
-            Title = title ?? Title;
+            else if(title != null)
+                Title = title;
         }
         public void UpdateDescription(string des)
         {
             if (des == "")
                 Description = null;
-            Description = des??Description;
+            else if(des != null)
+                Description = des;
         }
         public void UpdateReporterId(string id)
         {
-            if(id == "")
+            if (id == "")
                 ReporterId = null;
-            ReporterId = id ?? ReporterId;
+            else if (id != null)
+                ReporterId = id ;
         }
         public void UpdatePriorityId(string i)
         {
@@ -142,13 +145,15 @@ namespace Bug.Entities.Model
         {
             if (s == "")
                 OriginEstimateTime = null;
-            OriginEstimateTime = s??OriginEstimateTime;
+            else if(s != null)
+                OriginEstimateTime = s;
         }
         public void UpdateRemainEstimateTime(string s)
         {
             if (s == "")
                 RemainEstimateTime = null;
-            RemainEstimateTime = s?? RemainEstimateTime;
+            else if(s != null)
+                RemainEstimateTime = s;
         }
         public void UpdateDueDate(string dt)
         {
@@ -181,7 +186,8 @@ namespace Bug.Entities.Model
         {
             if (e == "")
                 Environment = null;
-            Environment = e ?? Environment;
+            else if(e != null)
+            Environment = e;
         }
         public void UpdateStatusId(string st)
         {
