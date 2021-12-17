@@ -66,10 +66,12 @@ namespace Bug.Entities.Builder
 
         public IProjectBuilder AddEndDate(string date)
         {
-            if (date == "")
+            if (string.IsNullOrEmpty(date))
+            {
                 EndDate = null;
-            else if (date != null)
-                EndDate = DateTimeOffset.Parse(date);
+                return this;
+            }
+            EndDate = DateTimeOffset.Parse(date);
             return this;
         }
 
@@ -87,10 +89,12 @@ namespace Bug.Entities.Builder
 
         public IProjectBuilder AddStartDate(string date)
         {
-            if (date == "")
+            if (string.IsNullOrEmpty(date))
+            {
                 StartDate = null;
-            else if (date != null)
-                StartDate = DateTimeOffset.Parse(date);
+                return this;
+            }
+            StartDate = DateTimeOffset.Parse(date);
             return this;
         }       
 

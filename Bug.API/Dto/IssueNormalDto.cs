@@ -6,7 +6,7 @@ using Bug.Entities.Model;
 
 namespace Bug.API.Dto
 {
-    public class IssuePostDto
+    public class IssueNormalDto
     {
         public string Id { get; set; }
         public string Title { get; set; }
@@ -27,6 +27,10 @@ namespace Bug.API.Dto
         public List<AttachmentNormalDto> Attachments { get; set; }
         public List<RelationNormalDto> FromRelations { get; set; }
         public List<RelationNormalDto> ToRelations { get; set; }
+
+        public string ModifierId { get; set; }
+        public string LogDescription { get; set; }
+        public int LogTagId { get; set; }
         
     }
 }

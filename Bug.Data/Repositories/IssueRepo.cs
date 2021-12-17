@@ -1,19 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Bug.Entities.Model;
-using Bug.Data.Specifications;
 using System.Threading;
-using Bug.Data.Extensions;
 using Microsoft.EntityFrameworkCore;
-using Bug.Core.Utils;
 using Microsoft.Data.SqlClient;
-using Amazon.S3.Model;
-using Amazon.S3;
-using Microsoft.Extensions.Configuration;
-using Amazon;
 
 namespace Bug.Data.Repositories
 {
@@ -22,6 +13,46 @@ namespace Bug.Data.Repositories
         public IssueRepo(BugContext repositoryContext)
             : base(repositoryContext)
         {
+        }
+
+        public async Task UpdateTagsOfIssueAsync
+            (string issueId,
+            List<Tag> tags,
+            CancellationToken cancellationToken = default)
+        {
+            var listStr = tags
+                .Select(t => t.Id.ToString())
+                .ToList()
+                .Aggregate<string>((x, y) => x + "," + y);
+            var issue = new SqlParameter("@issue", issueId);
+            var list = new SqlParameter("@list", listStr);
+            await _bugContext
+                .Database
+                .ExecuteSqlInterpolatedAsync($"EXECUTE dbo.UpdateTagsOfIssue {issue}, {list}", cancellationToken);
+        }
+
+        public async Task UpdateAttachmentsOfIssueAsync
+            (string issueId,
+            List<Attachment> attachments,
+            CancellationToken cancellationToken = default)
+        {
+            var listStr = attachments
+                .Select(t => t.Id.ToString())
+                .ToList()
+                .Aggregate((x, y) => x + "," + y);
+            var uris = attachments
+                .Where(t => t.Id == 0)
+                .Select(t => t.Uri)
+                .ToList();
+            string listUrisStr = "";
+            if (uris.Count != 0)
+                listUrisStr = uris.Aggregate((x, y) => x + "," + y);
+            var issue = new SqlParameter("@issue", issueId);
+            var listIds = new SqlParameter("@listId", listStr);
+            var listUris = new SqlParameter("@listUris", listUrisStr);
+            await _bugContext
+                .Database
+                .ExecuteSqlInterpolatedAsync($"EXECUTE dbo.UpdateAttachmentsOfIssue {issue}, {listIds}, {listUris}", cancellationToken);
         }
 
         public async Task<List<Issue>> GetSuggestIssuesAsync

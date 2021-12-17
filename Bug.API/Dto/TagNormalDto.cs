@@ -12,8 +12,6 @@ namespace Bug.API.Dto
         public string Description { get; set; }
         public string Color { get; set; }
         public int CategoryId { get; set; }
-        public List<StatusNormalDto> Statuses { get; set; }
-        public List<IssuePostDto> Issues { get; set; }
-        public List<ProjectPostDto> Projects { get; set; }
+
     }
 }

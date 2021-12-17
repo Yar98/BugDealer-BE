@@ -18,7 +18,8 @@ namespace Bug.Data.Configuration
                 .HasKey(a => new
                 {
                     a.FromIssueId,
-                    a.ToIssueId
+                    a.ToIssueId,
+                    a.TagId
                 });
             builder
                 .HasOne(i => i.FromIssue)

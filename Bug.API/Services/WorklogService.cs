@@ -32,7 +32,7 @@ namespace Bug.API.Services
             WorklogPostDto worklog,
             CancellationToken cancellationToken = default)
         {
-            var result = new Worklog(0, worklog.SpentTime, worklog.RemainTime, worklog.LogDate, issueId, worklog.LoggerId);
+            var result = new Worklog(0, worklog.SpentTime, worklog.LogDate, issueId, worklog.LoggerId);
             return await _unitOfWork
                 .Worklog
                 .AddAsync(result, cancellationToken);
@@ -47,7 +47,6 @@ namespace Bug.API.Services
                 .GetByIdAsync(worklog.Id, cancellationToken);
             result.UpdateLogDate(worklog.LogDate);
             result.UpdateLoggerId(worklog.LoggerId);
-            result.UpdateRemainTime(worklog.RemainTime);
             result.UpdateSpentTime(worklog.SpentTime);
 
             _unitOfWork.Save();

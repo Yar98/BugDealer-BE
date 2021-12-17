@@ -19,6 +19,7 @@ namespace Bug.API.Services
     public class IssueService : IIssueService
     {
         private readonly IUnitOfWork _unitOfWork;
+        
         public IssueService(IUnitOfWork uow)
         {
             _unitOfWork = uow;
@@ -231,12 +232,14 @@ namespace Bug.API.Services
         }
 
         public async Task<Issue> AddIssueAsync
-            (IssuePostDto issue,
+            (IssueNormalDto issue,
             CancellationToken cancellationToken = default)
         {
             var pro = await _unitOfWork
                 .Project
                 .GetByIdAsync(issue.ProjectId, cancellationToken);
+            if (pro == null)
+                return null;
             var result = new IssueBuilder()
                 .AddId(Guid.NewGuid().ToString())
                 .AddDescription(issue.Description)
@@ -304,56 +307,66 @@ namespace Bug.API.Services
         }
 
         public async Task UpdateIssueAsync
-            (IssuePostDto issue,
+            (IssueNormalDto issue,
             CancellationToken cancellationToken = default)
         {
+            var newStatus = await _unitOfWork
+               .Status
+               .GetByIdAsync(issue.StatusId, cancellationToken);
+            var specificationResult =
+                new IssueSpecification(issue.Id);
             var result = await _unitOfWork
                 .Issue
-                .GetByIdAsync(issue.Id, cancellationToken);
-            result.UpdateAssigneeId(issue.AssigneeId);           
-            result.UpdateDescription(issue.Description);
-            result.UpdateEnvironment(issue.Environment);
-            result.UpdateCreatedDate(issue.CreatedDate);
-            result.UpdateDueDate(issue.DueDate);
-            result.UpdateOriginalEstimateTime(issue.OriginEstimateTime);
-            result.UpdatePriorityId(issue.PriorityId);
-            result.UpdateSeverityId(issue.SeverityId);           
-            result.UpdateRemainEstimateTime(issue.RemainEstimateTime);
-            result.UpdateReporterId(issue.ReporterId);
-            result.UpdateStatusId(issue.StatusId);
-            result.UpdateTitle(issue.Title);
+                .GetEntityBySpecAsync(specificationResult, cancellationToken);
+            result
+                .UpdateAssigneeId(issue.AssigneeId, issue.ModifierId, async log => await _unitOfWork.Issuelog.AddAsync(log));           
+            result
+                .UpdateDescription(issue.Description, issue.ModifierId, async log => await _unitOfWork.Issuelog.AddAsync(log));
+            result
+                .UpdateEnvironment(issue.Environment, issue.ModifierId, async log => await _unitOfWork.Issuelog.AddAsync(log));
+            result
+                .UpdateDueDate(issue.DueDate, issue.ModifierId, async log => await _unitOfWork.Issuelog.AddAsync(log));
+            result
+                .UpdateOriginalEstimateTime(issue.OriginEstimateTime, issue.ModifierId, async log => await _unitOfWork.Issuelog.AddAsync(log));
+            result
+                .UpdatePriorityId(issue.PriorityId, issue.ModifierId, async log => await _unitOfWork.Issuelog.AddAsync(log));
+            result
+                .UpdateSeverityId(issue.SeverityId, issue.ModifierId, async log => await _unitOfWork.Issuelog.AddAsync(log));           
+            result
+                .UpdateRemainEstimateTime(issue.RemainEstimateTime, issue.ModifierId, async log => await _unitOfWork.Issuelog.AddAsync(log));
+            result
+                .UpdateReporterId(issue.ReporterId, issue.ModifierId, async log => await _unitOfWork.Issuelog.AddAsync(log));           
+            result
+                .UpdateStatusId(newStatus, issue.ModifierId, async log => await _unitOfWork.Issuelog.AddAsync(log));            
+            result
+                .UpdateTitle(issue.Title, issue.ModifierId, async log=> await _unitOfWork.Issuelog.AddAsync(log));
             
             _unitOfWork.Save();
         }       
 
         public async Task UpdateTagsOfIssue
-            (IssuePostDto issue,
+            (IssueNormalDto issue,
             CancellationToken cancellationToken = default)
         {
-            var specificationResult =
-                new IssueSpecification(issue.Id);
-            var result = await _unitOfWork
-                .Issue
-                .GetEntityBySpecAsync(specificationResult,cancellationToken);
-            var customLabelTags = issue
+            var tags = issue
                 .Tags
-                .Select(l =>
+                .Select(t => 
                 {
-                    var item = new Tag(l.Id, l.Name, l.Description, l.Color, l.CategoryId);
-                    if (item.Id == 0)
-                        _unitOfWork.Tag.Add(item);
-                    else
-                        _unitOfWork.Tag.Attach(item);
-                    return item;
+                    if(t.Id == 0)
+                        return new Tag(t.Id, t.Name, t.Description, t.Color, t.CategoryId);
+                    return _unitOfWork.Tag.GetByIdAsync(t.Id).Result;
                 })
                 .ToList();
-            result.UpdateTags(customLabelTags);
-            
+            var result = await _unitOfWork
+                .Issue
+                .GetEntityBySpecAsync(new IssueSpecification(issue.Id), cancellationToken);
+            result.UpdateTags(tags);
+
             _unitOfWork.Save();
         }
 
         public async Task UpdateFromRelationsOfIssue
-            (IssuePostDto issue,
+            (IssueNormalDto issue,
             CancellationToken cancellationToken = default)
         {
             var specificationResult =
@@ -371,40 +384,15 @@ namespace Bug.API.Services
         }
 
         public async Task UpdateAttachmentsOfIssue
-            (IssuePostDto issue,
+            (IssueNormalDto issue,
             CancellationToken cancellationToken = default)
         {
-            var specificationResult =
-                new IssueSpecification(issue.Id);
-            var result = await _unitOfWork
+            var attachments = issue.Attachments
+                .Select(a => new Attachment(a.Id, a.Uri, a.IssueId))
+                .ToList();
+            await _unitOfWork
                 .Issue
-                .GetEntityBySpecAsync(specificationResult, cancellationToken);
-            var delAttach = result
-                .Attachments
-                .Where(at => !issue.Attachments.Any(a => a.Id == at.Id))
-                .ToList();
-            if (delAttach != null)
-            {
-                Parallel.ForEach(delAttach, d =>
-                {
-                    _unitOfWork.Attachment.Delete(d);
-                });
-            }
-            var attachments = issue
-                .Attachments
-                .Select(a =>
-                {
-                    var item = new Attachment(a.Id, a.Uri, a.IssueId);
-                    if (item.Id == 0)
-                        _unitOfWork.Attachment.Add(item);
-                    else
-                        _unitOfWork.Attachment.Attach(item);
-                    return item;
-                })
-                .ToList();
-            result.UpdateAttachments(attachments);
-            
-            _unitOfWork.Save();
+                .UpdateAttachmentsOfIssueAsync(issue.Id, attachments, cancellationToken);
         }
 
         public async Task DeleteIssueAsync

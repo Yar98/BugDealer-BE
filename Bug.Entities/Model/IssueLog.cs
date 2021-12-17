@@ -16,13 +16,67 @@ namespace Bug.Entities.Model
         public string ModifierId { get; private set; }
         public Account Modifier { get; private set; }
         // old status
-        public string PreStatus { get; private set; }
+        public int? OldStatusTagId { get; private set; }
+        public Tag OldStatusTag { get; private set; }
+        public string OldStatusName { get; private set; }
         // new status
-        public string ModStatus { get; private set; }
+        public int? NewStatusTagId { get; private set; }
+        public string NewStatusName { get; private set; }
+        public Tag NewStatusTag { get; private set; }
         // old priority
-        public string PrePriority { get; private set; }
+        public int? OldPriorityId { get; private set; }
+        public Priority OldPriority { get; private set; }
         // new priority
-        public string ModPriority { get; private set; }
+        public int? NewPriorityId { get; private set; }
+        public Priority NewPriority { get; private set; }
+        // old severity
+        public int? OldSeverityId { get; private set; }
+        public Severity OldSeverity { get; private set; }
+        // new severity
+        public int? NewSeverityId { get; private set; }
+        public Severity NewSeverity { get; private set; }
+        // old assignee
+        public string? OldAssigneeId { get; private set; }
+        public Account OldAssignee { get; private set; }
+        // new assignee
+        public string? NewAssigneeId { get; private set; }
+        public Account NewAssignee { get; private set; }
+        // old reporter
+        public string? OldReporterId { get; private set; }
+        public Account OldReporter { get; private set; }
+        // new reporter
+        public string? NewReporterId { get; private set; }
+        public Account NewReporter { get; private set; }
+        // old worklogId
+        public int? OldWorklogId { get; private set; }
+        public Worklog OldWorklog { get; private set; }
+        // new worklogId
+        public int? NewWorklogId { get; private set; }
+        public Worklog NewWorklog { get; private set; }
+        // old description
+        public string OldDescription { get; private set; }
+        // new description
+        public string NewDescription { get; private set; }
+        // old title
+        public string OldTitle { get; private set; }
+        // new title
+        public string NewTitle { get; private set; }
+        // old origin estimate time
+        public string OldOriginEstimateTime { get; private set; }
+        // new origin estimate time
+        public string NewOriginEstimateTime { get; private set; }
+        // old remain estimate time
+        public string OldRemainEstimateTime { get; private set; }
+        // new remain estimate time
+        public string NewRemainEstimateTime { get; private set; }
+        // old due date
+        public DateTimeOffset? OldDueDate { get; private set; }
+        // new due date
+        public DateTimeOffset? NewDueDate { get; private set; }
+        // old environment
+        public string OldEnvironment { get; private set; }
+        // new environment
+        public string NewEnvironment { get; private set; }
         // action
         public int? TagId { get; private set; }
         public Tag Tag { get; private set; }
@@ -34,10 +88,32 @@ namespace Bug.Entities.Model
             string des,
             string issueId,
             string modifierId,
-            string preStatus,
-            string modStatus,
-            string prePriority,
-            string modPriority,
+            int? preStatusTagId,
+            string preStatusName,
+            int? modStatusTagId,
+            string modStatusName,
+            int? prePriorityId,
+            int? modPriorityId,
+            int? oldSeverityId,
+            int? newSeverityId,
+            string oldAssigneeId,
+            string newAssigneeId,
+            string oldReporterId,
+            string newReporterId,
+            int? oldWorklogId,
+            int? newWorklogId,
+            string oldDescription,
+            string newDescription,
+            string oldTitle,
+            string newTitle,
+            string oldOriginEstimateTime,
+            string newOriginEstimateTime,
+            string oldRemainEstimateTime,
+            string newRemainEstimateTime,
+            DateTimeOffset? oldDueDate,
+            DateTimeOffset? newDueDate,
+            string oldEnvironment,
+            string newEnvironment,
             int tagId)
         {
             Id = id;
@@ -45,10 +121,32 @@ namespace Bug.Entities.Model
             Description = des;
             IssueId = issueId;
             ModifierId = modifierId;
-            PreStatus = preStatus;
-            ModStatus = modStatus;
-            PrePriority = prePriority;
-            ModPriority = modPriority;
+            OldStatusTagId = preStatusTagId;
+            OldStatusName = preStatusName;
+            NewStatusTagId = modStatusTagId;
+            NewStatusName = modStatusName;
+            OldPriorityId = prePriorityId;
+            NewPriorityId = modPriorityId;
+            OldSeverityId = oldSeverityId;
+            NewSeverityId = newSeverityId;
+            OldAssigneeId = oldAssigneeId;
+            NewAssigneeId = newAssigneeId;
+            OldReporterId = oldReporterId;
+            NewReporterId = newReporterId;
+            OldWorklogId = oldWorklogId;
+            NewWorklogId = newWorklogId;
+            OldDescription = oldDescription;
+            NewDescription = newDescription;
+            OldTitle = oldTitle;
+            NewTitle = newTitle;
+            OldOriginEstimateTime = oldOriginEstimateTime;
+            NewOriginEstimateTime = newOriginEstimateTime;
+            OldRemainEstimateTime = oldRemainEstimateTime;
+            NewRemainEstimateTime = newRemainEstimateTime;
+            OldDueDate = oldDueDate;
+            NewDueDate = newDueDate;
+            OldEnvironment = oldEnvironment;
+            NewEnvironment = newEnvironment;
             TagId = tagId;
         }
 

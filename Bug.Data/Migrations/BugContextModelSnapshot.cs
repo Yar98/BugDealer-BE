@@ -318,20 +318,86 @@ namespace Bug.Data.Migrations
                     b.Property<DateTimeOffset>("LogDate")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<string>("ModPriority")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ModStatus")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("ModifierId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("PrePriority")
+                    b.Property<string>("NewAssigneeId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("NewDescription")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PreStatus")
+                    b.Property<DateTimeOffset?>("NewDueDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NewEnvironment")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NewOriginEstimateTime")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("NewPriorityId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("NewRemainEstimateTime")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NewReporterId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int?>("NewSeverityId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("NewStatusName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("NewStatusTagId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("NewTitle")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("NewWorklogId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("OldAssigneeId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("OldDescription")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset?>("OldDueDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("OldEnvironment")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OldOriginEstimateTime")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("OldPriorityId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("OldRemainEstimateTime")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OldReporterId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int?>("OldSeverityId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("OldStatusName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("OldStatusTagId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("OldTitle")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("OldWorklogId")
+                        .HasColumnType("int");
 
                     b.Property<int?>("TagId")
                         .HasColumnType("int");
@@ -341,6 +407,30 @@ namespace Bug.Data.Migrations
                     b.HasIndex("IssueId");
 
                     b.HasIndex("ModifierId");
+
+                    b.HasIndex("NewAssigneeId");
+
+                    b.HasIndex("NewPriorityId");
+
+                    b.HasIndex("NewReporterId");
+
+                    b.HasIndex("NewSeverityId");
+
+                    b.HasIndex("NewStatusTagId");
+
+                    b.HasIndex("NewWorklogId");
+
+                    b.HasIndex("OldAssigneeId");
+
+                    b.HasIndex("OldPriorityId");
+
+                    b.HasIndex("OldReporterId");
+
+                    b.HasIndex("OldSeverityId");
+
+                    b.HasIndex("OldStatusTagId");
+
+                    b.HasIndex("OldWorklogId");
 
                     b.HasIndex("TagId");
 
@@ -486,13 +576,13 @@ namespace Bug.Data.Migrations
                     b.Property<string>("ToIssueId")
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("TagId")
                         .HasColumnType("int");
 
-                    b.HasKey("FromIssueId", "ToIssueId");
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("FromIssueId", "ToIssueId", "TagId");
 
                     b.HasIndex("TagId");
 
@@ -900,6 +990,54 @@ namespace Bug.Data.Migrations
                         .WithMany()
                         .HasForeignKey("ModifierId");
 
+                    b.HasOne("Bug.Entities.Model.Account", "NewAssignee")
+                        .WithMany()
+                        .HasForeignKey("NewAssigneeId");
+
+                    b.HasOne("Bug.Entities.Model.Priority", "NewPriority")
+                        .WithMany()
+                        .HasForeignKey("NewPriorityId");
+
+                    b.HasOne("Bug.Entities.Model.Account", "NewReporter")
+                        .WithMany()
+                        .HasForeignKey("NewReporterId");
+
+                    b.HasOne("Bug.Entities.Model.Severity", "NewSeverity")
+                        .WithMany()
+                        .HasForeignKey("NewSeverityId");
+
+                    b.HasOne("Bug.Entities.Model.Tag", "NewStatusTag")
+                        .WithMany()
+                        .HasForeignKey("NewStatusTagId");
+
+                    b.HasOne("Bug.Entities.Model.Worklog", "NewWorklog")
+                        .WithMany()
+                        .HasForeignKey("NewWorklogId");
+
+                    b.HasOne("Bug.Entities.Model.Account", "OldAssignee")
+                        .WithMany()
+                        .HasForeignKey("OldAssigneeId");
+
+                    b.HasOne("Bug.Entities.Model.Priority", "OldPriority")
+                        .WithMany()
+                        .HasForeignKey("OldPriorityId");
+
+                    b.HasOne("Bug.Entities.Model.Account", "OldReporter")
+                        .WithMany()
+                        .HasForeignKey("OldReporterId");
+
+                    b.HasOne("Bug.Entities.Model.Severity", "OldSeverity")
+                        .WithMany()
+                        .HasForeignKey("OldSeverityId");
+
+                    b.HasOne("Bug.Entities.Model.Tag", "OldStatusTag")
+                        .WithMany()
+                        .HasForeignKey("OldStatusTagId");
+
+                    b.HasOne("Bug.Entities.Model.Worklog", "OldWorklog")
+                        .WithMany()
+                        .HasForeignKey("OldWorklogId");
+
                     b.HasOne("Bug.Entities.Model.Tag", "Tag")
                         .WithMany()
                         .HasForeignKey("TagId");
@@ -907,6 +1045,30 @@ namespace Bug.Data.Migrations
                     b.Navigation("Issue");
 
                     b.Navigation("Modifier");
+
+                    b.Navigation("NewAssignee");
+
+                    b.Navigation("NewPriority");
+
+                    b.Navigation("NewReporter");
+
+                    b.Navigation("NewSeverity");
+
+                    b.Navigation("NewStatusTag");
+
+                    b.Navigation("NewWorklog");
+
+                    b.Navigation("OldAssignee");
+
+                    b.Navigation("OldPriority");
+
+                    b.Navigation("OldReporter");
+
+                    b.Navigation("OldSeverity");
+
+                    b.Navigation("OldStatusTag");
+
+                    b.Navigation("OldWorklog");
 
                     b.Navigation("Tag");
                 });

@@ -14,10 +14,8 @@ namespace Bug.Data.Specifications
         {
             AddInclude(i => i.Issue);
             AddInclude(i => i.Modifier);
-            AddInclude(i => i.ModPriority);
-            AddInclude(i => i.PrePriority);
-            AddInclude(i => i.PreStatus);
-            AddInclude(i => i.ModStatus);
+            AddInclude(i => i.NewPriority);
+            AddInclude(i => i.OldPriority);
             AddInclude(i => i.Tag);
         }
     }

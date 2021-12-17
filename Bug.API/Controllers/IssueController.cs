@@ -181,7 +181,7 @@ namespace Bug.API.Controllers
 
         // POST api/Issue
         [HttpPost]
-        public async Task<IActionResult> PostAddIssue([FromBody] IssuePostDto issue)
+        public async Task<IActionResult> PostAddIssue([FromBody] IssueNormalDto issue)
         {
             var result = await _issueService.AddIssueAsync(issue);
             return CreatedAtAction(
@@ -192,7 +192,7 @@ namespace Bug.API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutUpdateBasicIssue
             (string id, 
-            [FromBody] IssuePostDto issue)
+            [FromBody] IssueNormalDto issue)
         {
             if (id != issue.Id)
                 return BadRequest();
@@ -205,7 +205,7 @@ namespace Bug.API.Controllers
         [HttpPut("{id}/labels")]
         public async Task<IActionResult> PutUpdateLabelsOfIssue
             (string id,
-            [FromBody] IssuePostDto issue)
+            [FromBody] IssueNormalDto issue)
         {
             if (id != issue.Id)
                 return BadRequest();
@@ -216,7 +216,7 @@ namespace Bug.API.Controllers
         [HttpPut("{id}/attachments")]
         public async Task<IActionResult> PutUpdateAttachmentsOfIssue
             (string id,
-            [FromBody] IssuePostDto issue)
+            [FromBody] IssueNormalDto issue)
         {
             if (id != issue.Id)
                 return BadRequest();
@@ -227,7 +227,7 @@ namespace Bug.API.Controllers
         [HttpPut("{id}/fromrelations")]
         public async Task<IActionResult> PutUpdateFromRelationOfIssue
             (string id,
-            [FromBody] IssuePostDto issue)
+            [FromBody] IssueNormalDto issue)
         {
             if (id != issue.Id)
                 return BadRequest();

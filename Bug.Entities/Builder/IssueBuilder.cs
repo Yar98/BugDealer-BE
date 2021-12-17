@@ -29,13 +29,12 @@ namespace Bug.Entities.Builder
 
         public IIssueBuilder AddSeverityId(string i)
         {
-            if (i == "")
+            if (string.IsNullOrEmpty(i))
             {
                 SeverityId = null;
-            }else if(i != null)
-            {
-                SeverityId = int.Parse(i);
-            }
+                return this;
+            }              
+            SeverityId = int.Parse(i);
             return this;
         }
 
@@ -47,24 +46,23 @@ namespace Bug.Entities.Builder
 
         public IIssueBuilder AddAssigneeId(string s)
         {
-            if (s == "")
+            if (string.IsNullOrEmpty(s))
             {
                 AssigneeId = null;
                 return this;
-            }
-            AssigneeId = s ?? AssigneeId;
+            }                
+            AssigneeId = s;
             return this;
         }
 
         public IIssueBuilder AddCreatedDate(string cd)
         {
-            if(cd == "")
+            if(string.IsNullOrEmpty(cd))
             {
                 CreatedDate = null;
-            }else if(cd != null)
-            {
-                CreatedDate = DateTimeOffset.Parse(cd);
+                return this;
             }
+            CreatedDate = DateTimeOffset.Parse(cd);
             return this;
         }
 
@@ -76,13 +74,12 @@ namespace Bug.Entities.Builder
 
         public IIssueBuilder AddDueDate(string dd)
         {
-            if (dd == "")
+            if (string.IsNullOrEmpty(dd))
             {
                 DueDate = null;
-            }else if( dd == null)
-            {
-                DueDate = DateTimeOffset.Parse(dd);
+                return this;
             }
+            DueDate = DateTimeOffset.Parse(dd);
             return this;
         }
 
@@ -100,22 +97,23 @@ namespace Bug.Entities.Builder
 
         public IIssueBuilder AddOriginEstimateTime(string oet)
         {
-            if (oet == "")
+            if (string.IsNullOrEmpty(oet))
+            {
                 OriginEstimateTime = null;
-            else if(oet != null)
-                OriginEstimateTime = oet;
+                return this;
+            }
+            OriginEstimateTime = oet;
             return this;
         }
 
         public IIssueBuilder AddPriorityId(string p)
         {
-            if(p == "")
+            if (string.IsNullOrEmpty(p))
             {
                 PriorityId = null;
-            }else if(p == null)
-            {
-                PriorityId = int.Parse(p);
+                return this;
             }
+            PriorityId = int.Parse(p);
             return this;
         }
 
@@ -127,10 +125,12 @@ namespace Bug.Entities.Builder
 
         public IIssueBuilder AddRemainEstimateTime(string ret)
         {
-            if (ret == "")
+            if (string.IsNullOrEmpty(ret))
+            {
                 RemainEstimateTime = null;
-            else if (ret != null)
-                RemainEstimateTime = ret;
+                return this;
+            }
+            RemainEstimateTime = ret;
             return this;
         }
 
@@ -142,6 +142,8 @@ namespace Bug.Entities.Builder
 
         public IIssueBuilder AddStatusId(string s)
         {
+            if (string.IsNullOrEmpty(s))
+                s = null;            
             StatusId = s;
             return this;
         }

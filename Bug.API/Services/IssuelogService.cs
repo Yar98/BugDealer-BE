@@ -68,26 +68,5 @@ namespace Bug.API.Services
                 .GetAllEntitiesBySpecAsync(specificationResult, sortOrder, cancellationToken);
         }
 
-        public async Task<Issuelog> AddIssuelogAsync
-            (IssuelogNormalDto ilog,
-            CancellationToken cancellationToken = default)
-        {
-            var result = new IssuelogBuilder()
-                .AddId()
-                .AddIssueId(ilog.IssueId)
-                .AddLogDate()
-                .AddDescription(ilog.Description)
-                .AddModifierId(ilog.ModifierId)
-                .AddModPriority(ilog.ModPriority)
-                .AddModStatus(ilog.ModStatus)
-                .AddPrePriority(ilog.PrePriority)
-                .AddPreStatus(ilog.PreStatus)
-                .AddTagId(ilog.TagId)
-                .Build();
-            
-            await _unitOfWork.Issuelog.AddAsync(result, cancellationToken);
-            _unitOfWork.Save();
-            return result;
-        }
     }
 }
