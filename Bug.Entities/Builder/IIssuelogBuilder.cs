@@ -14,10 +14,10 @@ namespace Bug.Entities.Builder
         IIssuelogBuilder AddDescription(string des);
         IIssuelogBuilder AddIssueId(string issueId);
         IIssuelogBuilder AddModifierId(string accountId);
-        IIssuelogBuilder AddPreStatus(string status);
-        IIssuelogBuilder AddModStatus(string status);
-        IIssuelogBuilder AddPrePriority(string priority);
-        IIssuelogBuilder AddModPriority(string priority);
+        IIssuelogBuilder AddPreStatusId(string statusId);
+        IIssuelogBuilder AddModStatusId(string statusId);
+        IIssuelogBuilder AddPrePriorityId(int priorityId);
+        IIssuelogBuilder AddModPriorityId(int priorityId);
         IIssuelogBuilder AddTagId(int tagId);
 
         Issuelog Build();

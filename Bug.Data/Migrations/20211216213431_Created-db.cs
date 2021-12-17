@@ -538,10 +538,10 @@ namespace Bug.Data.Migrations
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IssueId = table.Column<string>(type: "nvarchar(100)", nullable: true),
                     ModifierId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    PreStatus = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ModStatus = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PrePriority = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ModPriority = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PreStatusId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    ModStatusId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    PrePriorityId = table.Column<int>(type: "int", nullable: true),
+                    ModPriorityId = table.Column<int>(type: "int", nullable: true),
                     TagId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -557,6 +557,30 @@ namespace Bug.Data.Migrations
                         name: "FK_Issuelog_Issue_IssueId",
                         column: x => x.IssueId,
                         principalTable: "Issue",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Issuelog_Priority_ModPriorityId",
+                        column: x => x.ModPriorityId,
+                        principalTable: "Priority",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Issuelog_Priority_PrePriorityId",
+                        column: x => x.PrePriorityId,
+                        principalTable: "Priority",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Issuelog_Status_ModStatusId",
+                        column: x => x.ModStatusId,
+                        principalTable: "Status",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Issuelog_Status_PreStatusId",
+                        column: x => x.PreStatusId,
+                        principalTable: "Status",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -801,6 +825,26 @@ namespace Bug.Data.Migrations
                 name: "IX_Issuelog_ModifierId",
                 table: "Issuelog",
                 column: "ModifierId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Issuelog_ModPriorityId",
+                table: "Issuelog",
+                column: "ModPriorityId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Issuelog_ModStatusId",
+                table: "Issuelog",
+                column: "ModStatusId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Issuelog_PrePriorityId",
+                table: "Issuelog",
+                column: "PrePriorityId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Issuelog_PreStatusId",
+                table: "Issuelog",
+                column: "PreStatusId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Issuelog_TagId",

@@ -54,6 +54,7 @@ namespace Bug.Data.Repositories
         void Add(T entity);
         void Update(T entity);
         void Attach(T entity);
+        void Detach(T entity);
         void Delete(T entity);
         Task<IReadOnlyList<T>> FindAllAsync(CancellationToken cancelltionToken = default);
 

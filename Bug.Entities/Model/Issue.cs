@@ -213,7 +213,11 @@ namespace Bug.Entities.Model
         public void UpdateTags(List<Tag> result)
         {
             if (result != null)
-                _tags = result;            
+            {
+                _tags.Clear();
+                _tags = result;
+            }
+                
         }
 
         public void UpdateFromRelations(List<Relation> result)

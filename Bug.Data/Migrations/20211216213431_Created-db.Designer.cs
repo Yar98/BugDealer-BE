@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bug.Data.Migrations
 {
     [DbContext(typeof(BugContext))]
-    [Migration("20211216185933_Created-db")]
+    [Migration("20211216213431_Created-db")]
     partial class Createddb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -320,20 +320,20 @@ namespace Bug.Data.Migrations
                     b.Property<DateTimeOffset>("LogDate")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<string>("ModPriority")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("ModPriorityId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("ModStatus")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("ModStatusId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ModifierId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("PrePriority")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("PrePriorityId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("PreStatus")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("PreStatusId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int?>("TagId")
                         .HasColumnType("int");
@@ -342,7 +342,15 @@ namespace Bug.Data.Migrations
 
                     b.HasIndex("IssueId");
 
+                    b.HasIndex("ModPriorityId");
+
+                    b.HasIndex("ModStatusId");
+
                     b.HasIndex("ModifierId");
+
+                    b.HasIndex("PrePriorityId");
+
+                    b.HasIndex("PreStatusId");
 
                     b.HasIndex("TagId");
 
@@ -898,9 +906,25 @@ namespace Bug.Data.Migrations
                         .WithMany()
                         .HasForeignKey("IssueId");
 
+                    b.HasOne("Bug.Entities.Model.Priority", "ModPriority")
+                        .WithMany()
+                        .HasForeignKey("ModPriorityId");
+
+                    b.HasOne("Bug.Entities.Model.Status", "ModStatus")
+                        .WithMany()
+                        .HasForeignKey("ModStatusId");
+
                     b.HasOne("Bug.Entities.Model.Account", "Modifier")
                         .WithMany()
                         .HasForeignKey("ModifierId");
+
+                    b.HasOne("Bug.Entities.Model.Priority", "PrePriority")
+                        .WithMany()
+                        .HasForeignKey("PrePriorityId");
+
+                    b.HasOne("Bug.Entities.Model.Status", "PreStatus")
+                        .WithMany()
+                        .HasForeignKey("PreStatusId");
 
                     b.HasOne("Bug.Entities.Model.Tag", "Tag")
                         .WithMany()
@@ -909,6 +933,14 @@ namespace Bug.Data.Migrations
                     b.Navigation("Issue");
 
                     b.Navigation("Modifier");
+
+                    b.Navigation("ModPriority");
+
+                    b.Navigation("ModStatus");
+
+                    b.Navigation("PrePriority");
+
+                    b.Navigation("PreStatus");
 
                     b.Navigation("Tag");
                 });

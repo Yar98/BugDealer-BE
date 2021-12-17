@@ -78,10 +78,10 @@ namespace Bug.API.Services
                 .AddLogDate()
                 .AddDescription(ilog.Description)
                 .AddModifierId(ilog.ModifierId)
-                .AddModPriority(ilog.ModPriority)
-                .AddModStatus(ilog.ModStatus)
-                .AddPrePriority(ilog.PrePriority)
-                .AddPreStatus(ilog.PreStatus)
+                .AddModPriorityId(ilog.ModPriorityId)
+                .AddModStatusId(ilog.ModStatusId)
+                .AddPrePriorityId(ilog.PrePriorityId)
+                .AddPreStatusId(ilog.PreStatusId)
                 .AddTagId(ilog.TagId)
                 .Build();
             

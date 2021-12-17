@@ -231,7 +231,7 @@ namespace Bug.API.Services
         }
 
         public async Task<Issue> AddIssueAsync
-            (IssuePostDto issue,
+            (IssueNormalDto issue,
             CancellationToken cancellationToken = default)
         {
             var pro = await _unitOfWork
@@ -304,7 +304,7 @@ namespace Bug.API.Services
         }
 
         public async Task UpdateIssueAsync
-            (IssuePostDto issue,
+            (IssueNormalDto issue,
             CancellationToken cancellationToken = default)
         {
             var result = await _unitOfWork
@@ -327,33 +327,18 @@ namespace Bug.API.Services
         }       
 
         public async Task UpdateTagsOfIssue
-            (IssuePostDto issue,
+            (IssueNormalDto issue,
             CancellationToken cancellationToken = default)
         {
-            var specificationResult =
-                new IssueSpecification(issue.Id);
-            var result = await _unitOfWork
-                .Issue
-                .GetEntityBySpecAsync(specificationResult,cancellationToken);
-            var customLabelTags = issue
+            var tags = issue
                 .Tags
-                .Select(l =>
-                {
-                    var item = new Tag(l.Id, l.Name, l.Description, l.Color, l.CategoryId);
-                    if (item.Id == 0)
-                        _unitOfWork.Tag.Add(item);
-                    else
-                        _unitOfWork.Tag.Attach(item);
-                    return item;
-                })
+                .Select(t => new Tag(t.Id, t.Name, t.Description, t.Color, t.CategoryId))
                 .ToList();
-            result.UpdateTags(customLabelTags);
-            
-            _unitOfWork.Save();
+            await _unitOfWork.Issue.UpdateTagsOfIssueAsync(issue.Id, tags, cancellationToken);
         }
 
         public async Task UpdateFromRelationsOfIssue
-            (IssuePostDto issue,
+            (IssueNormalDto issue,
             CancellationToken cancellationToken = default)
         {
             var specificationResult =
@@ -371,40 +356,15 @@ namespace Bug.API.Services
         }
 
         public async Task UpdateAttachmentsOfIssue
-            (IssuePostDto issue,
+            (IssueNormalDto issue,
             CancellationToken cancellationToken = default)
         {
-            var specificationResult =
-                new IssueSpecification(issue.Id);
-            var result = await _unitOfWork
+            var attachments = issue.Attachments
+                .Select(a => new Attachment(a.Id, a.Uri, a.IssueId))
+                .ToList();
+            await _unitOfWork
                 .Issue
-                .GetEntityBySpecAsync(specificationResult, cancellationToken);
-            var delAttach = result
-                .Attachments
-                .Where(at => !issue.Attachments.Any(a => a.Id == at.Id))
-                .ToList();
-            if (delAttach != null)
-            {
-                Parallel.ForEach(delAttach, d =>
-                {
-                    _unitOfWork.Attachment.Delete(d);
-                });
-            }
-            var attachments = issue
-                .Attachments
-                .Select(a =>
-                {
-                    var item = new Attachment(a.Id, a.Uri, a.IssueId);
-                    if (item.Id == 0)
-                        _unitOfWork.Attachment.Add(item);
-                    else
-                        _unitOfWork.Attachment.Attach(item);
-                    return item;
-                })
-                .ToList();
-            result.UpdateAttachments(attachments);
-            
-            _unitOfWork.Save();
+                .UpdateAttachmentsOfIssueAsync(issue.Id, attachments, cancellationToken);
         }
 
         public async Task DeleteIssueAsync

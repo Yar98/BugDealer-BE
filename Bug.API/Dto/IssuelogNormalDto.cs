@@ -12,10 +12,10 @@ namespace Bug.API.Dto
         public string Description { get; set; }
         public string IssueId { get; set; }
         public string ModifierId { get; set; }
-        public string PreStatus { get; set; }
-        public string ModStatus { get; set; }
-        public string PrePriority { get; set; }
-        public string ModPriority { get; set; }
+        public string PreStatusId { get; set; }
+        public string ModStatusId { get; set; }
+        public int PrePriorityId { get; set; }
+        public int ModPriorityId { get; set; }
         public int TagId { get; set; }
     }
 }

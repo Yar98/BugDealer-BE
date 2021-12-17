@@ -87,19 +87,19 @@ namespace Bug.API.Services
             string sortOrder,
             CancellationToken cancellationToken = default);
         Task<Issue> AddIssueAsync
-            (IssuePostDto issue,
+            (IssueNormalDto issue,
             CancellationToken cancellationToken = default);
         Task UpdateIssueAsync
-            (IssuePostDto issue,
+            (IssueNormalDto issue,
             CancellationToken cancellationToken = default);
         Task UpdateTagsOfIssue
-            (IssuePostDto issue,
+            (IssueNormalDto issue,
             CancellationToken cancellationToken = default);
         Task UpdateFromRelationsOfIssue
-            (IssuePostDto issue,
+            (IssueNormalDto issue,
             CancellationToken cancellationToken = default);
         Task UpdateAttachmentsOfIssue
-            (IssuePostDto issue,
+            (IssueNormalDto issue,
             CancellationToken cancellationToken = default);
         Task DeleteIssueAsync
             (string id,

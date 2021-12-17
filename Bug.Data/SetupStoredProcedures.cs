@@ -107,6 +107,33 @@ namespace Bug.Data
 						CASE @order WHEN 'code' THEN i.NumberCode END,
 						CASE @order WHEN 'code_desc' THEN i.NumberCode END DESC
                 END";
+            var sp8 = @"CREATE PROCEDURE [dbo].[UpdateTagsOfIssue]
+					@issue NVARCHAR(MAX),
+                    @list NVARCHAR(MAX)
+                AS
+                BEGIN
+                    SET NOCOUNT ON;
+
+					DELETE FROM IssueTag
+					WHERE IssuesId = @issue 
+                    
+					INSERT INTO [IssueTag]
+					SELECT @issue, CAST(VALUE AS int) FROM STRING_SPLIT(@list,',')
+                END";
+            var sp9 = @"CREATE PROCEDURE [dbo].[UpdateAttachmentsOfIssue]
+					@issue NVARCHAR(MAX),
+                    @listId NVARCHAR(MAX),
+					@listUris NVARCHAR(MAX)
+                AS
+                BEGIN
+                    SET NOCOUNT ON;
+
+					DELETE FROM [Attachment]
+					WHERE IssueId = @issue AND Id NOT IN (SELECT VALUE FROM STRING_SPLIT(@listId,','))
+
+					INSERT INTO [Attachment]
+					SELECT VALUE, @issue FROM STRING_SPLIT(@listUris,',')
+                END";
             migrationBuilder.Sql(sp1);
             migrationBuilder.Sql(sp2);
             migrationBuilder.Sql(sp3);
@@ -114,6 +141,8 @@ namespace Bug.Data
             migrationBuilder.Sql(sp5);
             migrationBuilder.Sql(sp6);
             migrationBuilder.Sql(sp7);
+            migrationBuilder.Sql(sp8);
+            migrationBuilder.Sql(sp9);
         }
     }
 }

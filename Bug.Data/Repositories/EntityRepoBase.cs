@@ -170,6 +170,11 @@ namespace Bug.Data.Repositories
             _bugContext.Attach(entity);
         }
 
+        public void Detach(T entity)
+        {
+            _bugContext.Entry(entity).State = EntityState.Detached;
+        }
+
         public void Delete(T entity)
         {
             _bugContext.Set<T>().Remove(entity);

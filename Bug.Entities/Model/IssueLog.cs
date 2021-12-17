@@ -16,13 +16,17 @@ namespace Bug.Entities.Model
         public string ModifierId { get; private set; }
         public Account Modifier { get; private set; }
         // old status
-        public string PreStatus { get; private set; }
+        public string? PreStatusId { get; private set; }
+        public Status PreStatus { get; private set; }
         // new status
-        public string ModStatus { get; private set; }
+        public string? ModStatusId { get; private set; }
+        public Status ModStatus { get; private set; }
         // old priority
-        public string PrePriority { get; private set; }
+        public int? PrePriorityId { get; private set; }
+        public Priority PrePriority { get; private set; }
         // new priority
-        public string ModPriority { get; private set; }
+        public int? ModPriorityId { get; private set; }
+        public Priority ModPriority { get; private set; }
         // action
         public int? TagId { get; private set; }
         public Tag Tag { get; private set; }
@@ -34,10 +38,10 @@ namespace Bug.Entities.Model
             string des,
             string issueId,
             string modifierId,
-            string preStatus,
-            string modStatus,
-            string prePriority,
-            string modPriority,
+            string preStatusId,
+            string modStatusId,
+            int prePriorityId,
+            int modPriorityId,
             int tagId)
         {
             Id = id;
@@ -45,10 +49,10 @@ namespace Bug.Entities.Model
             Description = des;
             IssueId = issueId;
             ModifierId = modifierId;
-            PreStatus = preStatus;
-            ModStatus = modStatus;
-            PrePriority = prePriority;
-            ModPriority = modPriority;
+            PreStatusId = preStatusId;
+            ModStatusId = modStatusId;
+            PrePriorityId = prePriorityId;
+            ModPriorityId = modPriorityId;
             TagId = tagId;
         }
 

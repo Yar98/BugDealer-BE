@@ -12,6 +12,14 @@ namespace Bug.Data.Repositories
 {
     public interface IIssueRepo : IEntityRepoBase<Issue>
     {
+        Task UpdateTagsOfIssueAsync
+            (string issueId,
+            List<Tag> tags,
+            CancellationToken cancellationToken = default);
+        Task UpdateAttachmentsOfIssueAsync
+            (string issueId,
+            List<Attachment> attachments,
+            CancellationToken cancellationToken = default);
         void UpdateIssuesHaveDumbStatus(List<Status> statuses);
         Task<List<Issue>> GetSuggestIssuesAsync
             (string projectId,
