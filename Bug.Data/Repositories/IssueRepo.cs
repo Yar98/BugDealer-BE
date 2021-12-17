@@ -40,10 +40,13 @@ namespace Bug.Data.Repositories
                 .Select(t => t.Id.ToString())
                 .ToList()
                 .Aggregate((x, y) => x + "," + y);
-            var listUrisStr = attachments
+            var uris = attachments
                 .Where(t => t.Id == 0)
                 .Select(t => t.Uri)
-                .Aggregate((x, y) => x + "," + y);
+                .ToList();
+            string listUrisStr = "";
+            if (uris.Count != 0)
+                listUrisStr = uris.Aggregate((x, y) => x + "," + y);
             var issue = new SqlParameter("@issue", issueId);
             var listIds = new SqlParameter("@listId", listStr);
             var listUris = new SqlParameter("@listUris", listUrisStr);

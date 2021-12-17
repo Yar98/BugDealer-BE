@@ -131,8 +131,9 @@ namespace Bug.Data
 					DELETE FROM [Attachment]
 					WHERE IssueId = @issue AND Id NOT IN (SELECT VALUE FROM STRING_SPLIT(@listId,','))
 
-					INSERT INTO [Attachment]
-					SELECT VALUE, @issue FROM STRING_SPLIT(@listUris,',')
+					IF @listUris != '' AND @listUris != NULL					
+						INSERT INTO [Attachment]
+						SELECT VALUE AS tes, @issue FROM STRING_SPLIT(@listUris,',');
                 END";
             migrationBuilder.Sql(sp1);
             migrationBuilder.Sql(sp2);

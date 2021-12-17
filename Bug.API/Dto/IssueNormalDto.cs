@@ -30,6 +30,7 @@ namespace Bug.API.Dto
 
         public string ModifierId { get; set; }
         public string LogDescription { get; set; }
+        public int LogTagId { get; set; }
         
     }
 }

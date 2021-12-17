@@ -68,18 +68,6 @@ namespace Bug.API.Controllers
             return Ok(Bts.ConvertJson(result));
         }
 
-        [HttpPost]
-        public async Task<IActionResult> PostAddIssuelog([FromBody] IssuelogNormalDto ilog)
-        {
-            var result = await _issuelogService
-                .AddIssuelogAsync(ilog);
-            if(result.Issue != null)
-                await _hubContext
-                    .Clients
-                    .Group(result.Issue.Id)
-                    .ReceiveMessage(result.Issue.Id, Bts.ConvertJson(result));
-            return CreatedAtAction(
-                nameof(GetIssuelogById), new { id = result.Id }, Bts.ConvertJson(result));
-        }
+        
     }
 }

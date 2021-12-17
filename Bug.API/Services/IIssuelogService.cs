@@ -27,8 +27,5 @@ namespace Bug.API.Services
             int categoryId,
             string sortOrder,
             CancellationToken cancellationToken = default);
-        Task<Issuelog> AddIssuelogAsync
-            (IssuelogNormalDto ilog,
-            CancellationToken cancellationToken = default);
     }
 }

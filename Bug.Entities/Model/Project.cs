@@ -11,7 +11,7 @@ namespace Bug.Entities.Model
         public string Id { get; private set; }
         public string Name { get; private set; }
         public string Code { get; private set; }
-        public int Temp { get; set; } = 0;
+        public int Temp { get; set; } = 1;
         public DateTimeOffset? StartDate { get; private set; }
         public DateTimeOffset? EndDate { get; private set; }
         public DateTimeOffset? RecentDate { get; private set; } // ko can
@@ -126,31 +126,35 @@ namespace Bug.Entities.Model
 
         public void UpdateName(string name)
         {
+            if (name == null)
+                return;
             if (name == "")
                 Name = null;
-            else if(name != null)
-                Name = name;
+            Name = name;            
         }
         public void UpdateAvatarUri(string uri)
         {
+            if (uri == null)
+                return;
             if (uri == "")
                 AvatarUri = null;
-            else if(uri != null)
-                AvatarUri = uri;
+            AvatarUri = uri;
         }
         public void UpdateCode(string code)
         {
+            if (code == null)
+                return;
             if (code == "")
                 Code = null;
-            else if (code != null)
-                Code = code;
+            Code = code;
         }
         public void UpdateDescription(string des)
         {
+            if (des == null)
+                return;
             if (des == "")
                 Description = null;
-            else if(des != null)
-                Description = des;
+            Description = des;
         }
         public void UpdateStartDate(string d)
         {
@@ -168,10 +172,11 @@ namespace Bug.Entities.Model
         }
         public void UpdateDefaultAssigneeId(string id)
         {
+            if (id == null)
+                return;
             if (id == "")
                 DefaultAssigneeId = null;
-            else if(id != null)
-                DefaultAssigneeId = id;
+            DefaultAssigneeId = id;
         }
         public void UpdateTemplateId(int? id)
         {
@@ -179,10 +184,11 @@ namespace Bug.Entities.Model
         }
         public void UpdateDefaultStatusId(string id)
         {
+            if (id == null)
+                return;
             if (id == "")
                 DefaultStatusId = null;
-            else if (id != null)
-                DefaultStatusId = id;
+            DefaultStatusId = id;
         }
         public void UpdateDefaultRoleId(int? id)
         {

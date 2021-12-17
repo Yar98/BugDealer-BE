@@ -77,6 +77,76 @@ namespace Bug.API.Services
             await client.SendEmailAsync(sendRequest, cancellationToken);
         }
 
+        public async Task VerifyEmailAsync
+            (string email,
+            CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                await _unitOfWork
+                    .Account
+                    .AddCognitoUser(email, "Pass@word123", cancellationToken);
+            }
+            catch (UsernameExistsException)
+            {
+                await _unitOfWork
+                    .Account
+                    .ResendVerifyCognito(email, cancellationToken);
+            }
+        }
+
+        public async Task ForgotPasswordAsync
+            (string email,
+            CancellationToken cancellationToken = default)
+        {
+            await _unitOfWork
+               .Account
+               .ForgotPasswordAsync(email, cancellationToken);
+        }
+
+        public async Task ConfirmForgotPassword
+            (ForgotPasswordDto item,
+            CancellationToken cancellationToken = default)
+        {
+            await _unitOfWork
+                .Account
+                .ConfirmForgotPassword(item.Email, item.Code, cancellationToken);
+            var specificationResult =
+                new AccountByEmailSpecification(item.Email);
+            var result = await _unitOfWork
+                .Account
+                .GetEntityBySpecAsync(specificationResult, cancellationToken);
+            if (result == null)
+                return;
+            result.UpdatePassword(item.NewPassword);
+            _unitOfWork.Account.Update(result);
+
+            _unitOfWork.Save();
+        }
+
+        public async Task ConfirmEmailBts
+            (string email,
+            string clientId,
+            string code,
+            CancellationToken cancellationToken = default)
+        {
+            var specificationResult =
+                new AccountByEmailSpecification(email);
+            var result = await _unitOfWork
+                .Account
+                .GetEntityBySpecAsync(specificationResult, cancellationToken);
+            if (result == null)
+                return;
+            
+            await _unitOfWork
+                .Account
+                .ConfirmSignUp(email, clientId, code, cancellationToken);
+            
+            result.UpdateVerifyEmail(true);
+
+            _unitOfWork.Save();
+        }
+
         public async Task<string> GenerateTokenGoogleAccountAsync
             (AccountGoogleLoginDto acc,
             CancellationToken cancellationToken = default)
@@ -152,7 +222,8 @@ namespace Bug.API.Services
                 ImageUri = result?.ImageUri,
                 Language = result?.LastName,
                 LastName = result?.LastName,
-                TimezoneId = result?.TimezoneId
+                TimezoneId = result?.TimezoneId,
+                VerifyEmail = result.VerifyEmail
             };
         }
 
@@ -255,76 +326,6 @@ namespace Bug.API.Services
                 new AccountsByProjectIdSpecification(projectId);
             var result = await _unitOfWork.Account.GetNextByOffsetNoTrackBySpecAsync(offset, next, sortOrder, specificationResult, cancellationToken);
             return result;
-        }
-
-        public async Task VerifyEmailAsync
-            (string email,
-            CancellationToken cancellationToken = default)
-        {
-            try
-            {
-                await _unitOfWork
-                    .Account
-                    .AddCognitoUser(email, "Pass@word123", cancellationToken);
-            }
-            catch(UsernameExistsException)
-            {
-                await _unitOfWork
-                    .Account
-                    .ResendVerifyCognito(email, cancellationToken);
-            }            
-        }
-
-        public async Task ForgotPasswordAsync
-            (string email,
-            CancellationToken cancellationToken = default)
-        {
-            await _unitOfWork
-               .Account
-               .ForgotPasswordAsync(email, cancellationToken);
-        }
-
-        public async Task ConfirmForgotPassword
-            (ForgotPasswordDto item,
-            CancellationToken cancellationToken = default)
-        {
-            await _unitOfWork
-                .Account
-                .ConfirmForgotPassword(item.Email, item.Code, cancellationToken);
-            var specificationResult =
-                new AccountByEmailSpecification(item.Email);
-            var result = await _unitOfWork
-                .Account
-                .GetEntityBySpecAsync(specificationResult, cancellationToken);
-            if (result == null)
-                return;
-            result.UpdatePassword(item.NewPassword);
-            _unitOfWork.Account.Update(result);
-
-            _unitOfWork.Save();
-        }
-
-        public async Task ConfirmEmailBts
-            (string email,
-            string clientId,
-            string code,
-            CancellationToken cancellationToken = default)
-        {
-            var specificationResult =
-                new AccountByEmailSpecification(email);
-            var result = await _unitOfWork
-                .Account
-                .GetEntityBySpecAsync(specificationResult, cancellationToken);
-            if (result == null)
-                return;
-            await _unitOfWork
-                .Account
-                .ConfirmSignUp(email, clientId, code, cancellationToken);
-
-            result.UpdateVerifyEmail(true);
-            _unitOfWork.Account.Update(result);
-
-            _unitOfWork.Save();
         }
 
         public async Task<AccountNormalDto> AddRegistedAccountAsync

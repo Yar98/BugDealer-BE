@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bug.Data.Migrations
 {
     [DbContext(typeof(BugContext))]
-    [Migration("20211216213431_Created-db")]
+    [Migration("20211217210341_Created-db")]
     partial class Createddb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -320,20 +320,86 @@ namespace Bug.Data.Migrations
                     b.Property<DateTimeOffset>("LogDate")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<int?>("ModPriorityId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ModStatusId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("ModifierId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int?>("PrePriorityId")
+                    b.Property<string>("NewAssigneeId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("NewDescription")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset?>("NewDueDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NewEnvironment")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NewOriginEstimateTime")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("NewPriorityId")
                         .HasColumnType("int");
 
-                    b.Property<string>("PreStatusId")
+                    b.Property<string>("NewRemainEstimateTime")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NewReporterId")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<int?>("NewSeverityId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("NewStatusName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("NewStatusTagId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("NewTitle")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("NewWorklogId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("OldAssigneeId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("OldDescription")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset?>("OldDueDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("OldEnvironment")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OldOriginEstimateTime")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("OldPriorityId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("OldRemainEstimateTime")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OldReporterId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int?>("OldSeverityId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("OldStatusName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("OldStatusTagId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("OldTitle")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("OldWorklogId")
+                        .HasColumnType("int");
 
                     b.Property<int?>("TagId")
                         .HasColumnType("int");
@@ -342,15 +408,31 @@ namespace Bug.Data.Migrations
 
                     b.HasIndex("IssueId");
 
-                    b.HasIndex("ModPriorityId");
-
-                    b.HasIndex("ModStatusId");
-
                     b.HasIndex("ModifierId");
 
-                    b.HasIndex("PrePriorityId");
+                    b.HasIndex("NewAssigneeId");
 
-                    b.HasIndex("PreStatusId");
+                    b.HasIndex("NewPriorityId");
+
+                    b.HasIndex("NewReporterId");
+
+                    b.HasIndex("NewSeverityId");
+
+                    b.HasIndex("NewStatusTagId");
+
+                    b.HasIndex("NewWorklogId");
+
+                    b.HasIndex("OldAssigneeId");
+
+                    b.HasIndex("OldPriorityId");
+
+                    b.HasIndex("OldReporterId");
+
+                    b.HasIndex("OldSeverityId");
+
+                    b.HasIndex("OldStatusTagId");
+
+                    b.HasIndex("OldWorklogId");
 
                     b.HasIndex("TagId");
 
@@ -496,13 +578,13 @@ namespace Bug.Data.Migrations
                     b.Property<string>("ToIssueId")
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("TagId")
                         .HasColumnType("int");
 
-                    b.HasKey("FromIssueId", "ToIssueId");
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("FromIssueId", "ToIssueId", "TagId");
 
                     b.HasIndex("TagId");
 
@@ -906,25 +988,57 @@ namespace Bug.Data.Migrations
                         .WithMany()
                         .HasForeignKey("IssueId");
 
-                    b.HasOne("Bug.Entities.Model.Priority", "ModPriority")
-                        .WithMany()
-                        .HasForeignKey("ModPriorityId");
-
-                    b.HasOne("Bug.Entities.Model.Status", "ModStatus")
-                        .WithMany()
-                        .HasForeignKey("ModStatusId");
-
                     b.HasOne("Bug.Entities.Model.Account", "Modifier")
                         .WithMany()
                         .HasForeignKey("ModifierId");
 
-                    b.HasOne("Bug.Entities.Model.Priority", "PrePriority")
+                    b.HasOne("Bug.Entities.Model.Account", "NewAssignee")
                         .WithMany()
-                        .HasForeignKey("PrePriorityId");
+                        .HasForeignKey("NewAssigneeId");
 
-                    b.HasOne("Bug.Entities.Model.Status", "PreStatus")
+                    b.HasOne("Bug.Entities.Model.Priority", "NewPriority")
                         .WithMany()
-                        .HasForeignKey("PreStatusId");
+                        .HasForeignKey("NewPriorityId");
+
+                    b.HasOne("Bug.Entities.Model.Account", "NewReporter")
+                        .WithMany()
+                        .HasForeignKey("NewReporterId");
+
+                    b.HasOne("Bug.Entities.Model.Severity", "NewSeverity")
+                        .WithMany()
+                        .HasForeignKey("NewSeverityId");
+
+                    b.HasOne("Bug.Entities.Model.Tag", "NewStatusTag")
+                        .WithMany()
+                        .HasForeignKey("NewStatusTagId");
+
+                    b.HasOne("Bug.Entities.Model.Worklog", "NewWorklog")
+                        .WithMany()
+                        .HasForeignKey("NewWorklogId");
+
+                    b.HasOne("Bug.Entities.Model.Account", "OldAssignee")
+                        .WithMany()
+                        .HasForeignKey("OldAssigneeId");
+
+                    b.HasOne("Bug.Entities.Model.Priority", "OldPriority")
+                        .WithMany()
+                        .HasForeignKey("OldPriorityId");
+
+                    b.HasOne("Bug.Entities.Model.Account", "OldReporter")
+                        .WithMany()
+                        .HasForeignKey("OldReporterId");
+
+                    b.HasOne("Bug.Entities.Model.Severity", "OldSeverity")
+                        .WithMany()
+                        .HasForeignKey("OldSeverityId");
+
+                    b.HasOne("Bug.Entities.Model.Tag", "OldStatusTag")
+                        .WithMany()
+                        .HasForeignKey("OldStatusTagId");
+
+                    b.HasOne("Bug.Entities.Model.Worklog", "OldWorklog")
+                        .WithMany()
+                        .HasForeignKey("OldWorklogId");
 
                     b.HasOne("Bug.Entities.Model.Tag", "Tag")
                         .WithMany()
@@ -934,13 +1048,29 @@ namespace Bug.Data.Migrations
 
                     b.Navigation("Modifier");
 
-                    b.Navigation("ModPriority");
+                    b.Navigation("NewAssignee");
 
-                    b.Navigation("ModStatus");
+                    b.Navigation("NewPriority");
 
-                    b.Navigation("PrePriority");
+                    b.Navigation("NewReporter");
 
-                    b.Navigation("PreStatus");
+                    b.Navigation("NewSeverity");
+
+                    b.Navigation("NewStatusTag");
+
+                    b.Navigation("NewWorklog");
+
+                    b.Navigation("OldAssignee");
+
+                    b.Navigation("OldPriority");
+
+                    b.Navigation("OldReporter");
+
+                    b.Navigation("OldSeverity");
+
+                    b.Navigation("OldStatusTag");
+
+                    b.Navigation("OldWorklog");
 
                     b.Navigation("Tag");
                 });

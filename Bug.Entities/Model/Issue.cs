@@ -1,4 +1,5 @@
-﻿using Bug.Entities.Integration;
+﻿using Bug.Entities.Builder;
+using Bug.Entities.Integration;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -37,10 +38,12 @@ namespace Bug.Entities.Model
 
         public ICollection<Account> Watchers { get; private set; }
         public ICollection<Account> Voters { get; private set; }
-
+        
+        // relations by fromIssueId
         private List<Relation> _fromRelations = new();
         public ICollection<Relation> FromRelations => _fromRelations.AsReadOnly();
 
+        // relations by toIssueId
         private List<Relation> _toRelations = new();
         public ICollection<Relation> ToRelations => _toRelations.AsReadOnly();
 
@@ -112,96 +115,199 @@ namespace Bug.Entities.Model
             AssigneeId = assigneeId;
         }
 
-        public void UpdateTitle(string title)
+        public void UpdateTitle(string title, string modifierId, Action<Issuelog> temp)
         {
-            if(title == "")
-                Title = null;
-            else if(title != null)
-                Title = title;
+            if (title == null)
+                return;
+            if (title == "")
+                title = null;                        
+            var log = new IssuelogBuilder()
+                    .AddIssueId(Id)
+                    .AddModifierId(modifierId)
+                    .AddTagId(1)
+                    .AddLogDate()
+                    .AddOldTitle(Title)
+                    .AddNewTitle(title)
+                    .Build();
+            temp.Invoke(log);
+            Title = title;
         }
-        public void UpdateDescription(string des)
+
+        public void UpdateDescription(string des, string modifierId, Action<Issuelog> temp)
         {
+            if (des == null)
+                return;
             if (des == "")
-                Description = null;
-            else if(des != null)
-                Description = des;
+                des = null;
+            var log = new IssuelogBuilder()
+                    .AddIssueId(Id)
+                    .AddModifierId(modifierId)
+                    .AddTagId(1)
+                    .AddLogDate()
+                    .AddOldDescription(Description)
+                    .AddNewDescription(des)
+                    .Build();
+            temp.Invoke(log);
+            Description = des;
         }
-        public void UpdateReporterId(string id)
+        public void UpdateReporterId(string id, string modifierId, Action<Issuelog> temp)
         {
+            if (id == null)
+                return;
             if (id == "")
-                ReporterId = null;
-            else if (id != null)
-                ReporterId = id ;
+                id = null;
+            var log = new IssuelogBuilder()
+                    .AddIssueId(Id)
+                    .AddModifierId(modifierId)
+                    .AddTagId(1)
+                    .AddLogDate()
+                    .AddOldReporterId(ReporterId)
+                    .AddNewReporterId(id)
+                    .Build();
+            temp.Invoke(log);
+            ReporterId = id;
         }
-        public void UpdatePriorityId(string i)
+        public void UpdatePriorityId(string i, string modifierId, Action<Issuelog> temp)
         {
-            if(i == "")            
+            if (i == null)
+                return;
+            if (i == "")
                 PriorityId = null;
-            else if(i != null)            
-                PriorityId = int.Parse(i);
-                     
+            var log = new IssuelogBuilder()
+                .AddIssueId(Id)
+                .AddModifierId(modifierId)
+                .AddTagId(1)
+                .AddLogDate()
+                .AddOldPriorityId(PriorityId ?? 1)
+                .AddNewPriorityId(int.Parse(i))
+                .Build();
+            temp.Invoke(log);
+            PriorityId = int.Parse(i);
         }
-        public void UpdateOriginalEstimateTime(string s)
+        public void UpdateOriginalEstimateTime(string s, string modifierId, Action<Issuelog> temp)
         {
+            if (s == null)
+                return;
             if (s == "")
                 OriginEstimateTime = null;
-            else if(s != null)
-                OriginEstimateTime = s;
+            var log = new IssuelogBuilder()
+                    .AddIssueId(Id)
+                    .AddModifierId(modifierId)
+                    .AddTagId(1)
+                    .AddLogDate()
+                    .AddOldOriginEstimateTime(OriginEstimateTime)
+                    .AddNewOriginEstimateTime(s)
+                    .Build();
+            temp.Invoke(log);
+            OriginEstimateTime = s;
+
         }
-        public void UpdateRemainEstimateTime(string s)
+        public void UpdateRemainEstimateTime(string s, string modifierId, Action<Issuelog> temp)
         {
+            if (s == null)
+                return;
             if (s == "")
-                RemainEstimateTime = null;
-            else if(s != null)
-                RemainEstimateTime = s;
+                s = null;
+            var log = new IssuelogBuilder()
+                    .AddIssueId(Id)
+                    .AddModifierId(modifierId)
+                    .AddTagId(1)
+                    .AddLogDate()
+                    .AddOldRemainEstimateTime(RemainEstimateTime)
+                    .AddNewRemainEstimateTime(s)
+                    .Build();
+            temp.Invoke(log);
+            RemainEstimateTime = s;
         }
-        public void UpdateDueDate(string dt)
+        public void UpdateDueDate(string dt, string modifierId, Action<Issuelog> temp)
         {
+            if (dt == null)
+                return;
             if (dt == "")
-            {
-                DueDate = null;
-            }else if(dt != null)
-            {
-                DueDate = DateTimeOffset.Parse(dt);
-            }          
+                dt = null;           
+            var log = new IssuelogBuilder()
+                .AddIssueId(Id)
+                .AddModifierId(modifierId)
+                .AddTagId(1)
+                .AddLogDate()
+                .AddOldDueDate(DueDate)
+                .AddNewDueDate(DateTimeOffset.Parse(dt))
+                .Build();
+            temp.Invoke(log);
+            DueDate = DateTimeOffset.Parse(dt);
+
         }
-        public void UpdateAssigneeId(string id)
+        public void UpdateAssigneeId(string id, string modifierId, Action<Issuelog> temp)
         {
+            if (id == null)
+                return;
             if (id == "")
-                AssigneeId = null;
-            else if (id != null)
-                AssigneeId = id;
+                id = null;
+            var log = new IssuelogBuilder()
+                    .AddIssueId(Id)
+                    .AddModifierId(modifierId)
+                    .AddTagId(1)
+                    .AddLogDate()
+                    .AddOldAssigneeId(AssigneeId)
+                    .AddNewAssigneeId(id)
+                    .Build();
+            temp.Invoke(log);
+            AssigneeId = id;
         }
-        public void UpdateCreatedDate(string dt)
+        public void UpdateEnvironment(string e, string modifierId, Action<Issuelog> temp)
         {
-            if(dt == "")
-            {
-                CreatedDate = null;
-            }else if(dt != null)
-            {
-                CreatedDate = DateTimeOffset.Parse(dt);
-            }           
-        }
-        public void UpdateEnvironment(string e)
-        {
+            if (e == null)
+                return;
             if (e == "")
-                Environment = null;
-            else if(e != null)
+                e = null;            
+            var log = new IssuelogBuilder()
+                    .AddIssueId(Id)
+                    .AddModifierId(modifierId)
+                    .AddTagId(1)
+                    .AddLogDate()
+                    .AddOldEnvironment(Environment)
+                    .AddNewEnvironment(e)
+                    .Build();
+            temp.Invoke(log);
             Environment = e;
         }
-        public void UpdateStatusId(string st)
+        public void UpdateStatusId(Status newStatus, string modifierId, Action<Issuelog> temp)
         {
-            StatusId = st;
+            if (newStatus == null)
+                return;
+            var log = new IssuelogBuilder()
+                    .AddIssueId(Id)
+                    .AddModifierId(modifierId)
+                    .AddTagId(1)
+                    .AddLogDate()
+                    .AddOldStatusTagId(Status.TagId)
+                    .AddOldStatusName(Status.Name)
+                    .AddNewStatusTagId(newStatus.TagId)
+                    .AddNewStatusName(newStatus.Name)
+                    .Build();
+            temp.Invoke(log);
+            StatusId = newStatus.Id;
         }
-        public void UpdateSeverityId(string id)
+        public void UpdateStatusId(string newStatus)
+        {            
+            StatusId = newStatus;
+        }
+        public void UpdateSeverityId(string id, string modifierId, Action<Issuelog> temp)
         {
-            if (id == "")
-            {
-                SeverityId = null;
-            }else if(id != null)
-            {
-                SeverityId = int.Parse(id);
-            }
+            if (id == "")            
+                id = null;
+            if (id == null)
+                return;
+            var log = new IssuelogBuilder()
+                    .AddIssueId(Id)
+                    .AddModifierId(modifierId)
+                    .AddTagId(1)
+                    .AddLogDate()
+                    .AddOldSeverityId(SeverityId??1)
+                    .AddNewSeverityId(int.Parse(id))
+                    .Build();
+            temp.Invoke(log);
+            SeverityId = int.Parse(id);
         }
 
         public void UpdateAttachments(List<Attachment> result)
@@ -216,20 +322,13 @@ namespace Bug.Entities.Model
             {
                 _tags.Clear();
                 _tags = result;
-            }
-                
+            }                
         }
 
         public void UpdateFromRelations(List<Relation> result)
         {
             if (result != null && result.Any())
                 _fromRelations = result;
-        }
-
-        public void UpdateToRelations(List<Relation> result)
-        {
-            if (result != null && result.Any())
-                _toRelations = result;
         }
 
         public void UpdateStatus(Status st)

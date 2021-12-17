@@ -234,8 +234,8 @@ namespace Bug.API.Services
             result.UpdateEndDate(pro.EndDate);
             result.UpdateStartDate(pro.StartDate);
             result.UpdateDefaultAssigneeId(pro.DefaultAssigneeId);
-            result.UpdateState(pro.State ?? 0);
-            result.UpdateTemplateId(pro.TemplateId ?? 0);
+            result.UpdateState(pro.State);
+            result.UpdateTemplateId(pro.TemplateId);
             result.UpdateDefaultRoleId(pro.DefaultRoleId);
             result.UpdateDefaultStatusId(pro.DefaultStatusId);
 

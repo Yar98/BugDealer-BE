@@ -20,14 +20,12 @@ namespace Bug.Entities.Model
         public Worklog
             (int id,
             string spentTime,
-            string remainTime,
             DateTimeOffset logDate,
             string issueId,
             string loggerId)
         {
             Id = id;
             SpentTime = spentTime;
-            RemainTime = remainTime;
             LogDate = logDate;
             IssueId = issueId;
             LoggerId = loggerId;
@@ -36,11 +34,6 @@ namespace Bug.Entities.Model
         public void UpdateSpentTime(string s)
         {
             SpentTime = s;
-        }
-
-        public void UpdateRemainTime(string s)
-        {
-            RemainTime = s;
         }
 
         public void UpdateLogDate(DateTimeOffset d)
