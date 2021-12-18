@@ -96,7 +96,7 @@ namespace Bug.API.Controllers
             string sortOrder)
         {
             var result =
-                await _projectService.GetPaginatedByMemberIdTagIdAsync(
+                await _projectService.GetPaginatedByMemberIdStateAsync(
                     accountId, pageIndex, pageSize, state, sortOrder);
             return Ok(Bts.ConvertJson(result));
         }
@@ -111,7 +111,7 @@ namespace Bug.API.Controllers
             string sortOrder)
         {
             var result =
-                await _projectService.GetNextByOffsetByMemberIdTagIdAsync(
+                await _projectService.GetNextByOffsetByMemberIdStateAsync(
                     accountId, offset, next, state, sortOrder);
             return Ok(Bts.ConvertJson(result));
         }

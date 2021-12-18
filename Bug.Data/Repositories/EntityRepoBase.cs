@@ -56,7 +56,6 @@ namespace Bug.Data.Repositories
             var result = _bugContext
                 .Set<T>()
                 .Specify(specificationResult);
-            var tem = result.ToQueryString();
             result = SortOrder(result, sortOrder);            
             if (result == null)
                 return null;

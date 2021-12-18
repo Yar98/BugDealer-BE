@@ -135,6 +135,78 @@ namespace Bug.Data
 						INSERT INTO [Attachment]
 						SELECT VALUE AS tes, @issue FROM STRING_SPLIT(@listUris,',');
                 END";
+            var sp10 = @"CREATE PROCEDURE [dbo].[GetIssuesByFilter]
+                    @project NVARCHAR(MAX),
+                    @search NVARCHAR(MAX),
+                    @sortOrder NVARCHAR(MAX),
+					@assignees NVARCHAR(MAX),
+					@statuses NVARCHAR(MAX),
+					@reporters NVARCHAR(MAX),
+					@priorities NVARCHAR(MAX),
+					@severities NVARCHAR(MAX)
+                AS
+                BEGIN
+                    SET NOCOUNT ON;
+
+					DECLARE @sql NVARCHAR(MAX)
+
+					SET @assignees = TRIM(NULLIF(TRIM(@assignees),''))
+					SET @statuses = TRIM(NULLIF(TRIM(@statuses),''))
+					SET @reporters = TRIM(NULLIF(TRIM(@reporters),''))
+					SET @priorities = TRIM(NULLIF(TRIM(@priorities),''))
+					SET @severities = TRIM(NULLIF(TRIM(@severities),''))
+
+					SET @sql = N'SELECT i.* FROM [Issue] as i
+								JOIN [Project] as p ON i.ProjectId = p.Id AND p.Id = @project
+								WHERE (p.Code + CAST(i.NumberCode AS NVARCHAR) LIKE @search OR i.Title Like @search)'
+								
+
+                    IF @assignees IS NOT NULL 
+						SET @sql += N'AND i.AssigneeId IN 
+										(CASE @assignees
+											WHEN NULL THEN (SELECT i.AssigneeId FROM [Issue])
+											ELSE (SELECT VALUE FROM STRING_SPLIT(@assignees,'',''))
+										END)'
+					IF @statuses IS NOT NULL
+						SET @sql += N'AND i.StatusId IN 
+										(CASE @statuses
+											WHEN NULL THEN (SELECT i.StatusId FROM [Issue])
+											ELSE (SELECT VALUE FROM STRING_SPLIT(@statuses,'',''))
+										END)'
+					IF @reporters IS NOT NULL
+						SET @sql += N'AND i.ReporterId IN 
+										(CASE @reporters
+											WHEN NULL THEN (SELECT i.ReporterId FROM [Issue])
+											ELSE (SELECT VALUE FROM STRING_SPLIT(@reporters,'',''))
+										END)'
+					IF @priorities IS NOT NULL
+						SET @sql += N'AND i.PriorityId IN 
+										(CASE @priorities
+											WHEN NULL THEN (SELECT i.PriorityId FROM [Issue])
+											ELSE (SELECT VALUE FROM STRING_SPLIT(@priorities,'',''))
+										END)'
+					IF @severities IS NOT NULL
+						SET @sql += N'AND i.SeverityId IN 
+										(CASE @severities
+											WHEN NULL THEN (SELECT i.SeverityId FROM [Issue])
+											ELSE (SELECT VALUE FROM STRING_SPLIT(@severities,'',''))
+										END)'
+					SET @sql += N'ORDER BY '
+					IF @sortOrder = 'title'
+						SET @sql += 'i.Title'
+					ELSE IF @sortOrder = 'code'
+						SET @sql += 'i.NumberCode'
+					ELSE IF @sortOrder = 'id_desc'
+						SET @sql += 'i.Id DESC'
+					ELSE
+						SET @sql += 'i.Id'
+
+					EXECUTE sp_executesql @sql, 
+					N'@project NVARCHAR(MAX), @search NVARCHAR(MAX), @assignees NVARCHAR(MAX),
+					@statuses NVARCHAR(MAX), @reporters NVARCHAR(MAX), @priorities NVARCHAR(MAX),
+					@severities NVARCHAR(MAX)',
+					@project, @search, @assignees, @statuses, @reporters, @priorities, @severities
+                END";
             migrationBuilder.Sql(sp1);
             migrationBuilder.Sql(sp2);
             migrationBuilder.Sql(sp3);
@@ -144,6 +216,7 @@ namespace Bug.Data
             migrationBuilder.Sql(sp7);
             migrationBuilder.Sql(sp8);
             migrationBuilder.Sql(sp9);
+            migrationBuilder.Sql(sp10);
         }
     }
 }

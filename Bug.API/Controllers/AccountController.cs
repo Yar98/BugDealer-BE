@@ -169,11 +169,13 @@ namespace Bug.API.Controllers
         // PUT api/Account/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutUpdateAccount
-            (string id, [FromBody] AccountNormalDto user)
+            (string id, 
+            [FromBody] AccountNormalDto user)
         {
             if (id != user.Id)
                 return BadRequest();
-            await _accountService.UpdateAccountAsync(user);
+            await _accountService
+                .UpdateAccountAsync(user);
             return NoContent();
         }
 

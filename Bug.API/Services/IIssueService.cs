@@ -21,6 +21,18 @@ namespace Bug.API.Services
         Task<Issue> GetDetailIssueAsync
             (string id,
             CancellationToken cancelltionToken = default);
+        Task<PaginatedListDto<Issue>> GetPaginatedByFilter
+            (string projectId,
+            int pageIndex,
+            int pageSize,
+            string sortOrder,
+            string search,
+            string statuses,
+            string assignees,
+            string reporters,
+            string priorities,
+            string severity,
+            CancellationToken cancellationToken = default);
         Task<PaginatedListDto<Issue>> GetPaginatedByProjectIdSearchAsync
             (string search,
             string projectId,

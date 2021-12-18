@@ -54,6 +54,24 @@ namespace Bug.API.Controllers
             return Ok(Bts.ConvertJson(result));
         }
 
+        [HttpGet("filter/paging/project/{projectId}/{pageIndex}/{pageSize}/{sortOrder}")]
+        public async Task<IActionResult> GetPaginatedIssuesByFilter
+            (string projectId,
+            int pageIndex,
+            int pageSize,
+            string sortOrder)
+        {
+            var search = "%" + Request.Query["search"].ToString() + "%";
+            var statuses = Request.Query["statuses"].ToString();
+            var assignees = Request.Query["assignees"].ToString();
+            var reporters = Request.Query["reporters"].ToString();
+            var priorities = Request.Query["priorities"].ToString();
+            var severities = Request.Query["severities"].ToString();
+            var result = await _issueService
+                .GetPaginatedByFilter(projectId, pageIndex, pageSize, sortOrder, search, statuses, assignees, reporters, priorities, severities);
+            return Ok(Bts.ConvertJson(result));
+        }
+
         [HttpGet("paging/relate-user/{accountId}/{pageIndex:int}/{pageSize:int}/{sortOrder}")]
         public async Task<IActionResult> GetPaginatedIssuesByRelateUser
             (string accountId,

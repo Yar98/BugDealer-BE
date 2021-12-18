@@ -36,7 +36,7 @@ namespace Bug.API.Services
             int tagId,
             string sortOrder,
             CancellationToken cancellationToken = default);
-        Task<PaginatedListDto<Project>> GetPaginatedByMemberIdTagIdAsync
+        Task<PaginatedListDto<Project>> GetPaginatedByMemberIdStateAsync
             (string creatorId,
             int pageIndex, 
             int pageSize,
@@ -50,7 +50,7 @@ namespace Bug.API.Services
             int tagId,
             string sortOrder,
             CancellationToken cancellation = default);
-        Task<IReadOnlyList<Project>> GetNextByOffsetByMemberIdTagIdAsync
+        Task<IReadOnlyList<Project>> GetNextByOffsetByMemberIdStateAsync
             (string creatorId,
             int offset, 
             int next,

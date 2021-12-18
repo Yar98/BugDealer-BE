@@ -5,14 +5,76 @@ using Bug.Entities.Model;
 using System.Threading;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Data.SqlClient;
+using Bug.Core.Utils;
+using System.Data.Common;
+using System.Data;
+using System;
 
 namespace Bug.Data.Repositories
 {
     public class IssueRepo : EntityRepoBase<Issue>, IIssueRepo
     {
+        private string sql = "SELECT i.*,p.Code AS ProjectCode " +
+            "FROM [Issue] as i JOIN[Project] as p " +
+            "ON i.ProjectId = p.Id AND p.Id = @project " +
+            "WHERE(p.Code + CAST(i.NumberCode AS NVARCHAR) LIKE @search OR i.Title Like @search)";
         public IssueRepo(BugContext repositoryContext)
             : base(repositoryContext)
         {
+        }
+
+        public async Task<PaginatedList<Issue>> GetPaginatedByFilter
+            (string projectId,
+            int pageIndex,
+            int pageSize,
+            string sortOrder,
+            string search,
+            string statuses,
+            string assignees,
+            string reporters,
+            string priorities,
+            string severities,
+            CancellationToken cancellationToken = default)
+        {
+            if (!string.IsNullOrEmpty(assignees))
+            {
+                sql += " AND i.AssigneeId IN " +
+                    "(SELECT VALUE FROM STRING_SPLIT('"+ assignees + "', ','))";
+            }
+            if (!string.IsNullOrEmpty(statuses))
+            {
+                sql += " AND i.StatusId IN " +
+                    " (SELECT VALUE FROM STRING_SPLIT('"+ statuses + "', ','))";
+            }
+            if (!string.IsNullOrEmpty(reporters))
+            {
+                sql += " AND i.ReporterId IN " +
+                    " (SELECT VALUE FROM STRING_SPLIT('"+ reporters + "', ',')) ";
+            }
+            if (!string.IsNullOrEmpty(priorities))
+            {
+                sql += " AND i.PriorityId IN " +
+                    " (SELECT VALUE FROM STRING_SPLIT('"+ priorities + "', ',')) ";
+            }
+            if (!string.IsNullOrEmpty(severities))
+            {
+                sql += " AND i.SeverityId IN " +
+                    " (SELECT VALUE FROM STRING_SPLIT('"+ severities + "', ',')) ";
+            }
+            SortOrder(sql, sortOrder);
+            var projectSql = new SqlParameter("project", projectId);
+            var sortOrderSql = new SqlParameter("sortOrder", sortOrder);
+            var searchSql = new SqlParameter("search", search);           
+
+            var result = _bugContext
+                .Issues
+                .FromSqlRaw(sql, projectSql, sortOrderSql, searchSql)
+                .Include(i => i.Assignee)
+                .Include(i => i.Reporter)
+                .Include(i => i.Severity)
+                .Include(i => i.Priority);
+            return await PaginatedList<Issue>.CreateListAsync
+                (result, pageIndex, pageSize, cancellationToken);
         }
 
         public async Task UpdateTagsOfIssueAsync
@@ -119,6 +181,18 @@ namespace Bug.Data.Repositories
                     break;
             }
             return result;
+        }
+
+        private string SortOrder(string sql, string order)
+        {
+            sql += " ORDER BY ";
+            if (order == "title")
+                sql += " i.Title ";
+            else if (order == "code")
+                sql += " i.NumberCode ";
+            else
+                sql += " i.Id ";
+            return sql;
         }
 
     }

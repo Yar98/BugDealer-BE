@@ -73,6 +73,7 @@ namespace Bug.Entities.Model
             {
                 return Project?.Code + "-" + NumberCode;
             }
+            set => Code = value;
         }
 
         private Issue() { }

@@ -41,10 +41,10 @@ namespace Bug.API.Services
 
         public async Task SendInviteEmail
             (string fromEmail,
-            string toEmail, 
+            string toEmail,
             string code,
             CancellationToken cancellationToken = default)
-        {            
+        {
             using var client =
                 new AmazonSimpleEmailServiceClient(_config.GetSection("Cognito")["AccessKeyId"], _config.GetSection("Cognito")["AccessSecretKey"], RegionEndpoint.GetBySystemName(_config.GetSection("Cognito")["Region"]));
             var sendRequest = new SendEmailRequest
@@ -137,11 +137,11 @@ namespace Bug.API.Services
                 .GetEntityBySpecAsync(specificationResult, cancellationToken);
             if (result == null)
                 return;
-            
+
             await _unitOfWork
                 .Account
                 .ConfirmSignUp(email, clientId, code, cancellationToken);
-            
+
             result.UpdateVerifyEmail(true);
 
             _unitOfWork.Save();
@@ -161,7 +161,7 @@ namespace Bug.API.Services
                 var newAccount = new AccountBuilder()
                     .AddId(Guid.NewGuid().ToString())
                     .AddEmail(acc.Email)
-                    .AddUserName(acc.UserName??"")
+                    .AddUserName(acc.UserName ?? "")
                     .AddFirstName(acc.GivenName)
                     .AddLastName(acc.SurName)
                     .Build();
@@ -172,7 +172,7 @@ namespace Bug.API.Services
         }
 
         public async Task<AccountNormalDto> LoginLocalAsync(
-            string name, 
+            string name,
             string password,
             CancellationToken cancellationToken = default)
         {
@@ -211,7 +211,7 @@ namespace Bug.API.Services
             (string id,
             CancellationToken cancellationToken = default)
         {
-            var result =  await _unitOfWork.Account.GetByIdAsync(id, cancellationToken);
+            var result = await _unitOfWork.Account.GetByIdAsync(id, cancellationToken);
             return new AccountNormalDto
             {
                 Id = result?.Id,
@@ -291,7 +291,7 @@ namespace Bug.API.Services
                     LastName = a.LastName,
                     TimezoneId = a.TimezoneId,
                     UserName = a.UserName,
-                    VerifyEmail = a.VerifyEmail 
+                    VerifyEmail = a.VerifyEmail
                 }).ToList()
             };
         }
@@ -359,7 +359,7 @@ namespace Bug.API.Services
                 LastName = result.LastName,
                 Email = result.Email
             };
-        }        
+        }
 
         public async Task UpdateAccountAsync
             (AccountNormalDto user,
@@ -368,13 +368,9 @@ namespace Bug.API.Services
             var result = await _unitOfWork
                 .Account
                 .GetByIdAsync(user.Id, cancellationToken);
-            if (user.Language != null)
-                result.UpdateLanguage(user.Language);
-            if (user.ImageUri != null)
-                result.UpdateImageUri(user.ImageUri);
-            if (user.TimezoneId != null)
-                result.UpdateTimezoneId(user.TimezoneId);
-            _unitOfWork.Account.Update(result);
+            result.UpdateLanguage(user.Language);
+            result.UpdateImageUri(user.ImageUri);
+            result.UpdateTimezoneId(user.TimezoneId);
 
             _unitOfWork.Save();
         }
@@ -389,15 +385,12 @@ namespace Bug.API.Services
                 .Account
                 .GetEntityBySpecAsync(specificationResult, cancellationToken);
             if (string.Compare(result.Password, user.OldPassWord) != 0 &&
-                !string.IsNullOrEmpty(result.Password) && 
+                !string.IsNullOrEmpty(result.Password) &&
                 !string.IsNullOrEmpty(user.OldPassWord))
                 throw new OldPasswordWrong("Old password is false");
-            if (user.UserName != null)
-                result.UpdateUserName(user.UserName);
-            if (user.LastName != null)
-                result.UpdateLastName(user.LastName);
-            if (user.FirstName != null)
-                result.UpdateFirstName(user.FirstName);
+            result.UpdateUserName(user.UserName);
+            result.UpdateLastName(user.LastName);
+            result.UpdateFirstName(user.FirstName);
             if (user.Email != null)
             {
                 await _unitOfWork
@@ -406,8 +399,7 @@ namespace Bug.API.Services
                 result.UpdateEmail(user.Email);
                 result.UpdateVerifyEmail(false);
             }
-            if (user.NewPassword != null)
-                result.UpdatePassword(user.NewPassword);
+            result.UpdatePassword(user.NewPassword);
             _unitOfWork.Account.Update(result);
             _unitOfWork.Save();
             return 1;
