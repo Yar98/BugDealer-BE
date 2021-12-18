@@ -68,30 +68,56 @@ namespace Bug.Entities.Model
         }
         public void UpdateUserName(string username)
         {
+            if (username == null)
+                return;
+            if (username == "")
+                username = null;
             UserName = username;
         }
         public void UpdatePassword(string pass)
         {
+            if (string.IsNullOrEmpty(pass))
+                return;
             Password = pass;
         }
         public void UpdateFirstName(string firstname)
         {
+            if (firstname == null)
+                return;
+            if (firstname == "")
+                firstname = null;
             FirstName = firstname;
         }
         public void UpdateLastName(string lastname)
         {
+            if (lastname == null)
+                return;
+            if (lastname == "")
+                lastname = null;
             LastName = lastname;
         }
         public void UpdateEmail(string email)
         {
+            if (email == null)
+                return;
+            if (email == "")
+                email = null;
             Email = email;
         }
         public void UpdateImageUri(string imageuri)
         {
+            if (imageuri == null)
+                return;
+            if (imageuri == "")
+                imageuri = null;
             ImageUri = imageuri;
         }
         public void UpdateLanguage(string lan)
         {
+            if (lan == null)
+                return;
+            if (lan == "")
+                lan = null;
             Language = lan;
         }
         public void UpdateVerifyEmail(bool i)
@@ -101,6 +127,10 @@ namespace Bug.Entities.Model
 
         public void UpdateTimezoneId(string timezoneId)
         {
+            if (timezoneId == null)
+                return;
+            if (timezoneId == "")
+                timezoneId = null;
             TimezoneId = timezoneId;
         }
 

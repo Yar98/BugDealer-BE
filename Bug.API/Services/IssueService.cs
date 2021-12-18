@@ -57,6 +57,29 @@ namespace Bug.API.Services
                 .GetEntityBySpecAsync(specificationResult, cancellationToken);
         }
 
+        public async Task<PaginatedListDto<Issue>> GetPaginatedByFilter
+            (string projectId,
+            int pageIndex,
+            int pageSize,
+            string sortOrder,
+            string search,
+            string statuses,
+            string assignees,
+            string reporters,
+            string priorities,
+            string severity,
+            CancellationToken cancellationToken = default)
+        {
+            var result = await _unitOfWork
+                .Issue
+                .GetPaginatedByFilter(projectId, pageIndex, pageSize, sortOrder, search, statuses, assignees, reporters, priorities, severity, cancellationToken);
+            return new PaginatedListDto<Issue>
+            {
+                Length = result.Length,
+                Items = result
+            };
+        }
+
         public async Task<PaginatedListDto<Issue>> GetPaginatedByProjectIdSearchAsync
             (string search,
             string projectId,

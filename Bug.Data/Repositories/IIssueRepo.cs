@@ -12,6 +12,18 @@ namespace Bug.Data.Repositories
 {
     public interface IIssueRepo : IEntityRepoBase<Issue>
     {
+        Task<PaginatedList<Issue>> GetPaginatedByFilter
+            (string projectId,
+            int pageIndex,
+            int pageSize,
+            string sortOrder,
+            string search,
+            string statuses,
+            string assignees,
+            string reporters,
+            string priorities,
+            string severities,
+            CancellationToken cancellationToken = default);
         Task UpdateTagsOfIssueAsync
             (string issueId,
             List<Tag> tags,

@@ -128,7 +128,7 @@ namespace Bug.API.Services
         }
 
         // filter by tags, return not contain tags
-        public async Task<PaginatedListDto<Project>> GetPaginatedByMemberIdTagIdAsync
+        public async Task<PaginatedListDto<Project>> GetPaginatedByMemberIdStateAsync
             (string accountId,
             int pageIndex,
             int pageSize,
@@ -154,7 +154,7 @@ namespace Bug.API.Services
         }
 
         // filter by tags, return not contain tags
-        public async Task<IReadOnlyList<Project>> GetNextByOffsetByMemberIdTagIdAsync
+        public async Task<IReadOnlyList<Project>> GetNextByOffsetByMemberIdStateAsync
             (string accountId,
             int offset,
             int next,
