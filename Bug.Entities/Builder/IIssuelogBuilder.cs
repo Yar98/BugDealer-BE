@@ -40,6 +40,8 @@ namespace Bug.Entities.Builder
         IIssuelogBuilder AddNewDueDate(DateTimeOffset? dt);
         IIssuelogBuilder AddOldEnvironment(string dt);
         IIssuelogBuilder AddNewEnvironment(string dt);
+        IIssuelogBuilder AddOldToIssueId(string id);
+        IIssuelogBuilder AddNewToIssueId(string id);
         IIssuelogBuilder AddTagId(int tagId);
 
         Issuelog Build();

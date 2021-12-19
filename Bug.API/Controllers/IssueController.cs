@@ -197,6 +197,14 @@ namespace Bug.API.Controllers
             return Ok(Bts.ConvertJson(result));
         }
 
+        [HttpGet("{issueId}/relations/{sortOrder}")]
+        public async Task<IActionResult> GetRelationsOfIssue(string issueId, string sortOrder)
+        {
+            var result = await _issueService
+                .GetRelationOfIssueAsync(issueId,sortOrder);
+            return Ok(Bts.ConvertJson(result));
+        }
+
         // POST api/Issue
         [HttpPost]
         public async Task<IActionResult> PostAddIssue([FromBody] IssueNormalDto issue)
@@ -242,14 +250,19 @@ namespace Bug.API.Controllers
             return NoContent();
         }
 
-        [HttpPut("{id}/fromrelations")]
-        public async Task<IActionResult> PutUpdateFromRelationOfIssue
-            (string id,
-            [FromBody] IssueNormalDto issue)
+        [HttpPut("{id}/add/relation")]
+        public async Task<IActionResult> PutAddRelationToIssue
+            ([FromBody] RelationNormalDto r)
         {
-            if (id != issue.Id)
-                return BadRequest();
-            await _issueService.UpdateFromRelationsOfIssue(issue);
+            await _issueService.AddRelationOfIssue(r);
+            return NoContent();
+        }
+
+        [HttpPut("{id}/delete/relation")]
+        public async Task<IActionResult> PutDeleteRelationToIssue
+            ([FromBody] RelationNormalDto r)
+        {
+            await _issueService.DeleteRelationOfIssue(r);
             return NoContent();
         }
 

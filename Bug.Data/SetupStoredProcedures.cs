@@ -50,7 +50,7 @@ namespace Bug.Data
                         (SELECT i.Id FROM Issue AS i WHERE i.StatusId IN 
                             (SELECT VALUE FROM STRING_SPLIT(@list,',')))
                 END";
-            var sp3 = @"CREATE PROCEDURE [dbo].[UpdateAprAfterDeleteRole]
+            var sp3 = @"CREATE PROCEDURE [dbo].[UpdateAprBeforeDeleteRole]
                     @role int
                 AS
                 BEGIN

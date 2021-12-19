@@ -13,6 +13,7 @@ using System.IO;
 using OfficeOpenXml;
 using OfficeOpenXml.Table;
 using Bug.API.Utils;
+using Bug.Entities.Integration;
 
 namespace Bug.API.Services
 {
@@ -254,6 +255,26 @@ namespace Bug.API.Services
             return result;
         }
 
+        public async Task<IReadOnlyList<RelatedIssues>> GetRelationOfIssueAsync
+            (string issueId,
+            string sortOrder,
+            CancellationToken cancellationToken = default)
+        {
+            var specificationResult =
+                new RelationByFromIssueSpecification(issueId);
+            var result = await _unitOfWork
+                .Relation
+                .GetAllEntitiesNoTrackBySpecAsync(specificationResult, null, cancellationToken);
+            return result
+                .GroupBy(r => r.Tag)
+                .Select(gr => new RelatedIssues
+                {
+                    Tag = gr.Key,
+                    Issues = gr.Select(item => item.ToIssue).ToList()
+                })
+                .ToList();
+        }
+
         public async Task<Issue> AddIssueAsync
             (IssueNormalDto issue,
             CancellationToken cancellationToken = default)
@@ -388,21 +409,24 @@ namespace Bug.API.Services
             _unitOfWork.Save();
         }
 
-        public async Task UpdateFromRelationsOfIssue
-            (IssueNormalDto issue,
+
+        public async Task AddRelationOfIssue
+            (RelationNormalDto relation,
             CancellationToken cancellationToken = default)
         {
-            var specificationResult =
-                new IssueSpecification(issue.Id);
+            var result = new Relation(relation.Description, relation.TagId, relation.FromIssueId, relation.ToIssueId);
+            await _unitOfWork.Relation.AddAsync(result, cancellationToken);
+            _unitOfWork.Save();
+        }
+
+        public async Task DeleteRelationOfIssue
+            (RelationNormalDto relation,
+            CancellationToken cancellationToken = default)
+        {
             var result = await _unitOfWork
-                .Issue
-                .GetEntityBySpecAsync(specificationResult, cancellationToken);
-            var fromRelations = issue
-                .FromRelations
-                .Select(r => new Relation(r.Description, r.TagId, result.Id, r.ToIssueId))
-                .ToList();
-            result.UpdateFromRelations(fromRelations);
-            
+                .Relation
+                .GetByIdAsync(new object[] { relation.FromIssueId, relation.ToIssueId, relation.TagId }, cancellationToken);
+            _unitOfWork.Relation.Delete(result);
             _unitOfWork.Save();
         }
 

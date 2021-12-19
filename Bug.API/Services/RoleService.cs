@@ -241,9 +241,7 @@ namespace Bug.API.Services
         public async Task DeleteRoleAsync
             (int id,
             CancellationToken cancellationToken = default)
-        {
-            _unitOfWork.AccountProjectRole.UpdateAprAfterDeleteRole(id);
-
+        {            
             var defaultRoles = await _unitOfWork
                 .Role
                 .GetDefaultRolesNoTrackAsync(null,cancellationToken:cancellationToken);
@@ -254,8 +252,11 @@ namespace Bug.API.Services
             var result = await _unitOfWork
                 .Role
                 .GetEntityBySpecAsync(new RoleSpecification(id), cancellationToken);
-            if (result.Projects == null)
+            if (result.Projects.Count != 0)
                 return;
+
+            var check = _unitOfWork.AccountProjectRole.UpdateAprBeforeDeleteRole(id);
+
             _unitOfWork.Role.Delete(result);
 
             _unitOfWork.Save();

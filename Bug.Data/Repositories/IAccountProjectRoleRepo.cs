@@ -11,7 +11,7 @@ namespace Bug.Data.Repositories
     public interface IAccountProjectRoleRepo : IEntityRepoBase<AccountProjectRole>
     {
         void UpdateMultiByRoleIdProjectId(string projectId, List<Role> roles, int? roleId);
-        void UpdateAprAfterDeleteRole(int roleId);
+        int UpdateAprBeforeDeleteRole(int roleId);
         Task DeleteMemberFromProjectAsync
             (string projectId, 
             string accountId,

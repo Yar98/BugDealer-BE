@@ -697,6 +697,8 @@ namespace Bug.Data.Migrations
                     NewDueDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                     OldEnvironment = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     NewEnvironment = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    OldToIssueId = table.Column<string>(type: "nvarchar(100)", nullable: true),
+                    NewToIssueId = table.Column<string>(type: "nvarchar(100)", nullable: true),
                     TagId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -735,6 +737,18 @@ namespace Bug.Data.Migrations
                     table.ForeignKey(
                         name: "FK_Issuelog_Issue_IssueId",
                         column: x => x.IssueId,
+                        principalTable: "Issue",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Issuelog_Issue_NewToIssueId",
+                        column: x => x.NewToIssueId,
+                        principalTable: "Issue",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Issuelog_Issue_OldToIssueId",
+                        column: x => x.OldToIssueId,
                         principalTable: "Issue",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -922,6 +936,11 @@ namespace Bug.Data.Migrations
                 column: "NewStatusTagId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Issuelog_NewToIssueId",
+                table: "Issuelog",
+                column: "NewToIssueId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Issuelog_NewWorklogId",
                 table: "Issuelog",
                 column: "NewWorklogId");
@@ -950,6 +969,11 @@ namespace Bug.Data.Migrations
                 name: "IX_Issuelog_OldStatusTagId",
                 table: "Issuelog",
                 column: "OldStatusTagId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Issuelog_OldToIssueId",
+                table: "Issuelog",
+                column: "OldToIssueId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Issuelog_OldWorklogId",

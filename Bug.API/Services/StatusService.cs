@@ -243,7 +243,7 @@ namespace Bug.API.Services
             var result = await _unitOfWork
                 .Status
                 .GetEntityBySpecAsync(new StatusSpecification(statusId), cancellationToken);
-            if (result.Projects == null || result.Projects.Count == 0)
+            if (result.Projects.Count != 0)
                 return;
             _unitOfWork
                 .Issue
