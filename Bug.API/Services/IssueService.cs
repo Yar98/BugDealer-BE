@@ -266,10 +266,10 @@ namespace Bug.API.Services
                 .Relation
                 .GetAllEntitiesNoTrackBySpecAsync(specificationResult, null, cancellationToken);
             return result
-                .GroupBy(r => r.Tag)
+                .GroupBy(r => r.TagId)
                 .Select(gr => new RelatedIssues
                 {
-                    Tag = gr.Key,
+                    Tag = gr.FirstOrDefault().Tag,
                     Issues = gr.Select(item => item.ToIssue).ToList()
                 })
                 .ToList();
