@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bug.Data.Migrations
 {
     [DbContext(typeof(BugContext))]
-    [Migration("20211217210341_Created-db")]
+    [Migration("20211218193735_Created-db")]
     partial class Createddb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -359,6 +359,9 @@ namespace Bug.Data.Migrations
                     b.Property<string>("NewTitle")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("NewToIssueId")
+                        .HasColumnType("nvarchar(100)");
+
                     b.Property<int?>("NewWorklogId")
                         .HasColumnType("int");
 
@@ -398,6 +401,9 @@ namespace Bug.Data.Migrations
                     b.Property<string>("OldTitle")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("OldToIssueId")
+                        .HasColumnType("nvarchar(100)");
+
                     b.Property<int?>("OldWorklogId")
                         .HasColumnType("int");
 
@@ -420,6 +426,8 @@ namespace Bug.Data.Migrations
 
                     b.HasIndex("NewStatusTagId");
 
+                    b.HasIndex("NewToIssueId");
+
                     b.HasIndex("NewWorklogId");
 
                     b.HasIndex("OldAssigneeId");
@@ -431,6 +439,8 @@ namespace Bug.Data.Migrations
                     b.HasIndex("OldSeverityId");
 
                     b.HasIndex("OldStatusTagId");
+
+                    b.HasIndex("OldToIssueId");
 
                     b.HasIndex("OldWorklogId");
 
@@ -1012,6 +1022,10 @@ namespace Bug.Data.Migrations
                         .WithMany()
                         .HasForeignKey("NewStatusTagId");
 
+                    b.HasOne("Bug.Entities.Model.Issue", "NewToIssue")
+                        .WithMany()
+                        .HasForeignKey("NewToIssueId");
+
                     b.HasOne("Bug.Entities.Model.Worklog", "NewWorklog")
                         .WithMany()
                         .HasForeignKey("NewWorklogId");
@@ -1036,6 +1050,10 @@ namespace Bug.Data.Migrations
                         .WithMany()
                         .HasForeignKey("OldStatusTagId");
 
+                    b.HasOne("Bug.Entities.Model.Issue", "OldToIssue")
+                        .WithMany()
+                        .HasForeignKey("OldToIssueId");
+
                     b.HasOne("Bug.Entities.Model.Worklog", "OldWorklog")
                         .WithMany()
                         .HasForeignKey("OldWorklogId");
@@ -1058,6 +1076,8 @@ namespace Bug.Data.Migrations
 
                     b.Navigation("NewStatusTag");
 
+                    b.Navigation("NewToIssue");
+
                     b.Navigation("NewWorklog");
 
                     b.Navigation("OldAssignee");
@@ -1069,6 +1089,8 @@ namespace Bug.Data.Migrations
                     b.Navigation("OldSeverity");
 
                     b.Navigation("OldStatusTag");
+
+                    b.Navigation("OldToIssue");
 
                     b.Navigation("OldWorklog");
 

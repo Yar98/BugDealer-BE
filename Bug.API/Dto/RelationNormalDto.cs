@@ -7,7 +7,6 @@ namespace Bug.API.Dto
 {
     public class RelationNormalDto
     {
-        public int Id { get; set; }
         public string Description { get; set; }
         public int TagId { get; set; }
         public string FromIssueId { get; set; }

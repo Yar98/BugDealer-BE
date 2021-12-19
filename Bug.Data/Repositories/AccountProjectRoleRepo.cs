@@ -35,12 +35,13 @@ namespace Bug.Data.Repositories
                 .ExecuteSqlRaw("EXECUTE dbo.UpdateAccountsHaveDumbRole @list, @pro, @role", list,pro,role);
         }
 
-        public void UpdateAprAfterDeleteRole(int roleId)
+        public int UpdateAprBeforeDeleteRole(int roleId)
         {
             var role = new SqlParameter("role", roleId);
             _bugContext
                 .Database
-                .ExecuteSqlRaw("EXECUTE dbo.UpdateAprAfterDeleteRole @role", role);
+                .ExecuteSqlRaw("EXECUTE dbo.UpdateAprBeforeDeleteRole @role", role);
+            return 1;
         }
 
         public async Task DeleteMemberFromProjectAsync

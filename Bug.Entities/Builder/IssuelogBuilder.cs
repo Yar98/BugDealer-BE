@@ -78,9 +78,25 @@ namespace Bug.Entities.Builder
         public string OldEnvironment { get; private set; }
         // new environment
         public string NewEnvironment { get; private set; }
+        // old toIssueId
+        public string OldToIssueId { get; private set; }
+        // new toIssueId
+        public string NewToIssueId { get; private set; }
 
         // action
         public int TagId { get; private set; }
+
+        public IIssuelogBuilder AddOldToIssueId(string id)
+        {
+            OldToIssueId = id;
+            return this;
+        }
+
+        public IIssuelogBuilder AddNewToIssueId(string id)
+        {
+            NewToIssueId = id;
+            return this;
+        }
 
         public IIssuelogBuilder AddDescription(string des)
         {
@@ -308,6 +324,8 @@ namespace Bug.Entities.Builder
                 NewDueDate,
                 OldEnvironment,
                 NewEnvironment,
+                OldToIssueId,
+                NewToIssueId,
                 TagId);
         }
     }

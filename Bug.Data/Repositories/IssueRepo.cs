@@ -69,12 +69,13 @@ namespace Bug.Data.Repositories
             var result = _bugContext
                 .Issues
                 .FromSqlRaw(sql, projectSql, sortOrderSql, searchSql)
+                .Include(i => i.Project)
                 .Include(i => i.Assignee)
                 .Include(i => i.Reporter)
                 .Include(i => i.Severity)
                 .Include(i => i.Priority);
             return await PaginatedList<Issue>.CreateListAsync
-                (result, pageIndex, pageSize, cancellationToken);
+                (result.AsNoTracking(), pageIndex, pageSize, cancellationToken);
         }
 
         public async Task UpdateTagsOfIssueAsync

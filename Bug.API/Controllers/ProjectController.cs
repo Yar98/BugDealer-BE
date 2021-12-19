@@ -98,6 +98,8 @@ namespace Bug.API.Controllers
             var result =
                 await _projectService.GetPaginatedByMemberIdStateAsync(
                     accountId, pageIndex, pageSize, state, sortOrder);
+            if (result == null || result.Length == 0)
+                return BadRequest();
             return Ok(Bts.ConvertJson(result));
         }
 

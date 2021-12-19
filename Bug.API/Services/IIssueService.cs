@@ -1,4 +1,5 @@
 ﻿using Bug.API.Dto;
+using Bug.Entities.Integration;
 using Bug.Entities.Model;
 using System;
 using System.Collections.Generic;
@@ -98,6 +99,10 @@ namespace Bug.API.Services
             string issueId,
             string sortOrder,
             CancellationToken cancellationToken = default);
+        Task<IReadOnlyList<RelatedIssues>> GetRelationOfIssueAsync
+            (string issueId,
+            string sortOrder,
+            CancellationToken cancellationToken = default);
         Task<Issue> AddIssueAsync
             (IssueNormalDto issue,
             CancellationToken cancellationToken = default);
@@ -107,11 +112,14 @@ namespace Bug.API.Services
         Task UpdateTagsOfIssue
             (IssueNormalDto issue,
             CancellationToken cancellationToken = default);
-        Task UpdateFromRelationsOfIssue
-            (IssueNormalDto issue,
-            CancellationToken cancellationToken = default);
         Task UpdateAttachmentsOfIssue
             (IssueNormalDto issue,
+            CancellationToken cancellationToken = default);
+        Task AddRelationOfIssue
+            (RelationNormalDto relation,
+            CancellationToken cancellationToken = default);
+        Task DeleteRelationOfIssue
+            (RelationNormalDto relation,
             CancellationToken cancellationToken = default);
         Task DeleteIssueAsync
             (string id,

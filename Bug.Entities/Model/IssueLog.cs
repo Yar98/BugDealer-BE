@@ -77,6 +77,12 @@ namespace Bug.Entities.Model
         public string OldEnvironment { get; private set; }
         // new environment
         public string NewEnvironment { get; private set; }
+        // old toIssue
+        public string? OldToIssueId { get; private set; }
+        public Issue OldToIssue { get; private set; }
+        // new toIssue
+        public string? NewToIssueId { get; private set; }
+        public Issue NewToIssue { get; private set; }
         // action
         public int? TagId { get; private set; }
         public Tag Tag { get; private set; }
@@ -114,6 +120,8 @@ namespace Bug.Entities.Model
             DateTimeOffset? newDueDate,
             string oldEnvironment,
             string newEnvironment,
+            string oldToIssueId,
+            string newToIssueId,
             int tagId)
         {
             Id = id;
@@ -147,6 +155,8 @@ namespace Bug.Entities.Model
             NewDueDate = newDueDate;
             OldEnvironment = oldEnvironment;
             NewEnvironment = newEnvironment;
+            OldToIssueId = oldToIssueId;
+            NewToIssueId = newToIssueId;
             TagId = tagId;
         }
 
