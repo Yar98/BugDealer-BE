@@ -41,16 +41,6 @@ namespace Bug.API.Controllers
                 nameof(GetDetailWorklog), new {id = result.Id }, Bts.ConvertJson(result));
         }
 
-        // PUT api/<WorklogController>/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, [FromBody] WorklogPutDto worklog)
-        {
-            if (id != worklog.Id)
-                return BadRequest();
-            await _worklogService.UpdateWorklogAsync(worklog);
-            return NoContent();
-        }
-
         // DELETE api/<WorklogController>/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Bug.Entities.ModelException;
 
 namespace Bug.Entities.Model
 {
@@ -168,7 +169,13 @@ namespace Bug.Entities.Model
             if (d == "")
                 EndDate = null;
             else if(d != null)
-                EndDate = DateTimeOffset.Parse(d);
+            {
+                var temp = DateTimeOffset.Parse(d);
+                if (Issues.Count != 0 && Issues.Any(i => i.DueDate > temp))
+                    throw new DueDateOfIssueMustWithinDueDateOfProject();
+                EndDate = temp;
+            }
+                
         }
         public void UpdateDefaultAssigneeId(string id)
         {

@@ -27,8 +27,8 @@ namespace Bug.Infrastructure.Services
             var request = new GetPreSignedUrlRequest
             {
                 BucketName = "bugdealer",
-                Key = "Report5_Unit-Test-Case.xls",
-                //Verb = HttpVerb.PUT,
+                Key = "hihihi",
+                Verb = HttpVerb.PUT,
                 Expires = DateTime.UtcNow.AddHours(duration)
             };
 

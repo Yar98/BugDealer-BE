@@ -17,9 +17,6 @@ namespace Bug.API.Services
             (string issueId,
             WorklogPostDto worklog,
             CancellationToken cancellationToken = default);
-        Task UpdateWorklogAsync
-            (WorklogPutDto worklog,
-            CancellationToken cancellationToken = default);
         Task DeleteWorklogAsync
            (int id,
            CancellationToken cancellationToken = default);

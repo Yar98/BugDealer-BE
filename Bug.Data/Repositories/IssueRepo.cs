@@ -71,6 +71,7 @@ namespace Bug.Data.Repositories
                 .FromSqlRaw(sql, projectSql, sortOrderSql, searchSql)
                 .Include(i => i.Project)
                 .Include(i => i.Assignee)
+                .Include(i => i.Status)
                 .Include(i => i.Reporter)
                 .Include(i => i.Severity)
                 .Include(i => i.Priority);
