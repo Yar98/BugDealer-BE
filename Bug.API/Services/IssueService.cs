@@ -59,7 +59,7 @@ namespace Bug.API.Services
             var worklogs = await _unitOfWork
                 .Worklog
                 .GetAllEntitiesNoTrackBySpecAsync(new WorklogsByIssueIdSpecification(id), null, cancellationToken);
-            if (worklogs != null)
+            if (worklogs != null && worklogs.Count > 0)
                 result.TotalSpentTime = worklogs
                     .Select(w => w.SpentTime)
                     .ToList()
