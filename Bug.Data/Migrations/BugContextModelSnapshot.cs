@@ -131,6 +131,7 @@ namespace Bug.Data.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("RoleId")
+                        .IsConcurrencyToken()
                         .HasColumnType("int");
 
                     b.HasKey("AccountId", "ProjectId", "RoleId");
@@ -755,12 +756,8 @@ namespace Bug.Data.Migrations
                     b.Property<string>("LoggerId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("RemainTime")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SpentTime")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("SpentTime")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 

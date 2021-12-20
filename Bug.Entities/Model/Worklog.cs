@@ -9,8 +9,7 @@ namespace Bug.Entities.Model
     public class Worklog : IEntityBase
     {
         public int Id { get; private set; }
-        public string SpentTime { get; private set; }
-        public string RemainTime { get; private set; }
+        public int SpentTime { get; private set; }
         public DateTimeOffset LogDate { get; private set; }
         public string IssueId { get; private set; }
         public Issue Issue { get; private set; }
@@ -25,13 +24,17 @@ namespace Bug.Entities.Model
             string loggerId)
         {
             Id = id;
-            SpentTime = spentTime;
             LogDate = logDate;
             IssueId = issueId;
             LoggerId = loggerId;
         }
 
-        public void UpdateSpentTime(string s)
+        public int GetSpentTime()
+        {
+            return SpentTime;
+        }
+
+        public void UpdateSpentTime(int s)
         {
             SpentTime = s;
         }

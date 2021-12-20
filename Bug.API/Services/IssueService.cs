@@ -51,11 +51,20 @@ namespace Bug.API.Services
             (string id,
             CancellationToken cancellationToken = default)
         {
-            IssueSpecification specificationResult =
-                new(id);
-            return await _unitOfWork
+            var specificationResult =
+                new IssueSpecification(id);
+            var result = await _unitOfWork
                 .Issue
                 .GetEntityBySpecAsync(specificationResult, cancellationToken);
+            var worklogs = await _unitOfWork
+                .Worklog
+                .GetAllEntitiesNoTrackBySpecAsync(new WorklogsByIssueIdSpecification(id), null, cancellationToken);
+            if (worklogs != null)
+                result.TotalSpentTime = worklogs
+                    .Select(w => w.SpentTime)
+                    .ToList()
+                    .Aggregate((x, y) => x + y);
+            return result;
         }
 
         public async Task<PaginatedListDto<Issue>> GetPaginatedByFilter
@@ -404,7 +413,8 @@ namespace Bug.API.Services
             var result = await _unitOfWork
                 .Issue
                 .GetEntityBySpecAsync(new IssueSpecification(issue.Id), cancellationToken);
-            result.UpdateTags(tags);
+            
+            result.UpdateTags(tags, issue.ModifierId, async log => await _unitOfWork.Issuelog.AddAsync(log));
 
             _unitOfWork.Save();
         }
@@ -415,7 +425,16 @@ namespace Bug.API.Services
             CancellationToken cancellationToken = default)
         {
             var result = new Relation(relation.Description, relation.TagId, relation.FromIssueId, relation.ToIssueId);
+            var log = new IssuelogBuilder()
+                .AddIssueId(relation.FromIssueId)
+                .AddModifierId(relation.ModifierId)
+                .AddTagId(1)
+                .AddOldToIssueId(null)
+                .AddNewToIssueId(relation.ToIssueId)
+                .Build();
+            await _unitOfWork.Issuelog.AddAsync(log, cancellationToken);
             await _unitOfWork.Relation.AddAsync(result, cancellationToken);
+
             _unitOfWork.Save();
         }
 
@@ -426,6 +445,14 @@ namespace Bug.API.Services
             var result = await _unitOfWork
                 .Relation
                 .GetByIdAsync(new object[] { relation.FromIssueId, relation.ToIssueId, relation.TagId }, cancellationToken);
+            var log = new IssuelogBuilder()
+                 .AddIssueId(relation.FromIssueId)
+                 .AddModifierId(relation.ModifierId)
+                 .AddTagId(1)
+                 .AddOldToIssueId(relation.ToIssueId)
+                 .AddNewToIssueId(null)
+                 .Build();
+            await _unitOfWork.Issuelog.AddAsync(log, cancellationToken);
             _unitOfWork.Relation.Delete(result);
             _unitOfWork.Save();
         }
@@ -440,6 +467,12 @@ namespace Bug.API.Services
             await _unitOfWork
                 .Issue
                 .UpdateAttachmentsOfIssueAsync(issue.Id, attachments, cancellationToken);
+            var log = new IssuelogBuilder()
+                 .AddIssueId(issue.Id)
+                 .AddModifierId(issue.ModifierId)
+                 .AddTagId(1)
+                 .Build();
+            await _unitOfWork.Issuelog.AddAsync(log, cancellationToken);
         }
 
         public async Task DeleteIssueAsync

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bug.Data.Migrations
 {
     [DbContext(typeof(BugContext))]
-    [Migration("20211218193735_Created-db")]
+    [Migration("20211220200210_Created-db")]
     partial class Createddb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -133,6 +133,7 @@ namespace Bug.Data.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("RoleId")
+                        .IsConcurrencyToken()
                         .HasColumnType("int");
 
                     b.HasKey("AccountId", "ProjectId", "RoleId");
@@ -757,12 +758,8 @@ namespace Bug.Data.Migrations
                     b.Property<string>("LoggerId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("RemainTime")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SpentTime")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("SpentTime")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 

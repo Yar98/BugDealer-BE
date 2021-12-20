@@ -144,7 +144,6 @@ namespace Bug.Data.Repositories
         public async Task<T> AddAsync(T entity, CancellationToken cancelltionToken = default)
         {
             await _bugContext.Set<T>().AddAsync(entity, cancelltionToken);
-            //await _bugContext.SaveChangesAsync(cancelltionToken);
             return entity;
         }
 
@@ -156,7 +155,6 @@ namespace Bug.Data.Repositories
         public void Add(T entity)
         {
             _bugContext.Entry(entity).State = EntityState.Added;
-            //await _bugContext.SaveChangesAsync(cancelltionToken);
         }
 
         public void Update(T entity)

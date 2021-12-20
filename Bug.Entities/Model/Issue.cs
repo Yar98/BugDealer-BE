@@ -62,6 +62,8 @@ namespace Bug.Entities.Model
             }
         }
 
+        public int TotalSpentTime { get; set; }
+
         private Issue() { }
         //[JsonConstructor]
         public Issue
@@ -305,17 +307,38 @@ namespace Bug.Entities.Model
                 _attachments = result;
         }
 
-        public void UpdateTags(List<Tag> result)
+        public void UpdateTags(List<Tag> result, string modifierId, Action<Issuelog> temp)
         {
+            if (result == null)
+                _tags.Clear();
             if (result != null)
             {
                 _tags.Clear();
                 _tags = result;
-            }                
+                var log = new IssuelogBuilder()
+                    .AddIssueId(Id)
+                    .AddModifierId(modifierId)
+                    .AddTagId(1)
+                    .Build();
+                temp.Invoke(log);
+            }
+        }
+
+        public void UpdateTags(List<Tag> result)
+        {
+            if (result == null)
+                _tags.Clear();
+            if (result != null)
+            {
+                _tags.Clear();
+                _tags = result;
+            }
         }
 
         public void UpdateFromRelations(List<Relation> result)
         {
+            if (result == null)
+                _fromRelations.Clear();
             if (result != null && result.Any())
                 _fromRelations = result;
         }

@@ -11,5 +11,6 @@ namespace Bug.API.Dto
         public int TagId { get; set; }
         public string FromIssueId { get; set; }
         public string ToIssueId { get; set; }
+        public string ModifierId { get; set; }
     }
 }

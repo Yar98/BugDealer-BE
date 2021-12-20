@@ -220,7 +220,7 @@ namespace Bug.API.Services
                 Email = result?.Email,
                 FirstName = result?.FirstName,
                 ImageUri = result?.ImageUri,
-                Language = result?.LastName,
+                Language = result?.Language,
                 LastName = result?.LastName,
                 TimezoneId = result?.TimezoneId,
                 VerifyEmail = result.VerifyEmail
