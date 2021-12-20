@@ -29,8 +29,6 @@ namespace Bug.API.Dto
         public List<RelationNormalDto> ToRelations { get; set; }
 
         public string ModifierId { get; set; }
-        public string LogDescription { get; set; }
-        public int LogTagId { get; set; }
         
     }
 }

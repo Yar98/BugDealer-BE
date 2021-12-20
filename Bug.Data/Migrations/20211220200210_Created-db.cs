@@ -638,8 +638,7 @@ namespace Bug.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    SpentTime = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    RemainTime = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SpentTime = table.Column<int>(type: "int", nullable: false),
                     LogDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     IssueId = table.Column<string>(type: "nvarchar(100)", nullable: true),
                     LoggerId = table.Column<string>(type: "nvarchar(450)", nullable: true)
