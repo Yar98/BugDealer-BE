@@ -324,6 +324,18 @@ namespace Bug.Entities.Model
             }
         }
 
+        public void AddTag(Tag t)
+        {
+            if (!Tags.Any(t => t.Id == t.Id))
+            {
+                _tags.Add(t);
+            }
+        }
+        public void RemoveTag(Tag t)
+        {
+            _tags.Remove(t);
+        }
+
         public void UpdateTags(List<Tag> result)
         {
             if (result == null)

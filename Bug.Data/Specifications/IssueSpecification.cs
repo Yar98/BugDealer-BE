@@ -21,8 +21,13 @@ namespace Bug.Data.Specifications
             AddInclude(i => i.Tags);
             AddInclude(i => i.FromRelations);
             AddInclude(i => i.ToRelations);
-            AddInclude(i => i.Attachments);
-            
+            AddInclude(i => i.Attachments);            
+        }
+
+        public IssueSpecification(string issueId, int count)
+            : base(i => i.Id == issueId)
+        {
+            AddInclude(i => i.Tags);
         }
     }
 }

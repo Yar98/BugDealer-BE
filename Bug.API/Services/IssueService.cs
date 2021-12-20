@@ -400,21 +400,18 @@ namespace Bug.API.Services
         public async Task UpdateTagsOfIssue
             (IssueNormalDto issue,
             CancellationToken cancellationToken = default)
-        {
-            var tags = issue
-                .Tags
-                .Select(t => 
-                {
-                    if(t.Id == 0)
-                        return new Tag(t.Id, t.Name, t.Description, t.Color, t.CategoryId);
-                    return _unitOfWork.Tag.GetByIdAsync(t.Id).Result;
-                })
-                .ToList();
+        {           
             var result = await _unitOfWork
                 .Issue
-                .GetEntityBySpecAsync(new IssueSpecification(issue.Id), cancellationToken);
-            
-            result.UpdateTags(tags, issue.ModifierId, async log => await _unitOfWork.Issuelog.AddAsync(log));
+                .GetEntityBySpecAsync(new IssueSpecification(issue.Id, 1), cancellationToken);
+            Parallel.ForEach(issue.Tags, t =>
+            {
+                var tag = result.Tags.FirstOrDefault(ta => ta.Id == t.Id);
+                if (t.Id != 0 && tag == null)
+                    result.RemoveTag(tag);
+                result.AddTag(new Tag(t.Id, t.Name, t.Description, t.Color, t.CategoryId));
+            });
+            //result.UpdateTags(tags, issue.ModifierId, async log => await _unitOfWork.Issuelog.AddAsync(log));
 
             _unitOfWork.Save();
         }
