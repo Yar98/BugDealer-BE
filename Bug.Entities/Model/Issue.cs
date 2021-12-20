@@ -1,4 +1,5 @@
 ﻿using Bug.Entities.Builder;
+using Bug.Entities.ModelException;
 using Bug.Entities.Integration;
 using System;
 using System.Collections.Generic;
@@ -210,17 +211,19 @@ namespace Bug.Entities.Model
             if (dt == null)
                 return;
             if (dt == "")
-                dt = null;           
+                dt = null;
+            if (DateTimeOffset.Parse(dt) > Project.EndDate && Project != null)
+                throw new DueDateOfIssueMustWithinDueDateOfProject();
             var log = new IssuelogBuilder()
                 .AddIssueId(Id)
                 .AddModifierId(modifierId)
                 .AddTagId(1)
                 .AddLogDate()
                 .AddOldDueDate(DueDate)
-                .AddNewDueDate(DateTimeOffset.Parse(dt))
+                .AddNewDueDate(dt == null ? null : DateTimeOffset.Parse(dt))
                 .Build();
             temp.Invoke(log);
-            DueDate = DateTimeOffset.Parse(dt);
+            DueDate = dt == null ? null : DateTimeOffset.Parse(dt);
 
         }
         public void UpdateAssigneeId(string id, string modifierId, Action<Issuelog> temp)

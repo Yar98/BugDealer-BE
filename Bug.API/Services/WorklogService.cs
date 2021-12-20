@@ -33,23 +33,16 @@ namespace Bug.API.Services
             CancellationToken cancellationToken = default)
         {
             var result = new Worklog(0, worklog.SpentTime, worklog.LogDate, issueId, worklog.LoggerId);
-            return await _unitOfWork
+            await _unitOfWork
                 .Worklog
                 .AddAsync(result, cancellationToken);
-        }
-
-        public async Task UpdateWorklogAsync
-            (WorklogPutDto worklog,
-            CancellationToken cancellationToken = default)
-        {
-            var result = await _unitOfWork
-                .Worklog
-                .GetByIdAsync(worklog.Id, cancellationToken);
-            result.UpdateLogDate(worklog.LogDate);
-            result.UpdateLoggerId(worklog.LoggerId);
-            result.UpdateSpentTime(worklog.SpentTime);
-
+            var issue = await _unitOfWork
+                .Issue
+                .GetByIdAsync(issueId, cancellationToken);
+            issue
+                .UpdateRemainEstimateTime(worklog.RemainTime, worklog.LoggerId, async log=> { await _unitOfWork.Issuelog.AddAsync(log, cancellationToken); });
             _unitOfWork.Save();
+            return result;
         }
 
         public async Task DeleteWorklogAsync

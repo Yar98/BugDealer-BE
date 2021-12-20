@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using Bug.API.Dto;
 using Bug.Core.Common;
 using Bug.API.BtsException;
+using Bug.Entities.ModelException;
 
 namespace Bug.API.CustomMiddlewares
 {
@@ -55,6 +56,7 @@ namespace Bug.API.CustomMiddlewares
                 UsernameExistsException => "email exsit",
                 CannotDeleteDefault => "cannot delete default",
                 OldPasswordWrong => "old password wrong",
+                DueDateOfIssueMustWithinDueDateOfProject => "due date not valid",
                 _ => "undefined"
             };
             context.Response.Headers.Add("error", code);
