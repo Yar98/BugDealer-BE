@@ -109,11 +109,11 @@ namespace Bug.Data
         {
             return new List<Severity>()
             {
-                new Severity(1,"C-121","Highest severity","keyboard_double_arrow_up"),
-                new Severity(2,"C-122","High severity","keyboard_arrow_up"),
-                new Severity(3,"C-123","Medium severity","drag_handle"),
-                new Severity(4,"C-124","Low severity","keyboard_arrow_down"),
-                new Severity(5,"C-125","Lowest severity","keyboard_double_arrow_down")
+                new Severity(0,"C-121","Highest severity","keyboard_double_arrow_up"),
+                new Severity(0,"C-122","High severity","keyboard_arrow_up"),
+                new Severity(0,"C-123","Medium severity","drag_handle"),
+                new Severity(0,"C-124","Low severity","keyboard_arrow_down"),
+                new Severity(0,"C-125","Lowest severity","keyboard_double_arrow_down")
             };
         }
 
