@@ -46,6 +46,7 @@ namespace Bug.API.Services
 
         public async Task<Project> GetDetailProjectAsync
             (string projectId,
+            string modifierId,
             CancellationToken cancellationToken = default)
         {
             var specificationResult =
@@ -53,7 +54,23 @@ namespace Bug.API.Services
             var result = await _unitOfWork
                 .Project
                 .GetEntityBySpecAsync(specificationResult, cancellationToken);
+            var log = new Projectlog(projectId, modifierId);
+            await _unitOfWork
+                .Projectlog
+                .AddAsync(log, cancellationToken);
+            _unitOfWork.Save();
             return result;
+        }
+
+        public async Task<IReadOnlyList<Projectlog>> GetNextRecentByOffsetAsync
+            (string accountId,
+            int offset,
+            int next,
+            CancellationToken cancellationToken = default)
+        {
+            return await _unitOfWork
+                .Projectlog
+                .GetRecentAsync(accountId, offset, next, cancellationToken);
         }
 
         public async Task<PaginatedListDto<Project>> GetPaginatedByMemberIdSearchAsync
@@ -239,6 +256,10 @@ namespace Bug.API.Services
             result.UpdateDefaultRoleId(pro.DefaultRoleId);
             result.UpdateDefaultStatusId(pro.DefaultStatusId);
 
+            var log = new Projectlog(pro.Id, pro.ModifierId);
+            await _unitOfWork
+                .Projectlog
+                .AddAsync(log, cancellationToken);
             // update db
             _unitOfWork.Save();
         }
@@ -266,6 +287,11 @@ namespace Bug.API.Services
 
             project?.UpdateDefaultRoleId(pro.DefaultRoleId ?? project?.DefaultRoleId);
             project?.UpdateRoles(roles);
+
+            var log = new Projectlog(pro.Id, pro.ModifierId);
+            await _unitOfWork
+                .Projectlog
+                .AddAsync(log, cancellationToken);
 
             _unitOfWork.Save();
 
@@ -309,6 +335,11 @@ namespace Bug.API.Services
                     });
                 };
             }
+
+            var log = new Projectlog(pro.Id, pro.ModifierId);
+            await _unitOfWork
+                .Projectlog
+                .AddAsync(log, cancellationToken);
 
             _unitOfWork.Save();
         }

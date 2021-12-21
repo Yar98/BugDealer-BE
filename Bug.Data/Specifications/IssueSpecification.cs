@@ -21,7 +21,8 @@ namespace Bug.Data.Specifications
             AddInclude(i => i.Tags);
             AddInclude(i => i.FromRelations);
             AddInclude(i => i.ToRelations);
-            AddInclude(i => i.Attachments);            
+            AddInclude(i => i.Attachments);
+            AddInclude("Status.Tag");
         }
 
         public IssueSpecification(string issueId, int count)

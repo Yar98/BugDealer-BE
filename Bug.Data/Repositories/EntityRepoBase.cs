@@ -27,6 +27,12 @@ namespace Bug.Data.Repositories
             return await _bugContext.Set<T>().FindAsync(keyValues, cancelltionToken);
         }
 
+        public T GetById(int id)
+        {
+            var keyValues = new object[] { id };
+            return _bugContext.Set<T>().Find(keyValues);
+        }
+
         public async Task<T> GetByIdAsync(string id, CancellationToken cancelltionToken = default)
         {
             var keyValues = new object[] { id };
@@ -45,6 +51,7 @@ namespace Bug.Data.Repositories
             return await _bugContext
                 .Set<T>()
                 .Specify(specificationResult)
+                .AsSplitQuery()
                 .FirstOrDefaultAsync(cancelltionToken);
         }
 
@@ -55,7 +62,8 @@ namespace Bug.Data.Repositories
         {
             var result = _bugContext
                 .Set<T>()
-                .Specify(specificationResult);
+                .Specify(specificationResult)
+                .AsSplitQuery();
             result = SortOrder(result, sortOrder);            
             if (result == null)
                 return null;
@@ -69,7 +77,8 @@ namespace Bug.Data.Repositories
         {
             var result = _bugContext
                 .Set<T>()
-                .Specify(specificationResult);
+                .Specify(specificationResult)
+                .AsSplitQuery();
             result = SortOrder(result, sortOrder);
             if (result == null)
                 return null;
@@ -85,7 +94,8 @@ namespace Bug.Data.Repositories
         {
             var result = _bugContext
                 .Set<T>()
-                .Specify(specificationResult);
+                .Specify(specificationResult)
+                .AsSplitQuery();
             result = SortOrder(result, sortOrder);
             return await PaginatedList<T>
                 .CreateListAsync(result.AsNoTracking(), pageIndex, pageSize, cancelltionToken);
@@ -100,10 +110,11 @@ namespace Bug.Data.Repositories
         {
             var result = _bugContext
                 .Set<T>()
-                .Specify(specificationResult);
+                .Specify(specificationResult)
+                .AsSplitQuery();
             result = SortOrder(result, sortOrder);
             return await PaginatedList<T>
-                .CreateListAsync(result, pageIndex, pageSize, cancelltionToken);
+                .CreateListAsync(result.AsSplitQuery(), pageIndex, pageSize, cancelltionToken);
         }
 
         public async Task<IReadOnlyList<T>> GetNextByOffsetNoTrackBySpecAsync
@@ -115,7 +126,8 @@ namespace Bug.Data.Repositories
         {
             var result = _bugContext
                 .Set<T>()
-                .Specify(specificationResult);
+                .Specify(specificationResult)
+                .AsSplitQuery();
             result = SortOrder(result, sortOrder);
             return await result
                 .Skip(offset)
@@ -133,7 +145,8 @@ namespace Bug.Data.Repositories
         {
             var result = _bugContext
                 .Set<T>()
-                .Specify(specificationResult);
+                .Specify(specificationResult)
+                .AsSplitQuery();
             result = SortOrder(result, sortOrder);
             return await result
                 .Skip(offset)
@@ -160,6 +173,11 @@ namespace Bug.Data.Repositories
         public void Update(T entity)
         {
             _bugContext.Entry(entity).State = EntityState.Modified;
+        }
+
+        public void Unchange(T entity)
+        {
+            _bugContext.Entry(entity).State = EntityState.Unchanged;
         }
 
         public void Attach(T entity)

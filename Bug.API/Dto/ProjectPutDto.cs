@@ -26,6 +26,8 @@ namespace Bug.API.Dto
 
         // accountId for delete member from project case
         public string AccountId { get; set; }
+        // accountId log
+        public string ModifierId { get; set; }
 
     }
 }

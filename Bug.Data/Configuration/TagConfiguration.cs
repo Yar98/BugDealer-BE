@@ -17,7 +17,8 @@ namespace Bug.Data.Configuration
                 .ToTable("Tag")
                 .Property(b => b.Name)
                 .IsRequired();
-            
+            builder
+                .HasIndex(t => t.Name);
         }
     }
 }

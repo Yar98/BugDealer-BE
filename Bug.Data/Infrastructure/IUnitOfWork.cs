@@ -29,6 +29,7 @@ namespace Bug.Data.Infrastructure
         INotificationRepo Notification { get; }
         ISeverityRepo Severity { get; }
         IAccountProjectRoleRepo AccountProjectRole { get; }
+        IProjectlogRepo Projectlog { get; }
         public void Save();
     }
 }

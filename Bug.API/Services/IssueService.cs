@@ -67,6 +67,17 @@ namespace Bug.API.Services
             return result;
         }
 
+        public async Task<IReadOnlyList<Issuelog>> GetNextRecentByOffsetAsync
+            (string accountId,
+            int offset,
+            int next,
+            CancellationToken cancellationToken = default)
+        {
+            return await _unitOfWork
+                .Issuelog
+                .GetRecentAsync(accountId, offset, next, cancellationToken);
+        }
+
         public async Task<PaginatedListDto<Issue>> GetPaginatedByFilter
             (string projectId,
             int pageIndex,
@@ -121,7 +132,7 @@ namespace Bug.API.Services
                 new IssuesByRelateUserSpecification(accountId);
             var result = await _unitOfWork
                 .Issue
-                .GetPaginatedBySpecAsync(pageIndex, pageSize, sortOrder, specificationResult, cancellationToken);
+                .GetPaginatedNoTrackBySpecAsync(pageIndex, pageSize, sortOrder, specificationResult, cancellationToken);
             return new PaginatedListDto<Issue>
             {
                 Length = result.Length,
@@ -155,7 +166,7 @@ namespace Bug.API.Services
                 new(projectId);
             var result = await _unitOfWork
                 .Issue
-                .GetPaginatedBySpecAsync(pageIndex, pageSize, sortOrder, specificationResult, cancellationToken);
+                .GetPaginatedNoTrackBySpecAsync(pageIndex, pageSize, sortOrder, specificationResult, cancellationToken);
             return new PaginatedListDto<Issue>
             {
                 Length = result.Length,
@@ -190,7 +201,7 @@ namespace Bug.API.Services
                 new IssuesByReporterIdProjectIdSpecification(projectId, reportId);
             var result = await _unitOfWork
                 .Issue
-                .GetPaginatedBySpecAsync(pageIndex, pageSize, sortOrder, specificationResult, cancellationToken);
+                .GetPaginatedNoTrackBySpecAsync(pageIndex, pageSize, sortOrder, specificationResult, cancellationToken);
             return new PaginatedListDto<Issue>
             {
                 Length = result.Length,
@@ -226,7 +237,7 @@ namespace Bug.API.Services
                 new IssuesByAssigneeIdProjectIdSpecification(projectId,assigneeId);
             var result = await _unitOfWork
                 .Issue
-                .GetPaginatedBySpecAsync(pageIndex, pageSize, sortOrder, specificationResult, cancellationToken);
+                .GetPaginatedNoTrackBySpecAsync(pageIndex, pageSize, sortOrder, specificationResult, cancellationToken);
             return new PaginatedListDto<Issue>
             {
                 Length = result.Length,
@@ -400,18 +411,20 @@ namespace Bug.API.Services
         public async Task UpdateTagsOfIssue
             (IssueNormalDto issue,
             CancellationToken cancellationToken = default)
-        {           
+        {
             var result = await _unitOfWork
                 .Issue
                 .GetEntityBySpecAsync(new IssueSpecification(issue.Id, 1), cancellationToken);
-            Parallel.ForEach(issue.Tags, t =>
-            {
-                var tag = result.Tags.FirstOrDefault(ta => ta.Id == t.Id);
-                if (t.Id != 0 && tag == null)
-                    result.RemoveTag(tag);
-                result.AddTag(new Tag(t.Id, t.Name, t.Description, t.Color, t.CategoryId));
-            });
-            //result.UpdateTags(tags, issue.ModifierId, async log => await _unitOfWork.Issuelog.AddAsync(log));
+            await Task.WhenAll
+                (DeleteLocalTagsOfIssueAsync(result,issue),
+                AddLocalTagsOfIssueAsync(result,issue));
+
+            var log = new IssuelogBuilder()
+                    .AddIssueId(issue.Id)
+                    .AddModifierId(issue.ModifierId)
+                    .AddTagId(1)
+                    .Build();
+            await _unitOfWork.Issuelog.AddAsync(log, cancellationToken);
 
             _unitOfWork.Save();
         }
@@ -485,6 +498,32 @@ namespace Bug.API.Services
             _unitOfWork.Issue.Delete(result);
 
             _unitOfWork.Save();
+        }
+
+        private async Task DeleteLocalTagsOfIssueAsync(Issue dbIssue, IssueNormalDto inputIssue)
+        {
+            foreach (var t in dbIssue.Tags.ToList())
+            {
+                var tag = inputIssue.Tags.FirstOrDefault(ta => ta.Id == t.Id);
+                if (tag == null)
+                    dbIssue.RemoveTag(t);
+            }
+        }
+
+        private async Task AddLocalTagsOfIssueAsync(Issue dbIssue, IssueNormalDto inputIssue)
+        {
+            foreach (var t in inputIssue.Tags)
+            {
+                var tag = dbIssue.Tags.FirstOrDefault(ta => ta.Id == t.Id);
+                if (t.Id != 0 && tag == null)
+                {
+                    var tem = new Tag(t.Id, t.Name, t.Description, t.Color, t.CategoryId);
+                    _unitOfWork.Tag.Unchange(tem);
+                    dbIssue.AddTag(tem);
+                }
+                if (t.Id == 0)
+                    dbIssue.AddTag(new Tag(t.Id, t.Name, t.Description, t.Color, t.CategoryId));
+            }
         }
     }
 }
