@@ -65,40 +65,107 @@ namespace Bug.API.Utils
 
             return excelPackage.Stream;
         }
+        
 
         private void BindingFormatForExcel(ExcelWorksheet worksheet, Issue issue)
         {
 
             // Set default width cho tất cả column
-            worksheet.DefaultColWidth = 10;
-            worksheet.Cells["A1:N1"].AutoFitColumns();
-            worksheet.Cells["A2:H2"].AutoFitColumns();
+            worksheet.Column(1).Width = 20;
+            worksheet.Column(5).Width = 30;
+            worksheet.Column(6).Width = 30;
+            worksheet.Column(7).Width = 38;
+            worksheet.Column(8).Width = 25;
+            worksheet.Column(9).Width = 30;
+            worksheet.Column(10).Width = 30;
+            worksheet.Column(2).Width = 15;
+            worksheet.Column(3).Width = 10;
+            worksheet.Column(4).Width = 10;
+            worksheet.Column(11).Width = 10;
+            worksheet.Column(12).Width = 10;
+            worksheet.Column(13).Width = 10;
+            worksheet.Column(14).Width = 10;
+           
+            // worksheet.DefaultColWidth = 30;
+            // worksheet.Cells["A2:H2"].AutoFitColumns();
             // Tự động xuống hàng khi text quá dài
             // worksheet.Cells.Style.WrapText = true;
-            int count_Description = issue.Description.Length;
-            int numberMergeOfDes = count_Description / 6 + 2;
-            string ColumnMergeOfDes = "J"+numberMergeOfDes;
-            if (numberMergeOfDes > 1)
+
+            //Show full details for Title of issue
+            int count_Issue = issue.Title.Length;
+            int numberMergeOfIssue = count_Issue / 12 ;
+            int finalMergeIssue = numberMergeOfIssue +2;
+            string ColumnMergeIssue = "A" + finalMergeIssue;
+            if (numberMergeOfIssue > 1)
             {
-                worksheet.Cells["J2:"+ColumnMergeOfDes].Merge = true;
+                worksheet.Cells["A2:" + ColumnMergeIssue].Merge = true;
                 worksheet.Cells.Style.WrapText = true;
-                worksheet.Cells["J2:"+ColumnMergeOfDes].Style.VerticalAlignment = ExcelVerticalAlignment.Top;
+                worksheet.Cells["A2:" + ColumnMergeIssue].Style.VerticalAlignment = ExcelVerticalAlignment.Top;
+            }
+            //Show full details for Status of issue
+            int count_Status = issue.Status.Name.Length;
+            int numberMergeOfStatus = count_Status / 6;
+            int finalMergeStatus = numberMergeOfStatus +2;
+            string ColumnMergeStatus = "B" + finalMergeStatus;
+            if (numberMergeOfStatus > 1)
+            {
+                worksheet.Cells["B2:" + ColumnMergeStatus].Merge = true;
+                worksheet.Cells.Style.WrapText = true;
+                worksheet.Cells["B2:" + ColumnMergeStatus].Style.VerticalAlignment = ExcelVerticalAlignment.Top;
+            }
+            //Show full details for Code of issue
+            int count_Code = issue.Code.Length;
+            int numberMergeOfCode = count_Code / 6 + 2;
+            string ColumnMergeCode = "D" + numberMergeOfCode;
+            if (numberMergeOfCode > 1)
+            {
+                worksheet.Cells["D2:" + ColumnMergeCode].Merge = true;
+                worksheet.Cells.Style.WrapText = true;
+                worksheet.Cells["D2:" + ColumnMergeCode].Style.VerticalAlignment = ExcelVerticalAlignment.Top;
+            }
+            //Show full details for Project of issue
+            int count_Project = issue.Project.Name.Length;
+            int numberMergeOfProject = count_Project / 6;
+            int finalMergeProject = numberMergeOfProject +2;
+            string ColumnMergeProject = "C" + finalMergeProject;
+            if (numberMergeOfProject > 1)
+            {
+                worksheet.Cells["C2:" + ColumnMergeProject].Merge = true;
+                worksheet.Cells.Style.WrapText = true;
+                worksheet.Cells["C2:" + ColumnMergeProject].Style.VerticalAlignment = ExcelVerticalAlignment.Top;
             }
 
-            int count_Enviroment = issue.Environment.Length;
-            int numberMergeOfEnvi = count_Enviroment / 6 + 2;
-            string ColumnMergeEnvi = "I"+numberMergeOfDes;
+            //Show full details for description
+            int count_Description = issue.Description.Length;
+            int numberMergeOfDes = count_Description / 18;
+            int finalMergeDes = numberMergeOfDes +2;
+            string ColumnMergeOfDes = "J" + finalMergeDes;
             if (numberMergeOfDes > 1)
             {
-                worksheet.Cells["I2:"+ColumnMergeEnvi].Merge = true;
+                worksheet.Cells["J2:" + ColumnMergeOfDes].Merge = true;
                 worksheet.Cells.Style.WrapText = true;
-                worksheet.Cells["I2:"+ColumnMergeEnvi].Style.VerticalAlignment = ExcelVerticalAlignment.Top;
+                worksheet.Cells["J2:" + ColumnMergeOfDes].Style.VerticalAlignment = ExcelVerticalAlignment.Top;
             }
+
+            //Show full details for Environment
+            int count_Enviroment = issue.Environment.Length;
+            int numberMergeOfEnvi = count_Enviroment / 18;
+            int finalMergeEnvi = numberMergeOfEnvi =2;
+            string ColumnMergeEnvi = "I" + finalMergeEnvi;
+            if (numberMergeOfEnvi > 1)
+            {
+                worksheet.Cells["I2:" + ColumnMergeEnvi].Merge = true;
+                worksheet.Cells.Style.WrapText = true;
+                worksheet.Cells["I2:" + ColumnMergeEnvi].Style.VerticalAlignment = ExcelVerticalAlignment.Top;
+            }
+
 
 
             // Lấy range vào tạo format cho range đó ở đây là từ A1 tới D1
             using (var range = worksheet.Cells["A1:N1"])
             {
+                // worksheet.Column(7).Width = 38;
+                // range.AutoFitColumns();
                 // Set PatternType
                 range.Style.Fill.PatternType = ExcelFillStyle.DarkGray;
                 // Set Màu cho Background
