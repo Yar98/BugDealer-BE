@@ -50,8 +50,7 @@ namespace Bug
                     {
                         builder
                         .WithOrigins(
-                            "http://localhost:4200",
-                            "http://localhost")
+                            "http://localhost:4200")
                         .AllowAnyHeader()
                         .AllowAnyMethod()
                         .AllowCredentials()
