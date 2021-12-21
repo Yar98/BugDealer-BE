@@ -11,5 +11,6 @@ namespace Bug.API.Dto
         public List<StatusNormalDto> Statuses { get; set; }
         public List<LineDto> OldStatuses { get; set; }
         public string DefaultStatusId { get; set; }
+        public string ModifierId { get; set; }
     }
 }

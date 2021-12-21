@@ -35,11 +35,11 @@ namespace Bug.API.Controllers
         }
 
         // GET api/Project/detail/5
-        [HttpGet("detail/{projectId}")]
-        public async Task<IActionResult> GetDetailProject(string projectId)
+        [HttpGet("detail/{projectId}/modifier/{modifierId}")]
+        public async Task<IActionResult> GetDetailProject(string projectId, string modifierId)
         {
             var result = await _projectService
-                .GetDetailProjectAsync(projectId);
+                .GetDetailProjectAsync(projectId, modifierId);
             return Ok(Bts.ConvertJson(result));
         }
 
@@ -54,6 +54,17 @@ namespace Bug.API.Controllers
         {
             var result = await _projectService
                 .GetPaginatedByMemberIdSearchAsync(memberId, state, search, pageIndex, pageSize, sortOrder);
+            return Ok(Bts.ConvertJson(result));
+        }
+
+        [HttpGet("offset/account/{accountId}/{offset:int}/{next:int}")]
+        public async Task<IActionResult> GetNextProjectsByOffsetByCreatorIdTagId
+            (string accountId,
+            int offset,
+            int next)
+        {
+            var result =
+                await _projectService.GetNextRecentByOffsetAsync(accountId, offset, next);
             return Ok(Bts.ConvertJson(result));
         }
 
@@ -168,15 +179,6 @@ namespace Bug.API.Controllers
         {
             await _projectService
                 .AddMemberToProjectAsync(apr.AccountId, apr.ProjectId);
-            return NoContent();
-        }
-
-        [HttpPut("{projectId}/add/role/{roleId:int}")]
-        public async Task<IActionResult> PutAddRoleToProject
-            (string projectId,
-            int roleId)
-        {
-            await _projectService.AddRoleToProjectAsync(projectId, roleId);
             return NoContent();
         }
 

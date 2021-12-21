@@ -57,7 +57,7 @@ namespace Bug.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Icon = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
@@ -119,7 +119,7 @@ namespace Bug.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Color = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CategoryId = table.Column<int>(type: "int", nullable: false)
@@ -404,6 +404,33 @@ namespace Bug.Data.Migrations
                         name: "FK_Issue_Status_StatusId",
                         column: x => x.StatusId,
                         principalTable: "Status",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Projectlog",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ProjectId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    ModifierId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    LogDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Projectlog", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Projectlog_Account_ModifierId",
+                        column: x => x.ModifierId,
+                        principalTable: "Account",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Projectlog_Project_ProjectId",
+                        column: x => x.ProjectId,
+                        principalTable: "Project",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -1035,6 +1062,21 @@ namespace Bug.Data.Migrations
                 column: "TemplateId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Projectlog_LogDate",
+                table: "Projectlog",
+                column: "LogDate");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Projectlog_ModifierId",
+                table: "Projectlog",
+                column: "ModifierId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Projectlog_ProjectId",
+                table: "Projectlog",
+                column: "ProjectId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ProjectRole_RolesId",
                 table: "ProjectRole",
                 column: "RolesId");
@@ -1065,6 +1107,11 @@ namespace Bug.Data.Migrations
                 column: "CreatorId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Severity_Name",
+                table: "Severity",
+                column: "Name");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Status_CreatorId",
                 table: "Status",
                 column: "CreatorId");
@@ -1078,6 +1125,11 @@ namespace Bug.Data.Migrations
                 name: "IX_Tag_CategoryId",
                 table: "Tag",
                 column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tag_Name",
+                table: "Tag",
+                column: "Name");
 
             migrationBuilder.CreateIndex(
                 name: "IX_VoterIssue_VotersId",
@@ -1122,6 +1174,9 @@ namespace Bug.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "PermissionRole");
+
+            migrationBuilder.DropTable(
+                name: "Projectlog");
 
             migrationBuilder.DropTable(
                 name: "ProjectRole");

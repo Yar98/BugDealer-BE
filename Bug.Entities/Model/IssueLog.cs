@@ -90,7 +90,6 @@ namespace Bug.Entities.Model
         private Issuelog() { }
         public Issuelog
             (int id,
-            DateTimeOffset timeLog,
             string des,
             string issueId,
             string modifierId,
@@ -125,7 +124,7 @@ namespace Bug.Entities.Model
             int tagId)
         {
             Id = id;
-            LogDate = timeLog;
+            LogDate = DateTimeOffset.Now;
             Description = des;
             IssueId = issueId;
             ModifierId = modifierId;

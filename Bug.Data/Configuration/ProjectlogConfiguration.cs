@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 
 namespace Bug.Data.Configuration
 {
-    public class SeverityConfiguration : IEntityTypeConfiguration<Severity>
+    public class ProjectlogConfiguration : IEntityTypeConfiguration<Projectlog>
     {
-        public void Configure(EntityTypeBuilder<Severity> builder)
+        public void Configure(EntityTypeBuilder<Projectlog> builder)
         {
             builder
-                .ToTable("Severity")
-                .HasIndex(s=>s.Name);
+                .ToTable("Projectlog")
+                .HasIndex(p => p.LogDate);
         }
     }
 }

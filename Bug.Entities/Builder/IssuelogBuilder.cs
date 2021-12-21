@@ -10,7 +10,6 @@ namespace Bug.Entities.Builder
     public class IssuelogBuilder : IIssuelogBuilder
     {
         public int Id { get; private set; }
-        public DateTimeOffset LogDate { get; private set; }
         public string Description { get; private set; }
         public string IssueId { get; private set; }
         public Issue Issue { get; private set; }
@@ -113,12 +112,6 @@ namespace Bug.Entities.Builder
         public IIssuelogBuilder AddIssueId(string issueId)
         {
             IssueId = issueId;
-            return this;
-        }
-
-        public IIssuelogBuilder AddLogDate()
-        {
-            LogDate = DateTimeOffset.Now;
             return this;
         }
 
@@ -294,7 +287,6 @@ namespace Bug.Entities.Builder
         {
             return new Issuelog
                 (Id,
-                LogDate,
                 Description,
                 IssueId,
                 ModifierId,

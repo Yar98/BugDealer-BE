@@ -19,14 +19,7 @@ namespace Bug.Data.Specifications
             AddInclude(i => i.Reporter);
             AddInclude(i => i.Assignee);
             AddInclude(i => i.Tags);
-            //AddInclude(i => i.FromRelations);
-            //AddInclude(i => i.ToRelations);
-            //AddInclude("FromRelations.Tag");
-            //AddInclude("FromRelations.FromIssue");
-            //AddInclude("FromRelations.ToIssue");
-            //AddInclude("ToRelations.Tag");
-            //AddInclude("ToRelations.FromIssue");
-            //AddInclude("ToRelations.ToIssue");
+            AddInclude("Status.Tag");
         }
     }
 }

@@ -579,6 +579,33 @@ namespace Bug.Data.Migrations
                     b.ToTable("Project");
                 });
 
+            modelBuilder.Entity("Bug.Entities.Model.Projectlog", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTimeOffset>("LogDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("ModifierId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProjectId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LogDate");
+
+                    b.HasIndex("ModifierId");
+
+                    b.HasIndex("ProjectId");
+
+                    b.ToTable("Projectlog");
+                });
+
             modelBuilder.Entity("Bug.Entities.Model.Relation", b =>
                 {
                     b.Property<string>("FromIssueId")
@@ -640,9 +667,11 @@ namespace Bug.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name");
 
                     b.ToTable("Severity");
                 });
@@ -695,11 +724,13 @@ namespace Bug.Data.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("Name");
 
                     b.ToTable("Tag");
                 });
@@ -1151,6 +1182,21 @@ namespace Bug.Data.Migrations
                     b.Navigation("DefaultStatus");
 
                     b.Navigation("Template");
+                });
+
+            modelBuilder.Entity("Bug.Entities.Model.Projectlog", b =>
+                {
+                    b.HasOne("Bug.Entities.Model.Account", "Modifier")
+                        .WithMany()
+                        .HasForeignKey("ModifierId");
+
+                    b.HasOne("Bug.Entities.Model.Project", "Project")
+                        .WithMany()
+                        .HasForeignKey("ProjectId");
+
+                    b.Navigation("Modifier");
+
+                    b.Navigation("Project");
                 });
 
             modelBuilder.Entity("Bug.Entities.Model.Relation", b =>

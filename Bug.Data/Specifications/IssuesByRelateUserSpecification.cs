@@ -21,6 +21,7 @@ namespace Bug.Data.Specifications
             AddInclude(i => i.Reporter);
             AddInclude(i => i.Assignee);
             AddInclude(i => i.Tags);
+            AddInclude("Status.Tag");
         }
     }
 }

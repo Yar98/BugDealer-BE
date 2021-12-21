@@ -33,11 +33,24 @@ namespace Bug.Data.Infrastructure
         private INotificationRepo _notification;
         private ISeverityRepo _severity;
         private IAccountProjectRoleRepo _accountProjectRole;
+        private IProjectlogRepo _projectlog;
 
         public UnitOfWork(BugContext bugContext, IConfiguration config)
         {
             _bugContext = bugContext;
             _config = config;
+        }
+
+        public IProjectlogRepo Projectlog
+        {
+            get
+            {
+                if(_projectlog == null)
+                {
+                    _projectlog = new ProjectlogRepo(_bugContext);
+                }
+                return _projectlog;
+            }
         }
 
         public ISeverityRepo Severity

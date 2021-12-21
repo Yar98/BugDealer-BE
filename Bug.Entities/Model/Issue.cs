@@ -114,7 +114,6 @@ namespace Bug.Entities.Model
                     .AddIssueId(Id)
                     .AddModifierId(modifierId)
                     .AddTagId(1)
-                    .AddLogDate()
                     .AddOldTitle(Title)
                     .AddNewTitle(title)
                     .Build();
@@ -132,7 +131,6 @@ namespace Bug.Entities.Model
                     .AddIssueId(Id)
                     .AddModifierId(modifierId)
                     .AddTagId(1)
-                    .AddLogDate()
                     .AddOldDescription(Description)
                     .AddNewDescription(des)
                     .Build();
@@ -149,7 +147,6 @@ namespace Bug.Entities.Model
                     .AddIssueId(Id)
                     .AddModifierId(modifierId)
                     .AddTagId(1)
-                    .AddLogDate()
                     .AddOldReporterId(ReporterId)
                     .AddNewReporterId(id)
                     .Build();
@@ -166,7 +163,6 @@ namespace Bug.Entities.Model
                 .AddIssueId(Id)
                 .AddModifierId(modifierId)
                 .AddTagId(1)
-                .AddLogDate()
                 .AddOldPriorityId(PriorityId ?? 1)
                 .AddNewPriorityId(int.Parse(i))
                 .Build();
@@ -183,7 +179,6 @@ namespace Bug.Entities.Model
                     .AddIssueId(Id)
                     .AddModifierId(modifierId)
                     .AddTagId(1)
-                    .AddLogDate()
                     .AddOldOriginEstimateTime(OriginEstimateTime)
                     .AddNewOriginEstimateTime(s)
                     .Build();
@@ -201,7 +196,6 @@ namespace Bug.Entities.Model
                     .AddIssueId(Id)
                     .AddModifierId(modifierId)
                     .AddTagId(1)
-                    .AddLogDate()
                     .AddOldRemainEstimateTime(RemainEstimateTime)
                     .AddNewRemainEstimateTime(s)
                     .Build();
@@ -220,7 +214,6 @@ namespace Bug.Entities.Model
                 .AddIssueId(Id)
                 .AddModifierId(modifierId)
                 .AddTagId(1)
-                .AddLogDate()
                 .AddOldDueDate(DueDate)
                 .AddNewDueDate(dt == null ? null : DateTimeOffset.Parse(dt))
                 .Build();
@@ -238,7 +231,6 @@ namespace Bug.Entities.Model
                     .AddIssueId(Id)
                     .AddModifierId(modifierId)
                     .AddTagId(1)
-                    .AddLogDate()
                     .AddOldAssigneeId(AssigneeId)
                     .AddNewAssigneeId(id)
                     .Build();
@@ -255,7 +247,6 @@ namespace Bug.Entities.Model
                     .AddIssueId(Id)
                     .AddModifierId(modifierId)
                     .AddTagId(1)
-                    .AddLogDate()
                     .AddOldEnvironment(Environment)
                     .AddNewEnvironment(e)
                     .Build();
@@ -270,7 +261,6 @@ namespace Bug.Entities.Model
                     .AddIssueId(Id)
                     .AddModifierId(modifierId)
                     .AddTagId(1)
-                    .AddLogDate()
                     .AddOldStatusTagId(Status.TagId)
                     .AddOldStatusName(Status.Name)
                     .AddNewStatusTagId(newStatus.TagId)
@@ -293,7 +283,6 @@ namespace Bug.Entities.Model
                     .AddIssueId(Id)
                     .AddModifierId(modifierId)
                     .AddTagId(1)
-                    .AddLogDate()
                     .AddOldSeverityId(SeverityId??1)
                     .AddNewSeverityId(int.Parse(id))
                     .Build();
@@ -307,21 +296,18 @@ namespace Bug.Entities.Model
                 _attachments = result;
         }
 
-        public void UpdateTags(List<Tag> result, string modifierId, Action<Issuelog> temp)
+        public void AddTag(Tag newTag)
         {
-            if (result == null)
-                _tags.Clear();
-            if (result != null)
+            if (newTag == null)
+                return;
+            if (!Tags.Any(t => t.Id == newTag.Id))
             {
-                _tags.Clear();
-                _tags = result;
-                var log = new IssuelogBuilder()
-                    .AddIssueId(Id)
-                    .AddModifierId(modifierId)
-                    .AddTagId(1)
-                    .Build();
-                temp.Invoke(log);
+                _tags.Add(newTag);
             }
+        }
+        public void RemoveTag(Tag t)
+        {
+            _tags.Remove(t);
         }
 
         public void UpdateTags(List<Tag> result)

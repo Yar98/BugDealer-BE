@@ -12,6 +12,7 @@ namespace Bug.Data.Repositories
 {
     public interface IEntityRepoBase<T>
     {
+        T GetById(int id);
         Task<T> GetByIdAsync(string id, CancellationToken cancelltionToken = default);
         Task<T> GetByIdAsync(int id, CancellationToken cancelltionToken = default);
         Task<T> GetByIdAsync(object[] id, CancellationToken cancelltionToken = default);
@@ -53,6 +54,7 @@ namespace Bug.Data.Repositories
         Task<T> AddAsync(T entity, CancellationToken cancelltionToken = default);
         void Add(T entity);
         void Update(T entity);
+        void Unchange(T entity);
         void Attach(T entity);
         void Detach(T entity);
         void Delete(T entity);

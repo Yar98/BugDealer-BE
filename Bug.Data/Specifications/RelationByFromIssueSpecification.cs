@@ -16,6 +16,7 @@ namespace Bug.Data.Specifications
             AddInclude("ToIssue.Status");
             AddInclude("ToIssue.Project");
             AddInclude("ToIssue.Assignee");
+            AddInclude("ToIssue.Severity");
             AddInclude(r => r.Tag);
         }
     }

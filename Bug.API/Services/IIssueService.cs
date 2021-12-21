@@ -22,6 +22,11 @@ namespace Bug.API.Services
         Task<Issue> GetDetailIssueAsync
             (string id,
             CancellationToken cancelltionToken = default);
+        Task<IReadOnlyList<Issuelog>> GetNextRecentByOffsetAsync
+            (string accountId,
+            int offset,
+            int next,
+            CancellationToken cancellationToken = default);
         Task<PaginatedListDto<Issue>> GetPaginatedByFilter
             (string projectId,
             int pageIndex,
