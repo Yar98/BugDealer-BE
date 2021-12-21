@@ -136,7 +136,7 @@ namespace Bug.API.Controllers
         {
             var result = await _statusService
                 .GetStatusesExceptBtsByProjectIdAsync(projectId, sortOrder);
-            return Ok(Bts.ConvertJson(result));
+            return Ok(Bts.ConvertJson(result,1));
         }
 
         // POST api/<StatusController>
