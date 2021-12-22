@@ -35,14 +35,16 @@ namespace Bug.API.Controllers
         }
 
         // GET api/Project/detail/5
-        [HttpGet("detail/{projectId}/modifier/{modifierId}")]
-        public async Task<IActionResult> GetDetailProject(string projectId, string modifierId)
+        [JwtFilter]
+        [HttpGet("detail/{projectId}")]
+        public async Task<IActionResult> GetDetailProject(string projectId)
         {
             var result = await _projectService
-                .GetDetailProjectAsync(projectId, modifierId);
+                .GetDetailProjectAsync(projectId);
             return Ok(Bts.ConvertJson(result));
         }
 
+        [JwtFilter]
         [HttpGet("search/paging/member/{memberId}/{state:int}/{pageIndex:int}/{pageSize:int}/{sortOrder}")]
         public async Task<IActionResult> GetPaginatedByMemberIdSearch
             (string memberId,
@@ -53,10 +55,11 @@ namespace Bug.API.Controllers
             string sortOrder)
         {
             var result = await _projectService
-                .GetPaginatedByMemberIdSearchAsync(memberId, state, search, pageIndex, pageSize, sortOrder);
+                .GetPaginatedByMemberIdSearchAsync(memberId, state, search??"", pageIndex, pageSize, sortOrder);
             return Ok(Bts.ConvertJson(result));
         }
 
+        [JwtFilter]
         [HttpGet("offset/account/{accountId}/{offset:int}/{next:int}")]
         public async Task<IActionResult> GetNextProjectsByOffsetByCreatorIdTagId
             (string accountId,
@@ -69,6 +72,7 @@ namespace Bug.API.Controllers
         }
 
         // GET: api/Project/paging/1/account1/1/1/3/id
+        [JwtFilter]
         [HttpGet("paging/creator/{accountId}/{state:int}/{pageIndex:int}/{pageSize:int}/{sortOrder}")]
         public async Task<IActionResult> GetPaginatedProjectsByCreatorIdTagId
             (string accountId,
@@ -77,13 +81,13 @@ namespace Bug.API.Controllers
             int state,
             string sortOrder)
         {
-            var result = 
-                await _projectService
+            var result = await _projectService
                 .GetPaginatedByCreatorIdStatusAsync(accountId, pageIndex, pageSize, state, sortOrder);
             return Ok(Bts.ConvertJson(result));
         }
 
         // GET: api/Project/offset/1/account1/1/1/3/id
+        [JwtFilter]
         [HttpGet("offset/creator/{accountId}/{state:int}/{offset:int}/{next:int}/{sortOrder}")]
         public async Task<IActionResult> GetNextProjectsByOffsetByCreatorIdTagId
             (string accountId,
@@ -92,12 +96,12 @@ namespace Bug.API.Controllers
             int state,
             string sortOrder)
         {
-            var result =
-                await _projectService.GetNextByOffsetByCreatorIdTagIdAsync(
-                    accountId, offset, next, state, sortOrder);
+            var result = await _projectService
+                .GetNextByOffsetByCreatorIdTagIdAsync(accountId, offset, next, state, sortOrder);
             return Ok(Bts.ConvertJson(result));
         }
 
+        [JwtFilter]
         [HttpGet("paging/member/{accountId}/{state:int}/{pageIndex:int}/{pageSize:int}/{sortOrder}")]
         public async Task<IActionResult> GetPaginatedProjectsByMemberIdTagId
             (string accountId,
@@ -106,13 +110,13 @@ namespace Bug.API.Controllers
             int state,
             string sortOrder)
         {
-            var result =
-                await _projectService.GetPaginatedByMemberIdStateAsync(
-                    accountId, pageIndex, pageSize, state, sortOrder);
+            var result = await _projectService
+                .GetPaginatedByMemberIdStateAsync(accountId, pageIndex, pageSize, state, sortOrder);
             return Ok(Bts.ConvertJson(result));
         }
 
         // GET: api/Project/offset/1/account1/Open/1/3/id
+        [JwtFilter]
         [HttpGet("offset/member/{accountId}/{state:int}/{offset:int}/{next:int}/{sortOrder}")]
         public async Task<IActionResult> GetNextProjectsByOffsetByMemberIdTagId
             (string accountId,
@@ -121,13 +125,13 @@ namespace Bug.API.Controllers
             int state,
             string sortOrder)
         {
-            var result =
-                await _projectService.GetNextByOffsetByMemberIdStateAsync(
-                    accountId, offset, next, state, sortOrder);
+            var result = await _projectService
+                .GetNextByOffsetByMemberIdStateAsync(accountId, offset, next, state, sortOrder);
             return Ok(Bts.ConvertJson(result));
         }
 
         // POST api/Project       
+        [JwtFilter]
         [ModelFilter]
         [ProjectFilter]
         [HttpPost]
@@ -137,10 +141,11 @@ namespace Bug.API.Controllers
             var result = await _projectService.AddProjectAsync(pro);
 
             return CreatedAtAction(
-                nameof(GetDetailProject), new { projectId = result.Id, modifierId = result.Id }, Bts.ConvertJson(result,4));
+                nameof(GetDetailProject), new { projectId = result.Id }, Bts.ConvertJson(result,4));
         }
 
         // PUT api/Project/detail/5
+        [JwtFilter]
         [HttpPut("{projectId}")]
         public async Task<IActionResult> PutUpdateBasicProject
             (string projectId, 
@@ -152,6 +157,7 @@ namespace Bug.API.Controllers
             return NoContent();
         }
 
+        [JwtFilter]
         [HttpPut("{projectId}/updateroles")]
         public async Task<IActionResult> PutUpdateRolesOfProject
             (string projectId,
@@ -163,6 +169,7 @@ namespace Bug.API.Controllers
             return NoContent();
         }
 
+        [JwtFilter]
         [HttpPut("{projectId}/updatestatuses")]
         public async Task<IActionResult> PutUpdateStatusesOfProject
             (string projectId,
@@ -182,21 +189,25 @@ namespace Bug.API.Controllers
             return NoContent();
         }
 
-        [HttpPut("delete/member")]
+        [JwtFilter]
+        [HttpPut("{projectId}/delete/member")]
         public async Task<IActionResult> PutDeleteMemberFromProject
-            ([FromBody] ProjectPutDto acc)
+            (string projectId,
+            [FromBody] ProjectPutDto acc)
         {
-            
+            if (projectId != acc.Id)
+                return BadRequest();
             await _projectService
                 .DeleteMemberFromProjectAsync(acc.Id, acc.AccountId);
             return NoContent();
         }
 
         // DELETE api/Project/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteProject(string id)
+        [JwtFilter]
+        [HttpDelete("{projectId}")]
+        public async Task<IActionResult> DeleteProject(string projectId)
         {
-            await _projectService.DeleteProjectAsync(id);
+            await _projectService.DeleteProjectAsync(projectId);
             return NoContent();
         }
 

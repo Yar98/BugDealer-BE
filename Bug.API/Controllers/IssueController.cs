@@ -12,6 +12,7 @@ using Bug.API.Dto;
 using Microsoft.AspNetCore.SignalR;
 using Bug.API.SignalR;
 using System.IO;
+using Bug.API.ActionFilter;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -28,6 +29,7 @@ namespace Bug.API.Controllers
             _issueService = issueService;
         }
 
+        [JwtFilter]
         [HttpGet("export/{issueId}")]
         public async Task<IActionResult> GetExportIssue(string issueId)
         {
@@ -47,13 +49,15 @@ namespace Bug.API.Controllers
 
         // GET api/Issue/5
         //[ActionName(nameof(GetDetailIssue))]
-        [HttpGet("detail/{id}")]
+        [JwtFilter]
+        [HttpGet("detail/{issueId}")]
         public async Task<IActionResult> GetDetailIssue(string id)
         {
             var result = await _issueService.GetDetailIssueAsync(id);
             return Ok(Bts.ConvertJson(result));
         }
 
+        [JwtFilter]
         [HttpGet("offset/account/{accountId}/{offset:int}/{next:int}")]
         public async Task<IActionResult> GetNextByOffsetIssuesByRelateUser
             (string accountId,
@@ -65,6 +69,7 @@ namespace Bug.API.Controllers
             return Ok(Bts.ConvertJson(result));
         }
 
+        [JwtFilter]
         [HttpGet("filter/paging/project/{projectId}/{pageIndex}/{pageSize}/{sortOrder}")]
         public async Task<IActionResult> GetPaginatedIssuesByFilter
             (string projectId,
@@ -83,6 +88,7 @@ namespace Bug.API.Controllers
             return Ok(Bts.ConvertJson(result));
         }
 
+        [JwtFilter]
         [HttpGet("paging/relate-user/{accountId}/{pageIndex:int}/{pageSize:int}/{sortOrder}")]
         public async Task<IActionResult> GetPaginatedIssuesByRelateUser
             (string accountId,
@@ -95,6 +101,7 @@ namespace Bug.API.Controllers
             return Ok(Bts.ConvertJson(result));
         }
 
+        [JwtFilter]
         [HttpGet("offset/relate-user/{accountId}/{offset:int}/{next:int}/{sortOrder}")]
         public async Task<IActionResult> GetNextByOffsetIssuesByRelateUser
             (string accountId,
@@ -107,6 +114,7 @@ namespace Bug.API.Controllers
             return Ok(Bts.ConvertJson(result));
         }
 
+        [JwtFilter]
         [HttpGet("paging/project/{projectId}/{pageIndex:int}/{pageSize:int}/{sortOrder}")]
         public async Task<IActionResult> GetPaginatedIssuesByProject
             (string projectId,
@@ -119,6 +127,7 @@ namespace Bug.API.Controllers
             return Ok(Bts.ConvertJson(result));
         }
 
+        [JwtFilter]
         [HttpGet("offset/project/{projectId}/{offset:int}/{next:int}/{sortOrder}")]
         public async Task<IActionResult> GetNextByOffsetIssuesByProject
             (string projectId,
@@ -131,6 +140,7 @@ namespace Bug.API.Controllers
             return Ok(Bts.ConvertJson(result));
         }
 
+        [JwtFilter]
         [HttpGet("paging/project/{projectId}/reporter/{reporterId}/{pageIndex:int}/{pageSize:int}/{sortOrder}")]
         public async Task<IActionResult> GetPaginatedIssuesByReporterId
             (string projectId,
@@ -144,6 +154,7 @@ namespace Bug.API.Controllers
             return Ok(Bts.ConvertJson(result));
         }
 
+        [JwtFilter]
         [HttpGet("offset/project/{projectId}/reporter/{reporterId}/{offset:int}/{next:int}/{sortOrder}")]
         public async Task<IActionResult> GetNextByOffsetByReporterId
             (string projectId,
@@ -157,6 +168,7 @@ namespace Bug.API.Controllers
             return Ok(Bts.ConvertJson(result));
         }
 
+        [JwtFilter]
         [HttpGet("paging/project/{projectId}/assignee/{assigneeId}/{pageIndex:int}/{pageSize:int}/{sortOrder}")]
         public async Task<IActionResult> GetPaginatedIssuesByAssigneeId
             (string projectId,
@@ -170,6 +182,7 @@ namespace Bug.API.Controllers
             return Ok(Bts.ConvertJson(result));
         }
 
+        [JwtFilter]
         [HttpGet("offset/project/{projectId}/assignee/{assigneeId}/{offset:int}/{next:int}/{sortOrder}")]
         public async Task<IActionResult> GetNextByOffsetByAssigneeId
             (string projectId,
@@ -183,6 +196,7 @@ namespace Bug.API.Controllers
             return Ok(Bts.ConvertJson(result));
         }
 
+        [JwtFilter]
         [HttpGet("suggest/project/{projectId}/{sortOrder}")]
         public async Task<IActionResult> GetSuggestIssuesByCode
             (string projectId, 
@@ -195,6 +209,7 @@ namespace Bug.API.Controllers
             return Ok(Bts.ConvertJson(result));
         }
 
+        [JwtFilter]
         [HttpGet("search/paging/project/{projectId}/{pageIndex}/{pageSize}/{sortOrder}")]
         public async Task<IActionResult> GetIssuesByProjectIdSearch
             (string projectId,
@@ -202,12 +217,13 @@ namespace Bug.API.Controllers
             int pageSize,
             string sortOrder)
         {
-            var search = Request.Query["searchText"].ToString();
+            var search = Request.Query["searchText"].ToString()??"";
             var result = await _issueService
                 .GetPaginatedByProjectIdSearchAsync(search,projectId,pageIndex,pageSize,sortOrder);
             return Ok(Bts.ConvertJson(result));
         }
 
+        [JwtFilter]
         [HttpGet("{issueId}/relations/{sortOrder}")]
         public async Task<IActionResult> GetRelationsOfIssue(string issueId, string sortOrder)
         {
@@ -217,6 +233,7 @@ namespace Bug.API.Controllers
         }
 
         // POST api/Issue
+        [JwtFilter]
         [HttpPost]
         public async Task<IActionResult> PostAddIssue([FromBody] IssueNormalDto issue)
         {
@@ -226,19 +243,19 @@ namespace Bug.API.Controllers
         }
 
         // PUT api/Issue/5
-        [HttpPut("{id}")]
+        [JwtFilter]
+        [HttpPut("{issueId}")]
         public async Task<IActionResult> PutUpdateBasicIssue
-            (string id, 
+            (string issueId, 
             [FromBody] IssueNormalDto issue)
         {
-            if (id != issue.Id)
+            if (issueId != issue.Id)
                 return BadRequest();
             await _issueService.UpdateIssueAsync(issue);
             return NoContent();
         }
 
-
-
+        [JwtFilter]
         [HttpPut("{id}/labels")]
         public async Task<IActionResult> PutUpdateLabelsOfIssue
             (string id,
@@ -250,36 +267,46 @@ namespace Bug.API.Controllers
             return NoContent();
         }
 
-        [HttpPut("{id}/attachments")]
+        [JwtFilter]
+        [HttpPut("{issueId}/attachments")]
         public async Task<IActionResult> PutUpdateAttachmentsOfIssue
-            (string id,
+            (string issueId,
             [FromBody] IssueNormalDto issue)
         {
-            if (id != issue.Id)
+            if (issueId != issue.Id)
                 return BadRequest();
             await _issueService.UpdateAttachmentsOfIssue(issue);
             return NoContent();
         }
 
-        [HttpPut("{id}/add/relation")]
+        [JwtFilter]
+        [HttpPut("{issueId}/add/relation")]
         public async Task<IActionResult> PutAddRelationToIssue
-            ([FromBody] RelationNormalDto r)
+            (string issueId,
+            [FromBody] RelationNormalDto r)
         {
+            if (issueId != r.FromIssueId)
+                return BadRequest();
             await _issueService.AddRelationOfIssue(r);
             return NoContent();
         }
 
-        [HttpPut("{id}/delete/relation")]
+        [JwtFilter]
+        [HttpPut("{issueId}/delete/relation")]
         public async Task<IActionResult> PutDeleteRelationToIssue
-            ([FromBody] RelationNormalDto r)
+            (string issueId,
+            [FromBody] RelationNormalDto r)
         {
+            if (issueId != r.FromIssueId)
+                return BadRequest();
             await _issueService.DeleteRelationOfIssue(r);
             return NoContent();
         }
 
         // DELETE api/Issue/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteIssue(string id)
+        [JwtFilter]
+        [HttpDelete("{issueId}")]
+        public async Task<IActionResult> DeleteIssue(string issueId)
         {
             await _issueService.DeleteIssueAsync(id);
             return NoContent();

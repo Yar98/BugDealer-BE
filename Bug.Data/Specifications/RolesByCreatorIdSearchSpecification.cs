@@ -14,6 +14,8 @@ namespace Bug.Data.Specifications
             r.Name.Contains(search))
         {
             AddInclude(r => r.Permissions);
+            AddInclude(r => r.Creator);
+            AddInclude(r => r.Permissions);
             AddInclude(r => r.Projects);
             AddInclude(r => r.AccountProjectRoles);
         }

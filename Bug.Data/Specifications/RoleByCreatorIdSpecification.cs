@@ -14,6 +14,9 @@ namespace Bug.Data.Specifications
         {
             AddInclude(r => r.Permissions);
             AddInclude(r => r.Creator);
+            AddInclude(r => r.Permissions);
+            AddInclude(r => r.Projects);
+            AddInclude(r => r.AccountProjectRoles);
         }
     }
 }

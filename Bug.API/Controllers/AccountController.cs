@@ -32,6 +32,7 @@ namespace Bug.API.Controllers
             return new string[] { "value1", "value2" };
         }
 
+        [JwtFilter]
         [HttpGet("search/paging/project/{projectId}/{pageIndex}/{pageSize}/{sortOrder}")]
         public async Task<IActionResult> GetMembersOfProjectBySearchName
             (string projectId,
@@ -45,13 +46,15 @@ namespace Bug.API.Controllers
             return Ok(Bts.ConvertJson(result));
         }
 
+        [JwtFilter]
         [HttpGet("invite/code/{code}/toemail/{toEmail}/fromemail/{fromEmail}")]
         public async Task<IActionResult> SendInviteEmail
             (string code,
             string toEmail,
             string fromEmail)
         {
-            await _accountService.SendInviteEmail(fromEmail, toEmail, code);
+            await _accountService
+                .SendInviteEmail(fromEmail, toEmail, code);
             return Ok();
         }
 
@@ -71,6 +74,7 @@ namespace Bug.API.Controllers
         }
 
         // GET api/Account/5
+        [JwtFilter]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetAccountById(string id)
         {
@@ -78,6 +82,7 @@ namespace Bug.API.Controllers
             return Ok(result);
         }
 
+        [JwtFilter]
         [HttpGet("all/project/{projectId}/{sortOrder}")]
         public async Task <IActionResult> GetAllByProjectId
             (string projectId,
@@ -87,6 +92,7 @@ namespace Bug.API.Controllers
             return Ok(Bts.ConvertJson(result));
         }
 
+        [JwtFilter]
         [HttpGet("paging/project/{projectId}/{pageIndex:int}/{pageSize:int}/{sortOrder}")]
         public async Task<IActionResult> GetPaginatedByProjectId
            (string projectId,
@@ -100,6 +106,7 @@ namespace Bug.API.Controllers
             return Ok(Bts.ConvertJson(result));
         }
 
+        [JwtFilter]
         [HttpGet("offset/project/{projectId}/{offset:int}/{next:int}/{sortOrder}")]
         public async Task<IActionResult> GetNextByOffsetByProjectId
             (string projectId,
@@ -111,12 +118,12 @@ namespace Bug.API.Controllers
                 await _accountService.GetNextByOffsetByProjectIdAsync(
                     projectId, offset, next, sortOrder);
             return Ok(Bts.ConvertJson(result));
-        }       
+        }
 
         // POST api/Account/login
-        [HttpPost("login")]
         [ModelFilter]
         [AccountFilter]
+        [HttpPost("login")]
         public async Task<IActionResult> PostLoginBts([FromBody] AccountBtsLoginDto user)
         {
             var result = await _accountService.LoginLocalAsync(user.UserName, user.Password);
@@ -137,9 +144,9 @@ namespace Bug.API.Controllers
         }
 
         // POST api/Account/register
-        [HttpPost("register")]
         [ModelFilter]
         [AccountFilter]
+        [HttpPost("register")]
         public async Task<IActionResult> PostRegisterBts([FromBody] AccountBtsRegister user)
         {
             var result = await _accountService.AddRegistedAccountAsync(user);
@@ -167,6 +174,7 @@ namespace Bug.API.Controllers
         }
 
         // PUT api/Account/5
+        [JwtFilter]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutUpdateAccount
             (string id, 
@@ -179,6 +187,7 @@ namespace Bug.API.Controllers
             return NoContent();
         }
 
+        [JwtFilter]
         [HttpPut("checkpass/{id}")]
         public async Task<IActionResult> PutUpdateAccountWithCheckPass
             (string id, [FromBody] AccountPutWithCheckDto user)
@@ -192,6 +201,7 @@ namespace Bug.API.Controllers
             return NoContent();
         }
 
+        [JwtFilter]
         [HttpPut("setroles")]
         public async Task<IActionResult> PutUpdateRolesOfAccount
             ([FromBody] AccountSetListDto user)
@@ -201,6 +211,7 @@ namespace Bug.API.Controllers
             return NoContent();
         }
 
+        [JwtFilter]
         [HttpPut("setfields")]
         public async Task<IActionResult> PutUpdateFieldsOfAccount
             ([FromBody] AccountSetListDto user)
@@ -211,6 +222,7 @@ namespace Bug.API.Controllers
         }
 
         // DELETE api/Account/5
+        [JwtFilter]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAccount(string id)
         {

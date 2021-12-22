@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Bug.API.Utils;
 using Bug.API.Dto;
 using Bug.API.Services;
+using Microsoft.Extensions.Logging;
 
 namespace Bug.API.Controllers
 {
@@ -18,14 +19,17 @@ namespace Bug.API.Controllers
     public class ExternalController : Controller
     {
         private readonly IAccountService _accountService;
-        public ExternalController(IAccountService accountService)
+        private readonly ILogger<ExternalController> _logger;
+        public ExternalController(IAccountService accountService, ILogger<ExternalController> logger)
         {
             _accountService = accountService;
+            _logger = logger;
         }
 
         [HttpGet("signinexternal")]
         public IActionResult SigninExternal(string provide, string returnUrl)
         {
+            _logger.LogInformation(returnUrl);
             var properties = new AuthenticationProperties { 
                 RedirectUri = Url.Action("SigninExternalCallback",new { returnUrl }) };
 
@@ -37,6 +41,7 @@ namespace Bug.API.Controllers
             string returnUrl = null,
             string remoteNull = null)
         {
+            _logger.LogInformation("CALLBACK: " + returnUrl);
             var result = await HttpContext.AuthenticateAsync(
                 CookieAuthenticationDefaults.AuthenticationScheme);
             
@@ -59,15 +64,12 @@ namespace Bug.API.Controllers
                 };
                 var token = await _accountService.GenerateTokenGoogleAccountAsync(user);
                 Response.Headers.Add("token", token);
-                //return StatusCode(200, Json(claims));
-                //return string.IsNullOrEmpty(token)?
-                    //BadRequest("Error in creating token for google account") :
-                    //StatusCode(200, token);
+                
                 return new RedirectResult($"{returnUrl}?token={token}");
             }
             else
             {
-                return BadRequest(result.Failure);
+                return BadRequest(returnUrl);
             }
         }
 
