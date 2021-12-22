@@ -61,14 +61,14 @@ namespace Bug
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder
-                    //.UseKestrel()
-                    .UseContentRoot(Directory.GetCurrentDirectory())
-                    .UseUrls("http://*:4444")
-                    .UseIISIntegration()
-                    .UseStartup<Startup>();
-                });
+            .ConfigureWebHostDefaults(webBuilder =>
+            {
+                webBuilder
+                //.UseKestrel()
+                .UseContentRoot(Directory.GetCurrentDirectory())
+                .UseUrls("http://*:4444")
+                .UseIISIntegration()
+                .UseStartup<Startup>();
+            });
     }
 }
