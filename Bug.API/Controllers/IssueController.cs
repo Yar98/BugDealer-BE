@@ -308,7 +308,7 @@ namespace Bug.API.Controllers
         [HttpDelete("{issueId}")]
         public async Task<IActionResult> DeleteIssue(string issueId)
         {
-            await _issueService.DeleteIssueAsync(id);
+            await _issueService.DeleteIssueAsync(issueId);
             return NoContent();
         }
     }
