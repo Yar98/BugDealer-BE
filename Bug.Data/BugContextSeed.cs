@@ -241,7 +241,7 @@ namespace Bug.Data
             return new List<Role>()
             {
                 new Role(0,"BTS-Dev",null,"bts"),
-                new Role(0, "custom", "not default", "account1")
+                new Role(0, "custom", "default", "bts")
             };
         }
 
