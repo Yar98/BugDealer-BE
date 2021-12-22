@@ -41,7 +41,7 @@ namespace Bug
             services.ConfigureGoogleServices(Configuration);
             services.AddCoreServices(Configuration);
             services.AddSingleton<IConfiguration>(Configuration);
-
+            
             services.AddSignalR();
             services.AddCors(options =>
             {
@@ -50,7 +50,8 @@ namespace Bug
                     {
                         builder
                         .WithOrigins(
-                            "http://localhost:4200")
+                            "http://localhost:4200",
+                            "https://bug-dealer.azurewebsites.net")
                         .AllowAnyHeader()
                         .AllowAnyMethod()
                         .AllowCredentials()

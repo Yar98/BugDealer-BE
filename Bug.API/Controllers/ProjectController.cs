@@ -137,7 +137,7 @@ namespace Bug.API.Controllers
             var result = await _projectService.AddProjectAsync(pro);
 
             return CreatedAtAction(
-                nameof(GetDetailProject), new { projectId = result.Id }, Bts.ConvertJson(result,4));
+                nameof(GetDetailProject), new { projectId = result.Id, modifierId = result.Id }, Bts.ConvertJson(result,4));
         }
 
         // PUT api/Project/detail/5
