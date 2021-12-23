@@ -59,7 +59,7 @@ namespace Bug.API.ActionFilter
                     .GetDetailIssueAsync(issueId);
                 if (!user.AccountProjectRoles.Any(apr => apr.ProjectId == issue.ProjectId))
                 {
-                    context.Result = new BadRequestObjectResult("You not join this project");
+                    context.Result = new BadRequestObjectResult("You not join this issue");
                     return;
                 }
             }

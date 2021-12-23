@@ -55,7 +55,7 @@ namespace Bug
                         .AllowAnyHeader()
                         .AllowAnyMethod()
                         .AllowCredentials()
-                        .SetPreflightMaxAge(new TimeSpan(111222333444555))
+                        //.SetPreflightMaxAge(new TimeSpan(111222333444555))
                         .WithExposedHeaders("token","error");
                     });
             });
