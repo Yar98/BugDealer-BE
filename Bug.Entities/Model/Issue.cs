@@ -21,8 +21,8 @@ namespace Bug.Entities.Model
         public DateTimeOffset? CreatedDate { get; private set; }
         public DateTimeOffset? DueDate { get; private set; }
         public DateTimeOffset? WorklogDate { get; private set; } //ko can
-        public string OriginEstimateTime { get; private set; }
-        public string RemainEstimateTime { get; private set; }
+        public int? OriginEstimateTime { get; private set; }
+        public int? RemainEstimateTime { get; private set; }
         public string Environment { get; private set; }
         public string? StatusId { get; private set; }
         public Status Status { get; private set; }
@@ -75,8 +75,8 @@ namespace Bug.Entities.Model
             DateTimeOffset? createdDate,
             DateTimeOffset? dueDate,
             DateTimeOffset? worklogDate,
-            string originEstimateTime,
-            string remainEstimateTime,
+            int? originEstimateTime,
+            int? remainEstimateTime,
             string environment,
             string statusId,
             int? priorityId,
@@ -179,11 +179,11 @@ namespace Bug.Entities.Model
                     .AddIssueId(Id)
                     .AddModifierId(modifierId)
                     .AddTagId(1)
-                    .AddOldOriginEstimateTime(OriginEstimateTime)
+                    .AddOldOriginEstimateTime(OriginEstimateTime.ToString())
                     .AddNewOriginEstimateTime(s)
                     .Build();
             temp.Invoke(log);
-            OriginEstimateTime = s;
+            OriginEstimateTime = int.Parse(s);
 
         }
         public void UpdateRemainEstimateTime(string s, string modifierId, Action<Issuelog> temp)
@@ -191,16 +191,16 @@ namespace Bug.Entities.Model
             if (s == null)
                 return;
             if (s == "")
-                s = null;
+                RemainEstimateTime = null;
             var log = new IssuelogBuilder()
                     .AddIssueId(Id)
                     .AddModifierId(modifierId)
                     .AddTagId(1)
-                    .AddOldRemainEstimateTime(RemainEstimateTime)
+                    .AddOldRemainEstimateTime(RemainEstimateTime.ToString())
                     .AddNewRemainEstimateTime(s)
                     .Build();
             temp.Invoke(log);
-            RemainEstimateTime = s;
+            RemainEstimateTime = int.Parse(s);
         }
         public void UpdateDueDate(string dt, string modifierId, Action<Issuelog> temp)
         {

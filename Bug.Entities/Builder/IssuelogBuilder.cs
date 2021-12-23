@@ -62,13 +62,13 @@ namespace Bug.Entities.Builder
         // new title
         public string NewTitle { get; private set; }
         // old origin estimate time
-        public string OldOriginEstimateTime { get; private set; }
+        public int? OldOriginEstimateTime { get; private set; }
         // new origin estimate time
-        public string NewOriginEstimateTime { get; private set; }
+        public int? NewOriginEstimateTime { get; private set; }
         // old remain estimate time
-        public string OldRemainEstimateTime { get; private set; }
+        public int? OldRemainEstimateTime { get; private set; }
         // new remain estimate time
-        public string NewRemainEstimateTime { get; private set; }
+        public int? NewRemainEstimateTime { get; private set; }
         // old due date
         public DateTimeOffset? OldDueDate { get; private set; }
         // new due date
@@ -147,7 +147,12 @@ namespace Bug.Entities.Builder
 
         public IIssuelogBuilder AddNewOriginEstimateTime(string time)
         {
-            NewOriginEstimateTime = time;
+            if(string.IsNullOrEmpty(time))
+            {
+                NewOriginEstimateTime = null;
+                return this;
+            }
+            NewOriginEstimateTime = int.Parse(time);
             return this;
         }
 
@@ -159,7 +164,12 @@ namespace Bug.Entities.Builder
 
         public IIssuelogBuilder AddNewRemainEstimateTime(string time)
         {
-            NewRemainEstimateTime = time;
+            if (string.IsNullOrEmpty(time))
+            {
+                NewRemainEstimateTime = null;
+                return this;
+            }
+            NewRemainEstimateTime = int.Parse(time);
             return this;
         }
 
@@ -225,7 +235,12 @@ namespace Bug.Entities.Builder
 
         public IIssuelogBuilder AddOldOriginEstimateTime(string time)
         {
-            OldOriginEstimateTime = time;
+            if (string.IsNullOrEmpty(time))
+            {
+                OldOriginEstimateTime = null;
+                return this;
+            }
+            OldOriginEstimateTime = int.Parse(time);
             return this;
         }
 
@@ -237,7 +252,12 @@ namespace Bug.Entities.Builder
 
         public IIssuelogBuilder AddOldRemainEstimateTime(string time)
         {
-            OldRemainEstimateTime = time;
+            if (string.IsNullOrEmpty(time))
+            {
+                OldRemainEstimateTime = null;
+                return this;
+            }
+            OldRemainEstimateTime = int.Parse(time);
             return this;
         }
 

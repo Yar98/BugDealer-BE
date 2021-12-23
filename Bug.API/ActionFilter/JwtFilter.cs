@@ -23,7 +23,7 @@ namespace Bug.API.ActionFilter
         {
 
             // logic before action goes here
-            var param = context.HttpContext.Request.Query["token"].ToString();
+            var param = context.HttpContext.Request.Headers["token"].ToString();
             var sv = context.HttpContext.RequestServices;
             var jwtUtils = sv.GetService<IJwtUtils>();
             var accountService = sv.GetService<IAccountService>();
@@ -34,47 +34,48 @@ namespace Bug.API.ActionFilter
                 context.Result = new BadRequestObjectResult("Token not found");
                 return;
             }
-            else
+
+            var result = jwtUtils.ValidateToken(param);
+            var user = await accountService
+                .GetDetailAccountById(result.Id);
+            if (result == null)
             {
-                var result = jwtUtils.ValidateToken(param);
-                if (result == null)
+                context.Result = new UnauthorizedObjectResult("Invalid token");
+                return;
+            }
+
+            var projectId = context.RouteData.Values["projectId"]?.ToString();
+            // check follow project
+            if (!string.IsNullOrEmpty(projectId) &&
+                !user.AccountProjectRoles.Any(apr => apr.ProjectId == projectId))
+            {
+                context.Result = new BadRequestObjectResult("You not join this project");
+                return;
+            }
+            var issueId = context.RouteData.Values["issueId"]?.ToString();
+            if (!string.IsNullOrEmpty(issueId))
+            {
+                var issue = await issueService
+                    .GetDetailIssueAsync(issueId);
+                if (!user.AccountProjectRoles.Any(apr => apr.ProjectId == issue.ProjectId))
                 {
-                    context.Result = new UnauthorizedObjectResult("Invalid token");
+                    context.Result = new BadRequestObjectResult("You not join this issue");
                     return;
                 }
-                else // success login
-                {
-                    //var projectId = context.RouteData.Values["projectId"].ToString();
-                    var user1 = await accountService
-                        .CheckPermissionsOfRolesOfAccount(result.Id, Permission, ProjectId);
-                    if(user1 == null)
-                    {
-                        switch (Permission)
-                        {
-                            case Bts.GetDetailProject:                    
-                                context.Result = new BadRequestObjectResult("Permission not allow");
-                                return;
-                            case 2://edit issue
-                                var issueId = context.ActionArguments["id"].ToString();
-                                var issue = await issueService
-                                    .GetNormalIssueAsync(issueId);
-                                var project = await projectService
-                                    .GetNormalProjectAsync(ProjectId);
-                                if (issue.ReporterId != result.Id &&
-                                    issue.AssigneeId != result.Id &&
-                                    project.CreatorId != result.Id)
-                                {
-                                    context.Result = new BadRequestObjectResult("Permission not allow");
-                                    return;
-                                }
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                    
-                }
             }
+
+            switch (Permission)
+            {
+                case Bts.GetDetailProject:
+                    context.Result = new BadRequestObjectResult("Permission not allow");
+                    return;
+                case 2://edit issue
+                    
+                    break;
+                default:
+                    break;
+            }
+
 
             await next(); // the actual action
 

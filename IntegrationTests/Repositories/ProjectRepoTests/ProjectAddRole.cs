@@ -49,7 +49,7 @@ namespace IntegrationTests.Repositories.ProjectRepoTests
             
             await projectService.AddRoleToProjectAsync(project.Id, role.Id);
             var resultProject = await projectService
-                .GetDetailProjectAsync(project.Id, null);
+                .GetDetailProjectAsync(project.Id);
 
             Assert.NotEqual(0, role.Id);
             Assert.True(resultProject.Roles.Contains(role));

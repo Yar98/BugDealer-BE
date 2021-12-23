@@ -65,9 +65,9 @@ namespace Bug
             {
                 webBuilder
                 //.UseKestrel()
-                .UseContentRoot(Directory.GetCurrentDirectory())
-                .UseUrls("http://*:4444")
-                .UseIISIntegration()
+                //.UseContentRoot(Directory.GetCurrentDirectory())
+                .UseUrls("https://localhost:4444")
+                //.UseIISIntegration()
                 .UseStartup<Startup>();
             });
     }

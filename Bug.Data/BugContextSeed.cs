@@ -17,26 +17,26 @@ namespace Bug.Data
         {
             try
             {
-                if (!await bugContext.Templates.AnyAsync())
-                {
-                    await bugContext.Templates.AddRangeAsync(
-                        GetPreconfiguredTemplate());
-                }
-                if (!await bugContext.Projects.AnyAsync())
-                {
-                    await bugContext.Projects.AddRangeAsync(
-                        GetPreconfiguredProjects());                   
-                }
-                if(!await bugContext.Accounts.AnyAsync())
+
+                if (!await bugContext.Accounts.AnyAsync())
                 {
                     await bugContext.Accounts.AddRangeAsync(
                         GetPreconfiguredAccount());
                 }
+
+                if (!await bugContext.Templates.AnyAsync())
+                {
+                    GetPreconfiguredTemplate()
+                        .ToList()
+                        .ForEach(c =>
+                        {
+                            bugContext.Templates.Add(c);
+                            bugContext.SaveChanges();
+                        });
+                }
                 
                 if (!await bugContext.Categories.AnyAsync())
                 {
-                    //await bugContext.Categories.AddRangeAsync(
-                    //GetPreconfiguredCategory());
                     GetPreconfiguredCategory()
                         .ToList()
                         .ForEach(c =>
@@ -48,8 +48,6 @@ namespace Bug.Data
 
                 if (!await bugContext.Tags.AnyAsync())
                 {
-                    //await bugContext.Tags.AddRangeAsync(
-                    //GetPreconfiguredTag());
                     GetPreconfiguredTag()
                         .ToList()
                         .ForEach(t =>
@@ -61,38 +59,63 @@ namespace Bug.Data
                 
                 if (!await bugContext.Statuses.AnyAsync())
                 {
-                    await bugContext.Statuses.AddRangeAsync(
-                    GetPreconfiguredStatus());
+                    GetPreconfiguredStatus()
+                        .ToList()
+                        .ForEach(t =>
+                        {
+                            bugContext.Statuses.Add(t);
+                            bugContext.SaveChanges();
+                        });
                 }
                 if (!await bugContext.Permissions.AnyAsync())
                 {
-                    await bugContext.Permissions.AddRangeAsync(
-                    GetPreconfiguredPermission());
+                    GetPreconfiguredPermission()
+                        .ToList()
+                        .ForEach(t =>
+                        {
+                            bugContext.Permissions.Add(t);
+                            bugContext.SaveChanges();
+                        });
                 }
                 if (!await bugContext.Roles.AnyAsync())
                 {
-                    await bugContext.Roles.AddRangeAsync(
-                    GetPreconfiguredRole());
+                    GetPreconfiguredRole()
+                        .ToList()
+                        .ForEach(t =>
+                        {
+                            bugContext.Roles.Add(t);
+                            bugContext.SaveChanges();
+                        });
                 }
                 if (!await bugContext.Priorities.AnyAsync())
                 {
-                    await bugContext.Priorities.AddRangeAsync(
-                        GetPreconfiguredPriority());
-                }
-                if(!await bugContext.Issues.AnyAsync())
-                {
-                    await bugContext.Issues.AddRangeAsync(
-                        GetPreconfiguredIssue());
+                    GetPreconfiguredPriority()
+                        .ToList()
+                        .ForEach(t =>
+                        {
+                            bugContext.Priorities.Add(t);
+                            bugContext.SaveChanges();
+                        });
                 }
                 if (!await bugContext.Fields.AnyAsync())
                 {
-                    await bugContext.Fields.AddRangeAsync(
-                        GetPreconfiguredField());
+                    GetPreconfiguredField()
+                        .ToList()
+                        .ForEach(t =>
+                        {
+                            bugContext.Fields.Add(t);
+                            bugContext.SaveChanges();
+                        });
                 }
                 if (!await bugContext.Severities.AnyAsync())
                 {
-                    await bugContext.Severities.AddRangeAsync(
-                        GetPreconfiguredSeverities());
+                    GetPreconfiguredSeverities()
+                        .ToList()
+                        .ForEach(t =>
+                        {
+                            bugContext.Severities.Add(t);
+                            bugContext.SaveChanges();
+                        });
                 }
 
                 await bugContext.SaveChangesAsync();
@@ -130,10 +153,10 @@ namespace Bug.Data
         {
             return new List<Account>()
             {
-                new Account("bts","bts","bts","first1","last1","bts",DateTime.Now,null,"uri1",null),
-                new Account("account1","name1","pass1","first1","last1","email1",DateTime.Now,null,"uri1",null),
-                new Account("account2","name2","pass2","first2","last2","email2",DateTime.Now,null,"uri2",null),
-                new Account("account3","name3","pass3","first3","last3","email3",DateTime.Now,null,"uri3",null)
+                new Account("bts","bts","bts","bts","bts","bts",DateTime.Now,null,"uri1",null),
+                //new Account("account1","name1","pass1","first1","last1","email1",DateTime.Now,null,"uri1",null),
+                //new Account("account2","name2","pass2","first2","last2","email2",DateTime.Now,null,"uri2",null),
+                //new Account("account3","name3","pass3","first3","last3","email3",DateTime.Now,null,"uri3",null)
             };
         }
         static IEnumerable<Issue> GetPreconfiguredIssue()
@@ -218,7 +241,7 @@ namespace Bug.Data
             return new List<Role>()
             {
                 new Role(0,"BTS-Dev",null,"bts"),
-                new Role(0, "custom", "not default", "account1")
+                new Role(0, "custom", "default", "bts")
             };
         }
 
@@ -237,17 +260,17 @@ namespace Bug.Data
         {
             return new List<Field>()
             {
-                new Field(0,"C-026", null),
-                new Field(0,"C-025", null),
-                new Field(0,"C-024", null),
-                new Field(0,"C-023", null),
-                new Field(0,"C-022", null),
-                new Field(0,"C-021", null),
-                new Field(0,"C-020", null),
-                new Field(0,"C-019", null),
-                new Field(0,"C-018", null),
+                new Field(0,"C-016", null),
                 new Field(0,"C-017", null),
-                new Field(0,"C-016", null)
+                new Field(0,"C-018", null),
+                new Field(0,"C-019", null),
+                new Field(0,"C-020", null),               
+                new Field(0,"C-021", null),
+                new Field(0,"C-022", null),
+                new Field(0,"C-023", null),
+                new Field(0,"C-024", null),
+                new Field(0,"C-025", null),
+                new Field(0,"C-026", null)
             };
         }
         static IEnumerable<Template> GetPreconfiguredTemplate()

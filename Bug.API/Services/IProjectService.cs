@@ -16,7 +16,6 @@ namespace Bug.API.Services
             CancellationToken cancellationToken = default);
         Task<Project> GetDetailProjectAsync
             (string id,
-            string modifierId,
             CancellationToken cancellationToken = default);
         Task<IReadOnlyList<Projectlog>> GetNextRecentByOffsetAsync
            (string accountId,

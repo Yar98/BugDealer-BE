@@ -46,7 +46,6 @@ namespace Bug.API.Services
 
         public async Task<Project> GetDetailProjectAsync
             (string projectId,
-            string modifierId,
             CancellationToken cancellationToken = default)
         {
             var specificationResult =
@@ -54,11 +53,6 @@ namespace Bug.API.Services
             var result = await _unitOfWork
                 .Project
                 .GetEntityBySpecAsync(specificationResult, cancellationToken);
-            var log = new Projectlog(projectId, modifierId);
-            await _unitOfWork
-                .Projectlog
-                .AddAsync(log, cancellationToken);
-            _unitOfWork.Save();
             return result;
         }
 
