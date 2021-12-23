@@ -62,13 +62,13 @@ namespace Bug.Entities.Model
         // new title
         public string NewTitle { get; private set; }
         // old origin estimate time
-        public int? OldOriginEstimateTime { get; private set; }
+        public string OldOriginEstimateTime { get; private set; }
         // new origin estimate time
-        public int? NewOriginEstimateTime { get; private set; }
+        public string NewOriginEstimateTime { get; private set; }
         // old remain estimate time
-        public int? OldRemainEstimateTime { get; private set; }
+        public string OldRemainEstimateTime { get; private set; }
         // new remain estimate time
-        public int? NewRemainEstimateTime { get; private set; }
+        public string NewRemainEstimateTime { get; private set; }
         // old due date
         public DateTimeOffset? OldDueDate { get; private set; }
         // new due date
@@ -111,10 +111,10 @@ namespace Bug.Entities.Model
             string newDescription,
             string oldTitle,
             string newTitle,
-            int? oldOriginEstimateTime,
-            int? newOriginEstimateTime,
-            int? oldRemainEstimateTime,
-            int? newRemainEstimateTime,
+            string oldOriginEstimateTime,
+            string newOriginEstimateTime,
+            string oldRemainEstimateTime,
+            string newRemainEstimateTime,
             DateTimeOffset? oldDueDate,
             DateTimeOffset? newDueDate,
             string oldEnvironment,

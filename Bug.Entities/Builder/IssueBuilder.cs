@@ -17,8 +17,8 @@ namespace Bug.Entities.Builder
         public DateTimeOffset? CreatedDate { get; private set; }
         public DateTimeOffset? DueDate { get; private set; }
         public DateTimeOffset? WorklogDate { get; private set; } //ko can
-        public int? OriginEstimateTime { get; private set; }
-        public int? RemainEstimateTime { get; private set; }
+        public string OriginEstimateTime { get; private set; }
+        public string RemainEstimateTime { get; private set; }
         public string Environment { get; private set; }
         public string StatusId { get; private set; }
         public int? PriorityId { get; private set; }
@@ -97,12 +97,7 @@ namespace Bug.Entities.Builder
 
         public IIssueBuilder AddOriginEstimateTime(string oet)
         {
-            if (string.IsNullOrEmpty(oet))
-            {
-                OriginEstimateTime = null;
-                return this;
-            }
-            OriginEstimateTime = int.Parse(oet);
+            OriginEstimateTime = oet;
             return this;
         }
 
@@ -125,12 +120,7 @@ namespace Bug.Entities.Builder
 
         public IIssueBuilder AddRemainEstimateTime(string ret)
         {
-            if (string.IsNullOrEmpty(ret))
-            {
-                RemainEstimateTime = null;
-                return this;
-            }
-            RemainEstimateTime = int.Parse(ret);
+            RemainEstimateTime = ret;
             return this;
         }
 
