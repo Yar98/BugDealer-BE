@@ -66,10 +66,8 @@ namespace Bug.API.Utils
             return excelPackage.Stream;
         }
         
-
         private void BindingFormatForExcel(ExcelWorksheet worksheet, Issue issue)
         {
-
             // Set default width cho tất cả column
             worksheet.Column(1).Width = 20;
             worksheet.Column(5).Width = 30;
@@ -92,7 +90,7 @@ namespace Bug.API.Utils
             // worksheet.Cells.Style.WrapText = true;
 
             //Show full details for Title of issue
-            int count_Issue = issue.Title.Length;
+            int count_Issue = issue.Title != null ? issue.Title.Length : 0;
             int numberMergeOfIssue = count_Issue / 12 ;
             int finalMergeIssue = numberMergeOfIssue +2;
             string ColumnMergeIssue = "A" + finalMergeIssue;
@@ -103,7 +101,7 @@ namespace Bug.API.Utils
                 worksheet.Cells["A2:" + ColumnMergeIssue].Style.VerticalAlignment = ExcelVerticalAlignment.Top;
             }
             //Show full details for Status of issue
-            int count_Status = issue.Status.Name.Length;
+            int count_Status = issue.Status != null ? issue.Status.Name.Length : 0;
             int numberMergeOfStatus = count_Status / 6;
             int finalMergeStatus = numberMergeOfStatus +2;
             string ColumnMergeStatus = "B" + finalMergeStatus;
@@ -114,7 +112,7 @@ namespace Bug.API.Utils
                 worksheet.Cells["B2:" + ColumnMergeStatus].Style.VerticalAlignment = ExcelVerticalAlignment.Top;
             }
             //Show full details for Code of issue
-            int count_Code = issue.Code.Length;
+            int count_Code = issue.Code != null ? issue.Code.Length : 0;
             int numberMergeOfCode = count_Code / 6 + 2;
             string ColumnMergeCode = "D" + numberMergeOfCode;
             if (numberMergeOfCode > 1)
@@ -124,7 +122,7 @@ namespace Bug.API.Utils
                 worksheet.Cells["D2:" + ColumnMergeCode].Style.VerticalAlignment = ExcelVerticalAlignment.Top;
             }
             //Show full details for Project of issue
-            int count_Project = issue.Project.Name.Length;
+            int count_Project = issue.Project.Name != null ? issue.Project.Name.Length : 0;
             int numberMergeOfProject = count_Project / 6;
             int finalMergeProject = numberMergeOfProject +2;
             string ColumnMergeProject = "C" + finalMergeProject;
@@ -136,7 +134,7 @@ namespace Bug.API.Utils
             }
 
             //Show full details for description
-            int count_Description = issue.Description.Length;
+            int count_Description = issue.Description != null ? issue.Description.Length : 0;
             int numberMergeOfDes = count_Description / 18;
             int finalMergeDes = numberMergeOfDes +2;
             string ColumnMergeOfDes = "J" + finalMergeDes;
@@ -148,7 +146,7 @@ namespace Bug.API.Utils
             }
 
             //Show full details for Environment
-            int count_Enviroment = issue.Environment.Length;
+            int count_Enviroment = issue.Environment != null ? issue.Environment.Length : 0;
             int numberMergeOfEnvi = count_Enviroment / 18;
             int finalMergeEnvi = numberMergeOfEnvi =2;
             string ColumnMergeEnvi = "I" + finalMergeEnvi;
@@ -158,8 +156,6 @@ namespace Bug.API.Utils
                 worksheet.Cells.Style.WrapText = true;
                 worksheet.Cells["I2:" + ColumnMergeEnvi].Style.VerticalAlignment = ExcelVerticalAlignment.Top;
             }
-
-
 
             // Lấy range vào tạo format cho range đó ở đây là từ A1 tới D1
             using (var range = worksheet.Cells["A1:N1"])

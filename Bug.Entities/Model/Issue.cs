@@ -208,7 +208,7 @@ namespace Bug.Entities.Model
                 return;
             if (dt == "")
                 dt = null;
-            if (DateTimeOffset.Parse(dt) > Project.EndDate && Project != null)
+            if (dt != null && DateTimeOffset.Parse(dt) > Project.EndDate && Project != null)
                 throw new DueDateOfIssueMustWithinDueDateOfProject();
             var log = new IssuelogBuilder()
                 .AddIssueId(Id)
@@ -300,7 +300,7 @@ namespace Bug.Entities.Model
         {
             if (newTag == null)
                 return;
-            if (!Tags.Any(t => t.Id == newTag.Id))
+            if (!Tags.Any(t => t.Id == newTag.Id) || newTag.Id == 0)
             {
                 _tags.Add(newTag);
             }

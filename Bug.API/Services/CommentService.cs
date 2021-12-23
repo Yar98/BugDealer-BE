@@ -1,6 +1,7 @@
 ﻿using Bug.API.Dto;
 using Bug.Data.Infrastructure;
 using Bug.Data.Specifications;
+using Bug.Entities.Builder;
 using Bug.Entities.Model;
 using System;
 using System.Collections.Generic;
@@ -47,6 +48,12 @@ namespace Bug.API.Services
         {
             var result = 
                 new Comment(0, cmt.Content, cmt.TimeLog, cmt.IssueId, cmt.AccountId);
+            var log = new IssuelogBuilder()
+                 .AddIssueId(cmt.IssueId)
+                 .AddModifierId(cmt.AccountId)
+                 .AddTagId(1)
+                 .Build();
+            await _unitOfWork.Issuelog.AddAsync(log, cancellationToken);
             await _unitOfWork.Comment.AddAsync(result, cancellationToken);
             _unitOfWork.Save();
             return result;
@@ -63,6 +70,12 @@ namespace Bug.API.Services
             result.UpdateContent(cmt.Content);
             result.UpdateIssueId(cmt.IssueId);
             result.UpdateTimeLog(cmt.TimeLog);
+            var log = new IssuelogBuilder()
+                 .AddIssueId(cmt.IssueId)
+                 .AddModifierId(cmt.AccountId)
+                 .AddTagId(1)
+                 .Build();
+            await _unitOfWork.Issuelog.AddAsync(log, cancellationToken);
             _unitOfWork.Comment.Update(result);
             _unitOfWork.Save();
         }

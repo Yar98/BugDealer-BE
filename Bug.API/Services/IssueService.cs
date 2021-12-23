@@ -361,6 +361,13 @@ namespace Bug.API.Services
                 .ToList();
             result.UpdateFromRelations(fromRelations);
 
+            var log = new IssuelogBuilder()
+                    .AddIssueId(issue.Id)
+                    .AddModifierId(issue.ModifierId)
+                    .AddTagId(1)
+                    .Build();
+            await _unitOfWork.Issuelog.AddAsync(log, cancellationToken);
+
             await _unitOfWork
                 .Issue
                 .AddAsync(result, cancellationToken);
@@ -435,6 +442,7 @@ namespace Bug.API.Services
             CancellationToken cancellationToken = default)
         {
             var result = new Relation(relation.Description, relation.TagId, relation.FromIssueId, relation.ToIssueId);
+            var reverseResult = CreateReverseRelation(result);
             var log = new IssuelogBuilder()
                 .AddIssueId(relation.FromIssueId)
                 .AddModifierId(relation.ModifierId)
@@ -444,6 +452,7 @@ namespace Bug.API.Services
                 .Build();
             await _unitOfWork.Issuelog.AddAsync(log, cancellationToken);
             await _unitOfWork.Relation.AddAsync(result, cancellationToken);
+            await _unitOfWork.Relation.AddAsync(reverseResult, cancellationToken);
 
             _unitOfWork.Save();
         }
@@ -528,6 +537,21 @@ namespace Bug.API.Services
             }
 
             return Task.CompletedTask;
+        }
+
+        private Relation CreateReverseRelation(Relation input)
+        {
+            switch (input.TagId)
+            {
+                case 5:
+                    return new Relation(null, 6, input.ToIssueId, input.FromIssueId);
+                case 7:
+                    return new Relation(null, 8, input.ToIssueId, input.FromIssueId);
+                case 9:
+                    return new Relation(null, 9, input.ToIssueId, input.FromIssueId);
+                default:
+                    return null;
+            }
         }
     }
 }

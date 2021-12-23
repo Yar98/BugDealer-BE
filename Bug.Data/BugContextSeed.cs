@@ -176,18 +176,13 @@ namespace Bug.Data
                 new Tag(0,"C-115", null, "green", Bts.DefaultStatusTag),
                 new Tag(0,"C-092", null, "red", Bts.DefaultStatusTag),
                         
-                new Tag(0,"C-041", null, null, Bts.DefaultRelationTag),
-                new Tag(0,"C-042", null, null, Bts.DefaultRelationTag),
-                new Tag(0,"C-043", null, null, Bts.DefaultRelationTag),
-                new Tag(0,"C-044", null, null, Bts.DefaultRelationTag),
-                new Tag(0,"C-045", null,null, Bts.DefaultRelationTag),
-                new Tag(0,"C-046", null, null, Bts.DefaultRelationTag),
-                new Tag(0,"C-047", null, null, Bts.DefaultRelationTag),
-
-                new Tag(0,"Create", null, null, Bts.DefaultActionTag),
-                new Tag(0,"Edit", null, null, Bts.DefaultActionTag),
-                new Tag(0,"Comment", null, null, Bts.DefaultActionTag),
-                new Tag(0,"Worklog", null, null, Bts.DefaultActionTag),
+                new Tag(0,"C-041", "block", null, Bts.DefaultRelationTag),
+                new Tag(0,"C-042", "is blocked by", null, Bts.DefaultRelationTag),
+                new Tag(0,"C-043", "clones", null, Bts.DefaultRelationTag),
+                new Tag(0,"C-044", "is cloned by", null, Bts.DefaultRelationTag),
+                new Tag(0,"C-045", "duplicates",null, Bts.DefaultRelationTag),
+                new Tag(0,"C-046", "is duplicates", null, Bts.DefaultRelationTag),
+                new Tag(0,"C-047", "relate", null, Bts.DefaultRelationTag),
             };
         }
         static IEnumerable<Category> GetPreconfiguredCategory()
