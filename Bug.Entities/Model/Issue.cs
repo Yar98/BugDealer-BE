@@ -179,7 +179,7 @@ namespace Bug.Entities.Model
                     .AddIssueId(Id)
                     .AddModifierId(modifierId)
                     .AddTagId(1)
-                    .AddOldOriginEstimateTime(OriginEstimateTime.ToString())
+                    .AddOldOriginEstimateTime(OriginEstimateTime)
                     .AddNewOriginEstimateTime(s)
                     .Build();
             temp.Invoke(log);
@@ -196,7 +196,7 @@ namespace Bug.Entities.Model
                     .AddIssueId(Id)
                     .AddModifierId(modifierId)
                     .AddTagId(1)
-                    .AddOldRemainEstimateTime(RemainEstimateTime.ToString())
+                    .AddOldRemainEstimateTime(RemainEstimateTime)
                     .AddNewRemainEstimateTime(s)
                     .Build();
             temp.Invoke(log);
