@@ -44,7 +44,7 @@ namespace Bug.API.ActionFilter
                 return;
             }
 
-            var projectId = context.RouteData.Values["projectId"].ToString();
+            var projectId = context.RouteData.Values["projectId"]?.ToString();
             // check follow project
             if (!string.IsNullOrEmpty(projectId) &&
                 !user.AccountProjectRoles.Any(apr => apr.ProjectId == projectId))
@@ -52,7 +52,7 @@ namespace Bug.API.ActionFilter
                 context.Result = new BadRequestObjectResult("You not join this project");
                 return;
             }
-            var issueId = context.ActionArguments["id"].ToString();
+            var issueId = context.RouteData.Values["issueId"]?.ToString();
             if (!string.IsNullOrEmpty(issueId))
             {
                 var issue = await issueService
