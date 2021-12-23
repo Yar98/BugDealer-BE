@@ -23,7 +23,7 @@ namespace Bug.API.ActionFilter
         {
 
             // logic before action goes here
-            var param = context.HttpContext.Request.Query["token"].ToString();
+            var param = context.HttpContext.Request.Headers["token"].ToString();
             var sv = context.HttpContext.RequestServices;
             var jwtUtils = sv.GetService<IJwtUtils>();
             var accountService = sv.GetService<IAccountService>();
