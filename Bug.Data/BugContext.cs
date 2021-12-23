@@ -31,6 +31,7 @@ namespace Bug.Data
         public DbSet<AccountProjectRole> AccountProjectRoles { get; set; }
         public DbSet<Severity> Severities { get; set; }
         public DbSet<Projectlog> Projectlogs { get; set; }
+        public DbSet<Relation> Relations { get; set; }
 
         public BugContext(DbContextOptions options)
             : base(options)
@@ -56,6 +57,7 @@ namespace Bug.Data
                 .ApplyConfigurationsFromAssembly(typeof(TemplateConfiguration).Assembly)
                 .ApplyConfigurationsFromAssembly(typeof(SeverityConfiguration).Assembly)
                 .ApplyConfigurationsFromAssembly(typeof(NotificationConfiguration).Assembly)
+                .ApplyConfigurationsFromAssembly(typeof(RelationConfiguration).Assembly)
                 .ApplyConfigurationsFromAssembly(typeof(ProjectlogConfiguration).Assembly)
                 .ApplyConfigurationsFromAssembly(typeof(AccountProjectRoleConfiguration).Assembly)
                 .ApplyConfigurationsFromAssembly(typeof(TimezoneConfiguration).Assembly);
