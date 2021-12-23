@@ -51,9 +51,9 @@ namespace Bug.API.Controllers
         //[ActionName(nameof(GetDetailIssue))]
         [JwtFilter]
         [HttpGet("detail/{issueId}")]
-        public async Task<IActionResult> GetDetailIssue(string id)
+        public async Task<IActionResult> GetDetailIssue(string issueId)
         {
-            var result = await _issueService.GetDetailIssueAsync(id);
+            var result = await _issueService.GetDetailIssueAsync(issueId);
             return Ok(Bts.ConvertJson(result));
         }
 
@@ -239,7 +239,7 @@ namespace Bug.API.Controllers
         {
             var result = await _issueService.AddIssueAsync(issue);
             return CreatedAtAction(
-                nameof(GetDetailIssue), new { id = result.Id }, Bts.ConvertJson(result,2));
+                nameof(GetDetailIssue), new { issueId = result.Id }, Bts.ConvertJson(result,2));
         }
 
         // PUT api/Issue/5
@@ -256,12 +256,12 @@ namespace Bug.API.Controllers
         }
 
         [JwtFilter]
-        [HttpPut("{id}/labels")]
+        [HttpPut("{issueId}/labels")]
         public async Task<IActionResult> PutUpdateLabelsOfIssue
-            (string id,
+            (string issueId,
             [FromBody] IssueNormalDto issue)
         {
-            if (id != issue.Id)
+            if (issueId != issue.Id)
                 return BadRequest();
             await _issueService.UpdateTagsOfIssue(issue);
             return NoContent();
