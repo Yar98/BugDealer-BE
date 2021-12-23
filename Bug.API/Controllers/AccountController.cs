@@ -74,7 +74,6 @@ namespace Bug.API.Controllers
         }
 
         // GET api/Account/5
-        [JwtFilter]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetAccountById(string id)
         {
