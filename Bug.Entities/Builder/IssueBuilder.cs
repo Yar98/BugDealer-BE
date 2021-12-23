@@ -17,8 +17,8 @@ namespace Bug.Entities.Builder
         public DateTimeOffset? CreatedDate { get; private set; }
         public DateTimeOffset? DueDate { get; private set; }
         public DateTimeOffset? WorklogDate { get; private set; } //ko can
-        public string OriginEstimateTime { get; private set; }
-        public string RemainEstimateTime { get; private set; }
+        public int? OriginEstimateTime { get; private set; }
+        public int? RemainEstimateTime { get; private set; }
         public string Environment { get; private set; }
         public string StatusId { get; private set; }
         public int? PriorityId { get; private set; }
@@ -102,7 +102,7 @@ namespace Bug.Entities.Builder
                 OriginEstimateTime = null;
                 return this;
             }
-            OriginEstimateTime = oet;
+            OriginEstimateTime = int.Parse(oet);
             return this;
         }
 
@@ -130,7 +130,7 @@ namespace Bug.Entities.Builder
                 RemainEstimateTime = null;
                 return this;
             }
-            RemainEstimateTime = ret;
+            RemainEstimateTime = int.Parse(ret);
             return this;
         }
 

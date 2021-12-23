@@ -500,7 +500,7 @@ namespace Bug.API.Services
             _unitOfWork.Save();
         }
 
-        private async Task DeleteLocalTagsOfIssueAsync(Issue dbIssue, IssueNormalDto inputIssue)
+        private Task DeleteLocalTagsOfIssueAsync(Issue dbIssue, IssueNormalDto inputIssue)
         {
             foreach (var t in dbIssue.Tags.ToList())
             {
@@ -508,9 +508,11 @@ namespace Bug.API.Services
                 if (tag == null)
                     dbIssue.RemoveTag(t);
             }
+
+            return Task.CompletedTask;
         }
 
-        private async Task AddLocalTagsOfIssueAsync(Issue dbIssue, IssueNormalDto inputIssue)
+        private Task AddLocalTagsOfIssueAsync(Issue dbIssue, IssueNormalDto inputIssue)
         {
             foreach (var t in inputIssue.Tags)
             {
@@ -524,6 +526,8 @@ namespace Bug.API.Services
                 if (t.Id == 0)
                     dbIssue.AddTag(new Tag(t.Id, t.Name, t.Description, t.Color, t.CategoryId));
             }
+
+            return Task.CompletedTask;
         }
     }
 }

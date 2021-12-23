@@ -18,7 +18,7 @@ namespace Bug.Entities.Model
         private Worklog() { }
         public Worklog
             (int id,
-            string spentTime,
+            int spentTime,
             DateTimeOffset logDate,
             string issueId,
             string loggerId)
@@ -26,6 +26,7 @@ namespace Bug.Entities.Model
             Id = id;
             LogDate = logDate;
             IssueId = issueId;
+            SpentTime = spentTime;
             LoggerId = loggerId;
         }
 
