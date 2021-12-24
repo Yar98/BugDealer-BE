@@ -438,6 +438,7 @@ namespace Bug.API.Services
                 .AddDescription(reverseTagDes.Name)
                 .Build();
                 await _unitOfWork.Issuelog.AddAsync(reverselog, cancellationToken);
+                await _unitOfWork.Relation.AddAsync(reverseResult, cancellationToken);
             }
             var log = new IssuelogBuilder()
                 .AddIssueId(relation.FromIssueId)
@@ -450,7 +451,7 @@ namespace Bug.API.Services
             
             await _unitOfWork.Issuelog.AddAsync(log, cancellationToken);
             await _unitOfWork.Relation.AddAsync(result, cancellationToken);
-            await _unitOfWork.Relation.AddAsync(reverseResult, cancellationToken);
+            
 
             _unitOfWork.Save();
         }
@@ -476,6 +477,7 @@ namespace Bug.API.Services
                  .AddDescription(reverseTagDes.Name)
                  .Build();
                 await _unitOfWork.Issuelog.AddAsync(reverselog, cancellationToken);
+                _unitOfWork.Relation.Delete(reverseResult);
             }
             
             var log = new IssuelogBuilder()
@@ -489,8 +491,7 @@ namespace Bug.API.Services
             
             await _unitOfWork.Issuelog.AddAsync(log, cancellationToken);            
             _unitOfWork.Relation.Delete(result);
-            _unitOfWork.Relation.Delete(reverseResult);
-
+            
             _unitOfWork.Save();
         }
 
