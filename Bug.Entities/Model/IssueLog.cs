@@ -51,8 +51,8 @@ namespace Bug.Entities.Model
         public int? OldWorklogId { get; private set; }
         public Worklog OldWorklog { get; private set; }
         // new worklogId
-        public int? NewWorklogId { get; private set; }
-        public Worklog NewWorklog { get; private set; }
+        public int? NewWorklogId { get; set; }
+        public Worklog NewWorklog { get; set; }
         // old description
         public string OldDescription { get; private set; }
         // new description

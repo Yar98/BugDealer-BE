@@ -37,9 +37,11 @@ namespace Bug.Data.Repositories
             return await _bugContext
                 .Projectlogs
                 .FromSqlRaw(sql,accountSql,offsetSql,nextSql)
-                .Include(l=>l.Modifier)
+                .Include(l=>l.Modifier)                
                 .Include(l => l.Project)
                 .ThenInclude(p => p.Issues)
+                .Include(l => l.Project)
+                .ThenInclude(p => p.Template)
                 .AsNoTracking()
                 .ToListAsync(cancellationToken);
         }

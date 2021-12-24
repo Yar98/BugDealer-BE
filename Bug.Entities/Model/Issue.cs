@@ -63,6 +63,7 @@ namespace Bug.Entities.Model
         }
 
         public int TotalSpentTime { get; set; }
+        public string PresignLink { get; set; }
 
         private Issue() { }
         //[JsonConstructor]
@@ -130,7 +131,7 @@ namespace Bug.Entities.Model
             var log = new IssuelogBuilder()
                     .AddIssueId(Id)
                     .AddModifierId(modifierId)
-                    .AddTagId(1)
+                    .AddTagId(23)
                     .AddOldDescription(Description)
                     .AddNewDescription(des)
                     .Build();
@@ -146,7 +147,7 @@ namespace Bug.Entities.Model
             var log = new IssuelogBuilder()
                     .AddIssueId(Id)
                     .AddModifierId(modifierId)
-                    .AddTagId(1)
+                    .AddTagId(15)
                     .AddOldReporterId(ReporterId)
                     .AddNewReporterId(id)
                     .Build();
@@ -162,7 +163,7 @@ namespace Bug.Entities.Model
             var log = new IssuelogBuilder()
                 .AddIssueId(Id)
                 .AddModifierId(modifierId)
-                .AddTagId(1)
+                .AddTagId(16)
                 .AddOldPriorityId(PriorityId ?? 1)
                 .AddNewPriorityId(int.Parse(i))
                 .Build();
@@ -178,7 +179,7 @@ namespace Bug.Entities.Model
             var log = new IssuelogBuilder()
                     .AddIssueId(Id)
                     .AddModifierId(modifierId)
-                    .AddTagId(1)
+                    .AddTagId(21)
                     .AddOldOriginEstimateTime(OriginEstimateTime)
                     .AddNewOriginEstimateTime(s)
                     .Build();
@@ -195,7 +196,7 @@ namespace Bug.Entities.Model
             var log = new IssuelogBuilder()
                     .AddIssueId(Id)
                     .AddModifierId(modifierId)
-                    .AddTagId(1)
+                    .AddTagId(20)
                     .AddOldRemainEstimateTime(RemainEstimateTime)
                     .AddNewRemainEstimateTime(s)
                     .Build();
@@ -213,7 +214,7 @@ namespace Bug.Entities.Model
             var log = new IssuelogBuilder()
                 .AddIssueId(Id)
                 .AddModifierId(modifierId)
-                .AddTagId(1)
+                .AddTagId(22)
                 .AddOldDueDate(DueDate)
                 .AddNewDueDate(dt == null ? null : DateTimeOffset.Parse(dt))
                 .Build();
@@ -230,7 +231,7 @@ namespace Bug.Entities.Model
             var log = new IssuelogBuilder()
                     .AddIssueId(Id)
                     .AddModifierId(modifierId)
-                    .AddTagId(1)
+                    .AddTagId(14)
                     .AddOldAssigneeId(AssigneeId)
                     .AddNewAssigneeId(id)
                     .Build();
@@ -246,7 +247,7 @@ namespace Bug.Entities.Model
             var log = new IssuelogBuilder()
                     .AddIssueId(Id)
                     .AddModifierId(modifierId)
-                    .AddTagId(1)
+                    .AddTagId(24)
                     .AddOldEnvironment(Environment)
                     .AddNewEnvironment(e)
                     .Build();
@@ -260,7 +261,7 @@ namespace Bug.Entities.Model
             var log = new IssuelogBuilder()
                     .AddIssueId(Id)
                     .AddModifierId(modifierId)
-                    .AddTagId(1)
+                    .AddTagId(13)
                     .AddOldStatusTagId(Status.TagId)
                     .AddOldStatusName(Status.Name)
                     .AddNewStatusTagId(newStatus.TagId)
@@ -282,7 +283,7 @@ namespace Bug.Entities.Model
             var log = new IssuelogBuilder()
                     .AddIssueId(Id)
                     .AddModifierId(modifierId)
-                    .AddTagId(1)
+                    .AddTagId(17)
                     .AddOldSeverityId(SeverityId??1)
                     .AddNewSeverityId(int.Parse(id))
                     .Build();
@@ -294,6 +295,11 @@ namespace Bug.Entities.Model
         {
             if(result != null)
                 _attachments = result;
+        }
+
+        public void AddAttachment(Attachment a)
+        {
+            _attachments.Add(a);
         }
 
         public void AddTag(Tag newTag)
@@ -310,23 +316,10 @@ namespace Bug.Entities.Model
             _tags.Remove(t);
         }
 
-        public void UpdateTags(List<Tag> result)
-        {
-            if (result == null)
-                _tags.Clear();
-            if (result != null)
-            {
-                _tags.Clear();
-                _tags = result;
-            }
-        }
 
-        public void UpdateFromRelations(List<Relation> result)
+        public void AddToNewRelation(string description, int tagId, string fromIssueId, string toIssueId)
         {
-            if (result == null)
-                _fromRelations.Clear();
-            if (result != null && result.Any())
-                _fromRelations = result;
+            _fromRelations.Add(new Relation(description, tagId, fromIssueId, toIssueId));
         }
 
         public void UpdateStatus(Status st)

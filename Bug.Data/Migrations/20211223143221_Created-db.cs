@@ -684,7 +684,7 @@ namespace Bug.Data.Migrations
                         column: x => x.IssueId,
                         principalTable: "Issue",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
