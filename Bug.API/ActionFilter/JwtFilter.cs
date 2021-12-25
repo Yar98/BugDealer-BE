@@ -44,6 +44,11 @@ namespace Bug.API.ActionFilter
 
             var user = await accountService
                 .GetDetailAccountById(result.Id);
+            if(user == null)
+            {
+                context.Result = new UnauthorizedObjectResult("Invalid token");
+                return;
+            }
 
             var projectId = context.RouteData.Values["projectId"]?.ToString();
             // check follow project
