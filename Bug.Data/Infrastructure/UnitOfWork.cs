@@ -282,21 +282,6 @@ namespace Bug.Data.Infrastructure
                 {
                     foreach (var entry in ex.Entries)
                     {
-                        var proposedValues = entry.CurrentValues;
-                        var databaseValues = entry.GetDatabaseValues();
-
-                        foreach (var property in proposedValues.Properties)
-                        {
-                            var proposedValue = proposedValues[property];
-                            var databaseValue = databaseValues?[property];
-
-                            // TODO: decide which value should be written to database
-                            // proposedValues[property] = <value to be saved>;
-                        }
-
-                        // Refresh original values to bypass next concurrency check
-                        entry.OriginalValues.SetValues(databaseValues);
-                        /*
                         if (entry.Entity is Bug.Entities.Model.AccountProjectRole)
                         {
                             var proposedValues = entry.CurrentValues;
@@ -320,7 +305,6 @@ namespace Bug.Data.Infrastructure
                                 "Don't know how to handle concurrency conflicts for "
                                 + entry.Metadata.Name);
                         }
-                        */
                     }
                 }
             }
