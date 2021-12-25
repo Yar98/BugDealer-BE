@@ -665,7 +665,7 @@ namespace Bug.API.Services
             foreach(var r in relations)
             {
                 issue.AddToNewRelation(r.Description, r.TagId, r.FromIssueId, r.ToIssueId);
-                var reverseResult = CreateReverseRelation(new Relation(r.Description, r.TagId, r.FromIssueId, r.ToIssueId));
+                var reverseResult = CreateReverseRelation(new Relation(r.Description, r.TagId, issue.Id, r.ToIssueId));
                 if(reverseResult != null)
                 {
                     var reverseTagDes = _unitOfWork.Tag.GetById(reverseResult.TagId);
