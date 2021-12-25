@@ -301,9 +301,9 @@ namespace Bug.Data.Infrastructure
                         }
                         else
                         {
-                            throw new NotSupportedException(
-                                "Don't know how to handle concurrency conflicts for "
-                                + entry.Metadata.Name);
+                            //throw new NotSupportedException(
+                              //  "Don't know how to handle concurrency conflicts for "
+                                //+ entry.Metadata.Name);
                         }
                     }
                 }
