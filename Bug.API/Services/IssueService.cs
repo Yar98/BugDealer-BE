@@ -670,7 +670,7 @@ namespace Bug.API.Services
                 {
                     var reverseTagDes = _unitOfWork.Tag.GetById(reverseResult.TagId);
                     var reverselog = new IssuelogBuilder()
-                     .AddIssueId(r.FromIssueId)
+                     .AddIssueId(reverseResult.FromIssueId)
                      .AddModifierId(r.ModifierId)
                      .AddTagId(Bts.LogUpdateLinkTag)
                      .AddOldToIssueId(r.FromIssueId)
