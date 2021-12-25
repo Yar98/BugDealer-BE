@@ -303,6 +303,54 @@ namespace Bug.API.Controllers
             return NoContent();
         }
 
+        [JwtFilter]
+        [HttpPut("{issueId}/add/watcher")]
+        public async Task<IActionResult> PutAddWatcherToIssue
+            (string issueId,
+            [FromBody] IssueNormalDto r)
+        {
+            if (issueId != r.Id)
+                return BadRequest();
+            await _issueService.AddWatcherToIssueAsync(r);
+            return NoContent();
+        }
+
+        [JwtFilter]
+        [HttpPut("{issueId}/delete/watcher")]
+        public async Task<IActionResult> PutDeleteWatcherToIssue
+            (string issueId,
+            [FromBody] IssueNormalDto r)
+        {
+            if (issueId != r.Id)
+                return BadRequest();
+            await _issueService.DeleteWatcherToIssueAsync(r);
+            return NoContent();
+        }
+
+        [JwtFilter]
+        [HttpPut("{issueId}/add/voter")]
+        public async Task<IActionResult> PutAddVoterToIssue
+            (string issueId,
+            [FromBody] IssueNormalDto r)
+        {
+            if (issueId != r.Id)
+                return BadRequest();
+            await _issueService.AddVoterToIssueAsync(r);
+            return NoContent();
+        }
+
+        [JwtFilter]
+        [HttpPut("{issueId}/delete/voter")]
+        public async Task<IActionResult> PutDeleteVoterToIssue
+            (string issueId,
+            [FromBody] IssueNormalDto r)
+        {
+            if (issueId != r.Id)
+                return BadRequest();
+            await _issueService.DeleteVoterToIssueAsync(r);
+            return NoContent();
+        }
+
         // DELETE api/Issue/5
         [JwtFilter]
         [HttpDelete("{issueId}")]

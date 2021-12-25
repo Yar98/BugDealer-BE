@@ -18,7 +18,7 @@ namespace Bug.Infrastructure.Services
             _config = config;
         }
 
-        public string GeneratePreSignedURL(double duration)
+        public string GenerateDownloadPreSignedURL(string bucket, string key, double duration = 1)
         {
             var s3Client = new AmazonS3Client
                 (_config.GetSection("Cognito")["AccessKeyId"],
@@ -26,8 +26,25 @@ namespace Bug.Infrastructure.Services
                 RegionEndpoint.GetBySystemName(_config.GetSection("Cognito")["Region"]));
             var request = new GetPreSignedUrlRequest
             {
-                BucketName = "bugdealer",
-                Key = "hihihi",
+                BucketName = bucket,
+                Key = key,
+                Expires = DateTime.UtcNow.AddHours(duration)
+            };
+
+            string url = s3Client.GetPreSignedURL(request);
+            return url;
+        }
+
+        public string GenerateUploadPreSignedURL(string bucket, string key, double duration = 1)
+        {
+            var s3Client = new AmazonS3Client
+                (_config.GetSection("Cognito")["AccessKeyId"],
+                _config.GetSection("Cognito")["AccessSecretKey"],
+                RegionEndpoint.GetBySystemName(_config.GetSection("Cognito")["Region"]));
+            var request = new GetPreSignedUrlRequest
+            {
+                BucketName = bucket,
+                Key = key,
                 Verb = HttpVerb.PUT,
                 Expires = DateTime.UtcNow.AddHours(duration)
             };

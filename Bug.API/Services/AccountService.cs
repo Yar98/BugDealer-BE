@@ -222,6 +222,7 @@ namespace Bug.API.Services
                 ImageUri = result?.ImageUri,
                 Language = result?.Language,
                 LastName = result?.LastName,
+                FullName = result?.FullName,
                 TimezoneId = result?.TimezoneId,
                 VerifyEmail = result.VerifyEmail
             };

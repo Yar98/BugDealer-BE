@@ -258,8 +258,8 @@ namespace Bug.Data.Migrations
                     b.Property<int>("NumberCode")
                         .HasColumnType("int");
 
-                    b.Property<int?>("OriginEstimateTime")
-                        .HasColumnType("int");
+                    b.Property<string>("OriginEstimateTime")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("PriorityId")
                         .HasColumnType("int");
@@ -267,8 +267,8 @@ namespace Bug.Data.Migrations
                     b.Property<string>("ProjectId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int?>("RemainEstimateTime")
-                        .HasColumnType("int");
+                    b.Property<string>("RemainEstimateTime")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ReporterId")
                         .HasColumnType("nvarchar(450)");
@@ -334,14 +334,14 @@ namespace Bug.Data.Migrations
                     b.Property<string>("NewEnvironment")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("NewOriginEstimateTime")
-                        .HasColumnType("int");
+                    b.Property<string>("NewOriginEstimateTime")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("NewPriorityId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("NewRemainEstimateTime")
-                        .HasColumnType("int");
+                    b.Property<string>("NewRemainEstimateTime")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NewReporterId")
                         .HasColumnType("nvarchar(450)");
@@ -376,14 +376,14 @@ namespace Bug.Data.Migrations
                     b.Property<string>("OldEnvironment")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("OldOriginEstimateTime")
-                        .HasColumnType("int");
+                    b.Property<string>("OldOriginEstimateTime")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("OldPriorityId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("OldRemainEstimateTime")
-                        .HasColumnType("int");
+                    b.Property<string>("OldRemainEstimateTime")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("OldReporterId")
                         .HasColumnType("nvarchar(450)");

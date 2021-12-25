@@ -20,7 +20,7 @@ namespace Bug.Data.Specifications
             AddInclude(i => i.Assignee);
             AddInclude(i => i.Tags);
             AddInclude(i => i.FromRelations);
-            AddInclude(i => i.ToRelations);
+            //AddInclude(i => i.ToRelations);
             AddInclude(i => i.Attachments);
             AddInclude("Status.Tag");
         }
@@ -28,7 +28,12 @@ namespace Bug.Data.Specifications
         public IssueSpecification(string issueId, int count)
             : base(i => i.Id == issueId)
         {
-            AddInclude(i => i.Tags);
+            if(count == 1)
+                AddInclude(i => i.Tags);
+            if (count == 2)
+                AddInclude(i => i.Watchers);
+            if (count == 3)
+                AddInclude(i => i.Voters);
         }
     }
 }

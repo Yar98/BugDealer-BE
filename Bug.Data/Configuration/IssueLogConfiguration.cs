@@ -15,7 +15,6 @@ namespace Bug.Data.Configuration
         {
             builder
                 .ToTable("Issuelog");
-            
         }
     }
 }

@@ -17,19 +17,9 @@ namespace Bug.API.Controllers
     public class SeverityController : ControllerBase
     {
         private readonly ISeverityService _severityService;
-        private readonly IConfiguration _config;
-        public SeverityController(ISeverityService severityService, IConfiguration config)
+        public SeverityController(ISeverityService severityService)
         {
             _severityService = severityService;
-            _config = config;
-        }
-
-        // GET: api/<SeverityController>
-        [HttpGet]
-        public IActionResult Get()
-        {
-            var test = new AmazonS3Bts(_config).GeneratePreSignedURL(1);
-            return Ok(Bts.ConvertJson(new { url=test}));
         }
 
         // GET api/<SeverityController>/5

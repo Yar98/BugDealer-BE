@@ -221,6 +221,11 @@ namespace Bug.API.Services
                 .GetDefaultStatusesAsync("id", cancellationToken: cancellationToken);
             result.AddDefaultStatuses(defaultStatuses);
 
+            var log = new Projectlog(pro.Id, pro.CreatorId);
+            await _unitOfWork
+                .Projectlog
+                .AddAsync(log, cancellationToken);
+
             await _unitOfWork
                 .Project
                 .AddAsync(result, cancellationToken);

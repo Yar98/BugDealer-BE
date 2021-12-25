@@ -26,9 +26,10 @@ namespace Bug.API.Dto
         public List<TagNormalDto> Tags { get; set; }
         public List<AttachmentNormalDto> Attachments { get; set; }
         public List<RelationNormalDto> FromRelations { get; set; }
-        public List<RelationNormalDto> ToRelations { get; set; }
-
-        public string ModifierId { get; set; }
         
+        public string DescriptionLog { get; set; }
+        public string ModifierId { get; set; }
+        public string WatcherId { get; set; }
+        public string VoterId { get; set; }
     }
 }

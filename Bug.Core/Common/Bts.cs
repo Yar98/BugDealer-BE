@@ -21,6 +21,22 @@ namespace Bug.Core.Common
 
         public const int GetDetailProject = 1;
 
+        public const int LogCreateIssueTag = 12;
+        public const int LogUpdateStatusTag = 13;
+        public const int LogUpdateAssigneeTag = 14;
+        public const int LogUpdateReporterTag = 15;
+        public const int LogUpdatePriorityTag = 16;
+        public const int LogUpdateSeverityTag = 17;
+        public const int LogUpdateLabelTag = 18;
+        public const int LogUpdateAttachmentTag = 19;
+        public const int LogUpdateRemainTag = 20;
+        public const int LogUpdateOriginTag = 21;
+        public const int LogUpdateDueDateTag = 22;
+        public const int LogUpdateDescriptionTag = 23;
+        public const int LogUpdateEnvironmentTag = 24;
+        public const int LogUpdateLinkTag = 25;
+        public const int LogAddWorklogRealTimeTag = 26;
+
         public static string ConvertJson(Object result)
         {
 

@@ -16,6 +16,18 @@ namespace Bug.Data.Specifications
             AddInclude(i => i.Modifier);
             AddInclude(i => i.NewPriority);
             AddInclude(i => i.OldPriority);
+            AddInclude(i => i.NewStatusTag);
+            AddInclude(i => i.OldStatusTag);
+            AddInclude(i => i.NewSeverity);
+            AddInclude(i => i.OldSeverity);
+            AddInclude(i => i.OldAssignee);
+            AddInclude(i => i.NewAssignee);
+            AddInclude(i => i.NewReporter);
+            AddInclude(i => i.OldReporter);
+            AddInclude(i => i.NewToIssue);
+            AddInclude(i => i.OldToIssue);
+            AddInclude(i => i.NewWorklog);
+            AddInclude(i => i.OldWorklog);
             AddInclude(i => i.Tag);
         }
         public IssuelogsByIssueIdSpecification(string issueId, int tagId)
@@ -25,6 +37,18 @@ namespace Bug.Data.Specifications
             AddInclude(i => i.Modifier);
             AddInclude(i => i.NewPriority);
             AddInclude(i => i.OldPriority);
+            AddInclude(i => i.NewStatusTag);
+            AddInclude(i => i.OldStatusTag);
+            AddInclude(i => i.NewSeverity);
+            AddInclude(i => i.OldSeverity);
+            AddInclude(i => i.OldAssignee);
+            AddInclude(i => i.NewAssignee);
+            AddInclude(i => i.NewReporter);
+            AddInclude(i => i.OldReporter);
+            AddInclude(i => i.NewToIssue);
+            AddInclude(i => i.OldToIssue);
+            AddInclude(i => i.NewWorklog);
+            AddInclude(i => i.OldWorklog);
             AddInclude(i => i.Tag);
         }
     }

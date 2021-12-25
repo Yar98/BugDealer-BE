@@ -11,6 +11,9 @@ using Bug.API.Utils;
 using Bug.API.Dto;
 using Bug.API.Services;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Configuration;
+using Bug.Infrastructure.Services;
+using Bug.Core.Common;
 
 namespace Bug.API.Controllers
 {
@@ -19,11 +22,13 @@ namespace Bug.API.Controllers
     public class ExternalController : Controller
     {
         private readonly IAccountService _accountService;
+        private readonly IConfiguration _config;
         private readonly ILogger<ExternalController> _logger;
-        public ExternalController(IAccountService accountService, ILogger<ExternalController> logger)
+        public ExternalController(IAccountService accountService, ILogger<ExternalController> logger, IConfiguration config)
         {
             _accountService = accountService;
             _logger = logger;
+            _config = config;
         }
 
         [HttpGet("signinexternal")]
@@ -73,5 +78,20 @@ namespace Bug.API.Controllers
             }
         }
 
+        [HttpGet("upload")]
+        public async Task<IActionResult> GetUploadLink()
+        {
+            var result = new AmazonS3Bts(_config)
+                .GenerateUploadPreSignedURL("trashzip", "hello");
+            return Ok(Bts.ConvertJson(result));
+        }
+
+        [HttpGet("download/attachment/{attachmentId}")]
+        public async Task<IActionResult> GetDownloadLink(string attachmentId)
+        {
+            var result = new AmazonS3Bts(_config)
+                .GenerateDownloadPreSignedURL("bugdealer", attachmentId);
+            return Ok(Bts.ConvertJson(result));
+        }
     }
 }

@@ -9,6 +9,7 @@ namespace Bug.API.Dto
         public string UserName { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public string FullName { get; set; }
         public string Email { get; set; }
         public string Language { get; set; }
         public DateTimeOffset? CreatedDate { get; set; }

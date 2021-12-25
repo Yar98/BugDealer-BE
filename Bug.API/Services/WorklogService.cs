@@ -1,6 +1,7 @@
 ﻿using Bug.API.Dto;
 using Bug.Data.Infrastructure;
 using Bug.Data.Specifications;
+using Bug.Entities.Builder;
 using Bug.Entities.Model;
 using System;
 using System.Collections.Generic;
@@ -41,7 +42,21 @@ namespace Bug.API.Services
                 .GetByIdAsync(issueId, cancellationToken);
             issue
                 .UpdateRemainEstimateTime(worklog.RemainTime, worklog.LoggerId, async log=> { await _unitOfWork.Issuelog.AddAsync(log, cancellationToken); });
+            
             _unitOfWork.Save();
+
+            if (string.IsNullOrEmpty(worklog.SpentTime))
+            {
+                var log = new IssuelogBuilder()
+                    .AddIssueId(issue.Id)
+                    .AddModifierId(worklog.LoggerId)
+                    .AddNewWorklogId(result.Id)
+                    .AddTagId(1)
+                    .Build();
+                await _unitOfWork.Issuelog.AddAsync(log, cancellationToken);
+                _unitOfWork.Save();
+            }
+
             return result;
         }
 
