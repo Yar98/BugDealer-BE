@@ -83,7 +83,7 @@ namespace Bug.Data.Repositories
                     //result = result.OrderByDescending(p => p.RecentDate);
                     break;
                 default:
-                    result = result.OrderBy(p => p.Id);
+                    result = result.OrderBy(p => p.LogDate);
                     break;
             }
             return result;

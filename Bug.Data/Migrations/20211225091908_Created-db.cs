@@ -678,13 +678,13 @@ namespace Bug.Data.Migrations
                         column: x => x.LoggerId,
                         principalTable: "Account",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Worklog_Issue_IssueId",
                         column: x => x.IssueId,
                         principalTable: "Issue",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
