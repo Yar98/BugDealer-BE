@@ -24,6 +24,8 @@ namespace Bug.Data.Configuration
             builder
                 .Ignore(i => i.Code)
                 .Ignore(i => i.TotalSpentTime)
+                .Ignore(i => i.TotalWatches)
+                .Ignore(i => i.TotalVotes)
                 .Ignore(i => i.PresignLink);
         }
     }

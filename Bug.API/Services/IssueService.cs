@@ -367,11 +367,9 @@ namespace Bug.API.Services
             var newStatus = await _unitOfWork
                .Status
                .GetByIdAsync(issue.StatusId, cancellationToken);
-            var specificationResult =
-                new IssueSpecification(issue.Id);
             var result = await _unitOfWork
                 .Issue
-                .GetEntityBySpecAsync(specificationResult, cancellationToken);
+                .GetByIdAsync(issue.Id, cancellationToken);
             result
                 .UpdateAssigneeId(issue.AssigneeId, issue.ModifierId, async log => await _unitOfWork.Issuelog.AddAsync(log));           
             result
@@ -394,9 +392,69 @@ namespace Bug.API.Services
                 .UpdateStatusId(newStatus, issue.ModifierId, async log => await _unitOfWork.Issuelog.AddAsync(log));            
             result
                 .UpdateTitle(issue.Title, issue.ModifierId, async log=> await _unitOfWork.Issuelog.AddAsync(log));
-            
+
             _unitOfWork.Save();
         }       
+
+        public async Task AddWatcherToIssueAsync
+            (IssueNormalDto issue,
+            CancellationToken cancellationToken = default)
+        {
+            var result = await _unitOfWork
+                .Issue
+                .GetEntityBySpecAsync(new IssueSpecification(issue.Id, 2), cancellationToken);
+            var user = await _unitOfWork
+                .Account
+                .GetByIdAsync(issue.WatcherId, cancellationToken);
+            result.Watchers.Add(user);
+
+            _unitOfWork.Save();
+        }
+
+        public async Task AddVoterToIssueAsync
+            (IssueNormalDto issue,
+            CancellationToken cancellationToken = default)
+        {
+            var result = await _unitOfWork
+                .Issue
+                .GetEntityBySpecAsync(new IssueSpecification(issue.Id, 3), cancellationToken);
+            var user = await _unitOfWork
+                .Account
+                .GetByIdAsync(issue.VoterId, cancellationToken);
+            result.Voters.Add(user);
+
+            _unitOfWork.Save();
+        }
+
+        public async Task DeleteWatcherToIssueAsync
+            (IssueNormalDto issue,
+            CancellationToken cancellationToken = default)
+        {
+            var result = await _unitOfWork
+                .Issue
+                .GetEntityBySpecAsync(new IssueSpecification(issue.Id, 2), cancellationToken);
+            var user = await _unitOfWork
+                .Account
+                .GetByIdAsync(issue.WatcherId, cancellationToken);
+            result.Watchers.Remove(user);
+
+            _unitOfWork.Save();
+        }
+
+        public async Task DeleteVoterToIssueAsync
+            (IssueNormalDto issue,
+            CancellationToken cancellationToken = default)
+        {
+            var result = await _unitOfWork
+                .Issue
+                .GetEntityBySpecAsync(new IssueSpecification(issue.Id, 3), cancellationToken);
+            var user = await _unitOfWork
+                .Account
+                .GetByIdAsync(issue.VoterId, cancellationToken);
+            result.Voters.Add(user);
+
+            _unitOfWork.Save();
+        }
 
         public async Task UpdateTagsOfIssue
             (IssueNormalDto issue,

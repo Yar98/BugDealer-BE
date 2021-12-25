@@ -29,6 +29,7 @@ namespace Bug.API.Dto
         
         public string DescriptionLog { get; set; }
         public string ModifierId { get; set; }
-        
+        public string WatcherId { get; set; }
+        public string VoterId { get; set; }
     }
 }

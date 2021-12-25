@@ -114,6 +114,18 @@ namespace Bug.API.Services
         Task UpdateIssueAsync
             (IssueNormalDto issue,
             CancellationToken cancellationToken = default);
+        Task AddWatcherToIssueAsync
+            (IssueNormalDto issue,
+            CancellationToken cancellationToken = default);
+        Task AddVoterToIssueAsync
+            (IssueNormalDto issue,
+            CancellationToken cancellationToken = default);
+        Task DeleteWatcherToIssueAsync
+            (IssueNormalDto issue,
+            CancellationToken cancellationToken = default);
+        Task DeleteVoterToIssueAsync
+            (IssueNormalDto issue,
+            CancellationToken cancellationToken = default);
         Task UpdateTagsOfIssue
             (IssueNormalDto issue,
             CancellationToken cancellationToken = default);

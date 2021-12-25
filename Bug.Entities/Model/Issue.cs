@@ -64,6 +64,24 @@ namespace Bug.Entities.Model
 
         public int TotalSpentTime { get; set; }
         public string PresignLink { get; set; }
+        public int TotalWatches
+        {
+            get
+            {
+                if (Watchers == null)
+                    return 0;
+                return Watchers.Count;
+            }
+        }
+        public int TotalVotes
+        {
+            get
+            {
+                if (Voters == null)
+                    return 0;
+                return Voters.Count;
+            }
+        }
 
         private Issue() { }
         //[JsonConstructor]
