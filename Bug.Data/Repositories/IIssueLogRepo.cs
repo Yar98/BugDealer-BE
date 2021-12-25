@@ -15,5 +15,8 @@ namespace Bug.Data.Repositories
             int offset,
             int next,
             CancellationToken cancellationToken = default);
+        Task DeleteLogBeforeDelIssue
+            (string issueId,
+            CancellationToken cancellationToken = default);
     }
 }

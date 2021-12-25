@@ -36,13 +36,14 @@ namespace Bug.API.ActionFilter
             }
 
             var result = jwtUtils.ValidateToken(param);
-            var user = await accountService
-                .GetDetailAccountById(result.Id);
             if (result == null)
             {
                 context.Result = new UnauthorizedObjectResult("Invalid token");
                 return;
             }
+
+            var user = await accountService
+                .GetDetailAccountById(result.Id);
 
             var projectId = context.RouteData.Values["projectId"]?.ToString();
             // check follow project

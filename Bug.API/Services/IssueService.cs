@@ -336,26 +336,24 @@ namespace Bug.API.Services
             await Task.WhenAll(tasks);
 
             var log = new IssuelogBuilder()
-                    .AddIssueId(issue.Id)
+                    .AddIssueId(result.Id)
                     .AddModifierId(issue.ModifierId)
                     .AddTagId(Bts.LogCreateIssueTag)
                     .Build();
+
             await _unitOfWork.Issuelog.AddAsync(log, cancellationToken);
-
-            _unitOfWork
-                .Issue
-                .Add(result);
-
+            await _unitOfWork.Issue.AddAsync(result,cancellationToken);
+            
             _unitOfWork.Save();
 
-            if(result.Attachments.Count >= 1)
+            if (result.Attachments.Count >= 1)
             {
                 var key = result.Attachments
                     .Select(a => a.Id.ToString())
                     .ToList()
                     .Aggregate((x, y) => x + "_" + y);
                 result.PresignLink = new AmazonS3Bts(_config)
-                    .GenerateUploadPreSignedURL("trashzip", key);
+                    .GenerateUploadPreSignedURL("bugdealer", key);
             }
             return result;
         }
@@ -577,7 +575,10 @@ namespace Bug.API.Services
         {
             await _unitOfWork
                 .Relation
-                .DeleteRelationByIssueAsync(id);
+                .DeleteRelationByIssueAsync(id,cancellationToken);
+            await _unitOfWork
+                .Issuelog
+                .DeleteLogBeforeDelIssue(id, cancellationToken);
             var result = _unitOfWork
                 .Issue
                 .GetByIdAsync(id, cancellationToken).Result;

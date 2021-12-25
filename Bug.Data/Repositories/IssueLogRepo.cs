@@ -44,6 +44,16 @@ namespace Bug.Data.Repositories
                 .ToListAsync(cancellationToken);
         }
 
+        public async Task DeleteLogBeforeDelIssue
+            (string issueId,
+            CancellationToken cancellationToken = default)
+        {
+            var sql = "EXECUTE dbo.DeleteLogBeforeDelIssue @issue = '" + issueId + "'";
+            await _bugContext
+                .Database
+                .ExecuteSqlRawAsync(sql, cancellationToken);
+        }
+
         public override IQueryable<Issuelog> SortOrder
             (IQueryable<Issuelog> result,
             string sortOrder)

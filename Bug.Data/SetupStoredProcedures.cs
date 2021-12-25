@@ -207,6 +207,15 @@ namespace Bug.Data
 					@severities NVARCHAR(MAX)',
 					@project, @search, @assignees, @statuses, @reporters, @priorities, @severities
                 END";
+            var sp11 = @"CREATE PROCEDURE [dbo].[DeleteLogBeforeDelIssue]
+					@issue NVARCHAR(MAX)
+                AS
+                BEGIN
+                    SET NOCOUNT ON;
+
+					DELETE FROM [Issuelog]
+					WHERE NewToIssueId = @issue OR OldToIssueId = @issue
+                END";
             migrationBuilder.Sql(sp1);
             migrationBuilder.Sql(sp2);
             migrationBuilder.Sql(sp3);
@@ -217,6 +226,7 @@ namespace Bug.Data
             migrationBuilder.Sql(sp8);
             migrationBuilder.Sql(sp9);
             migrationBuilder.Sql(sp10);
+            migrationBuilder.Sql(sp11);
         }
     }
 }

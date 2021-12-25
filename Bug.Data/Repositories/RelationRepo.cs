@@ -18,12 +18,13 @@ namespace Bug.Data.Repositories
 
         }
 
-        public async Task DeleteRelationByIssueAsync(string issueId)
+        public async Task DeleteRelationByIssueAsync
+            (string issueId,
+            CancellationToken cancellationToken = default)
         {
-            var issue = new SqlParameter("issue", issueId);
             await _bugContext
                 .Database
-                .ExecuteSqlRawAsync("EXECUTE dbo.DeleteRelationByIssue @issue", issue);
+                .ExecuteSqlRawAsync("EXECUTE dbo.DeleteRelationByIssue @issue = '"+ issueId + "'", cancellationToken);
         }
 
         public override IQueryable<Relation> SortOrder
