@@ -581,7 +581,7 @@ namespace Bug.API.Services
                 .DeleteLogBeforeDelIssue(id, cancellationToken);
             await _unitOfWork
                 .Issue
-                .DeleteIssueById(id);
+                .DeleteIssueById(id, cancellationToken);
         }
 
         private Task DeleteLocalTagsOfIssueAsync(Issue dbIssue, IssueNormalDto inputIssue)
