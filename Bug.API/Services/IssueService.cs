@@ -486,7 +486,7 @@ namespace Bug.API.Services
             {
                 var reverseTagDes = await _unitOfWork.Tag.GetByIdAsync(reverseResult.TagId, cancellationToken);
                 var reverselog = new IssuelogBuilder()
-                .AddIssueId(relation.FromIssueId)
+                .AddIssueId(reverseResult.FromIssueId)
                 .AddModifierId(relation.ModifierId)
                 .AddTagId(Bts.LogUpdateLinkTag)
                 .AddOldToIssueId(null)
@@ -525,10 +525,10 @@ namespace Bug.API.Services
             {
                 var reverseTagDes = _unitOfWork.Tag.GetById(reverseResult.TagId);
                 var reverselog = new IssuelogBuilder()
-                 .AddIssueId(relation.FromIssueId)
+                 .AddIssueId(reverseResult.FromIssueId)
                  .AddModifierId(relation.ModifierId)
                  .AddTagId(Bts.LogUpdateLinkTag)
-                 .AddOldToIssueId(relation.FromIssueId)
+                 .AddOldToIssueId(reverseResult.FromIssueId)
                  .AddNewToIssueId(null)
                  .AddDescription(reverseTagDes.Name)
                  .Build();
