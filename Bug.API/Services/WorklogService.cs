@@ -1,4 +1,5 @@
 ﻿using Bug.API.Dto;
+using Bug.Core.Common;
 using Bug.Data.Infrastructure;
 using Bug.Data.Specifications;
 using Bug.Entities.Builder;
@@ -34,6 +35,7 @@ namespace Bug.API.Services
             CancellationToken cancellationToken = default)
         {
             var result = new Worklog(0, int.Parse(worklog.SpentTime), worklog.LogDate, issueId, worklog.LoggerId);
+            result.Description = worklog.Description;
             await _unitOfWork
                 .Worklog
                 .AddAsync(result, cancellationToken);
@@ -51,7 +53,8 @@ namespace Bug.API.Services
                     .AddIssueId(issue.Id)
                     .AddModifierId(worklog.LoggerId)
                     .AddNewWorklogId(result.Id)
-                    .AddTagId(1)
+                    .AddTagId(Bts.LogAddWorklogRealTimeTag)
+                    .AddDescription(worklog.Description)
                     .Build();
                 await _unitOfWork.Issuelog.AddAsync(log, cancellationToken);
                 _unitOfWork.Save();

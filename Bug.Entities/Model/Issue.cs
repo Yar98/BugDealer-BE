@@ -272,7 +272,7 @@ namespace Bug.Entities.Model
             temp.Invoke(log);
             Environment = e;
         }
-        public void UpdateStatusId(Status newStatus, string modifierId, Action<Issuelog> temp)
+        public void UpdateStatusId(Status newStatus, string modifierId, string des, Action<Issuelog> temp)
         {
             if (newStatus == null)
                 return;
@@ -284,6 +284,7 @@ namespace Bug.Entities.Model
                     .AddOldStatusName(Status.Name)
                     .AddNewStatusTagId(newStatus.TagId)
                     .AddNewStatusName(newStatus.Name)
+                    .AddDescription(des)
                     .Build();
             temp.Invoke(log);
             StatusId = newStatus.Id;

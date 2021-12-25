@@ -15,6 +15,7 @@ namespace Bug.Entities.Model
         public Issue Issue { get; private set; }
         public string LoggerId { get; private set; }
         public Account Logger { get; private set; }
+        public string Description { get; set; }
         private Worklog() { }
         public Worklog
             (int id,
