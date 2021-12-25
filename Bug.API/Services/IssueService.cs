@@ -332,7 +332,7 @@ namespace Bug.API.Services
 
             tasks.Add(CreateTagsOfIssueAsync(result, issue.Tags));
             tasks.Add(CreateAttachmentsOfIssueAsync(result, issue.Attachments));
-            tasks.Add(CreateRelationsOfIssueAsync(result, issue.FromRelations));
+            tasks.Add(CreateRelationsOfIssueAsync(result, issue.ModifierId, issue.FromRelations));
             await Task.WhenAll(tasks);
 
             var log = new IssuelogBuilder()
@@ -656,6 +656,7 @@ namespace Bug.API.Services
 
         private async Task CreateRelationsOfIssueAsync
             (Issue issue, 
+            string modifierId,
             List<RelationNormalDto> relations,
             CancellationToken  cancellationToken = default)
         {
@@ -668,7 +669,7 @@ namespace Bug.API.Services
                     var reverseTagDes = _unitOfWork.Tag.GetById(reverseResult.TagId);
                     var reverselog = new IssuelogBuilder()
                      .AddIssueId(reverseResult.FromIssueId)
-                     .AddModifierId(r.ModifierId)
+                     .AddModifierId(modifierId)
                      .AddTagId(Bts.LogUpdateLinkTag)
                      .AddOldToIssueId(r.FromIssueId)
                      .AddNewToIssueId(null)
@@ -681,7 +682,7 @@ namespace Bug.API.Services
                 var tagDes = _unitOfWork.Tag.GetById(r.TagId);
                 var log = new IssuelogBuilder()
                      .AddIssueId(r.FromIssueId)
-                     .AddModifierId(r.ModifierId)
+                     .AddModifierId(modifierId)
                      .AddTagId(Bts.LogUpdateLinkTag)
                      .AddOldToIssueId(r.ToIssueId)
                      .AddNewToIssueId(null)
