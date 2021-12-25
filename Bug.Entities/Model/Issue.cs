@@ -132,7 +132,7 @@ namespace Bug.Entities.Model
             var log = new IssuelogBuilder()
                     .AddIssueId(Id)
                     .AddModifierId(modifierId)
-                    .AddTagId(1)
+                    .AddTagId(25)
                     .AddOldTitle(Title)
                     .AddNewTitle(title)
                     .Build();

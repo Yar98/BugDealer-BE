@@ -479,19 +479,16 @@ namespace Bug.API.Services
             (RelationNormalDto relation,
             CancellationToken cancellationToken = default)
         {
-            var tagDes = await _unitOfWork.Tag.GetByIdAsync(relation.TagId, cancellationToken);
             var result = new Relation(relation.Description, relation.TagId, relation.FromIssueId, relation.ToIssueId);
             var reverseResult = CreateReverseRelation(result);
             if(reverseResult != null)
             {
-                var reverseTagDes = await _unitOfWork.Tag.GetByIdAsync(reverseResult.TagId, cancellationToken);
                 var reverselog = new IssuelogBuilder()
                 .AddIssueId(reverseResult.FromIssueId)
                 .AddModifierId(relation.ModifierId)
-                .AddTagId(Bts.LogUpdateLinkTag)
+                .AddTagId(reverseResult.TagId)
                 .AddOldToIssueId(null)
                 .AddNewToIssueId(relation.FromIssueId)
-                .AddDescription(reverseTagDes.Name)
                 .Build();
                 await _unitOfWork.Issuelog.AddAsync(reverselog, cancellationToken);
                 await _unitOfWork.Relation.AddAsync(reverseResult, cancellationToken);
@@ -499,16 +496,14 @@ namespace Bug.API.Services
             var log = new IssuelogBuilder()
                 .AddIssueId(relation.FromIssueId)
                 .AddModifierId(relation.ModifierId)
-                .AddTagId(Bts.LogUpdateLinkTag)
+                .AddTagId(result.TagId)
                 .AddOldToIssueId(null)
                 .AddNewToIssueId(relation.ToIssueId)
-                .AddDescription(tagDes.Name)
                 .Build();
             
             await _unitOfWork.Issuelog.AddAsync(log, cancellationToken);
             await _unitOfWork.Relation.AddAsync(result, cancellationToken);
             
-
             _unitOfWork.Save();
         }
 
@@ -520,17 +515,14 @@ namespace Bug.API.Services
                 .Relation
                 .GetByIdAsync(new object[] { relation.FromIssueId, relation.ToIssueId, relation.TagId }, cancellationToken);
             var reverseResult = await GetReverseRelation(result, cancellationToken);
-            var tagDes = await _unitOfWork.Tag.GetByIdAsync(relation.TagId,cancellationToken);
             if(reverseResult != null)
             {
-                var reverseTagDes = _unitOfWork.Tag.GetById(reverseResult.TagId);
                 var reverselog = new IssuelogBuilder()
                  .AddIssueId(reverseResult.FromIssueId)
                  .AddModifierId(relation.ModifierId)
-                 .AddTagId(Bts.LogUpdateLinkTag)
+                 .AddTagId(reverseResult.TagId)
                  .AddOldToIssueId(reverseResult.FromIssueId)
                  .AddNewToIssueId(null)
-                 .AddDescription(reverseTagDes.Name)
                  .Build();
                 await _unitOfWork.Issuelog.AddAsync(reverselog, cancellationToken);
                 _unitOfWork.Relation.Delete(reverseResult);
@@ -539,10 +531,9 @@ namespace Bug.API.Services
             var log = new IssuelogBuilder()
                  .AddIssueId(relation.FromIssueId)
                  .AddModifierId(relation.ModifierId)
-                 .AddTagId(Bts.LogUpdateLinkTag)
+                 .AddTagId(result.TagId)
                  .AddOldToIssueId(relation.ToIssueId)
                  .AddNewToIssueId(null)
-                 .AddDescription(tagDes.Name)
                  .Build();
             
             await _unitOfWork.Issuelog.AddAsync(log, cancellationToken);            
@@ -666,27 +657,23 @@ namespace Bug.API.Services
                 var reverseResult = CreateReverseRelation(new Relation(r.Description, r.TagId, issue.Id, r.ToIssueId));
                 if(reverseResult != null)
                 {
-                    var reverseTagDes = _unitOfWork.Tag.GetById(reverseResult.TagId);
                     var reverselog = new IssuelogBuilder()
                      .AddIssueId(reverseResult.FromIssueId)
                      .AddModifierId(modifierId)
-                     .AddTagId(Bts.LogUpdateLinkTag)
+                     .AddTagId(reverseResult.TagId)
                      .AddOldToIssueId(r.FromIssueId)
                      .AddNewToIssueId(null)
-                     .AddDescription(reverseTagDes.Name)
                      .Build();
                     _unitOfWork.Issuelog.Add(reverselog);
                     _unitOfWork.Relation.Add(reverseResult);
                 }
                 
-                var tagDes = _unitOfWork.Tag.GetById(r.TagId);
                 var log = new IssuelogBuilder()
                      .AddIssueId(r.FromIssueId)
                      .AddModifierId(modifierId)
-                     .AddTagId(Bts.LogUpdateLinkTag)
+                     .AddTagId(r.TagId)
                      .AddOldToIssueId(r.ToIssueId)
                      .AddNewToIssueId(null)
-                     .AddDescription(tagDes.Name)
                      .Build();               
                 _unitOfWork.Issuelog.Add(log);               
             }

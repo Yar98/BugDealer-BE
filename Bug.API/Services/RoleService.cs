@@ -38,7 +38,7 @@ namespace Bug.API.Services
                 new RoleByProjectSpecification(projectId);
             return await _unitOfWork
                 .Role
-                .GetAllEntitiesBySpecAsync(specificationResult, sortOrder, cancellationToken);
+                .GetAllEntitiesNoTrackBySpecAsync(specificationResult, sortOrder, cancellationToken);
         }
 
         public async Task<IReadOnlyList<Role>> GetRolesByCreatorIdAsync
@@ -50,7 +50,7 @@ namespace Bug.API.Services
                 new RoleByCreatorIdSpecification(creatorId);
             return await _unitOfWork
                 .Role
-                .GetAllEntitiesBySpecAsync(specificationResult, sortOrder, cancellationToken);
+                .GetAllEntitiesNoTrackBySpecAsync(specificationResult, sortOrder, cancellationToken);
         }
 
         public async Task<IReadOnlyList<Role>> GetRolesWhichMemberIdProjectIdOnAsync
@@ -63,7 +63,7 @@ namespace Bug.API.Services
                 new RolesWhichMemberOnSpecification(projectId, memberId);
             return await _unitOfWork
                 .Role
-                .GetAllEntitiesBySpecAsync(specificationResult, sortOrder, cancellationToken);
+                .GetAllEntitiesNoTrackBySpecAsync(specificationResult, sortOrder, cancellationToken);
         }
 
         public async Task<PaginatedListDto<Role>> GetPaginatedByProjectIdSearch

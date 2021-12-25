@@ -170,7 +170,7 @@ namespace Bug.API.Services
                 new StatusesByCreatorIdSpecification(creatorId);
             return await _unitOfWork
                 .Status
-                .GetAllEntitiesBySpecAsync(specificationResult, sortOrder, cancellationToken);
+                .GetAllEntitiesNoTrackBySpecAsync(specificationResult, sortOrder, cancellationToken);
         }
 
         public async Task<IReadOnlyList<Status>> GetStatusesExceptBtsByProjectIdAsync
@@ -182,7 +182,7 @@ namespace Bug.API.Services
                 new StatusesByProjectIdSpecification(projectId);
             var result = await _unitOfWork
                 .Status
-                .GetAllEntitiesBySpecAsync(specificationResult, sortOrder, cancellationToken);
+                .GetAllEntitiesNoTrackBySpecAsync(specificationResult, sortOrder, cancellationToken);
             
             return result
                 .Where(st => st.CreatorId != "bts")

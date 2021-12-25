@@ -45,7 +45,7 @@ namespace Bug.API.Services
                 new TagsByCategoryIdSpecification(id);
             return await _unitOfWork
                 .Tag
-                .GetAllEntitiesBySpecAsync(specificationResult, sortOrder, cancellationToken);
+                .GetAllEntitiesNoTrackBySpecAsync(specificationResult, sortOrder, cancellationToken);
         }
 
         public async Task<IReadOnlyList<Tag>> GetTagsByCategoryIdProjectIdAsync
@@ -58,7 +58,7 @@ namespace Bug.API.Services
                 new TagsByCategoryIdProjectIdSpecification(projectId, id);
             return await _unitOfWork
                 .Tag
-                .GetAllEntitiesBySpecAsync(specificationResult, sortOrder, cancellationToken);
+                .GetAllEntitiesNoTrackBySpecAsync(specificationResult, sortOrder, cancellationToken);
         }
     }
 }
