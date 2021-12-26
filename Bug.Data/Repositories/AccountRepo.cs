@@ -44,6 +44,22 @@ namespace Bug.Data.Repositories
                 a.Password == password);
         }
 
+        public async Task DeleteCognitoUser
+            (string email,
+            CancellationToken cancellationToken = default)
+        {
+            var provider = new AmazonCognitoIdentityProviderClient(
+                _config.GetSection("Cognito")["AccessKeyId"],
+                _config.GetSection("Cognito")["AccessSecretKey"],
+                RegionEndpoint.GetBySystemName(_config.GetSection("Cognito")["Region"]));
+            var adminDeleteUser = new AdminDeleteUserRequest
+            {
+                Username = email,
+                UserPoolId = _config.GetSection("Cognito")["PoolId"]
+            };
+            await provider.AdminDeleteUserAsync(adminDeleteUser, cancellationToken);
+        }
+
         public async Task AddCognitoUser
             (string email, 
             string pass,

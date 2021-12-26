@@ -44,6 +44,7 @@ namespace Bug.API.CustomMiddlewares
             {
                 await HandleExceptionAsync(context, e);
             }
+            
             catch(Exception e)
             {
                 await HandleExceptionAsync(context, e);

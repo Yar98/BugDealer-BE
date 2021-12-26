@@ -394,6 +394,14 @@ namespace Bug.API.Services
             result.UpdateFirstName(user.FirstName);
             if (user.Email != null)
             {
+                var existEmail = await _unitOfWork
+                    .Account
+                    .GetAccountByEmail(user.Email);
+                if (existEmail != null)
+                    throw new ExistEmailInBts();
+                await _unitOfWork
+                    .Account
+                    .DeleteCognitoUser(user.Email, cancellationToken);
                 await _unitOfWork
                     .Account
                     .DeleteEmailAfterChangeEmail(result.Email, cancellationToken);
