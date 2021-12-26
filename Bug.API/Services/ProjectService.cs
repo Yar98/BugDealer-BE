@@ -293,7 +293,8 @@ namespace Bug.API.Services
                 .AddAsync(log, cancellationToken);
 
             _unitOfWork.Save();
-
+            // move deleted role of project to default role
+            // member must have at least 1 role
             _unitOfWork.AccountProjectRole.UpdateMultiByRoleIdProjectId(pro.Id, roles, project.DefaultRoleId);
         }
 
@@ -301,40 +302,40 @@ namespace Bug.API.Services
             (ProjectPutStatusesDto pro,
             CancellationToken cancellationToken = default)
         {
-            var specificationResult =
-                new ProjectSpecification(pro?.Id);
             var project = await _unitOfWork
                 .Project
-                .GetEntityBySpecAsync(specificationResult, cancellationToken);
+                .GetEntityBySpecAsync(new ProjectSpecification(pro?.Id), cancellationToken);
             var statuses = await _unitOfWork
                 .Status
                 .GetStatusesFromMutiIdsAsync(pro?.Statuses.Select(st => st.Id).ToList(), cancellationToken);
-
             var defaultStatuses = await _unitOfWork
                 .Status
                 .GetDefaultStatusesAsync("", cancellationToken: cancellationToken);
+            
             statuses?.AddRange(defaultStatuses);
 
             project?.UpdateDefaultStatusId(pro.DefaultStatusId);
             project?.UpdateStatuses(statuses);
-
+          
             if (pro?.OldStatuses != null)
             {
+                var tasks = new List<Task>();
                 foreach (var st in pro.OldStatuses)
                 {
-                    var issueSpec =
-                        new IssuesByStatusIdSpecification(st.FromId);
                     var issues = await _unitOfWork
                         .Issue
-                        .GetAllEntitiesBySpecAsync(issueSpec, null, cancellationToken);
-
+                        .GetAllEntitiesBySpecAsync(new IssuesByStatusIdSpecification(st.FromId), null, cancellationToken);
+                    var toStatus = await _unitOfWork
+                        .Status
+                        .GetByIdAsync(st.ToId, cancellationToken);
                     Parallel.ForEach(issues, i =>
                     {
-                        i.UpdateStatusId(st.ToId);
+                        i.UpdateStatusId(toStatus, pro.ModifierId, null, log=> tasks.Add(_unitOfWork.Issuelog.AddAsync(log,cancellationToken)));
                     });
                 };
+                await Task.WhenAll(tasks);
             }
-
+            
             var log = new Projectlog(pro.Id, pro.ModifierId);
             await _unitOfWork
                 .Projectlog

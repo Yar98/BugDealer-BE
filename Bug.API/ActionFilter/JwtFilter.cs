@@ -9,13 +9,14 @@ using Bug.API.Utils;
 using Bug.Data.Infrastructure;
 using Bug.Core.Common;
 using Bug.API.Services;
+using Bug.API.BtsException;
+using Bug.Entities.Model;
 
 namespace Bug.API.ActionFilter
 {
     public class JwtFilter : ActionFilterAttribute
     {
         public int Permission { get; set; }
-        public string ProjectId { get; set; }
 
         public override async Task OnActionExecutionAsync
             (ActionExecutingContext context,
@@ -29,6 +30,7 @@ namespace Bug.API.ActionFilter
             var accountService = sv.GetService<IAccountService>();
             var issueService = sv.GetService<IIssueService>();
             var projectService = sv.GetService<IProjectService>();
+            var permissionService = sv.GetService<IPermissionService>();
             if (string.IsNullOrEmpty(param))
             {
                 context.Result = new BadRequestObjectResult("Token not found");
@@ -50,37 +52,54 @@ namespace Bug.API.ActionFilter
                 return;
             }
 
+            // check access follow project
             var projectId = context.RouteData.Values["projectId"]?.ToString();
-            // check follow project
             if (!string.IsNullOrEmpty(projectId) &&
                 !user.AccountProjectRoles.Any(apr => apr.ProjectId == projectId))
             {
-                context.Result = new BadRequestObjectResult("You not join this project");
-                return;
+                throw new NotJoinThisProject();
             }
+
+            // check access to issue
+            Issue issue = null;
             var issueId = context.RouteData.Values["issueId"]?.ToString();
             if (!string.IsNullOrEmpty(issueId))
             {
-                var issue = await issueService
+                issue = await issueService
                     .GetDetailIssueAsync(issueId);
                 if (!user.AccountProjectRoles.Any(apr => apr.ProjectId == issue.ProjectId))
                 {
-                    context.Result = new BadRequestObjectResult("You not join this issue");
-                    return;
+                    throw new NotJoinThisProject();
                 }
             }
 
-            switch (Permission)
+            if(Permission != 0)
             {
-                case Bts.GetDetailProject:
-                    context.Result = new BadRequestObjectResult("Permission not allow");
-                    return;
-                case 2://edit issue
-                    
-                    break;
-                default:
-                    break;
+                var cate = await permissionService.GetPermissionByIdAsync(Permission);
+                switch (cate.CategoryId)
+                {
+                    case (int)Bts.Category.ProjectPermission:
+                        var accessProject = await accountService
+                            .CheckPermissionsOfRolesOfAccount(user.Id, Permission, projectId);
+                        if (accessProject == null)
+                            throw new PermissionNotAllowed();
+                        break;
+                    case (int)Bts.Category.IssuePermission:
+                        if(issue == null)
+                        {
+                            context.Result = new BadRequestObjectResult("issue not found");
+                            return;
+                        }
+                        var accessIssue = await accountService
+                            .CheckPermissionsOfRolesOfAccount(user.Id, Permission, issue.ProjectId);
+                        if (accessIssue == null)
+                            throw new PermissionNotAllowed();
+                        break;
+                    default:
+                        break;
+                }
             }
+            
 
 
             await next(); // the actual action

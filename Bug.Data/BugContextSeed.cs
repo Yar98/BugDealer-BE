@@ -118,6 +118,14 @@ namespace Bug.Data
                         });
                 }
 
+                if (bugContext.Roles.ToList().Count == 5)
+                {
+                    foreach(var r in bugContext.Roles.ToList())
+                    {
+                        ApplyPermissionToBtsRoles(r.Id, bugContext);
+                    }
+                }
+
                 await bugContext.SaveChangesAsync();
             }
             catch(Exception ex)
@@ -233,25 +241,24 @@ namespace Bug.Data
             {
                 new Permission(0,"Edit details",5),
                 new Permission(0,"Manage roles",5),
+                new Permission(0,"Manage statuses",5),                
                 new Permission(0,"Manage members",5),
-                new Permission(0,"Manage statuses",5),
                 new Permission(0,"Create issues",6),
-                new Permission(0,"Edit issues",6),
-                new Permission(0,"Delete issues",6),
-                new Permission(0,"Add comments",6),
-                new Permission(0,"Edit own comments",6),
-                new Permission(0,"Delete own comments",6),
-                new Permission(0,"Delete other comments",6),
-                new Permission(0,"Add watchers",6),
-                new Permission(0,"Delete watchers",6)
+                new Permission(0,"Clone issues",6),
+                new Permission(0,"Delete other issues",6),
+                new Permission(0,"Edit other issues",6),
+                new Permission(0,"Delete other comments",6)
             };
         }
         static IEnumerable<Role> GetPreconfiguredRole()
         {
             return new List<Role>()
             {
-                new Role(0,"BTS-Dev",null,"bts"),
-                new Role(0, "custom", "default", "bts")
+                new Role(0,"Leader","default bts","bts"),
+                new Role(0, "Developer", "default bts", "bts"),
+                new Role(0, "Developer manager", "default bts", "bts"),
+                new Role(0, "Tester", "default bts", "bts"),
+                new Role(0, "Tester manager", "default bts", "bts"),
             };
         }
 
@@ -291,6 +298,50 @@ namespace Bug.Data
                 new Template(0, "C-076", null),
                 new Template(0, "C-077", null)
             };
+        }
+
+        static void ApplyPermissionToBtsRoles(int id, BugContext bugContext)
+        {
+            var role = bugContext.Roles.FirstOrDefault(r => r.Id == id);
+            switch (id)
+            {
+                case (int)Bts.Role.Leader:
+                    var ps = bugContext
+                        .Permissions
+                        .ToList();
+                    role.UpdatePermission(ps);
+                    break;
+                case (int)Bts.Role.Developer:
+                    var ps1 = bugContext
+                        .Permissions
+                        .Where(p => p.Id == (int)Bts.Permission.CloneIssue || 
+                            p.Id == (int)Bts.Permission.CreateIssue)
+                        .ToList();
+                    role.UpdatePermission(ps1);
+                    break;
+                case (int)Bts.Role.Tester:
+                    var ps2 = bugContext
+                        .Permissions
+                        .Where(p => p.Id == (int)Bts.Permission.CloneIssue ||
+                            p.Id == (int)Bts.Permission.CreateIssue)
+                        .ToList();
+                    role.UpdatePermission(ps2);
+                    break;
+                case (int)Bts.Role.DeveloperManager:
+                    var ps3 = bugContext
+                        .Permissions
+                        .Where(p => p.CategoryId == (int)Bts.Category.IssuePermission)
+                        .ToList();
+                    role.UpdatePermission(ps3);
+                    break;
+                case (int)Bts.Role.TesterManager:
+                    var ps4 = bugContext
+                        .Permissions
+                        .Where(p => p.CategoryId == (int)Bts.Category.IssuePermission)
+                        .ToList();
+                    role.UpdatePermission(ps4);
+                    break;
+            }
         }
     }
 }

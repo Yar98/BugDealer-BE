@@ -31,20 +31,7 @@ namespace Bug.API.CustomMiddlewares
             {
                 // Call the next delegate/middleware in the pipeline
                 await _next(context);
-            }
-            catch (UsernameExistsException e)
-            {
-                await HandleExceptionAsync(context, e);               
-            }
-            catch(CannotDeleteDefault e)
-            {
-                await HandleExceptionAsync(context, e);
-            }
-            catch(OldPasswordWrong e)
-            {
-                await HandleExceptionAsync(context, e);
-            }
-            
+            }            
             catch(Exception e)
             {
                 await HandleExceptionAsync(context, e);
@@ -63,6 +50,9 @@ namespace Bug.API.CustomMiddlewares
                 OldPasswordWrong => "old password wrong",
                 DueDateOfIssueMustWithinDueDateOfProject => "due date not valid",
                 ExistEmailInBts => "this email is existed in bts",
+                CannotDeleteStatusInUse=>"cannot delete status in use",
+                CannotDeleteRoleInUse=>"cannot delete role in use",
+                NotJoinThisProject=>"not join this project",
                 _ => "undefined"
             };
             context.Response.Headers.Add("error", code);

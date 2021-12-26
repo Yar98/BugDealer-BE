@@ -237,14 +237,12 @@ namespace Bug.API.Services
                 .Status
                 .GetDefaultStatusesNoTrackAsync("",cancellationToken: cancellationToken);
             if (defaultStatuses.Any(r => r.Id == statusId))
-            {
                 throw new CannotDeleteDefault();
-            }
             var result = await _unitOfWork
                 .Status
                 .GetEntityBySpecAsync(new StatusSpecification(statusId), cancellationToken);
             if (result.Projects.Count != 0)
-                return;
+                throw new CannotDeleteStatusInUse();
             _unitOfWork
                 .Issue
                 .UpdateIssuesHaveDumbStatus(new List<Status> { result });

@@ -289,10 +289,6 @@ namespace Bug.Entities.Model
             temp.Invoke(log);
             StatusId = newStatus.Id;
         }
-        public void UpdateStatusId(string newStatus)
-        {            
-            StatusId = newStatus;
-        }
         public void UpdateSeverityId(string id, string modifierId, Action<Issuelog> temp)
         {
             if (id == "")            
