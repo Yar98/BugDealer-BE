@@ -92,7 +92,9 @@ namespace Bug.API.ActionFilter
                         }
                         var accessIssue = await accountService
                             .CheckPermissionsOfRolesOfAccount(user.Id, Permission, issue.ProjectId);
-                        if (accessIssue == null)
+                        if (accessIssue == null &&
+                            issue.AssigneeId != user.Id && 
+                            issue.ReporterId != user.Id)
                             throw new PermissionNotAllowed();
                         break;
                     default:
