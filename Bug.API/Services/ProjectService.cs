@@ -56,7 +56,7 @@ namespace Bug.API.Services
             return result;
         }
 
-        public async Task<IReadOnlyList<Project>> GetAllByAccountIdJoin
+        public async Task<IReadOnlyList<Project>> GetAllWhichAccountIdJoin
             (string accountId,
             CancellationToken cancellationToken = default)
         {
@@ -64,7 +64,7 @@ namespace Bug.API.Services
                 new ProjectsByStateWhichMemberIdJoinSpecification(accountId, 1);
             return await _unitOfWork
                 .Project
-                .GetAllEntitiesNoTrackBySpecAsync(specificationResult, cancellationToken);
+                .GetAllEntitiesNoTrackBySpecAsync(specificationResult, "code", cancellationToken);
         }
 
         public async Task<IReadOnlyList<Projectlog>> GetNextRecentByOffsetAsync

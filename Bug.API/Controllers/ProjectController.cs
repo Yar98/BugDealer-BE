@@ -49,7 +49,7 @@ namespace Bug.API.Controllers
         public async Task<IActionResult> GetAllByAccountIdJoin(string accountId)
         {
             var result = await _projectService
-                .GetAllByAccountIdJoin(accountId);
+                .GetAllWhichAccountIdJoin(accountId);
             return Ok(Bts.ConvertJson(result));
         }
 

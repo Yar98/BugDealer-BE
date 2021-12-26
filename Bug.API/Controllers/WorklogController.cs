@@ -29,11 +29,9 @@ namespace Bug.API.Controllers
             return Ok(Bts.ConvertJson(result));
         }
 
-        [HttpGet("recent/issue/{issueId}")]
+        [HttpGet("all/issue/{issueId}")]
         public async Task<IActionResult> GetDetailWorklog
-            (string issueId,
-            int offset,
-            int next)
+            (string issueId)
         {
             var result = await _worklogService
                 .GetAllRecentByIssueIdAsync(issueId);
