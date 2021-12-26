@@ -79,34 +79,39 @@ namespace Bug.API.ActionFilter
                 switch (cate.CategoryId)
                 {
                     case (int)Bts.Category.ProjectPermission:
-                        var accessProject = await accountService
+                        {
+                            var accessProject = await accountService
                             .CheckPermissionsOfRolesOfAccount(user.Id, Permission, projectId);
-                        if (accessProject == null)
-                            throw new PermissionNotAllowed();
-                        break;
+                            if (accessProject == null)
+                                throw new PermissionNotAllowed();
+                            break;
+                        }
+                        
                     case (int)Bts.Category.IssuePermission:
-                        var accessIssue = await accountService
+                        {
+                            var accessIssue = await accountService
                                 .CheckPermissionsOfRolesOfAccount(user.Id, Permission, issue.ProjectId);
-                        if (Permission == (int)Bts.Permission.CloneIssue ||
-                            Permission == (int)Bts.Permission.CreateIssue)
-                        {
-                            if (accessIssue == null)
-                                throw new PermissionNotAllowed();
-                        }
-                        if(Permission != (int)Bts.Permission.CreateIssue &&
-                            Permission != (int)Bts.Permission.CreateIssue)
-                        {
-                            if (issue == null)
+                            if (Permission == (int)Bts.Permission.CloneIssue ||
+                                Permission == (int)Bts.Permission.CreateIssue)
                             {
-                                context.Result = new BadRequestObjectResult("issue not found");
-                                return;
+                                if (accessIssue == null)
+                                    throw new PermissionNotAllowed();
                             }
-                            if (accessIssue == null &&
-                                issue.AssigneeId != user.Id &&
-                                issue.ReporterId != user.Id)
-                                throw new PermissionNotAllowed();
-                        }
-                        break;
+                            if (Permission != (int)Bts.Permission.CreateIssue &&
+                                Permission != (int)Bts.Permission.CloneIssue)
+                            {
+                                if (issue == null)
+                                {
+                                    context.Result = new BadRequestObjectResult("issue not found");
+                                    return;
+                                }
+                                if (accessIssue == null &&
+                                    issue.AssigneeId != user.Id &&
+                                    issue.ReporterId != user.Id)
+                                    throw new PermissionNotAllowed();
+                            }
+                            break;
+                        }                       
                     default:
                         break;
                 }

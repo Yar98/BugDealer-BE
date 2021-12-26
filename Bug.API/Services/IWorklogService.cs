@@ -13,6 +13,11 @@ namespace Bug.API.Services
         Task<Worklog> GetDetailWorklogByIdAsync
             (int id,
             CancellationToken cancellationToken = default);
+        Task<IReadOnlyList<Worklog>> GetNextRecentByOffsetAsync
+            (string issueId,
+            int offset,
+            int next,
+            CancellationToken cancellationToken = default);
         Task<Worklog> AddNewWorklogToIssueAsync
             (string issueId,
             WorklogPostDto worklog,

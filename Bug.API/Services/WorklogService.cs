@@ -29,6 +29,19 @@ namespace Bug.API.Services
                 .GetByIdAsync(id, cancellationToken);
         }
 
+        public async Task<IReadOnlyList<Worklog>> GetNextRecentByOffsetAsync
+            (string issueId,
+            int offset,
+            int next,
+            CancellationToken cancellationToken = default)
+        {
+            var specificationResult =
+                new WorklogsByIssueIdSpecification(issueId);
+            return await _unitOfWork
+                .Worklog
+                .GetNextByOffsetNoTrackBySpecAsync(offset, next, "logdate_desce", specificationResult, cancellationToken);
+        }
+
         public async Task<Worklog> AddNewWorklogToIssueAsync
             (string issueId,
             WorklogPostDto worklog,
