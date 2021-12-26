@@ -349,7 +349,7 @@ namespace Bug.API.Services
             string projectId,
             CancellationToken cancellationToken = default)
         {
-            var apr = new AccountProjectRole(memberId, projectId, 1);
+            var apr = new AccountProjectRole(memberId, projectId, (int)Bts.Role.DeveloperManager);
             await _unitOfWork
                 .AccountProjectRole
                 .AddAsync(apr, cancellationToken);

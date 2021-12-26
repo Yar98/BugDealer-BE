@@ -28,9 +28,10 @@ namespace Bug.Core.Common
             DefaultStatusTag = 1,
             DefaultRelationTag,
             DefaultActionTag,
-            CustomLabelTag,
+            DefaultWorklogTag,
             ProjectPermission,
-            IssuePermission
+            IssuePermission,
+            CustomLabelTag
         }
         public const int DefaultStatusTag = 1;
         public const int DefaultRelationTag = 2;
