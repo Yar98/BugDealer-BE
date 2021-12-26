@@ -45,6 +45,15 @@ namespace Bug.API.Controllers
         }
 
         [JwtFilter]
+        [HttpGet("all/account/{accountId}")]
+        public async Task<IActionResult> GetAllByAccountIdJoin(string accountId)
+        {
+            var result = await _projectService
+                .GetAllByAccountIdJoin(accountId);
+            return Ok(Bts.ConvertJson(result));
+        }
+
+        [JwtFilter]
         [HttpGet("search/paging/member/{memberId}/{state:int}/{pageIndex:int}/{pageSize:int}/{sortOrder}")]
         public async Task<IActionResult> GetPaginatedByMemberIdSearch
             (string memberId,

@@ -56,6 +56,17 @@ namespace Bug.API.Services
             return result;
         }
 
+        public async Task<IReadOnlyList<Project>> GetAllByAccountIdJoin
+            (string accountId,
+            CancellationToken cancellationToken = default)
+        {
+            var specificationResult =
+                new ProjectsByStateWhichMemberIdJoinSpecification(accountId, 1);
+            return await _unitOfWork
+                .Project
+                .GetAllEntitiesNoTrackBySpecAsync(specificationResult, cancellationToken);
+        }
+
         public async Task<IReadOnlyList<Projectlog>> GetNextRecentByOffsetAsync
             (string accountId,
             int offset,
