@@ -34,7 +34,7 @@ namespace Bug.API.Controllers
         public async Task<IActionResult> GetExportIssue(string issueId)
         {
             var result = await _issueService
-                .GetDetailIssueAsync(issueId);
+                .GetDetailIssueAsync(issueId,null);
             var stream = await _issueService
                 .ExportIssueExcelFile(issueId);
             // Tạo buffer memory stream để hứng file excel

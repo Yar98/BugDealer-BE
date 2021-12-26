@@ -67,7 +67,7 @@ namespace Bug.API.ActionFilter
             if (!string.IsNullOrEmpty(issueId))
             {
                 issue = await issueService
-                    .GetDetailIssueAsync(issueId);
+                    .GetDetailIssueAsync(issueId, null);
                 if (!user.AccountProjectRoles.Any(apr => apr.ProjectId == issue.ProjectId))
                 {
                     throw new NotJoinThisProject();
