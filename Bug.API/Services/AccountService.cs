@@ -28,7 +28,7 @@ namespace Bug.API.Services
 <body>
   <h1>Bug dealer BTS</h1>
   <p>{0} invite you to join his/her project. Click
-    <a href='http://localhost:4200/projects/invitation-info?project={1}'>HERE</a> to xem Cap Bai Trung.</p>
+    <a href='https://bug-dealer.azurewebsites.net/projects/invitation-info?project={1}'>HERE</a> to xem Cap Bai Trung.</p>
 </body>
 </html>";
 
@@ -68,7 +68,7 @@ namespace Bug.API.Services
                         {
                             Charset = "UTF-8",
                             Data = fromEmail + " invite you to join his/her project." +
-                            "Click http://localhost:4200/projects/invitation-info?project=" +
+                            "Click https://bug-dealer.azurewebsites.net/projects/invitation-info?project=" +
                             code + "to join."
                         }
                     }

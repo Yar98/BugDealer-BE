@@ -196,7 +196,7 @@ namespace Bug.Data
                 new Tag(0,"Update due date", "L23-079:L23-044", null, Bts.DefaultActionTag),
                 new Tag(0,"Update description", "L23-079:L23-007", null, Bts.DefaultActionTag),
                 new Tag(0,"Update environment", "L23-079:L23-008", null, Bts.DefaultActionTag),
-                new Tag(0,"Update link", "L23-079:L23-006", null, Bts.DefaultActionTag),
+                new Tag(0,"Update title", "L23-079:L23-006", null, Bts.DefaultActionTag),
                 new Tag(0,"Add logwork realtime", "L23-081", null, Bts.DefaultActionTag),
             };
         }
