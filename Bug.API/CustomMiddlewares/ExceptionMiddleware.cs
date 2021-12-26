@@ -53,6 +53,7 @@ namespace Bug.API.CustomMiddlewares
                 CannotDeleteStatusInUse=>"cannot delete status in use",
                 CannotDeleteRoleInUse=>"cannot delete role in use",
                 NotJoinThisProject=>"not join this project",
+                PermissionNotAllowed=>"permission not allowed",
                 _ => "undefined"
             };
             context.Response.Headers.Add("error", code);
