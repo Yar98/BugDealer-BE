@@ -11,6 +11,7 @@ using Bug.Core.Common;
 using Bug.API.Services;
 using Bug.API.BtsException;
 using Bug.Entities.Model;
+using Bug.API.Dto;
 
 namespace Bug.API.ActionFilter
 {
@@ -75,8 +76,8 @@ namespace Bug.API.ActionFilter
 
             if(Permission != 0)
             {
-                var cate = await permissionService.GetPermissionByIdAsync(Permission);
-                switch (cate.CategoryId)
+                var perm = await permissionService.GetPermissionByIdAsync(Permission);
+                switch (perm.CategoryId)
                 {
                     case (int)Bts.Category.ProjectPermission:
                         {
@@ -89,17 +90,24 @@ namespace Bug.API.ActionFilter
                         
                     case (int)Bts.Category.IssuePermission:
                         {
-                            var accessIssue = await accountService
-                                .CheckPermissionsOfRolesOfAccount(user.Id, Permission, issue.ProjectId);
+                            
                             if (Permission == (int)Bts.Permission.CloneIssue ||
                                 Permission == (int)Bts.Permission.CreateIssue)
                             {
+                                var postIssue = context
+                                    .ActionArguments
+                                    .SingleOrDefault(o => o.Value is IssueNormalDto)
+                                    .Value as IssueNormalDto;
+                                var accessIssue = await accountService
+                                .CheckPermissionsOfRolesOfAccount(user.Id, Permission, postIssue.ProjectId);
                                 if (accessIssue == null)
                                     throw new PermissionNotAllowed();
                             }
                             if (Permission != (int)Bts.Permission.CreateIssue &&
                                 Permission != (int)Bts.Permission.CloneIssue)
                             {
+                                var accessIssue = await accountService
+                                .CheckPermissionsOfRolesOfAccount(user.Id, Permission, issue.ProjectId);
                                 if (issue == null)
                                 {
                                     context.Result = new BadRequestObjectResult("issue not found");
