@@ -85,17 +85,27 @@ namespace Bug.API.ActionFilter
                             throw new PermissionNotAllowed();
                         break;
                     case (int)Bts.Category.IssuePermission:
-                        if(issue == null)
-                        {
-                            context.Result = new BadRequestObjectResult("issue not found");
-                            return;
-                        }
                         var accessIssue = await accountService
-                            .CheckPermissionsOfRolesOfAccount(user.Id, Permission, issue.ProjectId);
-                        if (accessIssue == null &&
-                            issue.AssigneeId != user.Id && 
-                            issue.ReporterId != user.Id)
-                            throw new PermissionNotAllowed();
+                                .CheckPermissionsOfRolesOfAccount(user.Id, Permission, issue.ProjectId);
+                        if (Permission == (int)Bts.Permission.CloneIssue ||
+                            Permission == (int)Bts.Permission.CreateIssue)
+                        {
+                            if (accessIssue == null)
+                                throw new PermissionNotAllowed();
+                        }
+                        if(Permission != (int)Bts.Permission.CreateIssue &&
+                            Permission != (int)Bts.Permission.CreateIssue)
+                        {
+                            if (issue == null)
+                            {
+                                context.Result = new BadRequestObjectResult("issue not found");
+                                return;
+                            }
+                            if (accessIssue == null &&
+                                issue.AssigneeId != user.Id &&
+                                issue.ReporterId != user.Id)
+                                throw new PermissionNotAllowed();
+                        }
                         break;
                     default:
                         break;
@@ -107,6 +117,9 @@ namespace Bug.API.ActionFilter
             await next(); // the actual action
 
             // logic after the action goes here
+        }
+
+        private void CheckPermission(int permission) { 
         }
     }
 }
