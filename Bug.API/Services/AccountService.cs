@@ -401,7 +401,10 @@ namespace Bug.API.Services
                     throw new ExistEmailInBts();
                 await _unitOfWork
                     .Account
-                    .DeleteCognitoUser(user.Email, cancellationToken);
+                    .DeleteCognitoUser(result.Email, cancellationToken);
+                await _unitOfWork
+                    .Account
+                    .AddCognitoUser(user.Email, "Pass@word123", cancellationToken);
                 await _unitOfWork
                     .Account
                     .DeleteEmailAfterChangeEmail(result.Email, cancellationToken);
