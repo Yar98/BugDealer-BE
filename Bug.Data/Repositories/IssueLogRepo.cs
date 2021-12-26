@@ -39,7 +39,9 @@ namespace Bug.Data.Repositories
                 .Issuelogs
                 .FromSqlRaw(sql, accountSql, offsetSql, nextSql)
                 .Include(l=>l.Issue)
+                .ThenInclude(i=>i.Project)
                 .Include(l=>l.Tag)
+                .Include(l=>l.Modifier)               
                 .AsNoTracking()
                 .ToListAsync(cancellationToken);
         }

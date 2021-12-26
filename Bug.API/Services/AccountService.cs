@@ -26,7 +26,7 @@ namespace Bug.API.Services
         private readonly string htmlBody = @"<html>
 <head></head>
 <body>
-  <h1>Cap Bai Trung hay vl</h1>
+  <h1>Bug dealer BTS</h1>
   <p>{0} invite you to join his/her project. Click
     <a href='http://localhost:4200/projects/invitation-info?project={1}'>HERE</a> to xem Cap Bai Trung.</p>
 </body>
@@ -56,7 +56,7 @@ namespace Bug.API.Services
                 },
                 Message = new Message
                 {
-                    Subject = new Content("Xem cap bai trung di"),
+                    Subject = new Content("Invite to join project"),
                     Body = new Body
                     {
                         Html = new Content

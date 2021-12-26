@@ -558,6 +558,8 @@ namespace Bug.API.Services
                  .AddTagId(Bts.LogUpdateAttachmentTag)
                  .Build();
             await _unitOfWork.Issuelog.AddAsync(log, cancellationToken);
+
+            _unitOfWork.Save();
         }
 
         public async Task DeleteIssueAsync
