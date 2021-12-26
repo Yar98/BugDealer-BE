@@ -11,6 +11,7 @@ using Bug.Entities.Builder;
 using Bug.Core.Utils;
 using Bug.Data.Specifications;
 using System.Threading;
+using Bug.API.BtsException;
 
 namespace Bug.API.Services
 {
@@ -316,6 +317,8 @@ namespace Bug.API.Services
             var project = await _unitOfWork
                 .Project
                 .GetEntityBySpecAsync(new ProjectSpecification(pro?.Id), cancellationToken);
+            if (project.State == 0)
+                throw new ProjectIsInTrash();
             var statuses = await _unitOfWork
                 .Status
                 .GetStatusesFromMutiIdsAsync(pro?.Statuses.Select(st => st.Id).ToList(), cancellationToken);
@@ -360,6 +363,11 @@ namespace Bug.API.Services
             string projectId,
             CancellationToken cancellationToken = default)
         {
+            var project = await _unitOfWork
+                .Project
+                .GetByIdAsync(projectId, cancellationToken);
+            if (project.State == 0)
+                throw new ProjectIsInTrash();
             var apr = new AccountProjectRole(memberId, projectId, (int)Bts.Role.DeveloperManager);
             await _unitOfWork
                 .AccountProjectRole
@@ -375,6 +383,8 @@ namespace Bug.API.Services
             var project = await _unitOfWork
                 .Project
                 .GetByIdAsync(projectId, cancellationToken);
+            if (project.State == 0)
+                throw new ProjectIsInTrash();
             var role = await _unitOfWork
                 .Role
                 .GetByIdAsync(roleId, cancellationToken);
@@ -392,6 +402,8 @@ namespace Bug.API.Services
             var project = await _unitOfWork
                 .Project
                 .GetByIdAsync(projectId, cancellationToken);
+            if (project.State == 0)
+                throw new ProjectIsInTrash();
             if (project.CreatorId == projectId)
                 return;
             await _unitOfWork

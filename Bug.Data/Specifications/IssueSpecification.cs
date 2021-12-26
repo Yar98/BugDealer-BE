@@ -22,6 +22,8 @@ namespace Bug.Data.Specifications
             AddInclude(i => i.FromRelations);
             //AddInclude(i => i.ToRelations);
             AddInclude(i => i.Attachments);
+            AddInclude(i => i.Voters);
+            AddInclude(i => i.Watchers);
             AddInclude("Status.Tag");
         }
 
@@ -34,6 +36,8 @@ namespace Bug.Data.Specifications
                 AddInclude(i => i.Watchers);
             if (count == 3)
                 AddInclude(i => i.Voters);
+            if (count == 4)
+                AddInclude(i => i.Project);
         }
     }
 }

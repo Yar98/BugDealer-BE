@@ -21,6 +21,7 @@ namespace Bug.API.Services
             CancellationToken cancellationToken = default);
         Task<Issue> GetDetailIssueAsync
             (string id,
+            string accountId,
             CancellationToken cancelltionToken = default);
         Task<IReadOnlyList<Issuelog>> GetNextRecentByOffsetAsync
             (string accountId,

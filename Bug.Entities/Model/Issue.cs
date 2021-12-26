@@ -64,6 +64,8 @@ namespace Bug.Entities.Model
 
         public int TotalSpentTime { get; set; }
         public string PresignLink { get; set; }
+        public bool IsWatched { get; set; }
+        public bool IsVoted { get; set; }
         public int TotalWatches
         {
             get

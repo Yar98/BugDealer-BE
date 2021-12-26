@@ -58,7 +58,7 @@ namespace Bug.API.Services
             
             _unitOfWork.Save();
 
-            if (string.IsNullOrEmpty(worklog.SpentTime))
+            if (!string.IsNullOrEmpty(worklog.SpentTime))
             {
                 var log = new IssuelogBuilder()
                     .AddIssueId(issue.Id)

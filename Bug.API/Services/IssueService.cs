@@ -17,6 +17,7 @@ using Bug.Entities.Integration;
 using Bug.Infrastructure.Services;
 using Microsoft.Extensions.Configuration;
 using Bug.Core.Common;
+using Bug.API.BtsException;
 
 namespace Bug.API.Services
 {
@@ -54,6 +55,7 @@ namespace Bug.API.Services
 
         public async Task<Issue> GetDetailIssueAsync
             (string id,
+            string accountId,
             CancellationToken cancellationToken = default)
         {
             var specificationResult =
@@ -69,6 +71,10 @@ namespace Bug.API.Services
                     .Select(w => w.SpentTime)
                     .ToList()
                     .Aggregate((x, y) => x + y);
+            if (result.Watchers.Any(w => w.Id == accountId))
+                result.IsWatched = true;
+            if (result.Voters.Any(v => v.Id == accountId))
+                result.IsVoted = true;
             return result;
         }
 
@@ -307,8 +313,8 @@ namespace Bug.API.Services
             var pro = await _unitOfWork
                 .Project
                 .GetByIdAsync(issue.ProjectId, cancellationToken);
-            if (pro == null)
-                return null;
+            if (pro.State == 0)
+                throw new ProjectIsInTrash();
             var result = new IssueBuilder()
                 .AddId(Guid.NewGuid().ToString())
                 .AddDescription(issue.Description)
@@ -362,6 +368,7 @@ namespace Bug.API.Services
             (IssueNormalDto issue,
             CancellationToken cancellationToken = default)
         {
+            await PreventIfProjectInTrashAsync(issue.Id, cancellationToken);
             var newStatus = await _unitOfWork
                .Status
                .GetByIdAsync(issue.StatusId, cancellationToken);
@@ -398,6 +405,8 @@ namespace Bug.API.Services
             (IssueNormalDto issue,
             CancellationToken cancellationToken = default)
         {
+            await PreventIfProjectInTrashAsync(issue.Id, cancellationToken);
+
             var result = await _unitOfWork
                 .Issue
                 .GetEntityBySpecAsync(new IssueSpecification(issue.Id, 2), cancellationToken);
@@ -413,6 +422,8 @@ namespace Bug.API.Services
             (IssueNormalDto issue,
             CancellationToken cancellationToken = default)
         {
+            await PreventIfProjectInTrashAsync(issue.Id, cancellationToken);
+
             var result = await _unitOfWork
                 .Issue
                 .GetEntityBySpecAsync(new IssueSpecification(issue.Id, 3), cancellationToken);
@@ -428,6 +439,8 @@ namespace Bug.API.Services
             (IssueNormalDto issue,
             CancellationToken cancellationToken = default)
         {
+            await PreventIfProjectInTrashAsync(issue.Id, cancellationToken);
+
             var result = await _unitOfWork
                 .Issue
                 .GetEntityBySpecAsync(new IssueSpecification(issue.Id, 2), cancellationToken);
@@ -443,6 +456,8 @@ namespace Bug.API.Services
             (IssueNormalDto issue,
             CancellationToken cancellationToken = default)
         {
+            await PreventIfProjectInTrashAsync(issue.Id, cancellationToken);
+
             var result = await _unitOfWork
                 .Issue
                 .GetEntityBySpecAsync(new IssueSpecification(issue.Id, 3), cancellationToken);
@@ -458,6 +473,8 @@ namespace Bug.API.Services
             (IssueNormalDto issue,
             CancellationToken cancellationToken = default)
         {
+            await PreventIfProjectInTrashAsync(issue.Id, cancellationToken);
+
             var result = await _unitOfWork
                 .Issue
                 .GetEntityBySpecAsync(new IssueSpecification(issue.Id, 1), cancellationToken);
@@ -479,6 +496,8 @@ namespace Bug.API.Services
             (RelationNormalDto relation,
             CancellationToken cancellationToken = default)
         {
+            await PreventIfProjectInTrashAsync(relation.FromIssueId, cancellationToken);
+
             var result = new Relation(relation.Description, relation.TagId, relation.FromIssueId, relation.ToIssueId);
             var reverseResult = CreateReverseRelation(result);
             if(reverseResult != null)
@@ -511,6 +530,8 @@ namespace Bug.API.Services
             (RelationNormalDto relation,
             CancellationToken cancellationToken = default)
         {
+            await PreventIfProjectInTrashAsync(relation.FromIssueId, cancellationToken);
+
             var result = await _unitOfWork
                 .Relation
                 .GetByIdAsync(new object[] { relation.FromIssueId, relation.ToIssueId, relation.TagId }, cancellationToken);
@@ -546,6 +567,8 @@ namespace Bug.API.Services
             (IssueNormalDto issue,
             CancellationToken cancellationToken = default)
         {
+            await PreventIfProjectInTrashAsync(issue.Id, cancellationToken);
+
             var attachments = issue.Attachments
                 .Select(a => new Attachment(a.Id, a.Uri, a.IssueId))
                 .ToList();
@@ -566,6 +589,8 @@ namespace Bug.API.Services
             (string id, 
             CancellationToken cancellationToken = default)
         {
+            await PreventIfProjectInTrashAsync(id, cancellationToken);
+
             await _unitOfWork
                 .Relation
                 .DeleteRelationByIssueAsync(id,cancellationToken);
@@ -705,6 +730,17 @@ namespace Bug.API.Services
                     _unitOfWork.Attachment.Attach(item);
                 issue.AddAttachment(item);
             }
+        }
+
+        private async Task PreventIfProjectInTrashAsync
+            (string issueId, 
+            CancellationToken cacellationToken = default)
+        {
+            var issue = await _unitOfWork
+                .Issue
+                .GetEntityBySpecAsync(new IssueSpecification(issueId,4), cacellationToken);
+            if (issue.Project.State == 0)
+                throw new ProjectIsInTrash();
         }
     }
 }

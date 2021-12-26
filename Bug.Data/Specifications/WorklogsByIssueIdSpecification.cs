@@ -12,7 +12,7 @@ namespace Bug.Data.Specifications
         public WorklogsByIssueIdSpecification(string issueId)
             : base(w=>w.IssueId == issueId)
         {
-            
+            AddInclude(w => w.Logger);
         }
     }
 }

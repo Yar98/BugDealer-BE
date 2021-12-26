@@ -50,10 +50,10 @@ namespace Bug.API.Controllers
         // GET api/Issue/5
         //[ActionName(nameof(GetDetailIssue))]
         [JwtFilter]
-        [HttpGet("detail/{issueId}")]
-        public async Task<IActionResult> GetDetailIssue(string issueId)
+        [HttpGet("detail/{issueId}/account/{accountId}")]
+        public async Task<IActionResult> GetDetailIssue(string issueId, string accountId)
         {
-            var result = await _issueService.GetDetailIssueAsync(issueId);
+            var result = await _issueService.GetDetailIssueAsync(issueId, accountId);
             return Ok(Bts.ConvertJson(result));
         }
 
