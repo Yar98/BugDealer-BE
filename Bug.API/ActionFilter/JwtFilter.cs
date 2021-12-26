@@ -47,7 +47,7 @@ namespace Bug.API.ActionFilter
 
             var user = await accountService
                 .GetDetailAccountById(result.Id);
-            if(user == null)
+            if (user == null)
             {
                 context.Result = new UnauthorizedObjectResult("Invalid token");
                 return;
@@ -74,7 +74,7 @@ namespace Bug.API.ActionFilter
                 }
             }
 
-            if(Permission != 0)
+            if (Permission != 0)
             {
                 var perm = await permissionService.GetPermissionByIdAsync(Permission);
                 switch (perm.CategoryId)
@@ -87,10 +87,10 @@ namespace Bug.API.ActionFilter
                                 throw new PermissionNotAllowed();
                             break;
                         }
-                        
+
                     case (int)Bts.Category.IssuePermission:
                         {
-                            
+
                             if (Permission == (int)Bts.Permission.CloneIssue ||
                                 Permission == (int)Bts.Permission.CreateIssue)
                             {
@@ -119,12 +119,12 @@ namespace Bug.API.ActionFilter
                                     throw new PermissionNotAllowed();
                             }
                             break;
-                        }                       
+                        }
                     default:
                         break;
                 }
             }
-            
+
 
 
             await next(); // the actual action
@@ -132,7 +132,8 @@ namespace Bug.API.ActionFilter
             // logic after the action goes here
         }
 
-        private void CheckPermission(int permission) { 
+        private void CheckPermission(int permission)
+        {
         }
     }
 }

@@ -47,7 +47,7 @@ namespace Bug.API.Controllers
         }
 
         [JwtFilter(Permission = 4)]
-        [HttpGet("invite/code/{code}/toemail/{toEmail}/fromemail/{fromEmail}")]
+        [HttpGet("project/{projectId}/invite/code/{code}/toemail/{toEmail}/fromemail/{fromEmail}")]
         public async Task<IActionResult> SendInviteEmail
             (string code,
             string toEmail,
