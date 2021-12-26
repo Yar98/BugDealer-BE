@@ -36,8 +36,5 @@ namespace Bug.Data.Repositories
             (string email,
             string code,
             CancellationToken cancellationToken = default);
-        Task DeleteEmailAfterChangeEmail
-            (string email,
-            CancellationToken cancellationToken = default);
     }
 }

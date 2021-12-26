@@ -405,9 +405,7 @@ namespace Bug.API.Services
                 await _unitOfWork
                     .Account
                     .AddCognitoUser(user.Email, "Pass@word123", cancellationToken);
-                await _unitOfWork
-                    .Account
-                    .DeleteEmailAfterChangeEmail(result.Email, cancellationToken);
+
                 result.UpdateEmail(user.Email);
                 result.UpdateVerifyEmail(false);
             }
