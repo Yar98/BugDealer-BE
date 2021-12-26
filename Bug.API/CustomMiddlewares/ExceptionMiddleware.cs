@@ -62,6 +62,7 @@ namespace Bug.API.CustomMiddlewares
                 CannotDeleteDefault => "cannot delete default",
                 OldPasswordWrong => "old password wrong",
                 DueDateOfIssueMustWithinDueDateOfProject => "due date not valid",
+                ExistEmailInBts => "this email is existed in bts",
                 _ => "undefined"
             };
             context.Response.Headers.Add("error", code);
