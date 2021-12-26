@@ -16,7 +16,7 @@ namespace Bug.Core.Common
     {
         public enum Role
         {
-            Leader,
+            Leader = 1,
             Developer,
             DeveloperManager,
             Tester,
@@ -25,7 +25,7 @@ namespace Bug.Core.Common
         // category
         public enum Category
         {
-            DefaultStatusTag,
+            DefaultStatusTag = 1,
             DefaultRelationTag,
             DefaultActionTag,
             CustomLabelTag,

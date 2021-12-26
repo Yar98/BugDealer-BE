@@ -233,7 +233,7 @@ namespace Bug.API.Controllers
         }
 
         // POST api/Issue
-        [JwtFilter]
+        [JwtFilter(Permission = 5)]
         [HttpPost]
         public async Task<IActionResult> PostAddIssue([FromBody] IssueNormalDto issue)
         {
@@ -242,8 +242,17 @@ namespace Bug.API.Controllers
                 nameof(GetDetailIssue), new { issueId = result.Id }, Bts.ConvertJson(result,2));
         }
 
+        [JwtFilter(Permission = 6)]
+        [HttpPost("clone")]
+        public async Task<IActionResult> PostCloneIssue([FromBody] IssueNormalDto issue)
+        {
+            var result = await _issueService.AddIssueAsync(issue);
+            return CreatedAtAction(
+                nameof(GetDetailIssue), new { issueId = result.Id }, Bts.ConvertJson(result, 2));
+        }
+
         // PUT api/Issue/5
-        [JwtFilter]
+        [JwtFilter(Permission = 8)]
         [HttpPut("{issueId}")]
         public async Task<IActionResult> PutUpdateBasicIssue
             (string issueId, 
@@ -255,7 +264,7 @@ namespace Bug.API.Controllers
             return NoContent();
         }
 
-        [JwtFilter]
+        [JwtFilter(Permission = 8)]
         [HttpPut("{issueId}/labels")]
         public async Task<IActionResult> PutUpdateLabelsOfIssue
             (string issueId,
@@ -267,7 +276,7 @@ namespace Bug.API.Controllers
             return NoContent();
         }
 
-        [JwtFilter]
+        [JwtFilter(Permission = 8)]
         [HttpPut("{issueId}/attachments")]
         public async Task<IActionResult> PutUpdateAttachmentsOfIssue
             (string issueId,
@@ -279,7 +288,7 @@ namespace Bug.API.Controllers
             return NoContent();
         }
 
-        [JwtFilter]
+        [JwtFilter(Permission = 8)]
         [HttpPut("{issueId}/add/relation")]
         public async Task<IActionResult> PutAddRelationToIssue
             (string issueId,
