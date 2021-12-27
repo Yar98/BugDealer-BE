@@ -14,5 +14,6 @@ namespace Bug.API.Dto
         [MaxLength(32)]
         [MinLength(8)]
         public string Password { get; set; }
+        public bool IsRemember { get; set; }
     }
 }

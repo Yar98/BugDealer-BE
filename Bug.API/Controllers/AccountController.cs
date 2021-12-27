@@ -132,7 +132,7 @@ namespace Bug.API.Controllers
             {
                 return BadRequest("account not exist");
             }
-            var token = _jwtUtils.GenerateToken(result.Id, result.UserName, result.Email);
+            var token = _jwtUtils.GenerateToken(result.Id, result.UserName, result.Email, user.IsRemember);
             if (string.IsNullOrEmpty(token))
             {
                 return BadRequest("error generate token");

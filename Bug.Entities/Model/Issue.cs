@@ -184,7 +184,7 @@ namespace Bug.Entities.Model
                 .AddIssueId(Id)
                 .AddModifierId(modifierId)
                 .AddTagId(16)
-                .AddOldPriorityId(PriorityId ?? 1)
+                .AddOldPriorityId(PriorityId)
                 .AddNewPriorityId(int.Parse(i))
                 .Build();
             temp.Invoke(log);
@@ -301,7 +301,7 @@ namespace Bug.Entities.Model
                     .AddIssueId(Id)
                     .AddModifierId(modifierId)
                     .AddTagId(17)
-                    .AddOldSeverityId(SeverityId??1)
+                    .AddOldSeverityId(SeverityId)
                     .AddNewSeverityId(int.Parse(id))
                     .Build();
             temp.Invoke(log);

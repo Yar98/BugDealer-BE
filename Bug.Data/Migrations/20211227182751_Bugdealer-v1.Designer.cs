@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bug.Data.Migrations
 {
     [DbContext(typeof(BugContext))]
-    [Migration("20211225182625_db_v1")]
-    partial class db_v1
+    [Migration("20211227182751_Bugdealer-v1")]
+    partial class Bugdealerv1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -107,8 +107,8 @@ namespace Bug.Data.Migrations
                     b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("TimezoneId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<string>("Timezone")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserName")
                         .IsRequired()
@@ -118,8 +118,6 @@ namespace Bug.Data.Migrations
                         .HasColumnType("bit");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("TimezoneId");
 
                     b.ToTable("Account");
                 });
@@ -758,8 +756,12 @@ namespace Bug.Data.Migrations
 
             modelBuilder.Entity("Bug.Entities.Model.Timezone", b =>
                 {
-                    b.Property<string>("CountryCode")
+                    b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("CountryCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CountryName")
                         .IsRequired()
@@ -769,7 +771,7 @@ namespace Bug.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("CountryCode");
+                    b.HasKey("Id");
 
                     b.ToTable("Timezone");
                 });
@@ -923,15 +925,6 @@ namespace Bug.Data.Migrations
                         .HasForeignKey("RelatorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Bug.Entities.Model.Account", b =>
-                {
-                    b.HasOne("Bug.Entities.Model.Timezone", "Timezone")
-                        .WithMany()
-                        .HasForeignKey("TimezoneId");
-
-                    b.Navigation("Timezone");
                 });
 
             modelBuilder.Entity("Bug.Entities.Model.AccountProjectRole", b =>
