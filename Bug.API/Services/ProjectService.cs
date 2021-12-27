@@ -215,7 +215,7 @@ namespace Bug.API.Services
                 .AddCreatorId(pro.CreatorId)
                 .AddState()
                 .AddTemplateId(pro.TemplateId)
-                .AddDefaultRoleId("1")
+                .AddDefaultRoleId("3")
                 .AddDefaultStatusId("defaultStatus1")
                 .Build();
             // add creator as member to project
@@ -368,7 +368,7 @@ namespace Bug.API.Services
                 .GetByIdAsync(projectId, cancellationToken);
             if (project.State == 0)
                 throw new ProjectIsInTrash();
-            var apr = new AccountProjectRole(memberId, projectId, (int)Bts.Role.DeveloperManager);
+            var apr = new AccountProjectRole(memberId, projectId, project.DefaultRoleId??3);
             await _unitOfWork
                 .AccountProjectRole
                 .AddAsync(apr, cancellationToken);
