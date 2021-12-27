@@ -14,7 +14,8 @@ namespace Bug.Data.Configuration
         public void Configure(EntityTypeBuilder<Issuelog> builder)
         {
             builder
-                .ToTable("Issuelog");
+                .ToTable("Issuelog")
+                .HasIndex(l => l.IssueId);
         }
     }
 }

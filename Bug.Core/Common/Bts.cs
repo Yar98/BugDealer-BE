@@ -14,13 +14,33 @@ namespace Bug.Core.Common
 {
     public static class Bts
     {
+        public enum Role
+        {
+            Leader = 1,
+            Developer,
+            DeveloperManager,
+            Tester,
+            TesterManager
+        }
+        // category
+        public enum Category
+        {
+            DefaultStatusTag = 1,
+            DefaultRelationTag,
+            DefaultActionTag,
+            DefaultWorklogTag,
+            ProjectPermission,
+            IssuePermission,
+            CustomLabelTag
+        }
         public const int DefaultStatusTag = 1;
         public const int DefaultRelationTag = 2;
         public const int DefaultActionTag = 3;
         public const int CustomLabelTag = 4;
-
-        public const int GetDetailProject = 1;
-
+        public const int ProjectPermission = 5;
+        public const int IssuePermission = 6;
+        
+        // tag
         public const int LogCreateIssueTag = 12;
         public const int LogUpdateStatusTag = 13;
         public const int LogUpdateAssigneeTag = 14;
@@ -36,6 +56,20 @@ namespace Bug.Core.Common
         public const int LogUpdateEnvironmentTag = 24;
         public const int LogUpdateLinkTag = 25;
         public const int LogAddWorklogRealTimeTag = 26;
+
+        // permission
+        public enum Permission
+        {
+            EditProject = 1,
+            ManageRoles,
+            ManageStatuses,
+            ManageMember,
+            CreateIssue,
+            CloneIssue,
+            DeleteOtherIssues,
+            EditOtherIssues,
+            DeleteOtherComments
+        }
 
         public static string ConvertJson(Object result)
         {

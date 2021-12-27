@@ -47,13 +47,7 @@ namespace Bug.API.Services
             CancellationToken cancellationToken = default)
         {
             var result = 
-                new Comment(0, cmt.Content, cmt.TimeLog, cmt.IssueId, cmt.AccountId);
-            var log = new IssuelogBuilder()
-                 .AddIssueId(cmt.IssueId)
-                 .AddModifierId(cmt.AccountId)
-                 .AddTagId(1)
-                 .Build();
-            await _unitOfWork.Issuelog.AddAsync(log, cancellationToken);
+                new Comment(0, cmt.Content, cmt.TimeLog, cmt.IssueId, cmt.AccountId);           
             await _unitOfWork.Comment.AddAsync(result, cancellationToken);
             _unitOfWork.Save();
             return result;
@@ -70,12 +64,7 @@ namespace Bug.API.Services
             result.UpdateContent(cmt.Content);
             result.UpdateIssueId(cmt.IssueId);
             result.UpdateTimeLog(cmt.TimeLog);
-            var log = new IssuelogBuilder()
-                 .AddIssueId(cmt.IssueId)
-                 .AddModifierId(cmt.AccountId)
-                 .AddTagId(1)
-                 .Build();
-            await _unitOfWork.Issuelog.AddAsync(log, cancellationToken);
+            
             _unitOfWork.Comment.Update(result);
             _unitOfWork.Save();
         }

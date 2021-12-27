@@ -26,7 +26,9 @@ namespace Bug.Data.Configuration
                 .Ignore(i => i.TotalSpentTime)
                 .Ignore(i => i.TotalWatches)
                 .Ignore(i => i.TotalVotes)
-                .Ignore(i => i.PresignLink);
+                .Ignore(i => i.PresignLink)
+                .Ignore(i => i.IsVoted)
+                .Ignore(i => i.IsWatched);
         }
     }
 }

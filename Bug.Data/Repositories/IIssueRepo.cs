@@ -12,6 +12,7 @@ namespace Bug.Data.Repositories
 {
     public interface IIssueRepo : IEntityRepoBase<Issue>
     {
+        Task DeleteIssueById(string id, CancellationToken cancellationToken = default);
         Task<PaginatedList<Issue>> GetPaginatedByFilter
             (string projectId,
             int pageIndex,

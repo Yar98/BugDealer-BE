@@ -23,6 +23,13 @@ namespace Bug.Data.Repositories
         {
         }
 
+        public async Task DeleteIssueById(string id, CancellationToken cancellationToken = default)
+        {
+            await _bugContext
+                .Database
+                .ExecuteSqlRawAsync("DELETE FROM Issue WHERE Id = '" + id + "'", cancellationToken);
+        }
+
         public async Task<PaginatedList<Issue>> GetPaginatedByFilter
             (string projectId,
             int pageIndex,

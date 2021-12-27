@@ -11,6 +11,7 @@ using Bug.Entities.Builder;
 using Bug.Core.Utils;
 using Bug.Data.Specifications;
 using System.Threading;
+using Bug.API.BtsException;
 
 namespace Bug.API.Services
 {
@@ -54,6 +55,17 @@ namespace Bug.API.Services
                 .Project
                 .GetEntityBySpecAsync(specificationResult, cancellationToken);
             return result;
+        }
+
+        public async Task<IReadOnlyList<Project>> GetAllWhichAccountIdJoin
+            (string accountId,
+            CancellationToken cancellationToken = default)
+        {
+            var specificationResult =
+                new ProjectsByStateWhichMemberIdJoinSpecification(accountId, 1);
+            return await _unitOfWork
+                .Project
+                .GetAllEntitiesNoTrackBySpecAsync(specificationResult, "code", cancellationToken);
         }
 
         public async Task<IReadOnlyList<Projectlog>> GetNextRecentByOffsetAsync
@@ -221,7 +233,7 @@ namespace Bug.API.Services
                 .GetDefaultStatusesAsync("id", cancellationToken: cancellationToken);
             result.AddDefaultStatuses(defaultStatuses);
 
-            var log = new Projectlog(pro.Id, pro.CreatorId);
+            var log = new Projectlog(result.Id, pro.CreatorId);
             await _unitOfWork
                 .Projectlog
                 .AddAsync(log, cancellationToken);
@@ -293,7 +305,8 @@ namespace Bug.API.Services
                 .AddAsync(log, cancellationToken);
 
             _unitOfWork.Save();
-
+            // move deleted role of project to default role
+            // member must have at least 1 role
             _unitOfWork.AccountProjectRole.UpdateMultiByRoleIdProjectId(pro.Id, roles, project.DefaultRoleId);
         }
 
@@ -301,40 +314,42 @@ namespace Bug.API.Services
             (ProjectPutStatusesDto pro,
             CancellationToken cancellationToken = default)
         {
-            var specificationResult =
-                new ProjectSpecification(pro?.Id);
             var project = await _unitOfWork
                 .Project
-                .GetEntityBySpecAsync(specificationResult, cancellationToken);
+                .GetEntityBySpecAsync(new ProjectSpecification(pro?.Id), cancellationToken);
+            if (project.State == 0)
+                throw new ProjectIsInTrash();
             var statuses = await _unitOfWork
                 .Status
                 .GetStatusesFromMutiIdsAsync(pro?.Statuses.Select(st => st.Id).ToList(), cancellationToken);
-
             var defaultStatuses = await _unitOfWork
                 .Status
                 .GetDefaultStatusesAsync("", cancellationToken: cancellationToken);
+            
             statuses?.AddRange(defaultStatuses);
 
             project?.UpdateDefaultStatusId(pro.DefaultStatusId);
             project?.UpdateStatuses(statuses);
-
+          
             if (pro?.OldStatuses != null)
             {
+                var tasks = new List<Task>();
                 foreach (var st in pro.OldStatuses)
                 {
-                    var issueSpec =
-                        new IssuesByStatusIdSpecification(st.FromId);
                     var issues = await _unitOfWork
                         .Issue
-                        .GetAllEntitiesBySpecAsync(issueSpec, null, cancellationToken);
-
+                        .GetAllEntitiesBySpecAsync(new IssuesByStatusIdSpecification(st.FromId), null, cancellationToken);
+                    var toStatus = await _unitOfWork
+                        .Status
+                        .GetByIdAsync(st.ToId, cancellationToken);
                     Parallel.ForEach(issues, i =>
                     {
-                        i.UpdateStatusId(st.ToId);
+                        i.UpdateStatusId(toStatus, pro.ModifierId, null, log=> tasks.Add(_unitOfWork.Issuelog.AddAsync(log,cancellationToken)));
                     });
                 };
+                await Task.WhenAll(tasks);
             }
-
+            
             var log = new Projectlog(pro.Id, pro.ModifierId);
             await _unitOfWork
                 .Projectlog
@@ -348,7 +363,12 @@ namespace Bug.API.Services
             string projectId,
             CancellationToken cancellationToken = default)
         {
-            var apr = new AccountProjectRole(memberId, projectId, 1);
+            var project = await _unitOfWork
+                .Project
+                .GetByIdAsync(projectId, cancellationToken);
+            if (project.State == 0)
+                throw new ProjectIsInTrash();
+            var apr = new AccountProjectRole(memberId, projectId, (int)Bts.Role.DeveloperManager);
             await _unitOfWork
                 .AccountProjectRole
                 .AddAsync(apr, cancellationToken);
@@ -363,6 +383,8 @@ namespace Bug.API.Services
             var project = await _unitOfWork
                 .Project
                 .GetByIdAsync(projectId, cancellationToken);
+            if (project.State == 0)
+                throw new ProjectIsInTrash();
             var role = await _unitOfWork
                 .Role
                 .GetByIdAsync(roleId, cancellationToken);
@@ -380,6 +402,8 @@ namespace Bug.API.Services
             var project = await _unitOfWork
                 .Project
                 .GetByIdAsync(projectId, cancellationToken);
+            if (project.State == 0)
+                throw new ProjectIsInTrash();
             if (project.CreatorId == projectId)
                 return;
             await _unitOfWork

@@ -34,7 +34,7 @@ namespace Bug.API.Controllers
         public async Task<IActionResult> GetExportIssue(string issueId)
         {
             var result = await _issueService
-                .GetDetailIssueAsync(issueId);
+                .GetDetailIssueAsync(issueId,null);
             var stream = await _issueService
                 .ExportIssueExcelFile(issueId);
             // Tạo buffer memory stream để hứng file excel
@@ -50,10 +50,10 @@ namespace Bug.API.Controllers
         // GET api/Issue/5
         //[ActionName(nameof(GetDetailIssue))]
         [JwtFilter]
-        [HttpGet("detail/{issueId}")]
-        public async Task<IActionResult> GetDetailIssue(string issueId)
+        [HttpGet("detail/{issueId}/{accountId}")]
+        public async Task<IActionResult> GetDetailIssue(string issueId, string accountId)
         {
-            var result = await _issueService.GetDetailIssueAsync(issueId);
+            var result = await _issueService.GetDetailIssueAsync(issueId, accountId);
             return Ok(Bts.ConvertJson(result));
         }
 
@@ -233,17 +233,26 @@ namespace Bug.API.Controllers
         }
 
         // POST api/Issue
-        [JwtFilter]
+        [JwtFilter(Permission = 5)]
         [HttpPost]
         public async Task<IActionResult> PostAddIssue([FromBody] IssueNormalDto issue)
         {
             var result = await _issueService.AddIssueAsync(issue);
             return CreatedAtAction(
-                nameof(GetDetailIssue), new { issueId = result.Id }, Bts.ConvertJson(result,2));
+                nameof(GetDetailIssue), new { issueId = result.Id, accountId = "" }, Bts.ConvertJson(result,2));
+        }
+
+        [JwtFilter(Permission = 6)]
+        [HttpPost("clone")]
+        public async Task<IActionResult> PostCloneIssue([FromBody] IssueNormalDto issue)
+        {
+            var result = await _issueService.AddIssueAsync(issue);
+            return CreatedAtAction(
+                nameof(GetDetailIssue), new { issueId = result.Id, accountId = "" }, Bts.ConvertJson(result, 2));
         }
 
         // PUT api/Issue/5
-        [JwtFilter]
+        [JwtFilter(Permission = 8)]
         [HttpPut("{issueId}")]
         public async Task<IActionResult> PutUpdateBasicIssue
             (string issueId, 
@@ -255,7 +264,7 @@ namespace Bug.API.Controllers
             return NoContent();
         }
 
-        [JwtFilter]
+        [JwtFilter(Permission = 8)]
         [HttpPut("{issueId}/labels")]
         public async Task<IActionResult> PutUpdateLabelsOfIssue
             (string issueId,
@@ -267,7 +276,7 @@ namespace Bug.API.Controllers
             return NoContent();
         }
 
-        [JwtFilter]
+        [JwtFilter(Permission = 8)]
         [HttpPut("{issueId}/attachments")]
         public async Task<IActionResult> PutUpdateAttachmentsOfIssue
             (string issueId,
@@ -279,7 +288,7 @@ namespace Bug.API.Controllers
             return NoContent();
         }
 
-        [JwtFilter]
+        [JwtFilter(Permission = 8)]
         [HttpPut("{issueId}/add/relation")]
         public async Task<IActionResult> PutAddRelationToIssue
             (string issueId,

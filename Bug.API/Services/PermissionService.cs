@@ -50,7 +50,7 @@ namespace Bug.API.Services
                 new PermissionsByRoleProjectSpecification(roleId, projectId);
             var activePermissions = await _unitOfWork
                 .Permission
-                .GetAllEntitiesBySpecAsync(specificationResult, sortOrder, cancellationToken);
+                .GetAllEntitiesNoTrackBySpecAsync(specificationResult, sortOrder, cancellationToken);
             var permissions = await _unitOfWork
                 .Permission
                 .FindAllAsync(cancellationToken);
@@ -73,7 +73,7 @@ namespace Bug.API.Services
                 new PermissionsByAccountProjectSpecification(accountId, projectId);
             var activePermissions = await _unitOfWork
                 .Permission
-                .GetAllEntitiesBySpecAsync(specificationResult, sortOrder, cancellationToken);
+                .GetAllEntitiesNoTrackBySpecAsync(specificationResult, sortOrder, cancellationToken);
             var permissions = await _unitOfWork
                 .Permission
                 .FindAllAsync(cancellationToken);

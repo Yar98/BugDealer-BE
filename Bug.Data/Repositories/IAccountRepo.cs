@@ -12,6 +12,9 @@ namespace Bug.Data.Repositories
 {
     public interface IAccountRepo : IEntityRepoBase<Account>
     {
+        Task DeleteCognitoUser
+            (string email,
+            CancellationToken cancellationToken = default);
         Task<Account> GetAccountByEmail(string email);
         Task<Account> GetAccountByUserName(string userName, string password);
         Task AddCognitoUser
@@ -32,9 +35,6 @@ namespace Bug.Data.Repositories
         Task ConfirmForgotPassword
             (string email,
             string code,
-            CancellationToken cancellationToken = default);
-        Task DeleteEmailAfterChangeEmail
-            (string email,
             CancellationToken cancellationToken = default);
     }
 }

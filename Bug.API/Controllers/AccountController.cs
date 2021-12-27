@@ -46,8 +46,8 @@ namespace Bug.API.Controllers
             return Ok(Bts.ConvertJson(result));
         }
 
-        [JwtFilter]
-        [HttpGet("invite/code/{code}/toemail/{toEmail}/fromemail/{fromEmail}")]
+        [JwtFilter(Permission = 4)]
+        [HttpGet("project/{projectId}/invite/code/{code}/toemail/{toEmail}/fromemail/{fromEmail}")]
         public async Task<IActionResult> SendInviteEmail
             (string code,
             string toEmail,

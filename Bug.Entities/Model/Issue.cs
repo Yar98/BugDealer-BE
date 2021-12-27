@@ -64,6 +64,8 @@ namespace Bug.Entities.Model
 
         public int TotalSpentTime { get; set; }
         public string PresignLink { get; set; }
+        public bool IsWatched { get; set; }
+        public bool IsVoted { get; set; }
         public int TotalWatches
         {
             get
@@ -132,7 +134,7 @@ namespace Bug.Entities.Model
             var log = new IssuelogBuilder()
                     .AddIssueId(Id)
                     .AddModifierId(modifierId)
-                    .AddTagId(1)
+                    .AddTagId(25)
                     .AddOldTitle(Title)
                     .AddNewTitle(title)
                     .Build();
@@ -272,7 +274,7 @@ namespace Bug.Entities.Model
             temp.Invoke(log);
             Environment = e;
         }
-        public void UpdateStatusId(Status newStatus, string modifierId, Action<Issuelog> temp)
+        public void UpdateStatusId(Status newStatus, string modifierId, string des, Action<Issuelog> temp)
         {
             if (newStatus == null)
                 return;
@@ -284,13 +286,10 @@ namespace Bug.Entities.Model
                     .AddOldStatusName(Status.Name)
                     .AddNewStatusTagId(newStatus.TagId)
                     .AddNewStatusName(newStatus.Name)
+                    .AddDescription(des)
                     .Build();
             temp.Invoke(log);
             StatusId = newStatus.Id;
-        }
-        public void UpdateStatusId(string newStatus)
-        {            
-            StatusId = newStatus;
         }
         public void UpdateSeverityId(string id, string modifierId, Action<Issuelog> temp)
         {

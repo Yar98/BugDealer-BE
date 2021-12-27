@@ -13,6 +13,7 @@ namespace Bug.Data.Specifications
             : base(i=>i.IssueId == issueId)
         {
             AddInclude(i => i.Issue);
+            AddInclude("Issue.Project");
             AddInclude(i => i.Modifier);
             AddInclude(i => i.NewPriority);
             AddInclude(i => i.OldPriority);
@@ -25,7 +26,9 @@ namespace Bug.Data.Specifications
             AddInclude(i => i.NewReporter);
             AddInclude(i => i.OldReporter);
             AddInclude(i => i.NewToIssue);
+            AddInclude("NewToIssue.Project");
             AddInclude(i => i.OldToIssue);
+            AddInclude("OldToIssue.Project");
             AddInclude(i => i.NewWorklog);
             AddInclude(i => i.OldWorklog);
             AddInclude(i => i.Tag);
@@ -34,6 +37,7 @@ namespace Bug.Data.Specifications
             : base(i => i.IssueId == issueId && i.TagId == tagId)
         {
             AddInclude(i => i.Issue);
+            AddInclude("Issue.Project");
             AddInclude(i => i.Modifier);
             AddInclude(i => i.NewPriority);
             AddInclude(i => i.OldPriority);
@@ -46,7 +50,9 @@ namespace Bug.Data.Specifications
             AddInclude(i => i.NewReporter);
             AddInclude(i => i.OldReporter);
             AddInclude(i => i.NewToIssue);
+            AddInclude("NewToIssue.Project");
             AddInclude(i => i.OldToIssue);
+            AddInclude("OldToIssue.Project");
             AddInclude(i => i.NewWorklog);
             AddInclude(i => i.OldWorklog);
             AddInclude(i => i.Tag);

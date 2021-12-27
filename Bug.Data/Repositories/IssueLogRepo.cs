@@ -39,9 +39,21 @@ namespace Bug.Data.Repositories
                 .Issuelogs
                 .FromSqlRaw(sql, accountSql, offsetSql, nextSql)
                 .Include(l=>l.Issue)
+                .ThenInclude(i=>i.Project)
                 .Include(l=>l.Tag)
+                .Include(l=>l.Modifier)               
                 .AsNoTracking()
                 .ToListAsync(cancellationToken);
+        }
+
+        public async Task DeleteLogBeforeDelIssue
+            (string issueId,
+            CancellationToken cancellationToken = default)
+        {
+            var sql = "EXECUTE dbo.DeleteLogBeforeDelIssue @issue = '" + issueId + "'";
+            await _bugContext
+                .Database
+                .ExecuteSqlRawAsync(sql, cancellationToken);
         }
 
         public override IQueryable<Issuelog> SortOrder
@@ -73,7 +85,7 @@ namespace Bug.Data.Repositories
                     //result = result.OrderByDescending(p => p.RecentDate);
                     break;
                 default:
-                    result = result.OrderBy(p => p.Id);
+                    result = result.OrderBy(p => p.LogDate);
                     break;
             }
             return result;

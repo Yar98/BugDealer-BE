@@ -170,7 +170,7 @@ namespace Bug.API.Services
                 new StatusesByCreatorIdSpecification(creatorId);
             return await _unitOfWork
                 .Status
-                .GetAllEntitiesBySpecAsync(specificationResult, sortOrder, cancellationToken);
+                .GetAllEntitiesNoTrackBySpecAsync(specificationResult, sortOrder, cancellationToken);
         }
 
         public async Task<IReadOnlyList<Status>> GetStatusesExceptBtsByProjectIdAsync
@@ -182,7 +182,7 @@ namespace Bug.API.Services
                 new StatusesByProjectIdSpecification(projectId);
             var result = await _unitOfWork
                 .Status
-                .GetAllEntitiesBySpecAsync(specificationResult, sortOrder, cancellationToken);
+                .GetAllEntitiesNoTrackBySpecAsync(specificationResult, sortOrder, cancellationToken);
             
             return result
                 .Where(st => st.CreatorId != "bts")
@@ -237,14 +237,12 @@ namespace Bug.API.Services
                 .Status
                 .GetDefaultStatusesNoTrackAsync("",cancellationToken: cancellationToken);
             if (defaultStatuses.Any(r => r.Id == statusId))
-            {
                 throw new CannotDeleteDefault();
-            }
             var result = await _unitOfWork
                 .Status
                 .GetEntityBySpecAsync(new StatusSpecification(statusId), cancellationToken);
             if (result.Projects.Count != 0)
-                return;
+                throw new CannotDeleteStatusInUse();
             _unitOfWork
                 .Issue
                 .UpdateIssuesHaveDumbStatus(new List<Status> { result });

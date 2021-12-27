@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bug.Data.Migrations
 {
     [DbContext(typeof(BugContext))]
-    [Migration("20211223143221_Created-db")]
-    partial class Createddb
+    [Migration("20211225182625_db_v1")]
+    partial class db_v1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -611,6 +611,7 @@ namespace Bug.Data.Migrations
             modelBuilder.Entity("Bug.Entities.Model.Relation", b =>
                 {
                     b.Property<string>("FromIssueId")
+                        .IsConcurrencyToken()
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("ToIssueId")
@@ -779,6 +780,9 @@ namespace Bug.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("IssueId")
                         .HasColumnType("nvarchar(100)");

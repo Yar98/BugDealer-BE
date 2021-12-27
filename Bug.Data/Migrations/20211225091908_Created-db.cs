@@ -602,7 +602,7 @@ namespace Bug.Data.Migrations
                         column: x => x.ToIssueId,
                         principalTable: "Issue",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Relation_Tag_TagId",
                         column: x => x.TagId,
@@ -678,7 +678,7 @@ namespace Bug.Data.Migrations
                         column: x => x.LoggerId,
                         principalTable: "Account",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Worklog_Issue_IssueId",
                         column: x => x.IssueId,
@@ -765,7 +765,7 @@ namespace Bug.Data.Migrations
                         column: x => x.IssueId,
                         principalTable: "Issue",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Issuelog_Issue_NewToIssueId",
                         column: x => x.NewToIssueId,

@@ -4,14 +4,16 @@ using Bug.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Bug.Data.Migrations
 {
     [DbContext(typeof(BugContext))]
-    partial class BugContextModelSnapshot : ModelSnapshot
+    [Migration("20211225091908_Created-db")]
+    partial class Createddb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -609,7 +611,6 @@ namespace Bug.Data.Migrations
             modelBuilder.Entity("Bug.Entities.Model.Relation", b =>
                 {
                     b.Property<string>("FromIssueId")
-                        .IsConcurrencyToken()
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("ToIssueId")
@@ -778,9 +779,6 @@ namespace Bug.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("IssueId")
                         .HasColumnType("nvarchar(100)");

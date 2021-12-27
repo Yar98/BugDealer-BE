@@ -29,6 +29,9 @@ namespace Bug.Data.Repositories
                 case "name":
                     result = result.OrderBy(p => p.Name);
                     break;
+                case "code":
+                    result = result.OrderBy(p => p.Code);
+                    break;
                 case "startdate":
                     result = result.OrderBy(p => p.StartDate);
                     break;

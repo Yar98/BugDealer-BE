@@ -15,6 +15,7 @@ using Amazon;
 using Amazon.CognitoIdentityProvider.Model;
 using Amazon.SimpleEmail;
 using Amazon.SimpleEmail.Model;
+using Bug.Core.Common;
 
 namespace Bug.API.Services
 {
@@ -26,9 +27,9 @@ namespace Bug.API.Services
         private readonly string htmlBody = @"<html>
 <head></head>
 <body>
-  <h1>Cap Bai Trung hay vl</h1>
+  <h1>Bug dealer BTS</h1>
   <p>{0} invite you to join his/her project. Click
-    <a href='http://localhost:4200/projects/invitation-info?project={1}'>HERE</a> to xem Cap Bai Trung.</p>
+    <a href='https://bug-dealer.azurewebsites.net/projects/invitation-info?project={1}'>HERE</a> to xem Cap Bai Trung.</p>
 </body>
 </html>";
 
@@ -56,7 +57,7 @@ namespace Bug.API.Services
                 },
                 Message = new Message
                 {
-                    Subject = new Content("Xem cap bai trung di"),
+                    Subject = new Content("Invite to join project"),
                     Body = new Body
                     {
                         Html = new Content
@@ -68,7 +69,7 @@ namespace Bug.API.Services
                         {
                             Charset = "UTF-8",
                             Data = fromEmail + " invite you to join his/her project." +
-                            "Click http://localhost:4200/projects/invitation-info?project=" +
+                            "Click https://bug-dealer.azurewebsites.net/projects/invitation-info?project=" +
                             code + "to join."
                         }
                     }
@@ -394,9 +395,18 @@ namespace Bug.API.Services
             result.UpdateFirstName(user.FirstName);
             if (user.Email != null)
             {
+                var existEmail = await _unitOfWork
+                    .Account
+                    .GetAccountByEmail(user.Email);
+                if (existEmail != null)
+                    throw new ExistEmailInBts();
                 await _unitOfWork
                     .Account
-                    .DeleteEmailAfterChangeEmail(result.Email, cancellationToken);
+                    .DeleteCognitoUser(result.Email, cancellationToken);
+                await _unitOfWork
+                    .Account
+                    .AddCognitoUser(user.Email, "Pass@word123", cancellationToken);
+
                 result.UpdateEmail(user.Email);
                 result.UpdateVerifyEmail(false);
             }
@@ -412,10 +422,16 @@ namespace Bug.API.Services
         {
             var specificationResult =
                 new AccountSetRolesSpecification(asr.AccountId, asr.ProjectId);
+            var pro = await _unitOfWork
+                .Project
+                .GetByIdAsync(asr.ProjectId, cancellationToken);
             var result = await _unitOfWork
                 .Account
                 .GetEntityBySpecAsync(specificationResult, cancellationToken);
             if (result == null) return;
+            if (result.Id == pro.CreatorId && 
+                !result.AccountProjectRoles.Any(apr => apr.RoleId == (int)Bts.Role.Leader))
+                throw new CreatorCannotDeleteLeaderRole();
             var newAprs = asr
                 .Roles
                 .Select(r => new AccountProjectRole(asr.AccountId, asr.ProjectId, r.Id))

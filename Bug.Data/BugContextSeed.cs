@@ -118,6 +118,14 @@ namespace Bug.Data
                         });
                 }
 
+                if (bugContext.Roles.ToList().Count == 5)
+                {
+                    foreach(var r in bugContext.Roles.ToList())
+                    {
+                        ApplyPermissionToBtsRoles(r.Id, bugContext);
+                    }
+                }
+
                 await bugContext.SaveChangesAsync();
             }
             catch(Exception ex)
@@ -176,28 +184,28 @@ namespace Bug.Data
                 new Tag(0,"C-115", null, "green", Bts.DefaultStatusTag),
                 new Tag(0,"C-092", null, "red", Bts.DefaultStatusTag),
                         
-                new Tag(0,"C-041", "block", null, Bts.DefaultRelationTag),
-                new Tag(0,"C-042", "is blocked by", null, Bts.DefaultRelationTag),
-                new Tag(0,"C-043", "clones", null, Bts.DefaultRelationTag),
-                new Tag(0,"C-044", "is cloned by", null, Bts.DefaultRelationTag),
-                new Tag(0,"C-045", "duplicates",null, Bts.DefaultRelationTag),
-                new Tag(0,"C-046", "is duplicates", null, Bts.DefaultRelationTag),
-                new Tag(0,"C-047", "relate", null, Bts.DefaultRelationTag),
-                new Tag(0,"Create issue", "L23-078:L23-080", null, Bts.DefaultActionTag),
-                new Tag(0,"Update status", "L23-079:L23-024", null, Bts.DefaultActionTag),
-                new Tag(0,"Update assignee", "L23-079:L23-025", null, Bts.DefaultActionTag),
-                new Tag(0,"Update reporter", "L23-079:L23-026", null, Bts.DefaultActionTag),
-                new Tag(0,"Update priority", "L23-079:L23-027", null, Bts.DefaultActionTag),
-                new Tag(0,"Update severity", "L23-079:L23-028", null, Bts.DefaultActionTag),
-                new Tag(0,"Update label", "L23-079:L23-039", null, Bts.DefaultActionTag),
-                new Tag(0,"Update attachment", "L23-079:L23-081", null, Bts.DefaultActionTag),
-                new Tag(0,"Update remaining estimate", "L23-079:L23-082", null, Bts.DefaultActionTag),
-                new Tag(0,"Update original estimate", "L23-079:L23-043", null, Bts.DefaultActionTag),
-                new Tag(0,"Update due date", "L23-079:L23-044", null, Bts.DefaultActionTag),
-                new Tag(0,"Update description", "L23-079:L23-007", null, Bts.DefaultActionTag),
-                new Tag(0,"Update environment", "L23-079:L23-008", null, Bts.DefaultActionTag),
-                new Tag(0,"Update link", "L23-079:L23-007", null, Bts.DefaultActionTag),
-                new Tag(0,"Add logwork realtime", "L23-079:L23-048", null, Bts.DefaultActionTag),
+                new Tag(0,"C-041", "C-146", null, Bts.DefaultRelationTag),
+                new Tag(0,"C-042", "C-146", null, Bts.DefaultRelationTag),
+                new Tag(0,"C-043", "C-146", null, Bts.DefaultRelationTag),
+                new Tag(0,"C-044", "C-146", null, Bts.DefaultRelationTag),
+                new Tag(0,"C-045", "C-146",null, Bts.DefaultRelationTag),
+                new Tag(0,"C-046", "C-146", null, Bts.DefaultRelationTag),
+                new Tag(0,"C-047", "C-146", null, Bts.DefaultRelationTag),
+                new Tag(0,"C-132", null, null, Bts.DefaultActionTag),
+                new Tag(0,"C-133", null, null, Bts.DefaultActionTag),
+                new Tag(0,"C-134", null, null, Bts.DefaultActionTag),
+                new Tag(0,"C-135", null, null, Bts.DefaultActionTag),
+                new Tag(0,"C-136", null, null, Bts.DefaultActionTag),
+                new Tag(0,"C-137", null, null, Bts.DefaultActionTag),
+                new Tag(0,"C-138", null, null, Bts.DefaultActionTag),
+                new Tag(0,"C-139", null, null, Bts.DefaultActionTag),
+                new Tag(0,"C-140", null, null, Bts.DefaultActionTag),
+                new Tag(0,"C-141", null, null, Bts.DefaultActionTag),
+                new Tag(0,"C-142", null, null, Bts.DefaultActionTag),
+                new Tag(0,"C-144", null, null, Bts.DefaultActionTag),
+                new Tag(0,"C-145", null, null, Bts.DefaultActionTag),
+                new Tag(0,"C-143", null, null, Bts.DefaultActionTag),
+                new Tag(0,"C-147", null, null, Bts.DefaultActionTag),
             };
         }
         static IEnumerable<Category> GetPreconfiguredCategory()
@@ -233,25 +241,24 @@ namespace Bug.Data
             {
                 new Permission(0,"Edit details",5),
                 new Permission(0,"Manage roles",5),
+                new Permission(0,"Manage statuses",5),                
                 new Permission(0,"Manage members",5),
-                new Permission(0,"Manage statuses",5),
                 new Permission(0,"Create issues",6),
-                new Permission(0,"Edit issues",6),
-                new Permission(0,"Delete issues",6),
-                new Permission(0,"Add comments",6),
-                new Permission(0,"Edit own comments",6),
-                new Permission(0,"Delete own comments",6),
-                new Permission(0,"Delete other comments",6),
-                new Permission(0,"Add watchers",6),
-                new Permission(0,"Delete watchers",6)
+                new Permission(0,"Clone issues",6),
+                new Permission(0,"Delete other issues",6),
+                new Permission(0,"Edit other issues",6),
+                new Permission(0,"Delete other comments",6)
             };
         }
         static IEnumerable<Role> GetPreconfiguredRole()
         {
             return new List<Role>()
             {
-                new Role(0,"BTS-Dev",null,"bts"),
-                new Role(0, "custom", "default", "bts")
+                new Role(0,"Leader","default bts","bts"),
+                new Role(0, "Developer", "default bts", "bts"),
+                new Role(0, "Developer manager", "default bts", "bts"),
+                new Role(0, "Tester", "default bts", "bts"),
+                new Role(0, "Tester manager", "default bts", "bts"),
             };
         }
 
@@ -291,6 +298,50 @@ namespace Bug.Data
                 new Template(0, "C-076", null),
                 new Template(0, "C-077", null)
             };
+        }
+
+        static void ApplyPermissionToBtsRoles(int id, BugContext bugContext)
+        {
+            var role = bugContext.Roles.FirstOrDefault(r => r.Id == id);
+            switch (id)
+            {
+                case (int)Bts.Role.Leader:
+                    var ps = bugContext
+                        .Permissions
+                        .ToList();
+                    role.UpdatePermission(ps);
+                    break;
+                case (int)Bts.Role.Developer:
+                    var ps1 = bugContext
+                        .Permissions
+                        .Where(p => p.Id == (int)Bts.Permission.CloneIssue || 
+                            p.Id == (int)Bts.Permission.CreateIssue)
+                        .ToList();
+                    role.UpdatePermission(ps1);
+                    break;
+                case (int)Bts.Role.Tester:
+                    var ps2 = bugContext
+                        .Permissions
+                        .Where(p => p.Id == (int)Bts.Permission.CloneIssue ||
+                            p.Id == (int)Bts.Permission.CreateIssue)
+                        .ToList();
+                    role.UpdatePermission(ps2);
+                    break;
+                case (int)Bts.Role.DeveloperManager:
+                    var ps3 = bugContext
+                        .Permissions
+                        .Where(p => p.CategoryId == (int)Bts.Category.IssuePermission)
+                        .ToList();
+                    role.UpdatePermission(ps3);
+                    break;
+                case (int)Bts.Role.TesterManager:
+                    var ps4 = bugContext
+                        .Permissions
+                        .Where(p => p.CategoryId == (int)Bts.Category.IssuePermission)
+                        .ToList();
+                    role.UpdatePermission(ps4);
+                    break;
+            }
         }
     }
 }

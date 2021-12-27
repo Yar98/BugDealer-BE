@@ -21,8 +21,8 @@ namespace Bug.Data.Repositories
         {
             switch (sortOrder)
             {
-                case "name":
-                    //result = result.OrderBy(p => p.Name);
+                case "logdate_desc":
+                    result = result.OrderByDescending(p => p.LogDate);
                     break;
                 case "startdate":
                     //result = result.OrderBy(p => p.StartDate);

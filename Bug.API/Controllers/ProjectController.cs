@@ -45,6 +45,15 @@ namespace Bug.API.Controllers
         }
 
         [JwtFilter]
+        [HttpGet("all/account/{accountId}")]
+        public async Task<IActionResult> GetAllByAccountIdJoin(string accountId)
+        {
+            var result = await _projectService
+                .GetAllWhichAccountIdJoin(accountId);
+            return Ok(Bts.ConvertJson(result));
+        }
+
+        [JwtFilter]
         [HttpGet("search/paging/member/{memberId}/{state:int}/{pageIndex:int}/{pageSize:int}/{sortOrder}")]
         public async Task<IActionResult> GetPaginatedByMemberIdSearch
             (string memberId,
@@ -145,7 +154,7 @@ namespace Bug.API.Controllers
         }
 
         // PUT api/Project/detail/5
-        [JwtFilter]
+        [JwtFilter(Permission = 1)]
         [HttpPut("{projectId}")]
         public async Task<IActionResult> PutUpdateBasicProject
             (string projectId, 
@@ -157,7 +166,7 @@ namespace Bug.API.Controllers
             return NoContent();
         }
 
-        [JwtFilter]
+        [JwtFilter(Permission = 2)]
         [HttpPut("{projectId}/updateroles")]
         public async Task<IActionResult> PutUpdateRolesOfProject
             (string projectId,
@@ -169,7 +178,7 @@ namespace Bug.API.Controllers
             return NoContent();
         }
 
-        [JwtFilter]
+        [JwtFilter(Permission = 3)]
         [HttpPut("{projectId}/updatestatuses")]
         public async Task<IActionResult> PutUpdateStatusesOfProject
             (string projectId,
@@ -189,7 +198,7 @@ namespace Bug.API.Controllers
             return NoContent();
         }
 
-        [JwtFilter]
+        [JwtFilter(Permission = 4)]
         [HttpPut("{projectId}/delete/member")]
         public async Task<IActionResult> PutDeleteMemberFromProject
             (string projectId,

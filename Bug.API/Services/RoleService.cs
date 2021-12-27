@@ -38,7 +38,7 @@ namespace Bug.API.Services
                 new RoleByProjectSpecification(projectId);
             return await _unitOfWork
                 .Role
-                .GetAllEntitiesBySpecAsync(specificationResult, sortOrder, cancellationToken);
+                .GetAllEntitiesNoTrackBySpecAsync(specificationResult, sortOrder, cancellationToken);
         }
 
         public async Task<IReadOnlyList<Role>> GetRolesByCreatorIdAsync
@@ -50,7 +50,7 @@ namespace Bug.API.Services
                 new RoleByCreatorIdSpecification(creatorId);
             return await _unitOfWork
                 .Role
-                .GetAllEntitiesBySpecAsync(specificationResult, sortOrder, cancellationToken);
+                .GetAllEntitiesNoTrackBySpecAsync(specificationResult, sortOrder, cancellationToken);
         }
 
         public async Task<IReadOnlyList<Role>> GetRolesWhichMemberIdProjectIdOnAsync
@@ -63,7 +63,7 @@ namespace Bug.API.Services
                 new RolesWhichMemberOnSpecification(projectId, memberId);
             return await _unitOfWork
                 .Role
-                .GetAllEntitiesBySpecAsync(specificationResult, sortOrder, cancellationToken);
+                .GetAllEntitiesNoTrackBySpecAsync(specificationResult, sortOrder, cancellationToken);
         }
 
         public async Task<PaginatedListDto<Role>> GetPaginatedByProjectIdSearch
@@ -232,7 +232,6 @@ namespace Bug.API.Services
                .GetPermissionsFromMutiIdsAsync(role.Permissions.Select(p => p.Id).ToList(), cancellationToken);
             result.UpdatePermission(ps);
 
-            _unitOfWork.Role.Update(result);
             _unitOfWork.Save();
         }
 
@@ -246,16 +245,17 @@ namespace Bug.API.Services
                 .Role
                 .GetDefaultRolesNoTrackAsync(null,cancellationToken:cancellationToken);
             if(defaultRoles.Any(r=>r.Id == id))
-            {
                 throw new CannotDeleteDefault();
-            }
+
             var result = await _unitOfWork
                 .Role
-                .GetEntityBySpecAsync(new RoleSpecification(id), cancellationToken);
+                .GetByIdAsync(id, cancellationToken);
             if (result.Projects.Count != 0)
-                return;
+                throw new CannotDeleteRoleInUse();
 
-            var check = _unitOfWork.AccountProjectRole.UpdateAprBeforeDeleteRole(id);
+            //var check = _unitOfWork
+                //.AccountProjectRole
+                //.UpdateAprBeforeDeleteRole(id);
 
             _unitOfWork.Role.Delete(result);
 

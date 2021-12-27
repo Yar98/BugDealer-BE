@@ -11,7 +11,8 @@ namespace Bug.Data.Specifications
     {
         public AccountByIdCheckRoleSpecification(string id, int permission, string projectId)
             : base(a => a.Id == id &&
-            a.AccountProjectRoles.AsQueryable().Any(apr=>apr.ProjectId == projectId) &&
+            a.AccountProjectRoles.AsQueryable().Any(
+                apr=>apr.ProjectId == projectId) &&
             a.AccountProjectRoles.AsQueryable().Any(
                 apr=>apr.Role.Permissions.AsQueryable().Any(p=>p.Id==permission)))
         {
