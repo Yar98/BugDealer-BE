@@ -29,26 +29,26 @@ namespace Bug.Data.Repositories
                 case "name":
                     result = result.OrderBy(p => p.Name);
                     break;
+                case "name_desc":
+                    result = result.OrderByDescending(p => p.Name);
+                    break;
                 case "code":
                     result = result.OrderBy(p => p.Code);
                     break;
-                case "startdate":
-                    result = result.OrderBy(p => p.StartDate);
+                case "code_desc":
+                    result = result.OrderByDescending(p => p.Code);
                     break;
-                case "startdate_desc":
-                    result = result.OrderByDescending(p => p.StartDate);
+                case "type":
+                    result = result.OrderBy(p => p.Template.Name);
                     break;
-                case "enddate":
-                    result = result.OrderBy(p => p.EndDate);
+                case "type_desc":
+                    result = result.OrderByDescending(p => p.Template.Name);
                     break;
-                case "enddate_desc":
-                    result = result.OrderByDescending(p => p.EndDate);
+                case "description":
+                    result = result.OrderBy(p => p.Description);
                     break;
-                case "recentdate":
-                    result = result.OrderBy(p => p.RecentDate);
-                    break;
-                case "recentdate_desc":
-                    result = result.OrderByDescending(p => p.RecentDate);
+                case "description_desc":
+                    result = result.OrderByDescending(p => p.Description);
                     break;
                 default:
                     result = result.OrderBy(p => p.Id);

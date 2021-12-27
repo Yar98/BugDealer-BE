@@ -79,6 +79,7 @@ namespace Bug.Data.Repositories
                 .Include(i => i.Project)
                 .Include(i => i.Assignee)
                 .Include(i => i.Status)
+                .ThenInclude(s=>s.Tag)
                 .Include(i => i.Reporter)
                 .Include(i => i.Severity)
                 .Include(i => i.Priority);
@@ -170,11 +171,11 @@ namespace Bug.Data.Repositories
                 case "title_desc":
                     result = result.OrderByDescending(p => p.Title);
                     break;
-                case "startdate":
-                    //result = result.OrderBy(p => p.StartDate);
+                case "code":
+                    result = result.OrderBy(p => p.NumberCode);
                     break;
-                case "startdate_desc":
-                    //result = result.OrderByDescending(p => p.StartDate);
+                case "code_desc":
+                    result = result.OrderByDescending(p => p.NumberCode);
                     break;
                 case "enddate":
                     //result = result.OrderBy(p => p.EndDate);
@@ -182,10 +183,10 @@ namespace Bug.Data.Repositories
                 case "enddate_desc":
                     //result = result.OrderByDescending(p => p.EndDate);
                     break;
-                case "code":
+                case "coddde":
                     result = result.OrderBy(p => p.NumberCode);
                     break;
-                case "code_desc":
+                case "codesds_desc":
                     result = result.OrderByDescending(p => p.NumberCode);
                     break;
                 default:
@@ -200,6 +201,8 @@ namespace Bug.Data.Repositories
             sql += " ORDER BY ";
             if (order == "title")
                 sql += " i.Title ";
+            else if (order == "title_desc")
+                sql += " i.Title DESC ";
             else if (order == "code")
                 sql += " i.NumberCode ";
             else if (order == "code_desc")

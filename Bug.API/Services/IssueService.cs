@@ -719,7 +719,7 @@ namespace Bug.API.Services
                 }
                 
                 var log = new IssuelogBuilder()
-                     .AddIssueId(r.FromIssueId)
+                     .AddIssueId(issue.Id)
                      .AddModifierId(modifierId)
                      .AddTagId(r.TagId)
                      .AddOldToIssueId(r.ToIssueId)

@@ -116,6 +116,16 @@ namespace Bug.API.ActionFilter
                                     issue.AssigneeId != user.Id &&
                                     issue.ReporterId != user.Id)
                                     throw new PermissionNotAllowed();
+
+                                if (context
+                                    .ActionArguments
+                                    .SingleOrDefault(o => o.Value is WorklogPostDto)
+                                    .Value is WorklogPostDto worklog)
+                                {
+                                    if (issue.AssigneeId != worklog.LoggerId &&
+                                        !string.IsNullOrEmpty(worklog.SpentTime))
+                                        throw new OnlyAssigneeAddWorklog();
+                                }
                             }
                             break;
                         }
