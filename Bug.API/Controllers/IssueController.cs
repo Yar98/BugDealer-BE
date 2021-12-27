@@ -239,7 +239,7 @@ namespace Bug.API.Controllers
         {
             var result = await _issueService.AddIssueAsync(issue);
             return CreatedAtAction(
-                nameof(GetDetailIssue), new { issueId = result.Id }, Bts.ConvertJson(result,2));
+                nameof(GetDetailIssue), new { issueId = result.Id, accountId = "" }, Bts.ConvertJson(result,2));
         }
 
         [JwtFilter(Permission = 6)]
@@ -248,7 +248,7 @@ namespace Bug.API.Controllers
         {
             var result = await _issueService.AddIssueAsync(issue);
             return CreatedAtAction(
-                nameof(GetDetailIssue), new { issueId = result.Id }, Bts.ConvertJson(result, 2));
+                nameof(GetDetailIssue), new { issueId = result.Id, accountId = "" }, Bts.ConvertJson(result, 2));
         }
 
         // PUT api/Issue/5
