@@ -51,7 +51,7 @@ namespace Bug.Entities.Model
 
         public void UpdatePermission(List<Permission> ps)
         {
-            if (ps != null && ps.Any())
+            if (ps != null)
             {
                 _permissions = ps;
             }
