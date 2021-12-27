@@ -182,11 +182,11 @@ namespace Bug.Data.Repositories
                 case "enddate_desc":
                     //result = result.OrderByDescending(p => p.EndDate);
                     break;
-                case "recentdate":
-                    //result = result.OrderBy(p => p.RecentDate);
+                case "code":
+                    result = result.OrderBy(p => p.NumberCode);
                     break;
-                case "recentdate_desc":
-                    //result = result.OrderByDescending(p => p.RecentDate);
+                case "code_desc":
+                    result = result.OrderByDescending(p => p.NumberCode);
                     break;
                 default:
                     result = result.OrderBy(p => p.Id);
@@ -202,6 +202,8 @@ namespace Bug.Data.Repositories
                 sql += " i.Title ";
             else if (order == "code")
                 sql += " i.NumberCode ";
+            else if (order == "code_desc")
+                sql += " i.NumberCode DESC ";
             else
                 sql += " i.Id ";
             return sql;

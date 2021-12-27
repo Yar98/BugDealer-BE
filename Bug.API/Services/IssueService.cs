@@ -417,7 +417,7 @@ namespace Bug.API.Services
             result
                 .UpdateReporterId(issue.ReporterId, issue.ModifierId, async log => await _unitOfWork.Issuelog.AddAsync(log));           
             result
-                .UpdateStatusId(newStatus, issue.ModifierId, issue.Description, async log => await _unitOfWork.Issuelog.AddAsync(log));            
+                .UpdateStatusId(newStatus, issue.ModifierId, issue.DescriptionLog, async log => await _unitOfWork.Issuelog.AddAsync(log));            
             result
                 .UpdateTitle(issue.Title, issue.ModifierId, async log=> await _unitOfWork.Issuelog.AddAsync(log));
 
