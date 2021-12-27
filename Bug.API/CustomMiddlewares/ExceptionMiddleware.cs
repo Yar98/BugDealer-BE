@@ -55,6 +55,7 @@ namespace Bug.API.CustomMiddlewares
                 NotJoinThisProject=>"not join this project",
                 PermissionNotAllowed=>"permission not allowed",
                 CreatorCannotDeleteLeaderRole=>"creator cannot delete leader role",
+                OnlyAssigneeAddWorklog=>"only assignee can add worklog",
                 _ => "undefined"
             };
             context.Response.Headers.Add("error", code);

@@ -68,7 +68,7 @@ namespace Bug.Data.Repositories
                 sql += " AND i.SeverityId IN " +
                     " (SELECT VALUE FROM STRING_SPLIT('"+ severities + "', ',')) ";
             }
-            SortOrder(sql, sortOrder);
+            //SortOrder(sql, sortOrder);
             var projectSql = new SqlParameter("project", projectId);
             var sortOrderSql = new SqlParameter("sortOrder", sortOrder);
             var searchSql = new SqlParameter("search", search);           
@@ -79,9 +79,11 @@ namespace Bug.Data.Repositories
                 .Include(i => i.Project)
                 .Include(i => i.Assignee)
                 .Include(i => i.Status)
+                .ThenInclude(s=>s.Tag)
                 .Include(i => i.Reporter)
                 .Include(i => i.Severity)
                 .Include(i => i.Priority);
+            var qr = SortOrder(result, sortOrder);
             return await PaginatedList<Issue>.CreateListAsync
                 (result.AsNoTracking(), pageIndex, pageSize, cancellationToken);
         }
@@ -170,23 +172,53 @@ namespace Bug.Data.Repositories
                 case "title_desc":
                     result = result.OrderByDescending(p => p.Title);
                     break;
-                case "startdate":
-                    //result = result.OrderBy(p => p.StartDate);
+                case "code":
+                    result = result.OrderBy(p => p.NumberCode);
                     break;
-                case "startdate_desc":
-                    //result = result.OrderByDescending(p => p.StartDate);
+                case "code_desc":
+                    result = result.OrderByDescending(p => p.NumberCode);
                     break;
-                case "enddate":
-                    //result = result.OrderBy(p => p.EndDate);
+                case "due":
+                    result = result.OrderBy(p => p.DueDate);
                     break;
-                case "enddate_desc":
-                    //result = result.OrderByDescending(p => p.EndDate);
+                case "due_desc":
+                    result = result.OrderByDescending(p => p.DueDate);
                     break;
-                case "recentdate":
-                    //result = result.OrderBy(p => p.RecentDate);
+                case "created":
+                    result = result.OrderBy(p => p.CreatedDate);
                     break;
-                case "recentdate_desc":
-                    //result = result.OrderByDescending(p => p.RecentDate);
+                case "created_desc":
+                    result = result.OrderByDescending(p => p.CreatedDate);
+                    break;
+                case "assignee":
+                    result = result.OrderBy(p => p.Assignee.FullName);
+                    break;
+                case "assignee_desc":
+                    result = result.OrderByDescending(p => p.Assignee.FullName);
+                    break;
+                case "reporter":
+                    result = result.OrderBy(p => p.Reporter.FullName);
+                    break;
+                case "reporter_desc":
+                    result = result.OrderByDescending(p => p.Reporter.FullName);
+                    break;
+                case "status":
+                    result = result.OrderBy(p => p.Status.Name);
+                    break;
+                case "status_desc":
+                    result = result.OrderByDescending(p => p.Status.Name);
+                    break;
+                case "priority":
+                    result = result.OrderBy(p => p.Priority.Name);
+                    break;
+                case "priority_desc":
+                    result = result.OrderByDescending(p => p.Priority.Name);
+                    break;
+                case "severity":
+                    result = result.OrderBy(p => p.Severity.Name);
+                    break;
+                case "severity_desc":
+                    result = result.OrderByDescending(p => p.Severity.Name);
                     break;
                 default:
                     result = result.OrderBy(p => p.Id);
@@ -195,17 +227,7 @@ namespace Bug.Data.Repositories
             return result;
         }
 
-        private string SortOrder(string sql, string order)
-        {
-            sql += " ORDER BY ";
-            if (order == "title")
-                sql += " i.Title ";
-            else if (order == "code")
-                sql += " i.NumberCode ";
-            else
-                sql += " i.Id ";
-            return sql;
-        }
+        
 
     }
 }

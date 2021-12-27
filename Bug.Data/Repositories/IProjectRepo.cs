@@ -12,6 +12,8 @@ namespace Bug.Data.Repositories
 {
     public interface IProjectRepo : IEntityRepoBase<Project>
     {
-        
+        Task DeleteProject
+            (string projectId,
+            CancellationToken cancellationToken = default);
     }
 }

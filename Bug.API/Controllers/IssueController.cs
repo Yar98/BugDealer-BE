@@ -307,7 +307,7 @@ namespace Bug.API.Controllers
             return NoContent();
         }
 
-        [JwtFilter]
+        [JwtFilter(Permission = 8)]
         [HttpPut("{issueId}/delete/relation")]
         public async Task<IActionResult> PutDeleteRelationToIssue
             (string issueId,
@@ -368,7 +368,7 @@ namespace Bug.API.Controllers
         }
 
         // DELETE api/Issue/5
-        [JwtFilter]
+        [JwtFilter(Permission = 7)]
         [HttpDelete("{issueId}")]
         public async Task<IActionResult> DeleteIssue(string issueId)
         {

@@ -397,7 +397,7 @@ namespace Bug.API.Services
                .GetByIdAsync(issue.StatusId, cancellationToken);
             var result = await _unitOfWork
                 .Issue
-                .GetByIdAsync(issue.Id, cancellationToken);
+                .GetEntityBySpecAsync(new IssueSpecification(issue.Id, 4), cancellationToken);
             result
                 .UpdateAssigneeId(issue.AssigneeId, issue.ModifierId, async log => await _unitOfWork.Issuelog.AddAsync(log));           
             result
@@ -417,7 +417,7 @@ namespace Bug.API.Services
             result
                 .UpdateReporterId(issue.ReporterId, issue.ModifierId, async log => await _unitOfWork.Issuelog.AddAsync(log));           
             result
-                .UpdateStatusId(newStatus, issue.ModifierId, issue.Description, async log => await _unitOfWork.Issuelog.AddAsync(log));            
+                .UpdateStatusId(newStatus, issue.ModifierId, issue.DescriptionLog, async log => await _unitOfWork.Issuelog.AddAsync(log));            
             result
                 .UpdateTitle(issue.Title, issue.ModifierId, async log=> await _unitOfWork.Issuelog.AddAsync(log));
 
@@ -719,7 +719,7 @@ namespace Bug.API.Services
                 }
                 
                 var log = new IssuelogBuilder()
-                     .AddIssueId(r.FromIssueId)
+                     .AddIssueId(issue.Id)
                      .AddModifierId(modifierId)
                      .AddTagId(r.TagId)
                      .AddOldToIssueId(r.ToIssueId)

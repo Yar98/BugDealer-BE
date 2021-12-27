@@ -22,5 +22,12 @@ namespace Bug.Data.Specifications
             //AddInclude("Issues.Tags");
             //AddInclude("Issues.State");
         }
+
+        public ProjectSpecification(string projectId, int count)
+            : base(p => p.Id == projectId)
+        {
+            if (count == 1)
+                AddInclude(p => p.Issues);
+        }
     }
 }

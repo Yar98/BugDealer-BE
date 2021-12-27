@@ -1,4 +1,5 @@
-﻿using Bug.API.Dto;
+﻿using Bug.API.ActionFilter;
+using Bug.API.Dto;
 using Bug.API.Services;
 using Bug.Core.Common;
 using Microsoft.AspNetCore.Mvc;
@@ -39,6 +40,7 @@ namespace Bug.API.Controllers
         }
 
         // POST api/<WorklogController>
+        [JwtFilter(Permission = 8)]
         [HttpPost("issue/{issueId}")]
         public async Task<IActionResult> Post
             (string issueId, 
