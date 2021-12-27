@@ -13,7 +13,6 @@ namespace Bug.Data.Specifications
             : base(m=>m.Id != null && 
             m.AccountProjectRoles.AsQueryable().Any(apr=>apr.ProjectId == projectId))
         {
-            AddInclude(a => a.Timezone);
             AddInclude(a => a.AccountProjectRoles);
             AddInclude("AccountProjectRoles.Role");
             AddInclude("AccountProjectRoles.Project");

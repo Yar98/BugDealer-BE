@@ -16,7 +16,6 @@ namespace Bug.Data.Specifications
             a.AccountProjectRoles.AsQueryable().Any(
                 apr=>apr.Role.Permissions.AsQueryable().Any(p=>p.Id==permission)))
         {
-            AddInclude(a => a.Timezone);
             AddInclude(a => a.AccountProjectRoles);
             AddInclude("AccountProjectRoles.Role.Permissions");
         }

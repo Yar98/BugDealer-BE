@@ -12,7 +12,6 @@ namespace Bug.Data.Specifications
         public AccountSpecification(string id)
             :base(a=>a.Id == id)
         {
-            AddInclude(a => a.Timezone);
             AddInclude(a => a.VoteIssues);
             AddInclude(a => a.WatchIssues);
             AddInclude(a => a.Fields);

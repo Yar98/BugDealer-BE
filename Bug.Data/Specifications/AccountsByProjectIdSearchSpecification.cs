@@ -13,7 +13,6 @@ namespace Bug.Data.Specifications
             : base(a=>a.AccountProjectRoles.AsQueryable().Any(apr=>apr.ProjectId==projectId) &&
             a.UserName.Contains(search))
         {
-            AddInclude(a => a.Timezone);
             AddInclude(a => a.VoteIssues);
             AddInclude(a => a.WatchIssues);
         }

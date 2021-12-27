@@ -164,8 +164,11 @@ namespace Bug.Data.Repositories
         {
             switch (sortOrder)
             {
-                case "name":
-                    //result = result.OrderBy(p => p.Name);
+                case "title":
+                    result = result.OrderBy(p => p.Title);
+                    break;
+                case "title_desc":
+                    result = result.OrderByDescending(p => p.Title);
                     break;
                 case "startdate":
                     //result = result.OrderBy(p => p.StartDate);
