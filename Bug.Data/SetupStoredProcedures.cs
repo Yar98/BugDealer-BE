@@ -222,6 +222,14 @@ namespace Bug.Data
                 BEGIN
                     SET NOCOUNT ON;
 
+                    DELETE FROM [Relation]
+					WHERE FromIssueId IN (SELECT r.FromIssueId 
+										FROM [Relation] AS r JOIN [Issue] AS i
+										ON r.FromIssueId = i.Id AND i.ProjectId = @project) OR
+							ToIssueId In (SELECT r.ToIssueId 
+										FROM [Relation] AS r JOIN [Issue] AS i
+										ON r.ToIssueId = i.Id AND i.ProjectId = @project)
+
 					DELETE FROM [Issuelog]
 					WHERE NewToIssueId IN (SELECT il.NewToIssueId 
 									FROM [Issuelog] AS il JOIN [Issue] AS i 
