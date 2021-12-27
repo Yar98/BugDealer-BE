@@ -12,7 +12,6 @@ namespace Bug.Data.Specifications
         public AccountByEmailSpecification(string email)
             : base(a => a.Email == email)
         {
-            AddInclude(a => a.Timezone);
             AddInclude(a => a.AccountProjectRoles);
         }
     }

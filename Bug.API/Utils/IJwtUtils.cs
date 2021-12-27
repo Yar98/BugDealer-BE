@@ -11,6 +11,7 @@ namespace Bug.API.Utils
     public interface IJwtUtils
     {
         public string GenerateToken(string id, string name, string email);
+        string GenerateToken(string id, string name, string email, bool isRemember);
         public AccountBtsJwtDto ValidateToken(string token);
     }
 }

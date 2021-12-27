@@ -25,8 +25,7 @@ namespace Bug.Entities.Model
         public DateTimeOffset CreatedDate { get; private set; }
         public string ImageUri { get; private set; }
         public bool VerifyEmail { get; private set; } = false;
-        public string? TimezoneId { get; private set; }
-        public Timezone Timezone { get; private set; }
+        public string Timezone { get; private set; }
         public ICollection<Project> CreatedProjects { get; private set; }
         public ICollection<Role> CreatedRoles { get; private set; }
         public ICollection<Status> CreatedStatuses { get; private set; }
@@ -63,7 +62,7 @@ namespace Bug.Entities.Model
             Email = email;
             CreatedDate = createdDate;
             ImageUri = imageUri;
-            TimezoneId = timeZone;
+            Timezone = timeZone;
             Language = language;
         }
         public void UpdateUserName(string username)
@@ -125,13 +124,13 @@ namespace Bug.Entities.Model
             VerifyEmail = i;
         }
 
-        public void UpdateTimezoneId(string timezoneId)
+        public void UpdateTimezone(string timezone)
         {
-            if (timezoneId == null)
+            if (timezone == null)
                 return;
-            if (timezoneId == "")
-                timezoneId = null;
-            TimezoneId = timezoneId;
+            if (timezone == "")
+                timezone = null;
+            Timezone = timezone;
         }
 
         public void UpdateFields(IReadOnlyList<Field> l)

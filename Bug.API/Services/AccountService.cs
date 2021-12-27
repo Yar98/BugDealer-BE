@@ -196,7 +196,7 @@ namespace Bug.API.Services
                     ImageUri = resultBts.ImageUri,
                     Language = resultBts.LastName,
                     LastName = resultBts.LastName,
-                    TimezoneId = resultBts.TimezoneId
+                    TimezoneId = resultBts.Timezone
                 };
             if (resultEmail != null)
                 return new AccountNormalDto
@@ -209,7 +209,7 @@ namespace Bug.API.Services
                     ImageUri = resultEmail.ImageUri,
                     Language = resultEmail.LastName,
                     LastName = resultEmail.LastName,
-                    TimezoneId = resultEmail.TimezoneId
+                    TimezoneId = resultEmail.Timezone
                 };
             return null;
         }
@@ -243,7 +243,7 @@ namespace Bug.API.Services
                 Language = result?.Language,
                 LastName = result?.LastName,
                 FullName = result?.FullName,
-                TimezoneId = result?.TimezoneId,
+                TimezoneId = result?.Timezone,
                 VerifyEmail = result.VerifyEmail
             };
         }
@@ -310,7 +310,7 @@ namespace Bug.API.Services
                     ImageUri = a.ImageUri,
                     Language = a.Language,
                     LastName = a.LastName,
-                    TimezoneId = a.TimezoneId,
+                    TimezoneId = a.Timezone,
                     UserName = a.UserName,
                     VerifyEmail = a.VerifyEmail
                 }).ToList()
@@ -391,7 +391,7 @@ namespace Bug.API.Services
                 .GetByIdAsync(user.Id, cancellationToken);
             result.UpdateLanguage(user.Language);
             result.UpdateImageUri(user.ImageUri);
-            result.UpdateTimezoneId(user.TimezoneId);
+            result.UpdateTimezone(user.TimezoneId);
 
             _unitOfWork.Save();
         }

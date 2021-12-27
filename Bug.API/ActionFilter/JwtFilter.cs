@@ -87,7 +87,6 @@ namespace Bug.API.ActionFilter
                                 throw new PermissionNotAllowed();
                             break;
                         }
-
                     case (int)Bts.Category.IssuePermission:
                         {
 
@@ -125,15 +124,10 @@ namespace Bug.API.ActionFilter
                 }
             }
 
-
-
             await next(); // the actual action
 
             // logic after the action goes here
         }
 
-        private void CheckPermission(int permission)
-        {
-        }
     }
 }

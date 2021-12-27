@@ -12,7 +12,6 @@ namespace Bug.Data.Specifications
         public AccountByUserNameSpecification(string username)
             :base(a=>a.UserName == username)
         {
-            AddInclude(a => a.Timezone);
         }
     }
 }

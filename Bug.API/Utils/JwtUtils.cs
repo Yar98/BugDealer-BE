@@ -41,6 +41,30 @@ namespace Bug.API.Utils
             return tokenHandler.WriteToken(token);
         }
 
+        public string GenerateToken(string id, string name, string email, bool isRemember)
+        {
+            // generate token that is valid for 7 days
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(Secret);
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new[]
+                {
+                    new Claim("id", id),
+                    new Claim("name", name),
+                    new Claim("email", email),
+                    new Claim("isRemember", isRemember.ToString())
+                }),
+                Expires = DateTime.UtcNow.AddDays(1),
+                //Expires = DateTime.UtcNow.AddMinutes(5),
+                SigningCredentials = new SigningCredentials(
+                    new SymmetricSecurityKey(key),
+                    SecurityAlgorithms.HmacSha256Signature)
+            };
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            return tokenHandler.WriteToken(token);
+        }
+
         public AccountBtsJwtDto ValidateToken(string token)
         {
             if (token == null)

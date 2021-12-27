@@ -151,7 +151,7 @@ namespace Bug.Entities.Builder
             return this;
         }
 
-        public IIssuelogBuilder AddNewPriorityId(int priorityId)
+        public IIssuelogBuilder AddNewPriorityId(int? priorityId)
         {
             NewPriorityId = priorityId;
             return this;
@@ -169,7 +169,7 @@ namespace Bug.Entities.Builder
             return this;
         }
 
-        public IIssuelogBuilder AddNewSeverityId(int id)
+        public IIssuelogBuilder AddNewSeverityId(int? id)
         {
             NewSeverityId = id;
             return this;
@@ -181,7 +181,7 @@ namespace Bug.Entities.Builder
             return this;
         }
 
-        public IIssuelogBuilder AddNewStatusTagId(int id)
+        public IIssuelogBuilder AddNewStatusTagId(int? id)
         {
             NewStatusTagId = id;
             return this;
@@ -193,7 +193,7 @@ namespace Bug.Entities.Builder
             return this;
         }
 
-        public IIssuelogBuilder AddNewWorklogId(int id)
+        public IIssuelogBuilder AddNewWorklogId(int? id)
         {
             NewWorklogId = id;
             return this;
@@ -229,7 +229,7 @@ namespace Bug.Entities.Builder
             return this;
         }
 
-        public IIssuelogBuilder AddOldPriorityId(int priorityId)
+        public IIssuelogBuilder AddOldPriorityId(int? priorityId)
         {
             OldPriorityId = priorityId;
             return this;
@@ -247,7 +247,7 @@ namespace Bug.Entities.Builder
             return this;
         }
 
-        public IIssuelogBuilder AddOldSeverityId(int id)
+        public IIssuelogBuilder AddOldSeverityId(int? id)
         {
             OldSeverityId = id;
             return this;
@@ -259,7 +259,7 @@ namespace Bug.Entities.Builder
             return this;
         }
 
-        public IIssuelogBuilder AddOldStatusTagId(int id)
+        public IIssuelogBuilder AddOldStatusTagId(int? id)
         {
             OldStatusTagId = id;
             return this;
@@ -271,7 +271,7 @@ namespace Bug.Entities.Builder
             return this;
         }
 
-        public IIssuelogBuilder AddOldWorklogId(int id)
+        public IIssuelogBuilder AddOldWorklogId(int? id)
         {
             OldWorklogId = id;
             return this;
