@@ -224,12 +224,12 @@ namespace Bug.Data
                     SET NOCOUNT ON;
 
 					DELETE FROM [Issuelog]
-					WHERE NewToIssueId IN (SELECT il.IssueId 
+					WHERE NewToIssueId IN (SELECT il.NewToIssueId 
 									FROM [Issuelog] AS il JOIN [Issue] AS i 
-									ON il.IssueId = i.Id AND i.ProjectId = @project) OR 
-						OldToIssueId IN (SELECT il.IssueId 
+									ON il.NewToIssueId = i.Id AND i.ProjectId = @project) OR 
+						OldToIssueId IN (SELECT il.OldToIssueId 
 									FROM [Issuelog] AS il JOIN [Issue] AS i 
-									ON il.IssueId = i.Id AND i.ProjectId = @project) OR 
+									ON il.OldToIssueId = i.Id AND i.ProjectId = @project) OR 
 						IssueId IN (SELECT il.IssueId 
 									FROM [Issuelog] AS il JOIN [Issue] AS i 
 									ON il.IssueId = i.Id AND i.ProjectId = @project)

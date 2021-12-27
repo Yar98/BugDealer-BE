@@ -21,11 +21,10 @@ namespace Bug.Data.Repositories
         }
 
         public async Task DeleteProject
-            (string issueId,
-            string projectId,
+            (string projectId,
             CancellationToken cancellationToken = default)
         {
-            var sql = "EXECUTE dbo.DeleteProject @issue = '" + issueId + "'";
+            var sql = "EXECUTE dbo.DeleteProject @project = '" + projectId + "'";
             await _bugContext
                 .Database
                 .ExecuteSqlRawAsync(sql, cancellationToken);
