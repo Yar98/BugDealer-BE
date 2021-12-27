@@ -415,9 +415,9 @@ namespace Bug.API.Services
             (string projectId,
             CancellationToken cancellationToken = default)
         {
-            var result = await _unitOfWork.Project.GetByIdAsync(projectId, cancellationToken);
-            _unitOfWork.Project.Delete(result);
-            _unitOfWork.Save();
+            await _unitOfWork
+                .Project
+                .DeleteProject(projectId, cancellationToken);
         }
 
     }

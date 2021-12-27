@@ -20,6 +20,17 @@ namespace Bug.Data.Repositories
             
         }
 
+        public async Task DeleteProject
+            (string issueId,
+            string projectId,
+            CancellationToken cancellationToken = default)
+        {
+            var sql = "EXECUTE dbo.DeleteProject @issue = '" + issueId + "'";
+            await _bugContext
+                .Database
+                .ExecuteSqlRawAsync(sql, cancellationToken);
+        }
+
         public override IQueryable<Project> SortOrder
             (IQueryable<Project> result, 
             string sortOrder)

@@ -216,6 +216,27 @@ namespace Bug.Data
 					DELETE FROM [Issuelog]
 					WHERE NewToIssueId = @issue OR OldToIssueId = @issue
                 END";
+            var sp12 = @"CREATE PROCEDURE [dbo].[DeleteProject]
+					@issue NVARCHAR(MAX),
+                    @project NVARCHAR(MAX)
+                AS
+                BEGIN
+                    SET NOCOUNT ON;
+
+					DELETE FROM [Issuelog]
+					WHERE NewToIssueId IN (SELECT il.IssueId 
+									FROM [Issuelog] AS il JOIN [Issue] AS i 
+									ON il.IssueId = i.Id AND i.ProjectId = @project) OR 
+						OldToIssueId IN (SELECT il.IssueId 
+									FROM [Issuelog] AS il JOIN [Issue] AS i 
+									ON il.IssueId = i.Id AND i.ProjectId = @project) OR 
+						IssueId IN (SELECT il.IssueId 
+									FROM [Issuelog] AS il JOIN [Issue] AS i 
+									ON il.IssueId = i.Id AND i.ProjectId = @project)
+
+                    DELETE FROM [Project]
+                    WHERE Id = @project
+                END";
             migrationBuilder.Sql(sp1);
             migrationBuilder.Sql(sp2);
             migrationBuilder.Sql(sp3);
@@ -227,6 +248,7 @@ namespace Bug.Data
             migrationBuilder.Sql(sp9);
             migrationBuilder.Sql(sp10);
             migrationBuilder.Sql(sp11);
+            migrationBuilder.Sql(sp12);
         }
     }
 }
