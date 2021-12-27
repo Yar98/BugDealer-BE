@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bug.Data.Migrations
 {
     [DbContext(typeof(BugContext))]
-    [Migration("20211227182751_Bugdealer-v1")]
+    [Migration("20211227184833_Bugdealer-v1")]
     partial class Bugdealerv1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
