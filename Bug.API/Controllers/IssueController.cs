@@ -47,11 +47,18 @@ namespace Bug.API.Controllers
                 result.Code+".xlsx");
         }
 
-        // GET api/Issue/5
+        [JwtFilter]
+        [HttpGet("detail/{issueId}")]
+        public async Task<IActionResult> GetDetailIssue(string issueId)
+        {
+            var result = await _issueService.GetDetailIssueAsync(issueId);
+            return Ok(Bts.ConvertJson(result));
+        }
+
         //[ActionName(nameof(GetDetailIssue))]
         [JwtFilter]
         [HttpGet("detail/{issueId}/{accountId}")]
-        public async Task<IActionResult> GetDetailIssue(string issueId, string accountId)
+        public async Task<IActionResult> GetDetailIssueAndLog(string issueId, string accountId)
         {
             var result = await _issueService.GetDetailIssueAsync(issueId, accountId);
             return Ok(Bts.ConvertJson(result));
@@ -239,7 +246,7 @@ namespace Bug.API.Controllers
         {
             var result = await _issueService.AddIssueAsync(issue);
             return CreatedAtAction(
-                nameof(GetDetailIssue), new { issueId = result.Id, accountId = "" }, Bts.ConvertJson(result,2));
+                nameof(GetDetailIssue), new { issueId = result.Id}, Bts.ConvertJson(result,2));
         }
 
         [JwtFilter(Permission = 6)]
@@ -248,7 +255,7 @@ namespace Bug.API.Controllers
         {
             var result = await _issueService.AddIssueAsync(issue);
             return CreatedAtAction(
-                nameof(GetDetailIssue), new { issueId = result.Id, accountId = "" }, Bts.ConvertJson(result, 2));
+                nameof(GetDetailIssue), new { issueId = result.Id}, Bts.ConvertJson(result, 2));
         }
 
         // PUT api/Issue/5

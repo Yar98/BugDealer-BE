@@ -55,6 +55,26 @@ namespace Bug.API.Services
 
         public async Task<Issue> GetDetailIssueAsync
             (string id,
+            CancellationToken cancellationToken = default)
+        {
+            var specificationResult =
+                new IssueSpecification(id);
+            var result = await _unitOfWork
+                .Issue
+                .GetEntityBySpecAsync(specificationResult, cancellationToken);
+            var worklogs = await _unitOfWork
+                .Worklog
+                .GetAllEntitiesNoTrackBySpecAsync(new WorklogsByIssueIdSpecification(id), null, cancellationToken);
+            if (worklogs != null && worklogs.Count > 0)
+                result.TotalSpentTime = worklogs
+                    .Select(w => w.SpentTime)
+                    .ToList()
+                    .Aggregate((x, y) => x + y);
+            return result;
+        }
+
+        public async Task<Issue> GetDetailIssueAsync
+            (string id,
             string accountId,
             CancellationToken cancellationToken = default)
         {
@@ -340,16 +360,18 @@ namespace Bug.API.Services
             tasks.Add(CreateAttachmentsOfIssueAsync(result, issue.Attachments));
             tasks.Add(CreateRelationsOfIssueAsync(result, issue.ModifierId, issue.FromRelations));
             await Task.WhenAll(tasks);
+           
+            await _unitOfWork.Issue.AddAsync(result,cancellationToken);
+            
+            _unitOfWork.Save();
 
             var log = new IssuelogBuilder()
                     .AddIssueId(result.Id)
                     .AddModifierId(issue.ModifierId)
                     .AddTagId(Bts.LogCreateIssueTag)
                     .Build();
-
             await _unitOfWork.Issuelog.AddAsync(log, cancellationToken);
-            await _unitOfWork.Issue.AddAsync(result,cancellationToken);
-            
+
             _unitOfWork.Save();
 
             if (result.Attachments.Count >= 1)
@@ -361,6 +383,7 @@ namespace Bug.API.Services
                 result.PresignLink = new AmazonS3Bts(_config)
                     .GenerateUploadPreSignedURL("bugdealer", key);
             }
+
             return result;
         }
 

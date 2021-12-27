@@ -33,7 +33,7 @@ namespace Bug.Data.Repositories
                 .FirstOrDefaultAsync(a=>a.Email.Equals(email));
         }
 
-        public async Task<Account> GetAccountByUserName
+        public async Task<Account> GetAccountByUserNamePassword
             (string userName, 
             string password)
         {
@@ -41,6 +41,17 @@ namespace Bug.Data.Repositories
                 .Accounts
                 .FirstOrDefaultAsync(
                 a => a.UserName == userName && 
+                a.Password == password);
+        }
+
+        public async Task<Account> GetAccountByEmailPassword
+            (string email,
+            string password)
+        {
+            return await _bugContext
+                .Accounts
+                .FirstOrDefaultAsync(
+                a => a.Email == email &&
                 a.Password == password);
         }
 

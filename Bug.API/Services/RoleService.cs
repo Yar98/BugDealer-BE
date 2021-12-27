@@ -220,7 +220,7 @@ namespace Bug.API.Services
         {
             var result = await _unitOfWork
                 .Role
-                .GetByIdAsync(role.Id,cancellationToken);
+                .GetEntityBySpecAsync(new RoleSpecification(role.Id),cancellationToken);
             if(role.CreatorId != null)
                 result.UpdateCreatorId(role.CreatorId);
             if(role.Description != null)
@@ -230,12 +230,10 @@ namespace Bug.API.Services
             var ps = await _unitOfWork
                .Permission
                .GetPermissionsFromMutiIdsAsync(role.Permissions.Select(p => p.Id).ToList(), cancellationToken);
-            result.UpdatePermission(ps);
+            result.UpdatePermission(ps??new List<Permission>());
 
             _unitOfWork.Save();
         }
-
-        
 
         public async Task DeleteRoleAsync
             (int id,
@@ -261,5 +259,6 @@ namespace Bug.API.Services
 
             _unitOfWork.Save();
         }
+
     }
 }
