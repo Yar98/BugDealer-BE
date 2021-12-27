@@ -217,7 +217,6 @@ namespace Bug.Data
 					WHERE NewToIssueId = @issue OR OldToIssueId = @issue
                 END";
             var sp12 = @"CREATE PROCEDURE [dbo].[DeleteProject]
-					@issue NVARCHAR(MAX),
                     @project NVARCHAR(MAX)
                 AS
                 BEGIN
