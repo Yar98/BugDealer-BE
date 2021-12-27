@@ -55,6 +55,26 @@ namespace Bug.API.Services
 
         public async Task<Issue> GetDetailIssueAsync
             (string id,
+            CancellationToken cancellationToken = default)
+        {
+            var specificationResult =
+                new IssueSpecification(id);
+            var result = await _unitOfWork
+                .Issue
+                .GetEntityBySpecAsync(specificationResult, cancellationToken);
+            var worklogs = await _unitOfWork
+                .Worklog
+                .GetAllEntitiesNoTrackBySpecAsync(new WorklogsByIssueIdSpecification(id), null, cancellationToken);
+            if (worklogs != null && worklogs.Count > 0)
+                result.TotalSpentTime = worklogs
+                    .Select(w => w.SpentTime)
+                    .ToList()
+                    .Aggregate((x, y) => x + y);
+            return result;
+        }
+
+        public async Task<Issue> GetDetailIssueAsync
+            (string id,
             string accountId,
             CancellationToken cancellationToken = default)
         {
@@ -350,8 +370,10 @@ namespace Bug.API.Services
                     .AddModifierId(issue.ModifierId)
                     .AddTagId(Bts.LogCreateIssueTag)
                     .Build();
-
             await _unitOfWork.Issuelog.AddAsync(log, cancellationToken);
+
+            _unitOfWork.Save();
+
             if (result.Attachments.Count >= 1)
             {
                 var key = result.Attachments
@@ -361,7 +383,6 @@ namespace Bug.API.Services
                 result.PresignLink = new AmazonS3Bts(_config)
                     .GenerateUploadPreSignedURL("bugdealer", key);
             }
-
 
             return result;
         }
