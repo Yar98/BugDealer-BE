@@ -15,6 +15,7 @@ using Amazon;
 using Amazon.CognitoIdentityProvider.Model;
 using Amazon.SimpleEmail;
 using Amazon.SimpleEmail.Model;
+using Bug.Core.Common;
 
 namespace Bug.API.Services
 {
@@ -421,10 +422,16 @@ namespace Bug.API.Services
         {
             var specificationResult =
                 new AccountSetRolesSpecification(asr.AccountId, asr.ProjectId);
+            var pro = await _unitOfWork
+                .Project
+                .GetByIdAsync(asr.ProjectId, cancellationToken);
             var result = await _unitOfWork
                 .Account
                 .GetEntityBySpecAsync(specificationResult, cancellationToken);
             if (result == null) return;
+            if (result.Id == pro.CreatorId && 
+                !result.AccountProjectRoles.Any(apr => apr.RoleId == (int)Bts.Role.Leader))
+                throw new CreatorCannotDeleteLeaderRole();
             var newAprs = asr
                 .Roles
                 .Select(r => new AccountProjectRole(asr.AccountId, asr.ProjectId, r.Id))

@@ -54,6 +54,7 @@ namespace Bug.API.CustomMiddlewares
                 CannotDeleteRoleInUse=>"cannot delete role in use",
                 NotJoinThisProject=>"not join this project",
                 PermissionNotAllowed=>"permission not allowed",
+                CreatorCannotDeleteLeaderRole=>"creator cannot delete leader role",
                 _ => "undefined"
             };
             context.Response.Headers.Add("error", code);
