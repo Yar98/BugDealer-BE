@@ -404,8 +404,8 @@ namespace Bug.API.Services
                 .GetByIdAsync(projectId, cancellationToken);
             if (project.State == 0)
                 throw new ProjectIsInTrash();
-            if (project.CreatorId == projectId)
-                return;
+            if (project.CreatorId == accountId)
+                throw new CreatorCannotDeleteLeaderRole();
             await _unitOfWork
                 .AccountProjectRole
                 .DeleteMemberFromProjectAsync(projectId, accountId, cancellationToken);
