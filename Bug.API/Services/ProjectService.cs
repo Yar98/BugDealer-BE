@@ -252,7 +252,7 @@ namespace Bug.API.Services
         {
             var result = await _unitOfWork
                 .Project
-                .GetByIdAsync(pro.Id, cancellationToken);
+                .GetEntityBySpecAsync(new ProjectSpecification(pro.Id, 1), cancellationToken);
             if (result == null)
                 return;
             result.UpdateName(pro.Name);
