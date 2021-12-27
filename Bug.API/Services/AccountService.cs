@@ -449,7 +449,7 @@ namespace Bug.API.Services
                 .GetEntityBySpecAsync(specificationResult, cancellationToken);
             if (result == null) return;
             if (result.Id == pro.CreatorId && 
-                !result.AccountProjectRoles.Any(apr => apr.RoleId == (int)Bts.Role.Leader))
+                !asr.Roles.Any(r => r.Id == (int)Bts.Role.Leader))
                 throw new CreatorCannotDeleteLeaderRole();
             var newAprs = asr
                 .Roles
