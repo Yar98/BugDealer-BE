@@ -16,7 +16,10 @@ namespace Bug.Data.Repositories
             (string email,
             CancellationToken cancellationToken = default);
         Task<Account> GetAccountByEmail(string email);
-        Task<Account> GetAccountByUserName(string userName, string password);
+        Task<Account> GetAccountByUserNamePassword(string userName, string password);
+        Task<Account> GetAccountByEmailPassword
+            (string email,
+            string password);
         Task AddCognitoUser
             (string email,
             string pass,

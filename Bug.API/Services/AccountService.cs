@@ -177,22 +177,41 @@ namespace Bug.API.Services
             string password,
             CancellationToken cancellationToken = default)
         {
-            var result = await _unitOfWork.Account.GetAccountByUserName(name, password);
-            if (result != null)
+            var resultBts = await _unitOfWork
+                .Account
+                .GetAccountByUserNamePassword(name, password);
+            var resultEmail = await _unitOfWork
+                .Account
+                .GetAccountByEmailPassword(name, password);
+            if (resultBts == null && resultEmail == null)
+                return null;
+            if (resultBts != null)
                 return new AccountNormalDto
                 {
-                    Id = result.Id,
-                    UserName = result.UserName,
-                    CreatedDate = result.CreatedDate,
-                    Email = result.Email,
-                    FirstName = result.FirstName,
-                    ImageUri = result.ImageUri,
-                    Language = result.LastName,
-                    LastName = result.LastName,
-                    TimezoneId = result.TimezoneId
+                    Id = resultBts.Id,
+                    UserName = resultBts.UserName,
+                    CreatedDate = resultBts.CreatedDate,
+                    Email = resultBts.Email,
+                    FirstName = resultBts.FirstName,
+                    ImageUri = resultBts.ImageUri,
+                    Language = resultBts.LastName,
+                    LastName = resultBts.LastName,
+                    TimezoneId = resultBts.TimezoneId
                 };
-            else
-                return null;
+            if (resultEmail != null)
+                return new AccountNormalDto
+                {
+                    Id = resultEmail.Id,
+                    UserName = resultEmail.UserName,
+                    CreatedDate = resultEmail.CreatedDate,
+                    Email = resultEmail.Email,
+                    FirstName = resultEmail.FirstName,
+                    ImageUri = resultEmail.ImageUri,
+                    Language = resultEmail.LastName,
+                    LastName = resultEmail.LastName,
+                    TimezoneId = resultEmail.TimezoneId
+                };
+            return null;
         }
 
         public async Task<Account> CheckPermissionsOfRolesOfAccount

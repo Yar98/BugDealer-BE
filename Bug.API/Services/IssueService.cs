@@ -340,6 +340,10 @@ namespace Bug.API.Services
             tasks.Add(CreateAttachmentsOfIssueAsync(result, issue.Attachments));
             tasks.Add(CreateRelationsOfIssueAsync(result, issue.ModifierId, issue.FromRelations));
             await Task.WhenAll(tasks);
+           
+            await _unitOfWork.Issue.AddAsync(result,cancellationToken);
+            
+            _unitOfWork.Save();
 
             var log = new IssuelogBuilder()
                     .AddIssueId(result.Id)
@@ -348,10 +352,6 @@ namespace Bug.API.Services
                     .Build();
 
             await _unitOfWork.Issuelog.AddAsync(log, cancellationToken);
-            await _unitOfWork.Issue.AddAsync(result,cancellationToken);
-            
-            _unitOfWork.Save();
-
             if (result.Attachments.Count >= 1)
             {
                 var key = result.Attachments
@@ -361,6 +361,8 @@ namespace Bug.API.Services
                 result.PresignLink = new AmazonS3Bts(_config)
                     .GenerateUploadPreSignedURL("bugdealer", key);
             }
+
+
             return result;
         }
 

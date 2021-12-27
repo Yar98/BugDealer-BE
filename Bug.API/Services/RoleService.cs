@@ -260,9 +260,5 @@ namespace Bug.API.Services
             _unitOfWork.Save();
         }
 
-        private async Task RemovePermission()
-        {
-
-        }
     }
 }
