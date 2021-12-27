@@ -40,6 +40,7 @@ namespace Bug.Data.Repositories
                 .Include(l=>l.Modifier)                
                 .Include(l => l.Project)
                 .ThenInclude(p => p.Issues)
+                .ThenInclude(i=>i.Status)
                 .Include(l => l.Project)
                 .ThenInclude(p => p.Template)
                 .AsNoTracking()

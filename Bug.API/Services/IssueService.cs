@@ -397,7 +397,7 @@ namespace Bug.API.Services
                .GetByIdAsync(issue.StatusId, cancellationToken);
             var result = await _unitOfWork
                 .Issue
-                .GetByIdAsync(issue.Id, cancellationToken);
+                .GetEntityBySpecAsync(new IssueSpecification(issue.Id, 4), cancellationToken);
             result
                 .UpdateAssigneeId(issue.AssigneeId, issue.ModifierId, async log => await _unitOfWork.Issuelog.AddAsync(log));           
             result
