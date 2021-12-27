@@ -447,7 +447,8 @@ namespace Bug.API.Services
             var result = await _unitOfWork
                 .Account
                 .GetEntityBySpecAsync(specificationResult, cancellationToken);
-            if (result == null) return;
+            if (result == null) 
+                return;
             if (result.Id == pro.CreatorId && 
                 !asr.Roles.Any(r => r.Id == (int)Bts.Role.Leader))
                 throw new CreatorCannotDeleteLeaderRole();
