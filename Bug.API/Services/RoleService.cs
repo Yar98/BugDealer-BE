@@ -230,7 +230,7 @@ namespace Bug.API.Services
             var ps = await _unitOfWork
                .Permission
                .GetPermissionsFromMutiIdsAsync(role.Permissions.Select(p => p.Id).ToList(), cancellationToken);
-            result.UpdatePermission(ps);
+            result.UpdatePermission(ps??new List<Permission>());
 
             _unitOfWork.Save();
         }
