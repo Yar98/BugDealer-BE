@@ -85,7 +85,7 @@ namespace Bug.Data.Repositories
                 .Include(i => i.Priority);
             var qr = SortOrder(result, sortOrder);
             return await PaginatedList<Issue>.CreateListAsync
-                (result.AsNoTracking(), pageIndex, pageSize, cancellationToken);
+                (qr.AsNoTracking(), pageIndex, pageSize, cancellationToken);
         }
 
         public async Task UpdateTagsOfIssueAsync
