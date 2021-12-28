@@ -59,7 +59,7 @@ namespace Bug.Entities.Model
             {
                 if (Issues != null)
                     return Issues
-                        .Where(i => i.Status?.TagId == 1)
+                        .Where(i => i.Status?.TagId == 1 || i.Status?.TagId == 2)
                         .Count();
                 return null;
             }

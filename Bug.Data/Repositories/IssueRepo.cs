@@ -85,7 +85,7 @@ namespace Bug.Data.Repositories
                 .Include(i => i.Priority);
             var qr = SortOrder(result, sortOrder);
             return await PaginatedList<Issue>.CreateListAsync
-                (result.AsNoTracking(), pageIndex, pageSize, cancellationToken);
+                (qr.AsNoTracking(), pageIndex, pageSize, cancellationToken);
         }
 
         public async Task UpdateTagsOfIssueAsync
@@ -191,16 +191,24 @@ namespace Bug.Data.Repositories
                     result = result.OrderByDescending(p => p.CreatedDate);
                     break;
                 case "assignee":
-                    result = result.OrderBy(p => p.Assignee.FullName);
+                    result = result
+                        .OrderBy(p => p.Assignee.FirstName)
+                        .ThenBy(p => p.Assignee.LastName);
                     break;
                 case "assignee_desc":
-                    result = result.OrderByDescending(p => p.Assignee.FullName);
+                    result = result
+                        .OrderByDescending(p => p.Assignee.FirstName)
+                        .ThenBy(p => p.Assignee.LastName); 
                     break;
                 case "reporter":
-                    result = result.OrderBy(p => p.Reporter.FullName);
+                    result = result
+                        .OrderBy(p => p.Reporter.FirstName)
+                        .ThenBy(p => p.Reporter.LastName);
                     break;
                 case "reporter_desc":
-                    result = result.OrderByDescending(p => p.Reporter.FullName);
+                    result = result
+                        .OrderByDescending(p => p.Reporter.FirstName)
+                        .ThenBy(p => p.Reporter.LastName); ;
                     break;
                 case "status":
                     result = result.OrderBy(p => p.Status.Name);

@@ -21,14 +21,11 @@ namespace Bug.Data.Repositories
         {
             switch (sortOrder)
             {
+                case "logdate":
+                    result = result.OrderBy(p => p.LogDate);
+                    break;
                 case "logdate_desc":
                     result = result.OrderByDescending(p => p.LogDate);
-                    break;
-                case "startdate":
-                    //result = result.OrderBy(p => p.StartDate);
-                    break;
-                case "startdate_desc":
-                    //result = result.OrderByDescending(p => p.StartDate);
                     break;
                 case "enddate":
                     //result = result.OrderBy(p => p.EndDate);

@@ -37,7 +37,7 @@ namespace Bug.API.Services
                 new WorklogsByIssueIdSpecification(issueId);
             return await _unitOfWork
                 .Worklog
-                .GetAllEntitiesNoTrackBySpecAsync(specificationResult, "logdate_desce", cancellationToken);
+                .GetAllEntitiesNoTrackBySpecAsync(specificationResult, "logdate_desc", cancellationToken);
         }
 
         public async Task<Worklog> AddNewWorklogToIssueAsync

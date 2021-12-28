@@ -74,9 +74,10 @@ namespace Bug.API.Services
             int next,
             CancellationToken cancellationToken = default)
         {
-            return await _unitOfWork
+            var result = await _unitOfWork
                 .Projectlog
                 .GetRecentAsync(accountId, offset, next, cancellationToken);
+            return result.OrderByDescending(r=>r.LogDate).ToList();
         }
 
         public async Task<PaginatedListDto<Project>> GetPaginatedByMemberIdSearchAsync
@@ -372,6 +373,12 @@ namespace Bug.API.Services
             await _unitOfWork
                 .AccountProjectRole
                 .AddAsync(apr, cancellationToken);
+
+            var log = new Projectlog(projectId, memberId);
+            await _unitOfWork
+                .Projectlog
+                .AddAsync(log, cancellationToken);
+
             _unitOfWork.Save();
         }
 

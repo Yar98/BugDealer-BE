@@ -29,7 +29,7 @@ namespace Bug.API.Services
 <body>
   <h1>Bug dealer BTS</h1>
   <p>{0} invite you to join his/her project. Click
-    <a href='https://bug-dealer.azurewebsites.net/projects/invitation-info?project={1}'>HERE</a> to xem Cap Bai Trung.</p>
+    <a href='https://bug-dealer.azurewebsites.net/projects/invitation-info?project={1}'>HERE</a> to join project.</p>
 </body>
 </html>";
 
@@ -120,7 +120,6 @@ namespace Bug.API.Services
             if (result == null)
                 return;
             result.UpdatePassword(item.NewPassword);
-            _unitOfWork.Account.Update(result);
 
             _unitOfWork.Save();
         }
@@ -184,7 +183,7 @@ namespace Bug.API.Services
                 .Account
                 .GetAccountByEmailPassword(name, password);
             if (resultBts == null && resultEmail == null)
-                return null;
+                throw new AccountIsNotExsit();
             if (resultBts != null)
                 return new AccountNormalDto
                 {
