@@ -74,9 +74,10 @@ namespace Bug.API.Services
             int next,
             CancellationToken cancellationToken = default)
         {
-            return await _unitOfWork
+            var result = await _unitOfWork
                 .Projectlog
                 .GetRecentAsync(accountId, offset, next, cancellationToken);
+            return result;
         }
 
         public async Task<PaginatedListDto<Project>> GetPaginatedByMemberIdSearchAsync
