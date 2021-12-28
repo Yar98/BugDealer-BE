@@ -77,7 +77,7 @@ namespace Bug.API.Services
             var result = await _unitOfWork
                 .Projectlog
                 .GetRecentAsync(accountId, offset, next, cancellationToken);
-            return result;
+            return result.OrderByDescending(r=>r.LogDate).ToList();
         }
 
         public async Task<PaginatedListDto<Project>> GetPaginatedByMemberIdSearchAsync
