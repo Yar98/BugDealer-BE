@@ -23,7 +23,6 @@ namespace Bug.API.ActionFilter
             (ActionExecutingContext context,
             ActionExecutionDelegate next)
         {
-
             // logic before action goes here
             var param = context.HttpContext.Request.Headers["token"].ToString();
             var sv = context.HttpContext.RequestServices;

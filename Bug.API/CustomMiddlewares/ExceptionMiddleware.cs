@@ -45,17 +45,21 @@ namespace Bug.API.CustomMiddlewares
             // custom code for each exception
             string code = exception switch
             {
-                UsernameExistsException => "email exsit",
-                CannotDeleteDefault => "cannot delete default",
-                OldPasswordWrong => "old password wrong",
-                DueDateOfIssueMustWithinDueDateOfProject => "due date not valid",
-                ExistEmailInBts => "this email is existed in bts",
-                CannotDeleteStatusInUse=>"cannot delete status in use",
-                CannotDeleteRoleInUse=>"cannot delete role in use",
-                NotJoinThisProject=>"not join this project",
-                PermissionNotAllowed=>"permission not allowed",
-                CreatorCannotDeleteLeaderRole=>"creator cannot delete leader role",
-                OnlyAssigneeAddWorklog=>"only assignee can add worklog",
+                UsernameExistsException => "Email exsit",
+                CannotDeleteDefault => "Cannot delete default",
+                OldPasswordWrong => "Old password wrong",
+                DueDateOfIssueMustWithinDueDateOfProject => "Due date not valid",
+                ExistEmailInBts => "This email is existed in bts",
+                CannotDeleteStatusInUse=>"Cannot delete status in use",
+                CannotDeleteRoleInUse=>"Cannot delete role in use",
+                NotJoinThisProject=>"Not join this project",
+                PermissionNotAllowed=>"Permission not allowed",
+                CreatorCannotDeleteLeaderRole=>"Creator cannot delete leader role",
+                OnlyAssigneeAddWorklog=>"Only assignee can add worklog",
+                AccountIsNotExsit=>"Account is not exist",
+                CodeMismatchException=> "Wrong code",
+                ExpiredCodeException=> "This code expired",
+                UserNotConfirmedException=> "User not confirmed",
                 _ => "undefined"
             };
             context.Response.Headers.Add("error", code);

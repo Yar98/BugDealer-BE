@@ -8,7 +8,7 @@ namespace Bug.API.BtsException
     public class ProjectIsInTrash : Exception
     {
         public ProjectIsInTrash()
-            : base("this project is in trash")
+            : base("This project is in trash")
         {
         }
 
