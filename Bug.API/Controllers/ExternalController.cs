@@ -93,5 +93,13 @@ namespace Bug.API.Controllers
                 .GenerateDownloadPreSignedURL("bugdealer", attachmentId);
             return Ok(Bts.ConvertJson(result));
         }
+
+        [HttpGet("download/attachment/guideline")]
+        public async Task<IActionResult> GetGuideDownloadLink()
+        {
+            var result = new AmazonS3Bts(_config)
+                .GenerateDownloadPreSignedURL("bugdealer", "Guideline.docx");
+            return Ok(Bts.ConvertJson(result));
+        }
     }
 }
