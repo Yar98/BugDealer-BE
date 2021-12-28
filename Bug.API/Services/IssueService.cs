@@ -722,7 +722,7 @@ namespace Bug.API.Services
                      .AddIssueId(reverseResult.FromIssueId)
                      .AddModifierId(modifierId)
                      .AddTagId(reverseResult.TagId)
-                     .AddOldToIssueId(r.FromIssueId)
+                     .AddOldToIssueId(issue.Id)
                      .AddNewToIssueId(null)
                      .Build();
                     _unitOfWork.Issuelog.Add(reverselog);
