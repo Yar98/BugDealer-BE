@@ -94,11 +94,14 @@ namespace Bug.API.Controllers
             return Ok(Bts.ConvertJson(result));
         }
 
-        [HttpGet("download/attachment/guideline")]
+        [HttpGet("download/guideline")]
         public async Task<IActionResult> GetGuideDownloadLink()
         {
-            var result = new AmazonS3Bts(_config)
-                .GenerateDownloadPreSignedURL("bugdealer", "Guideline.docx");
+            var result = new
+            {
+                url = new AmazonS3Bts(_config)
+                .GenerateDownloadPreSignedURL("bugdealer", "Guideline.docx") 
+            };
             return Ok(Bts.ConvertJson(result));
         }
     }
