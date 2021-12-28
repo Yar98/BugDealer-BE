@@ -371,6 +371,10 @@ namespace Bug.API.Services
                     .AddTagId(Bts.LogCreateIssueTag)
                     .Build();
             await _unitOfWork.Issuelog.AddAsync(log, cancellationToken);
+            var prolog = new Projectlog(result.ProjectId, issue.ModifierId);
+            await _unitOfWork
+                .Projectlog
+                .AddAsync(prolog, cancellationToken);
 
             _unitOfWork.Save();
 
@@ -421,6 +425,10 @@ namespace Bug.API.Services
             result
                 .UpdateTitle(issue.Title, issue.ModifierId, async log=> await _unitOfWork.Issuelog.AddAsync(log));
 
+            var prolog = new Projectlog(result.ProjectId, issue.ModifierId);
+            await _unitOfWork
+                .Projectlog
+                .AddAsync(prolog, cancellationToken);
             _unitOfWork.Save();
         }       
 
@@ -511,7 +519,10 @@ namespace Bug.API.Services
                     .AddTagId(Bts.LogUpdateLabelTag)
                     .Build();
             await _unitOfWork.Issuelog.AddAsync(log, cancellationToken);
-
+            var prolog = new Projectlog(result.ProjectId, issue.ModifierId);
+            await _unitOfWork
+                .Projectlog
+                .AddAsync(prolog, cancellationToken);
             _unitOfWork.Save();
         }
 

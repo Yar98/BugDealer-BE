@@ -372,6 +372,12 @@ namespace Bug.API.Services
             await _unitOfWork
                 .AccountProjectRole
                 .AddAsync(apr, cancellationToken);
+
+            var log = new Projectlog(projectId, memberId);
+            await _unitOfWork
+                .Projectlog
+                .AddAsync(log, cancellationToken);
+
             _unitOfWork.Save();
         }
 
