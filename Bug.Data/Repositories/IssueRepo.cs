@@ -191,16 +191,24 @@ namespace Bug.Data.Repositories
                     result = result.OrderByDescending(p => p.CreatedDate);
                     break;
                 case "assignee":
-                    result = result.OrderBy(p => p.Assignee.FirstName);
+                    result = result
+                        .OrderBy(p => p.Assignee.FirstName)
+                        .ThenBy(p => p.Assignee.LastName);
                     break;
                 case "assignee_desc":
-                    result = result.OrderByDescending(p => p.Assignee.FirstName);
+                    result = result
+                        .OrderByDescending(p => p.Assignee.FirstName)
+                        .ThenBy(p => p.Assignee.LastName); 
                     break;
                 case "reporter":
-                    result = result.OrderBy(p => p.Reporter.FirstName);
+                    result = result
+                        .OrderBy(p => p.Reporter.FirstName)
+                        .ThenBy(p => p.Reporter.LastName);
                     break;
                 case "reporter_desc":
-                    result = result.OrderByDescending(p => p.Reporter.FirstName);
+                    result = result
+                        .OrderByDescending(p => p.Reporter.FirstName)
+                        .ThenBy(p => p.Reporter.LastName); ;
                     break;
                 case "status":
                     result = result.OrderBy(p => p.Status.Name);
