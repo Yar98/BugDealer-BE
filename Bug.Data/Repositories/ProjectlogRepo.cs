@@ -27,7 +27,7 @@ namespace Bug.Data.Repositories
             var sql = "SELECT i.* FROM [Projectlog] AS i " +
                 "WHERE i.ModifierId = @accountId AND i.Id IN " +
                 "(SELECT tem.id FROM " +
-                "(SELECT Id, ROW_NUMBER() OVER (PARTITION BY ProjectId, ModifierId ORDER BY LogDate) As d FROM [Projectlog]) AS tem " +
+                "(SELECT Id, ROW_NUMBER() OVER (PARTITION BY ProjectId, ModifierId ORDER BY LogDate DESC) As d FROM [Projectlog]) AS tem " +
                 "WHERE tem.d = 1) " +
                 "ORDER BY i.LogDate DESC " +
                 "OFFSET @offset ROWS FETCH NEXT @next ROWS ONLY";
